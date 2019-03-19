@@ -1,6 +1,7 @@
-Risposte degli Issue e in generale è meglio usare Inglese
+Risposte degli Issue e in generale Ã¨ meglio usare Inglese
 Gli Issue su git non li chiudiamo noi, ma mandiamo il fatto che dovremmo aver risolto il problema
 Nomi con senso
 Java.doc da fare in Inglese
 Evitare funzioni troppo profonde
 Testing sensato: problemi che mettono a sforzo il codice.
+posso modificare!!
