@@ -5,6 +5,9 @@ Java.doc da fare in Inglese
 Evitare funzioni troppo profonde
 Testing sensato: problemi che mettono a sforzo il codice.
 
+JAVADOC
+Da fare tutta in inglese ed è commentare in modo sensato i metodi e gli attributi, nel nostro caso tutto sia Public che Private
+
 STANZA
 La board ha tutte le informazioni in base a quale delle 4 versioni.
 Rispetto a quale delle 4, manda le informazioni alla classe stanza per dire quante stanze, in che disposizione sono messe le stanze e quali caselle precise (Come posizione delle singole caselle e che tipo delle caselle sono: Item,Spawn,...) vanno a formare la stanza.
