@@ -15,3 +15,6 @@ Array contatore per le munizioni divisi per colore.
 Array danni con riferimento al giocatore che ha fatto danno.
 Array armi con riferimento ad arma.
 Array Powerups con riferimento alle carte powerups.
+Metodo Grab si modifica quando hai adrenalina 1 con un ipotetico if dentro
+Metodo Movimento selezioni direttamente la casella finale di arrivo.
+Bisogna capire se mettere il metodo pescare e scartare.
