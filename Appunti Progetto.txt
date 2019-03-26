@@ -21,3 +21,7 @@ Array Powerups con riferimento alle carte powerups.
 Metodo Grab si modifica quando hai adrenalina 1 con un ipotetico if dentro
 Metodo Movimento selezioni direttamente la casella finale di arrivo.
 Bisogna capire se mettere il metodo pescare e scartare.
+
+MARCHIO
+lista con i vari singoli marchi (danno dallo specifico giocatore)
+oppure Classe che unisce quanti marchi e il giocatore che lo ha fatto
