@@ -5,6 +5,9 @@ Java.doc da fare in Inglese
 Evitare funzioni troppo profonde
 Testing sensato: problemi che mettono a sforzo il codice.
 
+UML
+nella cartella deliverable solo parte Model. 
+
 JAVADOC
 Da fare tutta in inglese ed è commentare in modo sensato i metodi e gli attributi, nel nostro caso tutto sia Public che Private
 
