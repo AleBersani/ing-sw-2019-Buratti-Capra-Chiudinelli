@@ -12,13 +12,12 @@ public class Match {
     private Turn turn;
     private Board board;
 
-    public Match(ArrayList<Player> players, int numPlayers, int skulls, ArrayList<Player> killShotTrack, boolean frenzyEn, boolean frenzyGame, String mode, Turn turn, Board board) {
+    public Match(ArrayList<Player> players, int numPlayers, int skulls, ArrayList<Player> killShotTrack, boolean frenzyEn, String mode, Turn turn, Board board) {
         this.players = players;
         this.numPlayers = numPlayers;
         this.skulls = skulls;
         this.killShotTrack = killShotTrack;
         this.frenzyEn = frenzyEn;
-        this.frenzyGame = frenzyGame;
         this.mode = mode;
         this.turn = turn;
         this.board = board;
