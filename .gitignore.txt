@@ -1,7 +1,7 @@
 /*
 !.gitignore
 !README.md
-!.pom.xml
+!pom.xml
 !resources/
 !src/
 !deliverables/
