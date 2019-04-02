@@ -15,7 +15,7 @@
 | CLI | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
 | Multiple games | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | Persistence | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
-| Domination or Towers modes | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
+| Domination or Towers modes | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
 | Terminator | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
 
 <!--
