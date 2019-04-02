@@ -5,7 +5,7 @@ public class EffectVsCharacter extends Effect {
     private int damage,mark;
     private boolean addToList,removeFromList;
 
-    public void do(Character target){
+    public void do(Player target){
 
         return;
     }
