@@ -14,6 +14,6 @@ public class Room {
 
     public Square find(int x, int y){
 
-        return squares.get(0);
+        return null;
     }
 }

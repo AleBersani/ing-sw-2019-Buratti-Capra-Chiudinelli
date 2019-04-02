@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 import java.util.ArrayList;
 
-public class Square {
+public abstract class Square {
 
     private int x, y;
     private ArrayList<Square> doors= new ArrayList<Square>();
