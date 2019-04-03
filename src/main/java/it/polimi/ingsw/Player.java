@@ -16,6 +16,13 @@ public class Player {
     private String color, nickname;
     private Square position, previousPosition;
 
+    public Player(boolean first, String color, String nickname) {
+        this.first = first;
+        this.color = color;
+        this.nickname = nickname;
+        //altro
+    }
+
     public void run(Square destination){
 
         return;
