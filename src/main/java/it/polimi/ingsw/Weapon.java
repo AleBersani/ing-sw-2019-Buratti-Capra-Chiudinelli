@@ -9,7 +9,6 @@ public class Weapon {
     private boolean load;
     private ArrayList<Effect> effect= new ArrayList<Effect>();
     private ArrayList<Player> previousTarget= new ArrayList<Character>();
-    private Player owner;
 
     public void fire(){
 

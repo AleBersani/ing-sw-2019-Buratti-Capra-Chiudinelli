@@ -21,7 +21,7 @@ public class EffectVsPlayer extends Effect {
         this.mark = mark;
     }
 
-    public void apply(Player target, Player owner){
+    public void apply(Player target){
 
     }
 }
