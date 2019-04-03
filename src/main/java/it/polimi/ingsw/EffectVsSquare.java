@@ -12,7 +12,7 @@ public class EffectVsSquare extends Effect {
         this.mark = mark;
     }
 
-    public void apply(Square target){
+    public void apply(Square target, Player owner){
 
     }
 }

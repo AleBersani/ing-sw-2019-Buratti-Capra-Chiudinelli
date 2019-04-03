@@ -13,7 +13,7 @@ public class MovementEffect extends Effect {
     private int distance;
     private boolean linear;
 
-    public void apply(Square destination, Player target){
+    public void apply(Square destination, Player target, Player owner){
 
         return;
     }

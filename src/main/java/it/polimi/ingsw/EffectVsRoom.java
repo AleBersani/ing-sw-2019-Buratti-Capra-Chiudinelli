@@ -12,7 +12,7 @@ public class EffectVsRoom extends Effect {
         this.mark = mark;
     }
 
-    public void apply(Room target){
+    public void apply(Room target, Player owner){
 
     }
 }
