@@ -8,7 +8,7 @@ public class Weapon {
     private int costBlue,costRed,costYellow;
     private boolean load;
     private ArrayList<Effect> effect= new ArrayList<Effect>();
-    private ArrayList<Player> previousTarget= new ArrayList<Character>();
+    private ArrayList<Player> previousTarget= new ArrayList<Player>();
     private Player owner;
 
     public void fire(){
