@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 public class WeaponOptional extends Weapon {
 
-    private ArrayList<Effect> optionalEffect= new ArrayList<Effect>();
-    private ArrayList<Effect> optionalEffect2= new ArrayList<Effect>();
+    private ArrayList<ArrayList<Effect>> optionalEffect= new ArrayList<ArrayList<Effect>>();
 
     public void fireOptional(){
 
