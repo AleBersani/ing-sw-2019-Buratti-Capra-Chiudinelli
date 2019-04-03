@@ -12,7 +12,7 @@ public class SameSquare extends Constraint {
         return false;
     }
 
-    public boolean canShoot(Square target, Square target2, Square target3){
+    public boolean canShoot(Square target, Square target2, Square target3, Player owner){
 
         return false;
     }

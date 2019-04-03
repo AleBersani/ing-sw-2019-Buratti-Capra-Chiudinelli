@@ -7,7 +7,7 @@ public class SameDirection extends Constraint {
         return false;
     }
 
-    public boolean canShoot(Square target, Square target2){
+    public boolean canShoot(Square target, Square target2, Player owner){
 
         return false;
     }
