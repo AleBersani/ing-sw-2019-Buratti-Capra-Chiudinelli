@@ -1,6 +1,9 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Cards;
 
-public class MinimumDistance extends Constraint{
+import it.polimi.ingsw.Player;
+import it.polimi.ingsw.Map.Square;
+
+public class MinimumDistance extends Constraint {
 
     private int distance;
 

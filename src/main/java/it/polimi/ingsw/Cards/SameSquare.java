@@ -1,4 +1,7 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Cards;
+
+import it.polimi.ingsw.Player;
+import it.polimi.ingsw.Map.Square;
 
 public class SameSquare extends Constraint {
 

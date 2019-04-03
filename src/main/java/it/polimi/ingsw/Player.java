@@ -1,5 +1,9 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Cards.PowerUp;
+import it.polimi.ingsw.Cards.Weapon;
+import it.polimi.ingsw.Map.Square;
+
 import java.util.ArrayList;
 
 public class Player {

@@ -1,4 +1,8 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Map;
+
+import it.polimi.ingsw.AmmoTile;
+import it.polimi.ingsw.Cards.PowerUp;
+import it.polimi.ingsw.Cards.Weapon;
 
 import java.util.ArrayList;
 

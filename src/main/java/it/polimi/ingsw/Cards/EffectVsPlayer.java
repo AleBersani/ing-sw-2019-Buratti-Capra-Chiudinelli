@@ -1,4 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Cards;
+
+import it.polimi.ingsw.Player;
 
 import java.util.ArrayList;
 
