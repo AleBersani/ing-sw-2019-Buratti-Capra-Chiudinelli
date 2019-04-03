@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Player {
     private int skull, blueAmmo, RedAmmo, yellowAmmo, points, damegeCounter;
-    private ArrayList<Player> damege = new ArrayList<Player>();
+    private ArrayList<Player> damage = new ArrayList<Player>();
     private ArrayList<Player> mark = new ArrayList<Player>();
     private ArrayList<PowerUp> powerUps= new ArrayList<PowerUp>();
     private ArrayList<Weapon> weapons= new ArrayList<Weapon>();
@@ -56,7 +56,7 @@ public class Player {
 
         return;
     }
-    public void wound(int damege, Player shooter){
+    public void wound(int damage, Player shooter){
 
         return;
     }
