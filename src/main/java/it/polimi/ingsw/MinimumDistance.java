@@ -8,7 +8,7 @@ public class MinimumDistance extends Constraint{
         this.distance = distance;
     }
 
-    public boolean canShoot(Square target){
+    public boolean canShoot(Square target, Player owner){
 
         return false;
     }
