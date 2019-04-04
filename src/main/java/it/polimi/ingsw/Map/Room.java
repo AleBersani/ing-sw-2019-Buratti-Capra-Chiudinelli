@@ -11,7 +11,7 @@ public class Room {
     public Room(int size, ArrayList<Integer> x, ArrayList<Integer> y, Board board) {
         this.size = size;
         this.board= board;
-        // altro
+        // TODO
     }
 
     public Square find(int x, int y){

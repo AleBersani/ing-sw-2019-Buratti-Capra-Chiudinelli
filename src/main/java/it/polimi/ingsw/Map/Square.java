@@ -51,7 +51,9 @@ public abstract class Square {
         this.onMe.add(player);
     }
 
-    public abstract boolean isEmpty();
+    public abstract boolean require();
+
+    public abstract void generate();
 
     public int getX() {
         return x;

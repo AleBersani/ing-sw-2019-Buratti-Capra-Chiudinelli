@@ -19,10 +19,10 @@ public class Board {
     public Weapon nextWeapon(){
         return null;
     }
-    public Weapon nextAmmo(){
+    public AmmoTile nextAmmo(){
         return null;
     }
-    public Weapon nextPowerUp(){
+    public PowerUp nextPowerUp(){
         return null;
     }
 }
