@@ -12,17 +12,20 @@ public class Board {
     private ArrayList<Weapon> weaponsList= new ArrayList<Weapon>();
 
     public Square find(int x, int y){
-
+        // TODO
         return null;
     }
 
     public Weapon nextWeapon(){
+        // TODO
         return null;
     }
     public AmmoTile nextAmmo(){
+        // TODO
         return null;
     }
     public PowerUp nextPowerUp(){
+        // TODO
         return null;
     }
 }
