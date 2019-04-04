@@ -6,9 +6,11 @@ public class Room {
 
     private int size;
     private ArrayList<Square> squares= new ArrayList<Square>();
+    private Board board;
 
-    public Room(int size, ArrayList<Integer> x, ArrayList<Integer> y) {
+    public Room(int size, ArrayList<Integer> x, ArrayList<Integer> y, Board board) {
         this.size = size;
+        this.board= board;
         // altro
     }
 

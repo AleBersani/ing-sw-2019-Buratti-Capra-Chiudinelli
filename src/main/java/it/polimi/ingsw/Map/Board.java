@@ -15,4 +15,14 @@ public class Board {
 
         return null;
     }
+
+    public Weapon nextWeapon(){
+        return null;
+    }
+    public Weapon nextAmmo(){
+        return null;
+    }
+    public Weapon nextPowerUp(){
+        return null;
+    }
 }

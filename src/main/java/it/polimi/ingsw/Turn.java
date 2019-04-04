@@ -10,6 +10,7 @@ public class Turn {
     private boolean dead;
     private boolean frenzy;
     private Player current;
+    private Match match;
 
     public void addDead(Player dead){
 
