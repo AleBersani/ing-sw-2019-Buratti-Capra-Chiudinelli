@@ -23,12 +23,57 @@ public abstract class Square {
 
     public int calcDist(Square destination){
 
-        return 1;
+        ArrayList<Integer> dist= new ArrayList<Integer>();
+        int i=0;
+        int min;
+
+        if (destination.room==this.room)
+            return Math.abs(this.x-destination.x)+Math.abs(this.y-destination.y);
+        for (Square s : this.room.getSquares()){
+            for (Square d : s.doors){
+                dist.add(i, this.calcDist(d)+ d.calcDist(destination));
+                i++;
+            }
+        }
+        min = dist.get(0);
+        for (Integer ind : dist){
+            min=Math.min(ind,min);
+        }
+
+        return min;
     }
 
-    public void leave(Player player){}
+    public void leaves (Player player){
+        this.onMe.remove(player);
+    }
 
-    public void arrived (Player player){}
+    public void arrives (Player player){
+        this.onMe.add(player);
+    }
 
     public abstract boolean isEmpty();
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public ArrayList<Square> getDoors() {
+        return doors;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public ArrayList<Player> getOnMe() {
+        return onMe;
+    }
 }

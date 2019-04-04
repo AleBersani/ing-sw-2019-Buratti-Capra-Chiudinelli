@@ -18,4 +18,16 @@ public class Room {
 
         return null;
     }
+
+    public int getSize() {
+        return size;
+    }
+
+    public ArrayList<Square> getSquares() {
+        return squares;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
 }
