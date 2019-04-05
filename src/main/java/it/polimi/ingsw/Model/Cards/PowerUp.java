@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Cards;
+package it.polimi.ingsw.Model.Cards;
 
 public class PowerUp {
     private String color, name;

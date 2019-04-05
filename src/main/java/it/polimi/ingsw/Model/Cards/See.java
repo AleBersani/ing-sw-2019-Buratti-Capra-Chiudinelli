@@ -1,7 +1,7 @@
-package it.polimi.ingsw.Cards;
+package it.polimi.ingsw.Model.Cards;
 
-import it.polimi.ingsw.Player;
-import it.polimi.ingsw.Map.Square;
+import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.Map.Square;
 
 public class See extends Constraint {
 
