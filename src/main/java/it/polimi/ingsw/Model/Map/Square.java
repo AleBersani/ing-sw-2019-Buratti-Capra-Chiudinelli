@@ -13,10 +13,9 @@ public abstract class Square {
     private ArrayList<Player> onMe= new ArrayList<Player>();
 
 
-    public Square(int x, int y, ArrayList<Square> doors, String color, Room room) {
+    public Square(int x, int y, String color, Room room) {
         this.x = x;
         this.y = y;
-        this.doors = doors;
         this.color = color;
         this.room = room;
     }

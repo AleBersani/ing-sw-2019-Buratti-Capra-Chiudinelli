@@ -6,8 +6,8 @@ public class AmmoPoint extends Square {
 
     private AmmoTile ammo;
 
-    public AmmoPoint(int x, int y, ArrayList<Square> doors, String color, Room room) {
-        super(x, y, doors, color, room);
+    public AmmoPoint(int x, int y, String color, Room room) {
+        super(x, y, color, room);
     }
 
     @Override
