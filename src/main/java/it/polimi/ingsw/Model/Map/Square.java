@@ -1,6 +1,6 @@
-package it.polimi.ingsw.Map;
+package it.polimi.ingsw.Model.Map;
 
-import it.polimi.ingsw.Player;
+import it.polimi.ingsw.Model.Player;
 
 import java.util.ArrayList;
 

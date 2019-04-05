@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Map;
+package it.polimi.ingsw.Model.Map;
 
 public class AmmoTile {
     private int red, blue, yellow;

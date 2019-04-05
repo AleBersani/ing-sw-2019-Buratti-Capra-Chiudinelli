@@ -1,8 +1,8 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Cards.PowerUp;
-import it.polimi.ingsw.Cards.Weapon;
-import it.polimi.ingsw.Map.Square;
+import it.polimi.ingsw.Model.Cards.PowerUp;
+import it.polimi.ingsw.Model.Cards.Weapon;
+import it.polimi.ingsw.Model.Map.Square;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public class Player {
         this.first = first;
         this.color = color;
         this.nickname = nickname;
-        //altro
+        //TODO
     }
 
     public void run(Square destination){

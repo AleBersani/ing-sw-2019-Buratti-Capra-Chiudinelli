@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Map.Square;
+import it.polimi.ingsw.Model.Map.Square;
+import it.polimi.ingsw.Model.Player;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 

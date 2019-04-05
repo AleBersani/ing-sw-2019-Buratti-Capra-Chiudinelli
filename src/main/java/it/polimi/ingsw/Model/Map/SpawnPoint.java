@@ -1,6 +1,6 @@
-package it.polimi.ingsw.Map;
+package it.polimi.ingsw.Model.Map;
 
-import it.polimi.ingsw.Cards.Weapon;
+import it.polimi.ingsw.Model.Cards.Weapon;
 
 import java.util.ArrayList;
 

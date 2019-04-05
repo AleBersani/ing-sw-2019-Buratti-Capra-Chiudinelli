@@ -1,7 +1,7 @@
-package it.polimi.ingsw.Cards;
+package it.polimi.ingsw.Model.Cards;
 
-import it.polimi.ingsw.Player;
-import it.polimi.ingsw.Map.Room;
+import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.Map.Room;
 
 public class SameRoom extends Constraint {
 
