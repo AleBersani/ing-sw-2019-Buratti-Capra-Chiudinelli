@@ -5,8 +5,11 @@ import it.polimi.ingsw.Model.Map.Room;
 
 public class SameRoom extends Constraint {
 
-    public boolean canShoot(Room target, Player owner){
-
-        return false;
+    public boolean canShoot(Room target, Player owner) {
+        if (target == owner.getPosition().getRoom()){
+            return true;
+     }else {
+            return false;
+        }
     }
 }
