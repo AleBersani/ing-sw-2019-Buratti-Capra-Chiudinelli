@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Model.Map;
 
 import java.util.ArrayList;
+import it.polimi.ingsw.Exception.*;
 
 public class Room {
 
@@ -8,17 +9,17 @@ public class Room {
     private ArrayList<Square> squares= new ArrayList<Square>();
     private Board board;
 
-    public Room(int size, ArrayList<Integer> xAmmo, ArrayList<Integer> yAmmo, ArrayList<Integer> xSpawn, ArrayList<Integer> ySpawn ,ArrayList<String> colors, Board board) {
+    public Room(int size, ArrayList<Integer> xAmmo, ArrayList<Integer> yAmmo, int xSpawn, int ySpawn ,ArrayList<String> colors, Board board) {
         int i;
         this.size = size;
         this.board= board;
         for (i=0; i<xAmmo.size();i++){
-            squares.add(i,new AmmoPoint(xAmmo.get(i),yAmmo.get(i),null ,colors.get(i), this));
+            squares.add(i,new AmmoPoint(xAmmo.get(i),yAmmo.get(i) ,colors.get(i), this));
         }
-        for (i=0; i<xSpawn.size();i++){
-            squares.add(i,new SpawnPoint(xSpawn.get(i),ySpawn.get(i),null ,colors.get(i+xAmmo.size()), this));
+        if (xSpawn!=0 && ySpawn!=0) {
+            squares.add(i, new SpawnPoint(xSpawn, ySpawn, colors.get(i + xAmmo.size()), this));
         }
-    }  // sitemare doors
+    }
 
     public Square find(int x, int y) throws Exception {
         int i;
@@ -27,8 +28,8 @@ public class Room {
                 return squares.get(i);
             }
         }
-        throw (new Exception());
-    } // aggiungere una nuova eccezzione
+        throw (new NotFoundException());
+    }
 
     public int getSize() {
         return size;

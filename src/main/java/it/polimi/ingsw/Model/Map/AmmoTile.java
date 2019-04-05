@@ -10,4 +10,20 @@ public class AmmoTile {
         this.yellow = yellow;
         this.type = type;
     }
+
+    public int getRed() {
+        return red;
+    }
+
+    public int getBlue() {
+        return blue;
+    }
+
+    public int getYellow() {
+        return yellow;
+    }
+
+    public String getType() {
+        return type;
+    }
 }

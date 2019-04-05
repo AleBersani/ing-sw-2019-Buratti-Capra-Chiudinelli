@@ -1,4 +1,4 @@
 package it.polimi.ingsw.Exception;
 
-public class NotFoundException {
+public class NotFoundException extends Exception {
 }
