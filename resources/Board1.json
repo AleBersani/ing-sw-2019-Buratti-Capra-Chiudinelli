@@ -1,74 +1,126 @@
 {
-  "Room1": {
-    "size": 3,
-    "xAmmo": [
-      1,
+  "nRooms": 4,
+  "nDoors": 5,
+
+
+   "size1": 3,
+   "xAmmo1": [
+     1,
+     2
+   ],
+   "yAmmo1": [
+     1,
+     1
+   ],
+   "xSpawn1": 3,
+   "ySpawn1": 1,
+   "colors1": [
+     "blue",
+     "blue",
+     "blue"
+   ],
+
+   "size2": 3,
+   "xAmmo2": [
+     2,
+     3
+   ],
+    "yAmmo2": [
+      2,
       2
     ],
-    "yAmmo": [
-      1,
-      1
-    ],
-    "xSpawn": 3,
-    "ySpawn": 1,
-    "colors": [
-      "blue",
-      "blue",
-      "blue"
-    ]
-  },
-  "Room2": {
-    "size": 3,
-    "xAmmo": [
-      2,
-      3
-    ],
-    "yAmmo": [
-      2,
-      2
-    ],
-    "xSpawn": 1,
-    "ySpawn": 2,
-    "colors": [
+    "xSpawn2": 1,
+    "ySpawn2": 2,
+    "colors2": [
       "red",
       "red",
       "purple"
     ]
-  },
-  "Room3": {
-    "size": 2,
-    "xAmmo": [
+  ,
+
+    "size3": 2,
+    "xAmmo3": [
       2,
       3
     ],
-    "yAmmo": [
+    "yAmmo3": [
       3,
       3
     ],
-    "xSpawn": 0,
-    "ySpawn": 0,
-    "colors": [
+    "xSpawn3": 0,
+    "ySpawn3": 0,
+    "colors3": [
       "white",
       "white"
     ]
-  },
-  "Room4": {
-    "size": 2,
-    "xAmmo": [
+  ,
+
+    "size4": 2,
+    "xAmmo4": [
       4
     ],
-    "yAmmo": [
+    "yAmmo4": [
       2
     ],
-    "xSpawn": 4,
-    "ySpawn": 3,
-    "colors": [
+    "xSpawn4": 4,
+    "ySpawn4": 3,
+    "colors4": [
       "yellow",
       "yellow",
       "yellow"
     ]
-  },
-  "doors":{
+  ,
 
-  }
+
+    "door1": {
+      "from1": [
+        1,
+        1
+      ],
+      "to1" : [
+        1,
+        2
+      ]
+    },
+    "door2": {
+      "from2": [
+        3,
+        1
+      ],
+      "to2" : [
+        3,
+        2
+      ]
+    },
+    "door3": {
+      "from3": [
+        2,
+        2
+      ],
+      "to3" : [
+        2,
+        3
+      ]
+    },
+    "door4": {
+      "from4": [
+        3,
+        2
+      ],
+      "to4" : [
+        4,
+        2
+      ]
+    },
+    "door5": {
+      "from5": [
+        3,
+        3
+      ],
+      "to5" : [
+        3,
+        4
+      ]
+    }
+
 }

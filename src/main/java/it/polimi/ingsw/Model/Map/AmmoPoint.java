@@ -1,13 +1,15 @@
 package it.polimi.ingsw.Model.Map;
 
-import java.util.ArrayList;
-
 public class AmmoPoint extends Square {
 
     private AmmoTile ammo;
 
     public AmmoPoint(int x, int y, String color, Room room) {
         super(x, y, color, room);
+    }
+
+    public AmmoTile getAmmo() {
+        return ammo;
     }
 
     @Override
