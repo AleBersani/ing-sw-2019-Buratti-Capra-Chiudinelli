@@ -12,7 +12,9 @@ public class MinimumDistance extends Constraint {
     }
 
     public boolean canShoot(Square target, Player owner){
-
+        if(owner.getPosition().calcDist(target) >= this.distance){
+            return true;
+        }
         return false;
     }
 }

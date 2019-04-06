@@ -14,15 +14,12 @@ public class Match {
     private Turn turn;
     private Board board;
 
-    public Match(ArrayList<Player> players, int numPlayers, int skulls, ArrayList<Player> killShotTrack, boolean frenzyEn, String mode, Turn turn, Board board) {
+    public Match(ArrayList<Player> players, int numPlayers, int skulls, boolean frenzyEn, String mode) {
         this.players = players;
         this.numPlayers = numPlayers;
         this.skulls = skulls;
-        this.killShotTrack = killShotTrack;
         this.frenzyEn = frenzyEn;
         this.mode = mode;
-        this.turn = turn;
-        this.board = board;
     }
 
     public void start(){
@@ -38,5 +35,9 @@ public class Match {
     public void endGame(){
 
         return;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

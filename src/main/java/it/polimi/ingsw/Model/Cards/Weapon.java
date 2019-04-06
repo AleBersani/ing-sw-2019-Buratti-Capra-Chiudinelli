@@ -22,4 +22,40 @@ public class Weapon {
 
         return;
     }
+
+    public String getColor() {
+        return color;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCostBlue() {
+        return costBlue;
+    }
+
+    public int getCostRed() {
+        return costRed;
+    }
+
+    public int getCostYellow() {
+        return costYellow;
+    }
+
+    public boolean isLoad() {
+        return load;
+    }
+
+    public ArrayList<Effect> getEffect() {
+        return effect;
+    }
+
+    public ArrayList<Player> getPreviousTarget() {
+        return previousTarget;
+    }
+
+    public Player getOwner() {
+        return owner;
+    }
 }

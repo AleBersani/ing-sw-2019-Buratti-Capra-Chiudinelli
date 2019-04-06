@@ -19,4 +19,28 @@ public abstract class Effect {
         this.constraints = constraints;
         this.constraintPositivity = constraintPositivity;
     }
+
+    public int getCostBlue() {
+        return costBlue;
+    }
+
+    public int getCostRed() {
+        return costRed;
+    }
+
+    public int getCostYellow() {
+        return costYellow;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<Constraint> getConstraints() {
+        return constraints;
+    }
+
+    public ArrayList<Boolean> getConstraintPositivity() {
+        return constraintPositivity;
+    }
 }
