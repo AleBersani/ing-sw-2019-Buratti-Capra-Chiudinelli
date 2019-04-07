@@ -26,20 +26,36 @@ public class MinimumDistanceTest {
         playerlist = new ArrayList<Player>();
         match = new Match(playerlist,1,1,true,"Frenesia");
         test = new MinimumDistance(2);
+
+    }
+
+     @Test
+    public void testCanShoot(){
+         try {
+             owner.setPosition(match.getBoard().find(1,1 ));
+         } catch (NotFoundException e) {
+             e.printStackTrace();
+         }
+         try {
+             target = match.getBoard().find(2,1);
+         } catch (NotFoundException e) {
+             e.printStackTrace();
+         }
+         assertEquals(true, test.canShoot(target,owner));
+    }
+
+    @Test
+    public void testCanNotShoot(){
         try {
             owner.setPosition(match.getBoard().find(1,1 ));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            target = match.getBoard().find(2,1);
+            target = match.getBoard().find(3,2);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-     @Test
-    public void testCanShoot(){
-         assertEquals(true, test.canShoot(target,owner));
+        assertEquals(false, test.canShoot(target,owner));
     }
 }
