@@ -17,6 +17,9 @@ public class Turn {
 
     }
 
+    public Match getMatch() {
+        return match;
+    }
 
     public void endTurn(){}
 

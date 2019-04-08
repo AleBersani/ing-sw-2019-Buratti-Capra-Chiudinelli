@@ -4,6 +4,9 @@ public class PowerUp {
     private String color, name;
     private Effect effect;
 
+    public void useEffect(){
+    }
+
     public String getColor() {
         return color;
     }
