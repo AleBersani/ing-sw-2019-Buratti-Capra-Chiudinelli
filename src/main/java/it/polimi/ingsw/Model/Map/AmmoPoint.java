@@ -6,6 +6,7 @@ public class AmmoPoint extends Square {
 
     public AmmoPoint(int x, int y, String color, Room room) {
         super(x, y, color, room);
+        ammo=null;
     }
 
     public AmmoTile getAmmo() {
