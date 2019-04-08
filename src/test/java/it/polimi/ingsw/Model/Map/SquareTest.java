@@ -2,7 +2,7 @@ package it.polimi.ingsw.Model.Map;
 
 import it.polimi.ingsw.Exception.NotFoundException;
 import it.polimi.ingsw.Model.Player;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ class SquareTest {
     Board board;
     ArrayList<Player> testingMovement;
 
-    @Before
+    @BeforeEach
     public void setup(){
-        board = new Board(null,"Board1");
+        board = new Board(null,"./resources/Board1.json");
         try {
             destination= board.find(1,1);
         } catch (NotFoundException e) {
@@ -31,6 +31,7 @@ class SquareTest {
             e.printStackTrace();
         }
         player= new Player(false,"yellow","Eustacchio");
+        testingMovement= new ArrayList<>();
         testingMovement.add(player);
         test.setOnMe(testingMovement);
     }
@@ -50,6 +51,6 @@ class SquareTest {
     @Test
     void arrives() {
         test.arrives(player);
-        assertEquals(player , testingMovement.get(testingMovement.size()));
+        assertEquals(player , testingMovement.get(testingMovement.size()-1));
     }
 }

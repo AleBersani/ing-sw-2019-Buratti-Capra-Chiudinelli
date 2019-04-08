@@ -1,15 +1,15 @@
 package it.polimi.ingsw.Model.Map;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AmmoPointTest {
 
     AmmoPoint test;
 
-    @Before
+    @BeforeEach
     public void setUp(){
         test= new AmmoPoint(1,1,null,null);
     }
@@ -22,6 +22,6 @@ class AmmoPointTest {
 
     @Test
     void require() {
-        assertEquals(true,test.require());
+        assertTrue(test.require());
     }
 }

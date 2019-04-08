@@ -34,7 +34,7 @@ public class Board {
         ArrayList<String> tempC= new ArrayList<>();
         ArrayList<Integer> coord= new ArrayList<>();
         Square temp1,temp2;
-        int i, x,y;
+        int i;
 
         try {
             br = new BufferedReader(new FileReader(type));
@@ -42,31 +42,35 @@ public class Board {
 
 
             for(i=1; i<=jsonObject.get("nRooms").getAsInt(); i++){
+                tempX.clear();
+                tempY.clear();
+                tempC.clear();
 
-                for (JsonElement j : jsonObject.get("xAmmo"+i).getAsJsonArray()) {
+                for (JsonElement j : jsonObject.get("xAmmo"+Integer.toString(i)).getAsJsonArray()) {
                     tempX.add(j.getAsInt());
                 }
-                for (JsonElement j : jsonObject.get("yAmmo"+i).getAsJsonArray()) {
+                for (JsonElement j : jsonObject.get("yAmmo"+Integer.toString(i)).getAsJsonArray()) {
                     tempY.add(j.getAsInt());
                 }
-                for (JsonElement j : jsonObject.get("colors"+i).getAsJsonArray()) {
+                for (JsonElement j : jsonObject.get("colors"+Integer.toString(i)).getAsJsonArray()) {
                     tempC.add(j.getAsString());
                 }
-                rooms.add(new Room(jsonObject.get("size"+i).getAsInt(),
+                rooms.add(new Room(jsonObject.get("size"+Integer.toString(i)).getAsInt(),
                         tempX,
                         tempY,
-                        jsonObject.get("xSpawn"+i).getAsInt(),
-                        jsonObject.get("ySpawn"+i).getAsInt(),
+                        jsonObject.get("xSpawn"+Integer.toString(i)).getAsInt(),
+                        jsonObject.get("ySpawn"+Integer.toString(i)).getAsInt(),
                         tempC,
                         this
                         ));
             }
             for (i=1; i<=jsonObject.get("nDoors").getAsInt(); i++){
-                for (JsonElement j : jsonObject.get("from"+i).getAsJsonArray()) {
+                for (JsonElement j : jsonObject.get("from"+Integer.toString(i)).getAsJsonArray()) {
                     coord.add(j.getAsInt());
                 }
                 temp1=this.find(coord.get(0),coord.get(1));
-                for (JsonElement j : jsonObject.get("to"+i).getAsJsonArray()) {
+                coord.clear();
+                for (JsonElement j : jsonObject.get("to"+Integer.toString(i)).getAsJsonArray()) {
                     coord.add(j.getAsInt());
                 }
                 temp2=this.find(coord.get(0),coord.get(1));
@@ -88,9 +92,9 @@ public class Board {
     public Square find(int x, int y) throws NotFoundException {
 
         for (Room r : rooms){
-            try {
+            if (r.find(x,y)!=null){
                 return r.find(x,y);
-            } catch (Exception e) {}
+            }
         }
         throw (new NotFoundException());
     }

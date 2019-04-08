@@ -7,11 +7,10 @@ import java.util.ArrayList;
 public abstract class Square {
 
     private int x, y;
-    private ArrayList<Square> doors;
+    private ArrayList<Square> doors =new ArrayList<>();
     private String color;
     private Room room;
     private ArrayList<Player> onMe= new ArrayList<Player>();
-
 
     public Square(int x, int y, String color, Room room) {
         this.x = x;
@@ -29,9 +28,10 @@ public abstract class Square {
         if (destination.room==this.room)
             return Math.abs(this.x-destination.x)+Math.abs(this.y-destination.y);
         for (Square s : this.room.getSquares()){
-            for (Square d : s.doors){
+            for (Square d : s.getDoors()){
                 dist.add(i, this.calcDist(d)+ d.calcDist(destination));
                 i++;
+
             }
         }
         min = dist.get(0);

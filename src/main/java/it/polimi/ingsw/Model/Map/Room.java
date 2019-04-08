@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Model.Map;
 
 import java.util.ArrayList;
-import it.polimi.ingsw.Exception.*;
 
 public class Room {
 
@@ -17,18 +16,18 @@ public class Room {
             squares.add(i,new AmmoPoint(xAmmo.get(i),yAmmo.get(i) ,colors.get(i), this));
         }
         if (xSpawn!=0 && ySpawn!=0) {
-            squares.add(i, new SpawnPoint(xSpawn, ySpawn, colors.get(i + xAmmo.size()), this));
+            squares.add(i, new SpawnPoint(xSpawn, ySpawn, colors.get(xAmmo.size()), this));
         }
     }
 
-    public Square find(int x, int y) throws Exception {
+    public Square find(int x, int y)  {
         int i;
         for (i=0; i<squares.size();i++) {
             if (squares.get(i).getX() == x && squares.get(i).getY() == y) {
                 return squares.get(i);
             }
         }
-        throw (new NotFoundException());
+        return null;
     }
 
     public int getSize() {

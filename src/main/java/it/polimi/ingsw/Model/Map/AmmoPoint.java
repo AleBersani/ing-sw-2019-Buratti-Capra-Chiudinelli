@@ -21,6 +21,6 @@ public class AmmoPoint extends Square {
 
     @Override
     public boolean require() {
-        return ammo==null;
+        return this.ammo==null;
     }
 }
