@@ -77,4 +77,8 @@ public abstract class Square {
     public ArrayList<Player> getOnMe() {
         return onMe;
     }
+
+    public void setOnMe(ArrayList<Player> onMe) {
+        this.onMe = onMe;
+    }
 }

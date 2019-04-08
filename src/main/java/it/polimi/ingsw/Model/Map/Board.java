@@ -79,7 +79,8 @@ public class Board {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-
+        this.reShuffleAmmo();
+        this.reShufflePuwerUps();
     }
 
     public Square find(int x, int y) throws NotFoundException {
@@ -121,7 +122,7 @@ public class Board {
         //TODO
     }
 
-    private void ReShufflePuwerUps(){
+    private void reShufflePuwerUps(){
         //TODO
     }
 
