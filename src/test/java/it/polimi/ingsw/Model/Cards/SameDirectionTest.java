@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Model.Cards;
 
 import it.polimi.ingsw.Exception.NotFoundException;
+import it.polimi.ingsw.Model.Map.Board;
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Match;
 import it.polimi.ingsw.Model.Player;
@@ -16,13 +17,11 @@ class SameDirectionTest {
     SameDirection test;
     Square target, target2;
     Player owner;
-    Match match;
-    ArrayList<Player> playerlist;
+    Board board;
 
     @BeforeEach
     public void setup(){
-        match = new Match(playerlist,1,1,true,"Frenesia");
-        playerlist = new ArrayList<Player>();
+        board = new Board(null,"./resources/Board1.json");
         owner = new Player(true,"red", "Fabiolo");
         test = new SameDirection();
     }
@@ -30,12 +29,12 @@ class SameDirectionTest {
     @Test
     public void sameDirectionOneTarget(){
         try {
-            owner.setPosition(match.getBoard().find(1,1 ));
+            owner.setPosition(board.find(1,1 ));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            target = match.getBoard().find(3,1);
+            target = board.find(3,1);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -45,12 +44,12 @@ class SameDirectionTest {
     @Test
     public void notSameDirectionOneTarget(){
         try {
-            owner.setPosition(match.getBoard().find(1,1));
+            owner.setPosition(board.find(1,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            target = match.getBoard().find(2,2);
+            target = board.find(2,2);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -60,17 +59,17 @@ class SameDirectionTest {
     @Test
     public void sameDirectionTwoTarget(){
         try {
-            owner.setPosition(match.getBoard().find(3,1 ));
+            owner.setPosition(board.find(3,1 ));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            target = match.getBoard().find(3,3);
+            target = board.find(3,3);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            target2 = match.getBoard().find(3,2);
+            target2 = board.find(3,2);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -80,17 +79,17 @@ class SameDirectionTest {
     @Test
     public void notSameDirectionTwoTarget(){
         try {
-            owner.setPosition(match.getBoard().find(3,1));
+            owner.setPosition(board.find(3,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            target = match.getBoard().find(2,2);
+            target = board.find(2,2);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            target2 = match.getBoard().find(3,2);
+            target2 = board.find(3,2);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -100,17 +99,17 @@ class SameDirectionTest {
     @Test
     public void SameDirectionButNotSameVerseTwoTarget(){
         try {
-            owner.setPosition(match.getBoard().find(2,2));
+            owner.setPosition(board.find(2,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            target = match.getBoard().find(1,2);
+            target = board.find(1,2);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            target2 = match.getBoard().find(3,2);
+            target2 = board.find(3,2);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }

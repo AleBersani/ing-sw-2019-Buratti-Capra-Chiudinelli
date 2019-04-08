@@ -4,7 +4,7 @@ import it.polimi.ingsw.Exception.NotFoundException;
 import it.polimi.ingsw.Model.Map.Board;
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,7 +15,7 @@ class SeeTest {
     Board board;
     See test;
 
-    @Before
+    @BeforeEach
     public void setup(){
         board = new Board(null,"./resources/Board1.json");
         owner = new Player(true,"red", "Bellocchio");
@@ -25,7 +25,7 @@ class SeeTest {
     @Test
     public void testCanSee(){
         try {
-            owner.setPosition(board.find(1,1 ));
+            owner.setPosition(board.find(1,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
