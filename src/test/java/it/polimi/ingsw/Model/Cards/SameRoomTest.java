@@ -4,8 +4,8 @@ import it.polimi.ingsw.Exception.NotFoundException;
 import it.polimi.ingsw.Model.Map.Room;
 import it.polimi.ingsw.Model.Match;
 import it.polimi.ingsw.Model.Player;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ class SameRoomTest {
     SameRoom test;
     ArrayList<Player> playerlist;
 
-    @Before
+    @BeforeEach
     public void setup(){
         match = new Match(playerlist,1,1,true,"Frenesia");
         playerlist = new ArrayList<Player>();
@@ -34,6 +34,7 @@ class SameRoomTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
+
         try {
             target = match.getBoard().find(1,1).getRoom();
         } catch (NotFoundException e) {
