@@ -1,8 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Model.Cards;
 
 import it.polimi.ingsw.Exception.NotFoundException;
-import it.polimi.ingsw.Model.Cards.See;
-
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Match;
 import it.polimi.ingsw.Model.Player;
@@ -11,25 +9,27 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class SeeConstraintTest {
+class MinimumDistanceTest {
+
     Player owner;
     ArrayList<Player> playerlist;
     Square target;
     Match match;
-    See test;
+    MinimumDistance test;
 
     @Before
-    public void setup(){
-        match = new Match(playerlist,1,1,true,"Frenesia");
+    public void setup() {
+        owner = new Player(true,"blue", "Franco");
         playerlist = new ArrayList<Player>();
-        owner = new Player(true,"red", "Bellocchio");
-        test = new See();
+        match = new Match(playerlist,1,1,true,"Frenesia");
+        test = new MinimumDistance(2);
+
     }
 
     @Test
-    public void testCanSee(){
+    public void testCanShoot(){
         try {
             owner.setPosition(match.getBoard().find(1,1 ));
         } catch (NotFoundException e) {
@@ -44,14 +44,14 @@ public class SeeConstraintTest {
     }
 
     @Test
-    public void testCanNotSee(){
+    public void testCanNotShoot(){
         try {
             owner.setPosition(match.getBoard().find(1,1 ));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            target = match.getBoard().find(4,3);
+            target = match.getBoard().find(3,2);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }

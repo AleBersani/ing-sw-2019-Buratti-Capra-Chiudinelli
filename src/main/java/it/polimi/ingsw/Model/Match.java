@@ -40,4 +40,8 @@ public class Match {
     public Board getBoard() {
         return board;
     }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
 }

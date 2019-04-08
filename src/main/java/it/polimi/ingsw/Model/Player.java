@@ -1,5 +1,8 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exception.*;
+import it.polimi.ingsw.Model.Cards.Effect;
+import it.polimi.ingsw.Model.Cards.EffectVsPlayer;
 import it.polimi.ingsw.Model.Cards.PowerUp;
 import it.polimi.ingsw.Model.Cards.Weapon;
 import it.polimi.ingsw.Model.Map.Square;
@@ -7,7 +10,7 @@ import it.polimi.ingsw.Model.Map.Square;
 import java.util.ArrayList;
 
 public class Player {
-    private int skull, blueAmmo, RedAmmo, yellowAmmo, points, damageCounter;
+    private int skull, blueAmmo, redAmmo, yellowAmmo, points, damageCounter;
     private ArrayList<Player> damage = new ArrayList<Player>();
     private ArrayList<Player> mark = new ArrayList<Player>();
     private ArrayList<PowerUp> powerUps= new ArrayList<PowerUp>();
@@ -15,61 +18,262 @@ public class Player {
     private boolean first, lastKill;
     private String color, nickname;
     private Square position, previousPosition;
+    private Turn turn;
 
     public Player(boolean first, String color, String nickname) {
         this.first = first;
         this.color = color;
         this.nickname = nickname;
-        //TODO
+        this.skull = 0;
+        this.blueAmmo = 1;
+        this.redAmmo = 1;
+        this.yellowAmmo = 1;
+        this.points = 0;
+        this.damageCounter = 0;
     }
 
-    public void run(Square destination){
-
-        return;
+    public void run(Square destination) throws InvalidDestinationException {
+        if(this.position.calcDist(destination) <= 3)
+            this.position = destination;
+        else
+            throw new InvalidDestinationException();
     }
-    public void grab(Square destination){
 
-        return;
+    /* TODO GRAB
+    public void grab(Square destination) throws InvalidDestinationException, NothingToGrabException, NoAmmoException {
+        if(this.position.calcDist(destination) <= 1+isOnAdrenaline())
+            if(destination.require() == true) {
+                if (destination.getClass() == AmmoPoint.class){
+                    this.redAmmo = this.redAmmo + destination.getAmmo().getRed();
+                    if (this.redAmmo > 3)
+                        this.redAmmo = 3;
+                        this.blueAmmo = this.blueAmmo + destination.getAmmo().getBlue();
+                        if (this.blueAmmo > 3)
+                            this.blueAmmo = 3;
+                        this.yellowAmmo = this.yellowAmmo + destination.getAmmo().getYellow();
+                        if (this.yellowAmmo > 3)
+                            this.yellowAmmo = 3;
+                        if (destination.getAmmo().getPowerUp() == 1)
+                            draw();
+                    } else
+                        if (destination.getWeapons().getCostRed - isRed(destination.getWeapons()) <= this.redAmmo && destination.getWeapons().getCostBlue - isBlue(getWeapons()) <= this.blueAmmo && destination.getWeapons().getCostYellow - isYellow(getWeapons()) <= this.yellowAmmo){
+                            this.weapons.add(destination.getClass().getWeapons());
+                            if (this.weapons.size() == 4) {
+                                this.weapons.remove();
+                                destination.getWeapons().add();
+                            }
+                            this.redAmmo=this.redAmmo - (destination.getWeapons().getCostRed() - isRed(destination.getWeapons());
+                            this.blueAmmo=this.blueAmmo - (destination.getWeapons().getCostBlue() - isBlue(destination.getWeapons());
+                            this.yellowAmmo=this.yellowAmmo - (destination.getWeapons().getCostYellow() - isYellow(destination.getWeapons());
+                        }
+                        else
+                            throw new NoAmmoException();
+                    this.position = destination;
+                }
+                else
+                    throw new NothingToGrabException();
+            else
+                throw new InvalidDestinationException();
+            return;
+        }
+        */
+    public void shoot(Weapon weapon,Square destination) throws NotLoadedException, InvalidDestinationException {
+        if(isOnAdrenaline()==1)
+            if(this.position.calcDist(destination)<=1)
+                this.position = destination;
+            else
+                throw new InvalidDestinationException();
+        if(weapon.isLoad())
+            weapon.fire();
+        else
+            throw new NotLoadedException();
     }
-    public void shoot(Weapon weapon){
 
-        return;
-    }
     public void usePowerUp(PowerUp powerUp){
-
-        return;
+        for(int i=0;i<this.powerUps.size();i++)
+            if(this.powerUps.contains(powerUp)) {
+                this.powerUps.get(i).useEffect();
+                discard(powerUp);
+            }
     }
-    public boolean canSee(Player target){
 
+    public boolean canSee(Player target){
+        int i;
+        if(this.position.getRoom() == target.position.getRoom())
+            return true;
+        for(i=0;i<this.position.getDoors().size();i++){
+            if(this.position.getDoors().get(i).getRoom() == target.position.getRoom())
+                return true;
+        }
         return false;
     }
-    public void reload(Weapon weapon){
 
-        return;
+    public void reload(Weapon weapon) throws LoadedException, NoAmmoException {
+        if(!weapon.isLoad())
+            if((weapon.getCostBlue() <= this.blueAmmo) && (weapon.getCostRed() <= this.redAmmo) && (weapon.getCostYellow() <= this.yellowAmmo))
+                weapon.reload();
+            else
+                throw new NoAmmoException();
+        else
+            throw new LoadedException();
     }
+
     public void draw(){
-
-        return;
+        if(this.powerUps.size() < 3)
+            this.powerUps.add(this.position.getRoom().getBoard().nextPowerUp());
+        else{
+            this.powerUps.add(position.getRoom().getBoard().nextPowerUp());
+            //discard(powerUp); TODO CONTROL POWERUP
+        }
     }
+
     public void discard(PowerUp powerUp){
-
-        return;
+        for(int i=0;i<this.powerUps.size();i++)
+            if(this.powerUps.contains(powerUp)) {
+                this.powerUps.remove(i);
+                return;
+            }
     }
+
     public void spawn(){
-
-        return;
+        if(this.position == null){
+            draw();
+        draw();
+        }
+        /*
+        try {
+            this.position=turn.getMatch().getBoard().getfindSpawnPoint(powerUp.getcolor()); TODO CONTROL POWERUP
+        }
+        catch (NotFoundException e){
+        }
+        //discard(powerUp); TODO CONTROL POWERUP
+        */
     }
+
     public void dead(){
-
-        return;
+        turn.addDead(this);
     }
+
     public void wound(int damage, Player shooter){
-
-        return;
+        int i;
+        for(i=0;i<damage;i++){
+            if(this.damage.size()<12){
+                this.damage.add(shooter);
+                this.damageCounter++;
+            }
+        }
+        for(i=0;i<this.mark.size();i++){
+            if(this.mark.get(i) == shooter)
+                if(this.damage.size()<12){
+                    this.damage.add(shooter);
+                    this.damageCounter++;
+                }
+            this.mark.remove(i);
+        }
+        if(this.damageCounter > 10)
+            dead();
     }
-    public void marked(int mark, Player shooter){
 
-        return;
+    public void marked(int mark, Player shooter){
+        int i,counter;
+        for(i=0,counter=0;i<this.mark.size();i++)
+            if(this.mark.get(i) == shooter)
+                counter++;
+        for(i=0;i<mark && counter<3;i++,counter++)
+            this.mark.add(shooter);
+    }
+
+    public void runFrenzy(Square destination) throws InvalidDestinationException {
+        if(this.position.calcDist(destination) <= 4)
+            this.position = destination;
+        else
+            throw new InvalidDestinationException();
+    }
+
+    public void shootFrenzy(Weapon weaponShoot,Weapon weaponReload,Square destination) throws NotLoadedException, InvalidDestinationException {
+        if (this.position.calcDist(destination) <= 1+onlyFrenzyAction()) {
+            this.position = destination;
+            weaponReload.reload();
+            if (weaponShoot.isLoad() == true)
+                weaponShoot.fire();
+            else
+                throw new NotLoadedException();
+            }
+        else
+            throw new InvalidDestinationException();
+    }
+
+    /* TODO FRENZY GRAB
+        public void grabFrenzy(Square destination) throws InvalidDestinationException, NothingToGrabException, NoAmmoException {
+            if(this.position.calcDist(destination) <= 2+onlyFrenzyAction())
+                if(destination.require() == true) {
+                    if (destination.getClass() == AmmoPoint.class) {
+                        this.redAmmo = this.redAmmo + destination.getAmmo().getRed();
+                        if (this.redAmmo > 3)
+                            this.redAmmo = 3;
+                        this.blueAmmo = this.blueAmmo + destination.getAmmo().getBlue();
+                        if (this.blueAmmo > 3)
+                            this.blueAmmo = 3;
+                        this.yellowAmmo = this.yellowAmmo + destination.getAmmo().getYellow();
+                        if (this.yellowAmmo > 3)
+                            this.yellowAmmo = 3;
+                        if (destination.getAmmo().getPowerUp() == 1)
+                            draw();
+                    } else
+                    if (destination.getWeapons().getCostRed - isRed(destination.getWeapons()) <= this.redAmmo && destination.getWeapons().getCostBlue - isBlue(getWeapons()) <= this.blueAmmo && destination.getWeapons().getCostYellow - isYellow(getWeapons()) <= this.yellowAmmo){
+                        this.weapons.add(destination.getClass().getWeapons());
+                        if (this.weapons.size() == 4) {
+                            this.weapons.remove();
+                            destination.getWeapons().add();
+                        }
+                        this.redAmmo=this.redAmmo - (destination.getWeapons().getCostRed() - isRed(destination.getWeapons());
+                        this.blueAmmo=this.blueAmmo - (destination.getWeapons().getCostBlue() - isBlue(destination.getWeapons());
+                        this.yellowAmmo=this.yellowAmmo - (destination.getWeapons().getCostYellow() - isYellow(destination.getWeapons());
+                    }
+                    else
+                        throw new NoAmmoException();
+                    this.position = destination;
+                }
+                else
+                    throw new NothingToGrabException();
+            else
+                throw new InvalidDestinationException();
+            return;
+        }
+        */
+        /*
+        private int isRed(weapons){
+            if(weapons.getColor() == "Red")
+                return 1;
+            return 0;
+        }
+        private int isBlue(weapons){
+            if(weapons.getColor() == "Blue")
+                return 1;
+            return 0;
+        }
+        private int isYellow(weapons){
+            if(weapons.getColor() == "Yellow")
+                return 1;
+            return 0;
+        }
+        */
+    private int isOnAdrenaline() {
+        if(this.damageCounter>=3)
+            return 1;
+        return 0;
+    }
+
+    private int onlyFrenzyAction() {
+        int lastcont=0;
+        for(int i=0;i<this.turn.getMatch().getPlayers().size();i++)
+            if(this.turn.getMatch().getPlayers().get(i).isLastKill() == true)
+                lastcont=i;
+        for(int i=0;i<this.turn.getMatch().getPlayers().size();i++)
+            if(this.turn.getMatch().getPlayers().contains(this) == true)
+                if(i <= lastcont)
+                    return 1;
+        return 0;
     }
 
     public int getSkull() {
@@ -89,11 +293,11 @@ public class Player {
     }
 
     public int getRedAmmo() {
-        return RedAmmo;
+        return redAmmo;
     }
 
     public void setRedAmmo(int redAmmo) {
-        RedAmmo = redAmmo;
+        this.redAmmo = redAmmo;
     }
 
     public int getYellowAmmo() {

@@ -1,25 +1,25 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Model.Cards;
 
 import it.polimi.ingsw.Exception.NotFoundException;
-import it.polimi.ingsw.Model.Cards.SameDirection;
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Match;
 import it.polimi.ingsw.Model.Player;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class SameDirectionTest {
+class SameDirectionTest {
+
     SameDirection test;
     Square target, target2;
     Player owner;
     Match match;
     ArrayList<Player> playerlist;
 
-    @Before
+    @BeforeEach
     public void setup(){
         match = new Match(playerlist,1,1,true,"Frenesia");
         playerlist = new ArrayList<Player>();

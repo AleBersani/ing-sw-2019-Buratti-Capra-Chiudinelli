@@ -8,6 +8,10 @@ public class SpawnPoint extends Square {
 
     private ArrayList<Weapon> weapons= new ArrayList<Weapon>();
 
+    public ArrayList<Weapon> getWeapons() {
+        return weapons;
+    }
+
     public SpawnPoint(int x, int y, String color, Room room) {
         super(x, y, color, room);
     }
