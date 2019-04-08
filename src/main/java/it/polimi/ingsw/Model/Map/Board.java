@@ -13,6 +13,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+
+
 public class Board {
     private ArrayList<Room> rooms= new ArrayList<Room>();
     private ArrayList<AmmoTile> ammoList= new ArrayList<AmmoTile>();
@@ -126,4 +128,27 @@ public class Board {
         //TODO
     }
 
+    private Square findSpawnPoint(String color) throws NotFoundException {
+        int i,j;
+        Square isThis;
+        for (i=0;i<this.rooms.size();i++) {
+            for (j=0;j<this.rooms.get(i).getSquares().size(); j++) {
+                isThis=this.rooms.get(i).getSquares().get(j);
+                if(isThis.getClass()==SpawnPoint.class){
+                    if (isThis.getColor()== color){
+                        return isThis;
+                    }
+                }
+            }
+        }
+        throw (new NotFoundException());
+    }
+
+    public ArrayList<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(ArrayList<Room> rooms) {
+        this.rooms = rooms;
+    }
 }
