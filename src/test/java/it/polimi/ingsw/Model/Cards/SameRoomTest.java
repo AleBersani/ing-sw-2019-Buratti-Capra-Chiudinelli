@@ -1,7 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Model.Cards;
 
 import it.polimi.ingsw.Exception.NotFoundException;
-import it.polimi.ingsw.Model.Cards.SameRoom;
 import it.polimi.ingsw.Model.Map.Room;
 import it.polimi.ingsw.Model.Match;
 import it.polimi.ingsw.Model.Player;
@@ -10,9 +9,10 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class SameRoomTest {
+class SameRoomTest {
+
     Room target;
     Player owner;
     Match match;
