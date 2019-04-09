@@ -15,12 +15,6 @@ class SpawnPointTest {
     }
 
     @Test
-    void generate() {
-        test.generate();
-        //TODO
-    }
-
-    @Test
     void require() {
         assertEquals(true,test.require());
     }

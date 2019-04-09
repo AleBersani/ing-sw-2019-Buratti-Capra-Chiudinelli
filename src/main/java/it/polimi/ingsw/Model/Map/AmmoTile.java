@@ -2,13 +2,13 @@ package it.polimi.ingsw.Model.Map;
 
 public class AmmoTile {
     private int red, blue, yellow;
-    private String type;
+    private int powerUp;
 
-    public AmmoTile(int red, int blue, int yellow, String type) {
+    public AmmoTile(int red, int blue, int yellow, int powerUp) {
         this.red = red;
         this.blue = blue;
         this.yellow = yellow;
-        this.type = type;
+        this.powerUp = powerUp;
     }
 
     public int getRed() {
@@ -23,7 +23,7 @@ public class AmmoTile {
         return yellow;
     }
 
-    public String getType() {
-        return type;
+    public int getPowerUp() {
+        return powerUp;
     }
 }
