@@ -18,6 +18,15 @@ public class EffectVsPlayer extends Effect {
     }
 
     public void apply(Player target, Player owner){
+        target.wound(this.damage,owner);
+        target.marked(this.mark,owner);
+    }
 
+    public boolean isAddToList() {
+        return addToList;
+    }
+
+    public boolean isRemoveFromList() {
+        return removeFromList;
     }
 }

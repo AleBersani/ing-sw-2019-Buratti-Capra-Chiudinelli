@@ -16,6 +16,10 @@ public class EffectVsSquare extends Effect {
     }
 
     public void apply(Square target, Player owner){
-
+        int i;
+        for (i=0; i< target.getOnMe().size();i++){
+            target.getOnMe().get(i).wound(this.damage,owner);
+            target.getOnMe().get(i).marked(this.mark,owner);
+        }
     }
 }

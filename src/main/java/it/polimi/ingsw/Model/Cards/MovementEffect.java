@@ -16,8 +16,17 @@ public class MovementEffect extends Effect {
     private int distance;
     private boolean linear;
 
-    public void apply(Square destination, Player target, Player owner){
-
+    public void apply(Square destination, Player target){
+        target.setPreviousPosition(target.getPosition());
+        target.setPosition(destination);
         return;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public boolean isLinear() {
+        return linear;
     }
 }
