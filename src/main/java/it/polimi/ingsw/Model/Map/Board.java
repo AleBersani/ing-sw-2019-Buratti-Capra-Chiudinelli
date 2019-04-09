@@ -7,12 +7,13 @@ import it.polimi.ingsw.Exception.NotFoundException;
 import it.polimi.ingsw.Model.Cards.PowerUp;
 import it.polimi.ingsw.Model.Cards.Weapon;
 import it.polimi.ingsw.Model.Match;
+import it.polimi.ingsw.Model.Player;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-
+import java.util.Random;
 
 
 public class Board {
@@ -24,6 +25,7 @@ public class Board {
     private Gson gSon= new Gson();
     private String type;
     private BufferedReader br;
+    private Random random = new Random();
 
 
     public Board(Match match, String type){
@@ -65,6 +67,7 @@ public class Board {
                         ));
             }
             for (i=1; i<=jsonObject.get("nDoors").getAsInt(); i++){
+                coord.clear();
                 for (JsonElement j : jsonObject.get("from"+Integer.toString(i)).getAsJsonArray()) {
                     coord.add(j.getAsInt());
                 }
@@ -85,8 +88,9 @@ public class Board {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        this.reShuffleAmmo();
-        this.reShufflePuwerUps();
+        //this.reShuffleAmmo();
+        //this.reShufflePowerUps();
+        //this.reShuffleWeapons();
     }
 
     public Square find(int x, int y) throws NotFoundException {
@@ -124,13 +128,108 @@ public class Board {
         powerUpList.remove(powerUpList.size());
         return p;
     }
-    private void reShuffleAmmo(){
-        //TODO
+    public void reShuffleAmmo(){
+        int i,n;
+        AmmoTile temp;
+        try {
+            br = new BufferedReader(new FileReader("./resources/Ammo.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        AmmoGson jsonObject = gSon.fromJson(br, AmmoGson.class);
+
+        for (i=0; i< jsonObject.get().size();i++) {
+            temp = jsonObject.get().get(i);
+            ammoList.add(temp);
+        }
+
+        AmmoPoint a;
+
+        for (i=0; i<this.getRooms().size();i++) {
+
+            for (Square s : this.getRooms().get(i).getSquares()) {
+               a= s instanceof AmmoPoint ? ((AmmoPoint) s) : null;
+               if(a!=null) {
+                   for (AmmoTile ammo : ammoList) {
+                       if (ammo.equals(a.getAmmo())) {
+                           this.ammoList.remove(ammo);
+                       }
+                   }
+               }
+            }
+        }
+        for (i=0; i<ammoList.size();i++){
+            n=random.nextInt(ammoList.size());
+            ammoList.add(ammoList.get(n));
+            ammoList.remove(ammoList.get(n));
+        }
+        return;
     }
 
-    private void reShufflePuwerUps(){
-        //TODO
+
+
+    public void reShufflePowerUps(){
+        int i,j,n;
+        PowerUp temp;
+        try {
+            br = new BufferedReader(new FileReader("./resources/PowerUp.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        PowerUpGson jsonObject = gSon.fromJson(br, PowerUpGson.class);
+
+        for (i=0; i< jsonObject.get().size();i++) {
+            temp = jsonObject.get().get(i);
+            powerUpList.add(temp);
+        }
+
+         Player p;
+
+        for (i=0; i<this.getRooms().size();i++) {
+            for(j=0; j<this.getRooms().get(i).getSquares().size(); j++) {
+                for (Player s : this.getRooms().get(i).getSquares().get(j).getOnMe()) {
+                    for (PowerUp up : s.getPowerUps()) {
+                        for (PowerUp power : powerUpList) {
+                            if (power.equals(up)) {
+                                this.powerUpList.remove(power);
+                            }
+                        }
+
+                    }
+                }
+
+            }
+        }
+        for (i=0; i<powerUpList.size();i++){
+            n=random.nextInt(powerUpList.size());
+            powerUpList.add(powerUpList.get(n));
+            powerUpList.remove(powerUpList.get(n));
+        }
+        return;
     }
+
+    public void reShuffleWeapons(){
+        int i,n;
+        Weapon temp;
+        try {
+            br = new BufferedReader(new FileReader("./resources/Weapon.json"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        WeaponGson jsonObject = gSon.fromJson(br, WeaponGson.class);
+
+        for (i=0; i< jsonObject.get().size();i++) {
+            temp = jsonObject.get().get(i);
+            weaponsList.add(temp);
+        }
+        for (i=0; i<weaponsList.size();i++){
+            n=random.nextInt(weaponsList.size());
+            weaponsList.add(weaponsList.get(n));
+            weaponsList.remove(weaponsList.get(n));
+        }
+        return;
+    }
+
 
     private Square findSpawnPoint(String color) throws NotFoundException {
         int i,j;
@@ -155,4 +254,33 @@ public class Board {
     public void setRooms(ArrayList<Room> rooms) {
         this.rooms = rooms;
     }
+
+
+    private class AmmoGson{
+        private ArrayList<AmmoTile> elements = new ArrayList<>();
+
+        public ArrayList<AmmoTile> get(){
+            return elements;
+        }
+
+    }
+    private class WeaponGson{
+        private ArrayList<Weapon> elements = new ArrayList<>();
+
+        public ArrayList<Weapon> get(){
+            return elements;
+        }
+
+    }
+
+    private class PowerUpGson{
+        private ArrayList<PowerUp> elements = new ArrayList<>();
+
+        public ArrayList<PowerUp> get(){
+            return elements;
+        }
+
+    }
+
+
 }
