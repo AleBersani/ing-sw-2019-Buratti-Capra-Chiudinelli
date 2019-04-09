@@ -14,11 +14,6 @@ class AmmoPointTest {
         test= new AmmoPoint(1,1,null,null);
     }
 
-    @Test
-    void generate() {
-        test.generate();
-        //TODO
-    }
 
     @Test
     void require() {
