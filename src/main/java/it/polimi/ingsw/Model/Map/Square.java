@@ -19,24 +19,36 @@ public abstract class Square {
         this.y = y;
         this.color = color;
         this.room = room;
-        visited = false;
+
     }
 
     public int calcDist(Square destination){
-
+        ArrayList<Integer> alreadyDone=new ArrayList<>();
+        int i=0;
+        int min;
         if (destination.room==this.room) {
             return Math.abs(this.x - destination.x) + Math.abs(this.y - destination.y);
         }
         for (Square s : this.room.getSquares()){
             for (Square d : s.getDoors()){
-                if (!d.visited) {
+                alreadyDone.add(i,Math.abs(this.x - s.x) + Math.abs(this.y - s.y)+1);
+                i++;
+            }
+        }
+        i=0;
+        for (Square s : this.room.getSquares()) {
+            for (Square d : s.getDoors()) {
+                if(!d.visited) {
                     d.visited=true;
-                    return this.calcDist(s) + d.calcDist(destination) + 1;
+                    alreadyDone.set(i, alreadyDone.get(i) + d.calcDist(destination));
                 }
             }
         }
-        return 0;
-
+        min=alreadyDone.get(0);
+        for(int dist : alreadyDone) {
+            min= Math.min(dist, min);
+        }
+        return min;
     }
 
     public void leaves (Player player){

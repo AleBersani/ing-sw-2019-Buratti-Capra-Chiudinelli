@@ -26,7 +26,7 @@ class SquareTest {
             e.printStackTrace();
         }
         try {
-            test= board.find(2,2);
+            test= board.find(4,3);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -38,7 +38,7 @@ class SquareTest {
 
     @Test
     void calcDist() {
-        assertEquals(2,test.calcDist(destination));
+        assertEquals(5,test.calcDist(destination));
 
     }
 

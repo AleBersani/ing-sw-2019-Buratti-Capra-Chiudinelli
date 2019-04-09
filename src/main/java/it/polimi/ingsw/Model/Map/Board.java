@@ -13,7 +13,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-
+import java.util.Random;
 
 
 public class Board {
@@ -25,6 +25,7 @@ public class Board {
     private Gson gSon= new Gson();
     private String type;
     private BufferedReader br;
+    private Random random = new Random();
 
 
     public Board(Match match, String type){
@@ -66,6 +67,7 @@ public class Board {
                         ));
             }
             for (i=1; i<=jsonObject.get("nDoors").getAsInt(); i++){
+                coord.clear();
                 for (JsonElement j : jsonObject.get("from"+Integer.toString(i)).getAsJsonArray()) {
                     coord.add(j.getAsInt());
                 }
@@ -86,9 +88,9 @@ public class Board {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        this.reShuffleAmmo();
-        this.reShufflePowerUps();
-        this.reShuffleWeapons();
+        //this.reShuffleAmmo();
+        //this.reShufflePowerUps();
+        //this.reShuffleWeapons();
     }
 
     public Square find(int x, int y) throws NotFoundException {
@@ -127,7 +129,7 @@ public class Board {
         return p;
     }
     public void reShuffleAmmo(){
-        int i;
+        int i,n;
         AmmoTile temp;
         try {
             br = new BufferedReader(new FileReader("./resources/Ammo.json"));
@@ -156,14 +158,18 @@ public class Board {
                }
             }
         }
-        //TODO SHUFFLE
+        for (i=0; i<ammoList.size();i++){
+            n=random.nextInt(ammoList.size());
+            ammoList.add(ammoList.get(n));
+            ammoList.remove(ammoList.get(n));
+        }
         return;
     }
 
 
 
     public void reShufflePowerUps(){
-        int i,j;
+        int i,j,n;
         PowerUp temp;
         try {
             br = new BufferedReader(new FileReader("./resources/PowerUp.json"));
@@ -194,12 +200,16 @@ public class Board {
 
             }
         }
-        //TODO SHUFFLE
+        for (i=0; i<powerUpList.size();i++){
+            n=random.nextInt(powerUpList.size());
+            powerUpList.add(powerUpList.get(n));
+            powerUpList.remove(powerUpList.get(n));
+        }
         return;
     }
 
     public void reShuffleWeapons(){
-        int i;
+        int i,n;
         Weapon temp;
         try {
             br = new BufferedReader(new FileReader("./resources/Weapon.json"));
@@ -212,7 +222,11 @@ public class Board {
             temp = jsonObject.get().get(i);
             weaponsList.add(temp);
         }
-        //TODO SHUFFLE
+        for (i=0; i<weaponsList.size();i++){
+            n=random.nextInt(weaponsList.size());
+            weaponsList.add(weaponsList.get(n));
+            weaponsList.remove(weaponsList.get(n));
+        }
         return;
     }
 
