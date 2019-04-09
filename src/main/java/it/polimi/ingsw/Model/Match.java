@@ -44,4 +44,24 @@ public class Match {
     public ArrayList<Player> getPlayers() {
         return players;
     }
+
+    public int getSkulls() {
+        return skulls;
+    }
+
+    public void setSkulls(int skulls) {
+        this.skulls = skulls;
+    }
+
+    public ArrayList<Player> getKillShotTrack() {
+        return killShotTrack;
+    }
+
+    public void setKillShotTrack(ArrayList<Player> killShotTrack) {
+        this.killShotTrack = killShotTrack;
+    }
+
+    public boolean isFrenzyEn() {
+        return frenzyEn;
+    }
 }

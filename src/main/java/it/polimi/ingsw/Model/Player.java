@@ -42,7 +42,7 @@ public class Player {
     /* TODO GRAB
     public void grab(Square destination) throws InvalidDestinationException, NothingToGrabException, NoAmmoException {
         if(this.position.calcDist(destination) <= 1+isOnAdrenalineGrab())
-            if(destination.require() == true) {
+            if(destination.require() == false) {
                 if (destination.getClass() == AmmoPoint.class){
                     this.redAmmo = this.redAmmo + destination.getAmmo().getRed();
                     if (this.redAmmo > 3)
@@ -206,7 +206,7 @@ public class Player {
     /*  TODO FRENZY GRAB
         public void grabFrenzy(Square destination) throws InvalidDestinationException, NothingToGrabException, NoAmmoException {
             if(this.position.calcDist(destination) <= 2+onlyFrenzyAction())
-                if(destination.require() == true) {
+                if(destination.require() == false) {
                     if (destination.getClass() == AmmoPoint.class) {
                         this.redAmmo = this.redAmmo + destination.getAmmo().getRed();
                         if (this.redAmmo > 3)
