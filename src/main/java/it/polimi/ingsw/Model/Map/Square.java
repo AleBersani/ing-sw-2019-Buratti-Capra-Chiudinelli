@@ -25,29 +25,47 @@ public abstract class Square {
     public int calcDist(Square destination){
         ArrayList<Integer> alreadyDone=new ArrayList<>();
         int i=0;
+        int j=0;
         int min;
         if (destination.room==this.room) {
             return Math.abs(this.x - destination.x) + Math.abs(this.y - destination.y);
         }
         for (Square s : this.room.getSquares()){
             for (Square d : s.getDoors()){
-                alreadyDone.add(i,Math.abs(this.x - s.x) + Math.abs(this.y - s.y)+1);
-                i++;
+                if(!d.visited) {
+                    alreadyDone.add(i, Math.abs(this.x - s.x) + Math.abs(this.y - s.y) + 1);
+                    i++;
+                }
             }
         }
+        for (Square s : this.room.getSquares()) {
+            s.visited=true;
+        }
+
         i=0;
         for (Square s : this.room.getSquares()) {
             for (Square d : s.getDoors()) {
                 if(!d.visited) {
-                    d.visited=true;
                     alreadyDone.set(i, alreadyDone.get(i) + d.calcDist(destination));
+                    i++;
                 }
             }
+        }
+        if (alreadyDone.isEmpty()){
+            for (Square s : this.getRoom().getSquares()){
+                s.visited=false;
+            }
+
+            return Integer.MAX_VALUE/2;
         }
         min=alreadyDone.get(0);
         for(int dist : alreadyDone) {
             min= Math.min(dist, min);
         }
+        for (Square s : this.getRoom().getSquares()){
+            s.visited=false;
+        }
+
         return min;
     }
 
