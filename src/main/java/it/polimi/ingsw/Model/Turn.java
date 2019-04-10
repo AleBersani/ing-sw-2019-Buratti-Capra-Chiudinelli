@@ -42,7 +42,7 @@ public class Turn {
         if(this.dead) {
             setPoints();
         }
-        if(getMatch().getSkulls()==0 && getMatch().isFrenzyEn())
+        if(getMatch().getSkulls()==0 && getMatch().isFrenzyEn()) TODO REVIEW IF CONTROLLED IN MATCH
             frenzy=true;
         this.current=this.next;
     }
@@ -50,7 +50,7 @@ public class Turn {
     public void setPoints(){
         ArrayList<Player> damagePlayer = new ArrayList<>();
         ArrayList<Integer> damageCounter = new ArrayList<>();
-        int i,j,k,index,min=0;
+        int i,j,k,index=0,max=0;
         boolean found=false;
 
         if(this.deads.size()==2)        //DOUBLE KILL
@@ -77,14 +77,14 @@ public class Turn {
             this.deads.get(i).getDamage().get(0).setPoints(this.deads.get(i).getDamage().get(0).getPoints() + 1); //FIRSTBLOOD
 
             for(k=0;damagePlayer.isEmpty();k++) {    // SET POINT FOR ALL DAMAGER
-                for (j = 0; j < damageCounter.size(); j++)
-                    if (damageCounter.get(j) > min) {
-                        min = damageCounter.get(j);
+                for (j = 0;damageCounter.isEmpty(); j++)
+                    if (damageCounter.get(j) > max) {
+                        max = damageCounter.get(j);
                         index = j;
                     }
-                damagePlayer.get(j).setPoints(damagePlayer.get(j).getPoints() + calcPoints(this.deads.get(i).getSkull() + k));
-                damageCounter.remove(j);
-                damagePlayer.remove(j);
+                damagePlayer.get(index).setPoints(damagePlayer.get(index).getPoints() + calcPoints(this.deads.get(i).getSkull() + k));
+                damageCounter.remove(index);
+                damagePlayer.remove(index);
             }
 
             this.deads.get(i).setSkull(this.deads.get(i).getSkull() + 1);
@@ -92,7 +92,7 @@ public class Turn {
         }
     }
 
-    private int calcPoints(int skulls){
+     int calcPoints(int skulls){
         if(skulls==0)
             return 8;
         else
@@ -109,5 +109,13 @@ public class Turn {
 
     public Match getMatch() {
         return match;
+    }
+
+    public Player getCurrent() {
+        return current;
+    }
+
+    public boolean isFrenzy() {
+        return frenzy;
     }
 }

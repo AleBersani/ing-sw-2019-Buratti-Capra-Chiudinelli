@@ -273,12 +273,11 @@ public class Player {
     private int onlyFrenzyAction() {
         int lastcont=0;
         for(int i=0;i<this.turn.getMatch().getPlayers().size();i++)
-            if(this.turn.getMatch().getPlayers().get(i).isLastKill() == true)
+            if(this.turn.getMatch().getPlayers().get(i).isLastKill())
                 lastcont=i;
         for(int i=0;i<this.turn.getMatch().getPlayers().size();i++)
-            if(this.turn.getMatch().getPlayers().contains(this) == true)
-                if(i <= lastcont)
-                    return 1;
+            if(this.turn.getMatch().getPlayers().contains(this) && i<=lastcont)
+                return 1;
         return 0;
     }
 
