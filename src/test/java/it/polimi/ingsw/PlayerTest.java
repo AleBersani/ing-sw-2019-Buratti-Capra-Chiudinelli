@@ -27,7 +27,7 @@ class PlayerTest {
         loser = new Player(false,"yellow", "Paola");
         guest.setMark(testingMarks);
     }
-
+    /*
     @Test
     public void testRun(){
 
@@ -77,6 +77,7 @@ class PlayerTest {
     public void testDead() {
 
     }
+    */
 
     @Test
     public void testWound() {
