@@ -1,14 +1,221 @@
 {
-  "AmmoTile":{
-    "red": 2,
-    "blue": 0,
-    "yellow":1,
-    "powerUp": 0
-  },
-  "AmmoTile": {
+  "elements": [
 
-  }
-
-
-
+      {
+        "red": 0,
+        "blue": 2,
+        "yellow": 1,
+        "powerUp": 0
+      },
+      {
+        "red": 2,
+        "blue": 0,
+        "yellow": 1,
+        "powerUp": 0
+      },
+    {
+      "red": 1,
+      "blue": 2,
+      "yellow": 0,
+      "powerUp": 0
+    },
+    {
+      "red": 1,
+      "blue": 0,
+      "yellow": 2,
+      "powerUp": 0
+    },
+    {
+      "red": 0,
+      "blue": 1,
+      "yellow": 2,
+      "powerUp": 0
+    },
+    {
+      "red": 2,
+      "blue": 1,
+      "yellow": 0,
+      "powerUp": 0
+    },
+    {
+      "red": 0,
+      "blue": 2,
+      "yellow": 1,
+      "powerUp": 0
+    },
+    {
+      "red": 2,
+      "blue": 0,
+      "yellow": 1,
+      "powerUp": 0
+    },
+    {
+      "red": 1,
+      "blue": 2,
+      "yellow": 0,
+      "powerUp": 0
+    },
+    {
+      "red": 1,
+      "blue": 0,
+      "yellow": 2,
+      "powerUp": 0
+    },
+    {
+      "red": 0,
+      "blue": 1,
+      "yellow": 2,
+      "powerUp": 0
+    },
+    {
+      "red": 2,
+      "blue": 1,
+      "yellow": 0,
+      "powerUp": 0
+    },
+    {
+      "red": 0,
+      "blue": 2,
+      "yellow": 1,
+      "powerUp": 0
+    },
+    {
+      "red": 2,
+      "blue": 0,
+      "yellow": 1,
+      "powerUp": 0
+    },
+    {
+      "red": 1,
+      "blue": 2,
+      "yellow": 0,
+      "powerUp": 0
+    },
+    {
+      "red": 1,
+      "blue": 0,
+      "yellow": 2,
+      "powerUp": 0
+    },
+    {
+      "red": 0,
+      "blue": 1,
+      "yellow": 2,
+      "powerUp": 0
+    },
+    {
+      "red": 0,
+      "blue": 1,
+      "yellow": 2,
+      "powerUp": 0
+    },
+    {
+      "red": 0,
+      "blue": 0,
+      "yellow": 2,
+      "powerUp": 1
+    },
+    {
+      "red": 2,
+      "blue": 0,
+      "yellow": 0,
+      "powerUp": 1
+    },
+    {
+      "red": 0,
+      "blue": 2,
+      "yellow": 0,
+      "powerUp": 1
+    },
+    {
+      "red": 1,
+      "blue": 0,
+      "yellow": 1,
+      "powerUp": 1
+    },
+    {
+      "red": 0,
+      "blue": 1,
+      "yellow": 1,
+      "powerUp": 1
+    },
+    {
+      "red": 1,
+      "blue": 1,
+      "yellow": 0,
+      "powerUp": 1
+    },
+    {
+      "red": 1,
+      "blue": 0,
+      "yellow": 1,
+      "powerUp": 1
+    },
+    {
+      "red": 0,
+      "blue": 1,
+      "yellow": 1,
+      "powerUp": 1
+    },
+    {
+      "red": 1,
+      "blue": 1,
+      "yellow": 0,
+      "powerUp": 1
+    },
+    {
+      "red": 0,
+      "blue": 0,
+      "yellow": 2,
+      "powerUp": 1
+    },
+    {
+      "red": 2,
+      "blue": 0,
+      "yellow": 0,
+      "powerUp": 1
+    },
+    {
+      "red": 0,
+      "blue": 2,
+      "yellow": 0,
+      "powerUp": 1
+    },
+    {
+      "red": 1,
+      "blue": 0,
+      "yellow": 1,
+      "powerUp": 1
+    },
+    {
+      "red": 0,
+      "blue": 1,
+      "yellow": 1,
+      "powerUp": 1
+    },
+    {
+      "red": 1,
+      "blue": 1,
+      "yellow": 0,
+      "powerUp": 1
+    },
+    {
+      "red": 1,
+      "blue": 0,
+      "yellow": 1,
+      "powerUp": 1
+    },
+    {
+      "red": 0,
+      "blue": 1,
+      "yellow": 1,
+      "powerUp": 1
+    },
+    {
+      "red": 1,
+      "blue": 1,
+      "yellow": 0,
+      "powerUp": 1
+    }
+  ]
 }

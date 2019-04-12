@@ -25,7 +25,6 @@ public abstract class Square {
     public int calcDist(Square destination){
         ArrayList<Integer> alreadyDone=new ArrayList<>();
         int i=0;
-        int j=0;
         int min;
         if (destination.room==this.room) {
             return Math.abs(this.x - destination.x) + Math.abs(this.y - destination.y);
