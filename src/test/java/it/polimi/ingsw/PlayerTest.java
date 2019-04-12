@@ -1,5 +1,8 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Exception.InvalidDestinationException;
+import it.polimi.ingsw.Exception.NotFoundException;
+import it.polimi.ingsw.Model.Map.Board;
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.Turn;
@@ -13,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class PlayerTest {
 
     int i;
+    Board board;
     Player target,test,loser,guest;
     Square location;
     Turn turn;
@@ -26,13 +30,33 @@ class PlayerTest {
         guest = new Player(true,"blue", "Franco");
         loser = new Player(false,"yellow", "Paola");
         guest.setMark(testingMarks);
+        board = new Board(null, "./resources/Board1.json");
+        turn = new Turn(null,false,guest,null);
     }
-    /*
+
     @Test
     public void testRun(){
+        guest.setTurn(turn);
+        try {
+            guest.setPosition(board.find(1,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            guest.run(board.find(2,1));
+        } catch (InvalidDestinationException e) {
+            e.printStackTrace();
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
 
+        try {
+            assertEquals(guest.getPosition(),board.find(2,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
     }
-
+    /*
     @Test
     public void testGrab() {
 

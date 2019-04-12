@@ -19,6 +19,7 @@ public class Player {
     private String color, nickname;
     private Square position, previousPosition;
     private Turn turn;
+    int maxRun=3,maxRunFrenzy=4,maxSize=3;
 
     public Player(boolean first, String color, String nickname) {
         this.first = first;
@@ -33,10 +34,11 @@ public class Player {
     }
 
     public void run(Square destination) throws InvalidDestinationException {
-        if(this.position.calcDist(destination) <= 3)
+        if(this.position.calcDist(destination) <= maxRun)
             this.position = destination;
         else
             throw new InvalidDestinationException();
+        this.turn.setActionCounter((this.turn.getActionCounter()+1));
     }
 
     /* TODO GRAB
@@ -74,12 +76,13 @@ public class Player {
                     throw new NothingToGrabException();
             else
                 throw new InvalidDestinationException();
+            this.turn.setActionCounter((this.turn.getActionCounter()+1));
             return;
         }
         */
     public void shoot(Weapon weapon,Square destination) throws NotLoadedException, InvalidDestinationException {
         if(isOnAdrenalineShoot()==1)
-            if(this.position.calcDist(destination)<=1)
+            if(this.position.calcDist(destination) <= 1)
                 this.position = destination;
             else
                 throw new InvalidDestinationException();
@@ -87,6 +90,7 @@ public class Player {
             weapon.fire();
         else
             throw new NotLoadedException();
+        this.turn.setActionCounter((this.turn.getActionCounter()+1));
     }
 
     public void usePowerUp(PowerUp powerUp){
@@ -119,7 +123,7 @@ public class Player {
     }
 
     public void draw(){
-        if(this.powerUps.size() < 3)
+        if(this.powerUps.size() < maxSize)
             this.powerUps.add(this.position.getRoom().getBoard().nextPowerUp());
         else{
             this.powerUps.add(position.getRoom().getBoard().nextPowerUp());
@@ -184,23 +188,25 @@ public class Player {
     }
 
     public void runFrenzy(Square destination) throws InvalidDestinationException {
-        if(this.position.calcDist(destination) <= 4)
+        if(this.position.calcDist(destination) <= maxRunFrenzy)
             this.position = destination;
         else
             throw new InvalidDestinationException();
+        this.turn.setActionCounter((this.turn.getActionCounter()+1));
     }
 
     public void shootFrenzy(Weapon weaponShoot,Weapon weaponReload,Square destination) throws NotLoadedException, InvalidDestinationException {
         if (this.position.calcDist(destination) <= 1+onlyFrenzyAction()) {
             this.position = destination;
             weaponReload.reload();
-            if (weaponShoot.isLoad() == true)
+            if (weaponShoot.isLoad())
                 weaponShoot.fire();
             else
                 throw new NotLoadedException();
             }
         else
             throw new InvalidDestinationException();
+        this.turn.setActionCounter((this.turn.getActionCounter()+1));
     }
 
     /*  TODO FRENZY GRAB
@@ -238,6 +244,7 @@ public class Player {
                     throw new NothingToGrabException();
             else
                 throw new InvalidDestinationException();
+            this.turn.setActionCounter((this.turn.getActionCounter()+1));
             return;
         }
         */
@@ -407,5 +414,9 @@ public class Player {
 
     public void setPreviousPosition(Square previousPosition) {
         this.previousPosition = previousPosition;
+    }
+
+    public void setTurn(Turn turn) {
+        this.turn = turn;
     }
 }

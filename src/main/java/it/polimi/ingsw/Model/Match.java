@@ -13,6 +13,7 @@ public class Match {
     private String mode;
     private Turn turn;
     private Board board;
+    int i=0;
 
     public Match(ArrayList<Player> players, int numPlayers, int skulls, boolean frenzyEn, String mode) {
         this.players = players;
@@ -21,15 +22,17 @@ public class Match {
         this.frenzyEn = frenzyEn;
         this.mode = mode;
     }
-
+    //TODO REVIEWS TURNS OF PLAYERS
     public void start(){
-
-        return;
+        this.turn = new Turn(this.players.get(i+1),this.setFrenzy(),this.players.get(i),this);
+        if(getTurn().getCurrent().getPosition() == null)
+            getTurn().getCurrent().spawn();
     }
 
-    public void setFrenzy(){
-
-        return;
+    public boolean setFrenzy(){
+        if(this.skulls==0)
+            return true;
+        return false;
     }
 
     public void endGame(){

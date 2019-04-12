@@ -42,9 +42,12 @@ public class Turn {
         if(this.dead) {
             setPoints();
         }
+
         if(getMatch().getSkulls()==0 && getMatch().isFrenzyEn()) TODO REVIEW IF CONTROLLED IN MATCH
             frenzy=true;
         this.current=this.next;
+
+        getMatch().start();
     }
     */
     public void setPoints(){
@@ -90,6 +93,12 @@ public class Turn {
             this.deads.get(i).setSkull(this.deads.get(i).getSkull() + 1);
             getMatch().setSkulls(getMatch().getSkulls()-1);
         }
+
+        for(i=0;this.deads.isEmpty();) {
+            this.deads.get(i).spawn();
+            this.deads.remove(i);
+        }
+
     }
 
      int calcPoints(int skulls){
@@ -113,6 +122,14 @@ public class Turn {
 
     public Player getCurrent() {
         return current;
+    }
+
+    public int getActionCounter() {
+        return actionCounter;
+    }
+
+    public void setActionCounter(int actionCounter) {
+        this.actionCounter = actionCounter;
     }
 
     public boolean isFrenzy() {
