@@ -88,7 +88,7 @@ public class Board {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        //this.reShuffleAmmo();
+        this.reShuffleAmmo();
         //this.reShufflePowerUps();
         //this.reShuffleWeapons();
     }
@@ -128,9 +128,11 @@ public class Board {
         powerUpList.remove(powerUpList.size());
         return p;
     }
+
     public void reShuffleAmmo(){
-        int i,n;
+        int i;
         AmmoTile temp;
+
         try {
             br = new BufferedReader(new FileReader("./resources/Ammo.json"));
         } catch (FileNotFoundException e) {
@@ -158,18 +160,14 @@ public class Board {
                }
             }
         }
-        for (i=0; i<ammoList.size();i++){
-            n=random.nextInt(ammoList.size());
-            ammoList.add(ammoList.get(n));
-            ammoList.remove(ammoList.get(n));
-        }
+        shuffle(ammoList);
         return;
     }
 
 
 
     public void reShufflePowerUps(){
-        int i,j,n;
+        int i,j;
         PowerUp temp;
         try {
             br = new BufferedReader(new FileReader("./resources/PowerUp.json"));
@@ -200,16 +198,12 @@ public class Board {
 
             }
         }
-        for (i=0; i<powerUpList.size();i++){
-            n=random.nextInt(powerUpList.size());
-            powerUpList.add(powerUpList.get(n));
-            powerUpList.remove(powerUpList.get(n));
-        }
+        shuffle(powerUpList);
         return;
     }
 
     public void reShuffleWeapons(){
-        int i,n;
+        int i;
         Weapon temp;
         try {
             br = new BufferedReader(new FileReader("./resources/Weapon.json"));
@@ -222,11 +216,7 @@ public class Board {
             temp = jsonObject.get().get(i);
             weaponsList.add(temp);
         }
-        for (i=0; i<weaponsList.size();i++){
-            n=random.nextInt(weaponsList.size());
-            weaponsList.add(weaponsList.get(n));
-            weaponsList.remove(weaponsList.get(n));
-        }
+        shuffle(weaponsList);
         return;
     }
 
@@ -282,5 +272,13 @@ public class Board {
 
     }
 
-
+    private void shuffle(ArrayList deck){
+        int i,n;
+        for (i=0; i<deck.size();i++){
+            n=random.nextInt(deck.size());
+            deck.add(deck.get(n));
+            deck.remove(deck.get(n));
+        }
+        return;
+    }
 }
