@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Model.Cards;
 
+import it.polimi.ingsw.Model.Cards.Effects.Effect;
+
 public class PowerUp {
     private String color, name;
     private Effect effect;

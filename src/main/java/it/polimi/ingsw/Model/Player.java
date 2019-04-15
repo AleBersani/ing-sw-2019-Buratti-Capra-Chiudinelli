@@ -1,8 +1,8 @@
 package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exception.*;
-import it.polimi.ingsw.Model.Cards.Effect;
-import it.polimi.ingsw.Model.Cards.EffectVsPlayer;
+import it.polimi.ingsw.Model.Cards.Effects.Effect;
+import it.polimi.ingsw.Model.Cards.Effects.EffectVsPlayer;
 import it.polimi.ingsw.Model.Cards.PowerUp;
 import it.polimi.ingsw.Model.Cards.Weapon;
 import it.polimi.ingsw.Model.Map.Square;

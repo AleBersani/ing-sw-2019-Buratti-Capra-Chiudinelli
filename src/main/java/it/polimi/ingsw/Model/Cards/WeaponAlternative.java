@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Model.Cards;
 
+import it.polimi.ingsw.Model.Cards.Effects.Effect;
+
 import java.util.ArrayList;
 
 public class WeaponAlternative extends Weapon {

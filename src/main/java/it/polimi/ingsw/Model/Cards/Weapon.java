@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Cards;
 
+import it.polimi.ingsw.Model.Cards.Effects.Effect;
 import it.polimi.ingsw.Model.Player;
 
 import java.util.ArrayList;

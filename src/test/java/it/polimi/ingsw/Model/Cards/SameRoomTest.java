@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Model.Cards;
 
 import it.polimi.ingsw.Exception.NotFoundException;
+import it.polimi.ingsw.Model.Cards.Constraints.SameRoom;
 import it.polimi.ingsw.Model.Map.Board;
 import it.polimi.ingsw.Model.Map.Room;
 import it.polimi.ingsw.Model.Player;
