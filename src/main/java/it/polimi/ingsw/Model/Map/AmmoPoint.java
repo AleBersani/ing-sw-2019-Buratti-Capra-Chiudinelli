@@ -23,4 +23,8 @@ public class AmmoPoint extends Square {
     public boolean require() {
         return this.ammo==null;
     }
+
+    public void setAmmo(AmmoTile ammo) {
+        this.ammo = ammo;
+    }
 }

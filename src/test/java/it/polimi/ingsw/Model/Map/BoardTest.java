@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Map;
 
+import it.polimi.ingsw.Exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -7,10 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardTest {
     Board test;
+    AmmoTile ammoForReshuffleTest;
 
     @BeforeEach
     public void setUp(){
         test= new Board(null, "./resources/Board1.json");
+        ammoForReshuffleTest= new AmmoTile(0,2,1,0);
     }
 
     @Test
@@ -20,6 +23,23 @@ class BoardTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Test
+    void reShuffleAmmoNoRepetitions(){
+        Square s;
+        AmmoPoint a;
+        try {
+            s=test.find(1,1);
+            a =s instanceof AmmoPoint ? ((AmmoPoint) s) : null;
+            a.setAmmo(ammoForReshuffleTest);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        test.getAmmoList().clear();
+        test.reShuffleAmmo();
+        assertEquals(35,test.getAmmoList().size());
 
     }
 

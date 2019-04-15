@@ -26,4 +26,19 @@ public class AmmoTile {
     public int getPowerUp() {
         return powerUp;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        AmmoTile aT;
+        if (obj != null) {
+            aT= (AmmoTile)obj;
+            if (this.red == aT.red &&
+                    this.blue == aT.blue &&
+                    this.yellow == aT.yellow &&
+                    this.powerUp == aT.powerUp) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

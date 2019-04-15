@@ -152,10 +152,8 @@ public class Board {
             for (Square s : this.getRooms().get(i).getSquares()) {
                a= s instanceof AmmoPoint ? ((AmmoPoint) s) : null;
                if(a!=null) {
-                   for (AmmoTile ammo : ammoList) {
-                       if (ammo.equals(a.getAmmo())) {
-                           this.ammoList.remove(ammo);
-                       }
+                   if(this.getAmmoList().contains(a.getAmmo())){
+                       this.getAmmoList().remove(a.getAmmo());
                    }
                }
             }
@@ -280,5 +278,9 @@ public class Board {
             deck.remove(deck.get(n));
         }
         return;
+    }
+
+    public ArrayList<AmmoTile> getAmmoList() {
+        return ammoList;
     }
 }

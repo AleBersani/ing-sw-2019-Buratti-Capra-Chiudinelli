@@ -107,4 +107,6 @@ public abstract class Square {
     public void setOnMe(ArrayList<Player> onMe) {
         this.onMe = onMe;
     }
+
+
 }
