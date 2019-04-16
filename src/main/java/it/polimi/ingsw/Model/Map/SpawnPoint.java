@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Map;
 
+import it.polimi.ingsw.Exception.ElementNotFoundException;
 import it.polimi.ingsw.Model.Cards.Weapon;
 
 import java.util.ArrayList;
@@ -20,6 +21,19 @@ public class SpawnPoint extends Square {
     public void generate(){
         weapons.add(super.getRoom().getBoard().nextWeapon());
         return;
+    }
+
+    @Override
+    public AmmoTile grabAmmo() throws ElementNotFoundException {
+        throw new ElementNotFoundException ();
+    }
+
+    @Override
+    public Weapon grabWeapon( int position) throws ElementNotFoundException {
+        Weapon temp;
+        temp=this.weapons.get(position);
+        this.weapons.remove(position);
+        return temp;
     }
 
     @Override

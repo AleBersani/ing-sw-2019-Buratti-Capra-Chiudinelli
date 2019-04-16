@@ -1,5 +1,8 @@
 package it.polimi.ingsw.Model.Map;
 
+import it.polimi.ingsw.Exception.ElementNotFoundException;
+import it.polimi.ingsw.Model.Cards.Weapon;
+
 public class AmmoPoint extends Square {
 
     private AmmoTile ammo;
@@ -17,6 +20,19 @@ public class AmmoPoint extends Square {
     public void generate(){
         this.ammo=super.getRoom().getBoard().nextAmmo();
         return;
+    }
+
+    @Override
+    public AmmoTile grabAmmo() throws ElementNotFoundException {
+        AmmoTile temp;
+        temp=this.ammo;
+        this.ammo=null;
+        return temp;
+    }
+
+    @Override
+    public Weapon grabWeapon(int position) throws ElementNotFoundException {
+        throw new ElementNotFoundException();
     }
 
     @Override
