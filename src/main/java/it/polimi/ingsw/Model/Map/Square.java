@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Model.Map;
 
+import it.polimi.ingsw.Exception.ElementNotFoundException;
+import it.polimi.ingsw.Model.Cards.Weapon;
 import it.polimi.ingsw.Model.Player;
 
 import java.util.ArrayList;
@@ -79,6 +81,10 @@ public abstract class Square {
     public abstract boolean require();
 
     public abstract void generate();
+
+    public abstract AmmoTile grabAmmo() throws ElementNotFoundException;
+
+    public abstract Weapon grabWeapon( int position) throws ElementNotFoundException;
 
     public int getX() {
         return x;
