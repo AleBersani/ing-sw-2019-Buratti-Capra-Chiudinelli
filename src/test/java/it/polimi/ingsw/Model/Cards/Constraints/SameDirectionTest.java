@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Model.Cards;
+package it.polimi.ingsw.Model.Cards.Constraints;
 
 import it.polimi.ingsw.Exception.NotFoundException;
 import it.polimi.ingsw.Model.Cards.Constraints.SameDirection;
@@ -19,12 +19,14 @@ class SameDirectionTest {
     Square target, target2;
     Player owner;
     Board board;
+    ArrayList<Square> targets;
 
     @BeforeEach
     public void setup(){
         board = new Board(null,"./resources/Board1.json");
         owner = new Player(true,"red", "Fabiolo");
         test = new SameDirection();
+        targets = new ArrayList<Square>();
     }
 
     @Test
@@ -39,7 +41,8 @@ class SameDirectionTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        assertEquals(true, test.canShoot(target,owner));
+        targets.add(target);
+        assertEquals(true, test.canShoot(targets,owner));
     }
 
     @Test
@@ -54,7 +57,8 @@ class SameDirectionTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        assertEquals(false,test.canShoot(target,owner));
+        targets.add(target);
+        assertEquals(false,test.canShoot(targets,owner));
     }
 
     @Test
@@ -74,7 +78,9 @@ class SameDirectionTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        assertEquals(true, test.canShoot(target,target2,owner));
+        targets.add(target);
+        targets.add(target2);
+        assertEquals(true, test.canShoot(targets,owner));
     }
 
     @Test
@@ -94,7 +100,9 @@ class SameDirectionTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        assertEquals(false,test.canShoot(target,target2,owner));
+        targets.add(target);
+        targets.add(target2);
+        assertEquals(false,test.canShoot(targets,owner));
     }
 
     @Test
@@ -114,6 +122,8 @@ class SameDirectionTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        assertEquals(false,test.canShoot(target,target2,owner));
+        targets.add(target);
+        targets.add(target2);
+        assertEquals(false,test.canShoot(targets,owner));
     }
 }

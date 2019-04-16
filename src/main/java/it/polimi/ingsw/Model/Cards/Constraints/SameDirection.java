@@ -2,38 +2,53 @@ package it.polimi.ingsw.Model.Cards.Constraints;
 
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.Map.Square;
+import sun.plugin2.message.OverlayWindowMoveMessage;
+
+import java.security.acl.Owner;
+import java.util.ArrayList;
 
 public class SameDirection extends Constraint {
 
-    public boolean canShoot(Square target, Player owner){
-        if(owner.getPosition().getX()== target.getX()){
-            return true;
-        }
-        if(owner.getPosition().getY()== target.getY()){
-            return true;
-        }
-        return false;
-    }
+    @Override
+    public boolean canShoot(ArrayList<Square> targets, Player owner) {
 
-    public boolean canShoot(Square target, Square target2, Player owner){
-        if((owner.getPosition().getX()== target.getX())&&(owner.getPosition().getX()== target2.getX())){
-            if((owner.getPosition().getY() >= target.getY())&&(owner.getPosition().getY() >= target2.getY())){
-                return true;
+        ArrayList<Integer> positions;
+        positions = new ArrayList<Integer>();
+        int i;
+
+        for(Square s: targets){
+            if((owner.getPosition().getY() != s.getY())&&(owner.getPosition().getX() != s.getX())){
+                return false;
             }
-            if((owner.getPosition().getY() <= target.getY())&&(owner.getPosition().getY() <= target2.getY())){
-                return true;
+            if((owner.getPosition().getY() == s.getY())&&(owner.getPosition().getX() == s.getX())){
+                positions.add(1);
             }
-            return false;
+            if(owner.getPosition().getX() == s.getX()){
+                if(owner.getPosition().getY() < s.getY()){
+                    positions.add(2);
+                }
+                if(owner.getPosition().getY() > s.getY()){
+                    positions.add(4);
+                }
+            }
+            if(owner.getPosition().getY() == s.getY()){
+                if(owner.getPosition().getX() < s.getX()){
+                    positions.add(5);
+                }
+                if(owner.getPosition().getX() > s.getX()){
+                    positions.add(3);
+                }
+            }
         }
-        if((owner.getPosition().getY()== target.getY())&&(owner.getPosition().getY()== target2.getY())){
-            if((owner.getPosition().getX() >= target.getX())&&(owner.getPosition().getX() >= target2.getX())){
-                return true;
+
+        for(i=1;i<positions.size();i++){
+            if((positions.get(i)!= 1)&&(positions.get(i-1)!=1)){
+                if(positions.get(i)!=positions.get(i-1)){
+                    return false;
+                }
             }
-            if((owner.getPosition().getX() <= target.getX())&&(owner.getPosition().getX() <= target2.getX())){
-                return true;
-            }
-            return false;
         }
-        return false;
+
+        return true;
     }
 }

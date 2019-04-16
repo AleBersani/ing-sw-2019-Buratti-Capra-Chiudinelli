@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Model.Cards;
+package it.polimi.ingsw.Model.Cards.Constraints;
 
 import it.polimi.ingsw.Exception.NotFoundException;
 import it.polimi.ingsw.Model.Cards.Constraints.See;
@@ -8,6 +8,8 @@ import it.polimi.ingsw.Model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SeeTest {
@@ -15,12 +17,14 @@ class SeeTest {
     Square target;
     Board board;
     See test;
+    ArrayList<Square> targets;
 
     @BeforeEach
     public void setup(){
         board = new Board(null,"./resources/Board1.json");
         owner = new Player(true,"red", "Bellocchio");
         test = new See();
+        targets = new ArrayList<Square>();
     }
 
     @Test
@@ -35,7 +39,8 @@ class SeeTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        assertEquals(true, test.canShoot(target,owner));
+        targets.add(target);
+        assertEquals(true, test.canShoot(targets,owner));
     }
 
     @Test
@@ -50,6 +55,7 @@ class SeeTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        assertEquals(false, test.canShoot(target,owner));
+        targets.add(target);
+        assertEquals(false, test.canShoot(targets,owner));
     }
 }
