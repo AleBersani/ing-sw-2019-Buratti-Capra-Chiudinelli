@@ -1,0 +1,144 @@
+{
+  "nRooms": 5,
+  "nDoors": 6,
+
+
+   "size1": 3,
+   "xAmmo1": [
+     1,
+     2
+   ],
+   "yAmmo1": [
+     1,
+     1
+   ],
+   "xSpawn1": 3,
+   "ySpawn1": 1,
+   "colors1": [
+     "blue",
+     "blue",
+     "blue"
+   ],
+
+   "size2": 1,
+   "xAmmo2": [
+     4
+   ],
+    "yAmmo2": [
+      1
+    ],
+    "xSpawn2": 0,
+    "ySpawn2": 0,
+    "colors2": [
+      "green"
+    ]
+  ,
+
+    "size3": 2,
+    "xAmmo3": [
+      2
+    ],
+    "yAmmo3": [
+      2
+    ],
+    "xSpawn3": 1,
+    "ySpawn3": 2,
+    "colors3": [
+      "red",
+      "red"
+    ]
+  ,
+
+    "size4": 4,
+    "xAmmo4": [
+      3,
+      4,
+      3
+    ],
+    "yAmmo4": [
+      2,
+      2,
+      3
+    ],
+    "xSpawn4": 4,
+    "ySpawn4": 3,
+    "colors4": [
+      "yellow",
+      "yellow",
+      "yellow",
+      "yellow"
+    ]
+  ,
+
+  "size5": 1,
+  "xAmmo5": [
+    2
+  ],
+  "yAmmo5": [
+    3
+  ],
+  "xSpawn5": 0,
+  "ySpawn5": 0,
+  "colors5": [
+    "white"
+  ]
+,
+
+
+      "from1": [
+        1,
+        1
+      ],
+      "to1" : [
+        1,
+        2
+      ],
+
+
+      "from2": [
+        3,
+        1
+      ],
+      "to2" : [
+        3,
+        2
+      ],
+
+
+      "from3": [
+        3,
+        1
+      ],
+      "to3" : [
+        4,
+        1
+      ],
+
+
+      "from4": [
+        2,
+        2
+      ],
+      "to4" : [
+        2,
+        3
+      ],
+
+
+      "from5": [
+        2,
+        3
+      ],
+      "to5" : [
+        3,
+        3
+      ],
+  "from6": [
+    4,
+    1
+  ],
+  "to6" : [
+    4,
+    2
+  ]
+}
