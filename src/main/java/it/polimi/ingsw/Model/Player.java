@@ -122,13 +122,10 @@ public class Player {
             throw new LoadedException();
     }
 
-    public void draw(){
+    public void draw() throws MaxHandSizeException {
+        this.powerUps.add(this.position.getRoom().getBoard().nextPowerUp());
         if(this.powerUps.size() < maxSize)
-            this.powerUps.add(this.position.getRoom().getBoard().nextPowerUp());
-        else{
-            this.powerUps.add(position.getRoom().getBoard().nextPowerUp());
-            //discard(powerUp); TODO CONTROL POWERUP
-        }
+            throw new MaxHandSizeException();
     }
 
     public void discard(PowerUp powerUp){
@@ -139,19 +136,14 @@ public class Player {
             }
     }
 
-    public void spawn(){
-        if(this.position == null){
+    public void spawn() {
+    /*    TODO SPAWN
+        if(this.position == null)
             draw();
         draw();
-        }
-        /*
-        try {
-            this.position=turn.getMatch().getBoard().getfindSpawnPoint(powerUp.getcolor()); TODO CONTROL POWERUP
-        }
-        catch (NotFoundException e){
-        }
-        //discard(powerUp); TODO CONTROL POWERUP
-        */
+        discard(powerUp);
+        this.position=turn.getMatch().getBoard().findSpawnPoint(powerUp.getColor());
+    */
     }
 
     public void dead(){
@@ -175,7 +167,7 @@ public class Player {
             this.mark.remove(i);
         }
         if(this.damageCounter > 10)
-            dead();
+            this.dead();
     }
 
     public void marked(int mark, Player shooter){

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exception.MaxHandSizeException;
 import it.polimi.ingsw.Model.Map.AmmoPoint;
 
 import java.util.ArrayList;
@@ -50,13 +51,13 @@ public class Turn {
         getMatch().start();
     }
     */
-    public void setPoints(){
+    public void setPoints() {
         ArrayList<Player> damagePlayer = new ArrayList<>();
         ArrayList<Integer> damageCounter = new ArrayList<>();
         int i,j,k,index=0,max=0;
         boolean found=false;
 
-        if(this.deads.size()==2)        //DOUBLE KILL
+        if(this.deads.size()>=2)        //DOUBLE KILL
             this.deads.get(0).getDamage().get(11).setPoints(this.deads.get(0).getDamage().get(11).getPoints() + 1);
 
         for(i=0;i<this.deads.size();i++) {
