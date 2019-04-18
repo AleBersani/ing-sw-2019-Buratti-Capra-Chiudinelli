@@ -21,7 +21,7 @@ class SameRoomTest {
 
     @BeforeEach
     public void setup(){
-        board = new Board(null,"./resources/Board1.json");
+        board = new Board(null,"./resources/Board/Board1.json");
         owner = new Player(true,"Yellow","Bruno");
         targets = new ArrayList<Square>();
         test = new SameRoom();

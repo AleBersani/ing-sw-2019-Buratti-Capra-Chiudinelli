@@ -22,7 +22,7 @@ class MinimumDistanceTest {
     @BeforeEach
     public void setup() {
         owner = new Player(true,"blue", "Franco");
-        board = new Board(null,"./resources/Board1.json");
+        board = new Board(null,"./resources/Board/Board1.json");
         targets = new ArrayList<Square>();
         test = new MinimumDistance(2);
 
