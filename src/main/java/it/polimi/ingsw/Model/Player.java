@@ -125,7 +125,7 @@ public class Player {
 
     public void draw() throws MaxHandSizeException {
         this.powerUps.add(this.position.getRoom().getBoard().nextPowerUp());
-        if(this.powerUps.size() < maxSize)
+        if(this.powerUps.size() > maxSize)
             throw new MaxHandSizeException();
     }
 

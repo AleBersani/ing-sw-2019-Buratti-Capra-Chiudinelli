@@ -1,7 +1,9 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Exception.InvalidDestinationException;
+import it.polimi.ingsw.Exception.MaxHandSizeException;
 import it.polimi.ingsw.Exception.NotFoundException;
+import it.polimi.ingsw.Model.Cards.PowerUp;
 import it.polimi.ingsw.Model.Map.Board;
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
@@ -21,6 +23,7 @@ class PlayerTest {
     Square location;
     Turn turn;
     ArrayList<Player> testingMarks,testingDeads;
+    ArrayList<PowerUp> testingPowerUp;
 
     @BeforeEach
     public void setup() {
@@ -34,6 +37,8 @@ class PlayerTest {
         testingDeads = new ArrayList<>();
         turn = new Turn(null,false,guest,null);
         turn.setDeads(testingDeads);
+        testingPowerUp = new ArrayList<>();
+        target.setPowerUps(testingPowerUp);
     }
 
     @Test
@@ -86,7 +91,12 @@ class PlayerTest {
 
     @Test
     public void testDraw() {
-
+        try {
+            target.draw();
+            assertEquals(1,target.getPowerUps().size());
+        } catch (MaxHandSizeException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
