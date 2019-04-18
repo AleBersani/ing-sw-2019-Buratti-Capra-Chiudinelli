@@ -19,7 +19,7 @@ class SquareTest {
 
     @BeforeEach
     public void setup(){
-        board = new Board(null,"./resources/Board1.json");
+        board = new Board(null,"./resources/Board/Board1.json");
         try {
             destination= board.find(1,1);
         } catch (NotFoundException e) {

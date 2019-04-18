@@ -12,7 +12,7 @@ class BoardTest {
 
     @BeforeEach
     public void setUp(){
-        test= new Board(null, "./resources/Board1.json");
+        test= new Board(null, "./resources/Board/Board1.json");
         ammoForReshuffleTest= new AmmoTile(0,2,1,0);
     }
 

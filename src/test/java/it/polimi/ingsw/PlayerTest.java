@@ -30,7 +30,7 @@ class PlayerTest {
         guest = new Player(true,"blue", "Franco");
         loser = new Player(false,"yellow", "Paola");
         guest.setMark(testingMarks);
-        board = new Board(null, "./resources/Board1.json");
+        board = new Board(null, "./resources/Board/Board1.json");
         turn = new Turn(null,false,guest,null);
     }
 
