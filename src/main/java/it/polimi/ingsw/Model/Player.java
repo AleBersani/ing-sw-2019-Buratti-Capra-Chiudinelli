@@ -410,6 +410,10 @@ public class Player {
         this.previousPosition = previousPosition;
     }
 
+    public Turn getTurn() {
+        return turn;
+    }
+
     public void setTurn(Turn turn) {
         this.turn = turn;
     }

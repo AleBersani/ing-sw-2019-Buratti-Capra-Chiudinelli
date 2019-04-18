@@ -26,10 +26,8 @@ public class Turn {
     }
 
     public void addDead(Player dead){
-        for(int i=0;i<deads.size();i++) {
-            deads.add(i, dead);
+            this.deads.add(dead);
             this.dead=true;
-        }
     }
     /* //TODO INSTANCE OF
     public void endTurn(){
@@ -125,6 +123,10 @@ public class Turn {
         return current;
     }
 
+    public ArrayList<Player> getDeads() {
+        return deads;
+    }
+
     public int getActionCounter() {
         return actionCounter;
     }
@@ -135,5 +137,9 @@ public class Turn {
 
     public boolean isFrenzy() {
         return frenzy;
+    }
+
+    public void setDeads(ArrayList<Player> deads) {
+        this.deads = deads;
     }
 }
