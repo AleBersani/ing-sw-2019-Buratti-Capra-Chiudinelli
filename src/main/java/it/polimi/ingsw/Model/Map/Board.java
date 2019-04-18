@@ -219,7 +219,7 @@ public class Board {
     }
 
 
-    private Square findSpawnPoint(String color) throws NotFoundException {
+    public Square findSpawnPoint(String color) throws NotFoundException {
         int i,j;
         Square isThis;
         for (i=0;i<this.rooms.size();i++) {
