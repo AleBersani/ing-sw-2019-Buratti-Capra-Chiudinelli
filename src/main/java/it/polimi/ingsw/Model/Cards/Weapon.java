@@ -1,26 +1,44 @@
 package it.polimi.ingsw.Model.Cards;
 
+import it.polimi.ingsw.Exception.NotThisKindOfWeapon;
 import it.polimi.ingsw.Model.Cards.Effects.Effect;
 import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.TargetParameter;
 
 import java.util.ArrayList;
 
-public class Weapon {
+public abstract class Weapon {
 
     private String color,name;
     private int costBlue,costRed,costYellow;
     private boolean load;
-    private ArrayList<Effect> effect= new ArrayList<Effect>();
-    private ArrayList<Player> previousTarget= new ArrayList<Player>();
+    private ArrayList<Effect> effect;
+    private ArrayList<Player> previousTarget;
     private Player owner;
 
-    public void fire(){
+    public Weapon(String color, String name, int costBlue, int costRed, int costYellow, ArrayList<Effect> effect) {
+        this.color = color;
+        this.name = name;
+        this.costBlue = costBlue;
+        this.costRed = costRed;
+        this.costYellow = costYellow;
+        this.effect = effect;
+        load=true;
+        owner=null;
+        previousTarget= new ArrayList<Player>();
+    }
 
+    public void fire(TargetParameter target){
+        for (Effect e: effect){
+            if(e.constraintsCheck(target)){
+                e.apply(target);
+            }
+        }
         return;
     }
 
     public void reload(){
-
+        this.load=true;
         return;
     }
 
@@ -59,4 +77,8 @@ public class Weapon {
     public Player getOwner() {
         return owner;
     }
+
+    public abstract void fireOptional(TargetParameter target, int which) throws NotThisKindOfWeapon;
+
+    public abstract void fireAlternative(TargetParameter target) throws NotThisKindOfWeapon;
 }
