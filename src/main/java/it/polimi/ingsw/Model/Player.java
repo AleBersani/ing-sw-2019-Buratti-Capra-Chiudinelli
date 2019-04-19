@@ -81,14 +81,14 @@ public class Player {
         this.turn.setActionCounter((this.turn.getActionCounter()+1));
     }
 
-    public void shoot(Weapon weapon,Square destination) throws NotLoadedException, InvalidDestinationException {
+    public void shoot(Weapon weapon,Square destination,TargetParameter target) throws NotLoadedException, InvalidDestinationException {
         if(isOnAdrenalineShoot()==1)
             if(this.position.calcDist(destination) <= 1)
                 this.position = destination;
             else
                 throw new InvalidDestinationException();
         if(weapon.isLoad())
-            weapon.fire();
+            weapon.fire(target);
         else
             throw new NotLoadedException();
         this.turn.setActionCounter((this.turn.getActionCounter()+1));

@@ -22,8 +22,12 @@ public class Match {
         this.frenzyEn = frenzyEn;
         this.mode = mode;
     }
-    //TODO REVIEWS TURNS OF PLAYERS
+
     public void start(){
+        getTurn().endTurn();
+    }
+
+    public void startTurn(){
         this.turn = new Turn(this.players.get(i+1),this.setFrenzy(),this.players.get(i),this);
         if(getTurn().getCurrent().getPosition() == null)
             getTurn().getCurrent().spawn();
@@ -78,7 +82,7 @@ public class Match {
             }
             while(added);
 
-            //    if(winPlayer.size()>1) TODO MORE THAN 1 WINNER
+            //if(winPlayer.size()>1) TODO CONTROL
         }
     }
 

@@ -29,26 +29,20 @@ public class Turn {
             this.deads.add(dead);
             this.dead=true;
     }
-    /* //TODO INSTANCE OF
+
     public void endTurn(){
         for(int i=0;i<getMatch().getBoard().getRooms().size();i++)
             for(int j=0;j<getMatch().getBoard().getRooms().get(i).getSquares().size();j++)
-                if(getMatch().getBoard().getRooms().get(i).getSquares().get(j).require())
-                    if(getMatch().getBoard().getRooms().get(i).getSquares().get(j).getClass()==AmmoPoint.class)
-                        getMatch().getBoard().getRooms().get(i).getSquares().get(j)=getMatch().getBoard().nextAmmo();
-                    else
-                        getMatch().getBoard().getRooms().get(i).getSquares().get(j)=getMatch().getBoard().nextWeapon();
-        if(this.dead) {
+                while(getMatch().getBoard().getRooms().get(i).getSquares().get(j).require())
+                    getMatch().getBoard().getRooms().get(i).getSquares().get(j).generate();
+        if(this.dead)
             setPoints();
-        }
-
-        if(getMatch().getSkulls()==0 && getMatch().isFrenzyEn()) TODO REVIEW IF CONTROLLED IN MATCH
-            frenzy=true;
-        this.current=this.next;
-
-        getMatch().start();
+        if((!getMatch().isFrenzyEn() && getMatch().getSkulls()==0 )||(getMatch().isFrenzyEn() && this.frenzy && this.current.isLastKill()))
+            getMatch().endGame();
+        else
+            getMatch().startTurn();
     }
-    */
+
     public void setPoints() {
         ArrayList<Player> damagePlayer = new ArrayList<>();
         ArrayList<Integer> damageCounter = new ArrayList<>();
