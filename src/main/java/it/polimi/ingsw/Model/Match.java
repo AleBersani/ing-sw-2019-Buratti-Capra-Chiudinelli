@@ -13,7 +13,7 @@ public class Match {
     private String mode;
     private Turn turn;
     private Board board;
-    int i=0;
+    int i;
 
     private class CircularArrayList<Player> extends ArrayList<Player>
     {
@@ -24,9 +24,9 @@ public class Match {
 
         public Player get(int index)
         {
-            if (index == players.size())
+            if (index >= players.size())
             {
-                index = 0 ;
+                index = index%players.size() ;
             }
             return super.get(index);
         }
@@ -38,6 +38,7 @@ public class Match {
         this.skulls = skulls;
         this.frenzyEn = frenzyEn;
         this.mode = mode;
+        i=0;
     }
 
     public void start(){
@@ -48,6 +49,7 @@ public class Match {
         this.turn = new Turn(this.players.get(i+1),this.setFrenzy(),this.players.get(i),this);
         if(getTurn().getCurrent().getPosition() == null)
             getTurn().getCurrent().spawn();
+        i++;
     }
 
     public boolean setFrenzy(){
