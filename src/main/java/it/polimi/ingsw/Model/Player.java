@@ -1,8 +1,6 @@
 package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exception.*;
-import it.polimi.ingsw.Model.Cards.Effects.Effect;
-import it.polimi.ingsw.Model.Cards.Effects.EffectVsPlayer;
 import it.polimi.ingsw.Model.Cards.PowerUp;
 import it.polimi.ingsw.Model.Cards.Weapon;
 import it.polimi.ingsw.Model.Map.Square;
@@ -81,7 +79,7 @@ public class Player {
         this.turn.setActionCounter((this.turn.getActionCounter()+1));
     }
 
-    public void shoot(Weapon weapon,Square destination,TargetParameter target) throws NotLoadedException, InvalidDestinationException {
+    public void shoot(Weapon weapon,Square destination,TargetParameter target) throws NotLoadedException, InvalidDestinationException, InvalidTargetExcepion {
         if(isOnAdrenalineShoot()==1)
             if(this.position.calcDist(destination) <= 1)
                 this.position = destination;
@@ -192,7 +190,7 @@ public class Player {
         this.turn.setActionCounter((this.turn.getActionCounter()+1));
     }
 
-    public void shootFrenzy(Weapon weaponShoot,Weapon weaponReload,Square destination,TargetParameter target) throws NotLoadedException, InvalidDestinationException {
+    public void shootFrenzy(Weapon weaponShoot,Weapon weaponReload,Square destination,TargetParameter target) throws NotLoadedException, InvalidDestinationException, InvalidTargetExcepion {
         if (this.position.calcDist(destination) <= 1+onlyFrenzyAction()) {
             this.position = destination;
             weaponReload.reload();

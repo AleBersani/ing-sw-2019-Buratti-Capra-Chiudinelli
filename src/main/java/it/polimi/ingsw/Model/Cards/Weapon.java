@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Cards;
 
+import it.polimi.ingsw.Exception.InvalidTargetExcepion;
 import it.polimi.ingsw.Exception.NotThisKindOfWeapon;
 import it.polimi.ingsw.Model.Cards.Effects.Effect;
 import it.polimi.ingsw.Model.Player;
@@ -28,7 +29,7 @@ public abstract class Weapon {
         previousTarget= new ArrayList<Player>();
     }
 
-    public void fire(TargetParameter target){
+    public void fire(TargetParameter target) throws InvalidTargetExcepion {
         for (Effect e: effect){
             if(e.constraintsCheck(target)){
                 e.apply(target);
@@ -78,7 +79,7 @@ public abstract class Weapon {
         return owner;
     }
 
-    public abstract void fireOptional(TargetParameter target, int which) throws NotThisKindOfWeapon;
+    public abstract void fireOptional(TargetParameter target, int which) throws NotThisKindOfWeapon, InvalidTargetExcepion;
 
-    public abstract void fireAlternative(TargetParameter target) throws NotThisKindOfWeapon;
+    public abstract void fireAlternative(TargetParameter target) throws NotThisKindOfWeapon, InvalidTargetExcepion;
 }
