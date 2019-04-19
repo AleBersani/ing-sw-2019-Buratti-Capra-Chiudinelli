@@ -72,7 +72,7 @@ public class Match {
 
             do {
                 for (i = 0,added=false; i < this.numPlayers; i++)
-                    if (this.players.get(i).getPoints() >= max) {
+                    if (this.players.get(i).getPoints() >= max && !winPlayer.contains(this.players.get(i))) {
                         max = this.players.get(i).getPoints();
                         index = i;
                         added=true;
