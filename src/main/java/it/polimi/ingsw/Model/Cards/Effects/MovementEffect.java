@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Cards.Effects;
 
+import it.polimi.ingsw.Exception.InvalidTargetExcepion;
 import it.polimi.ingsw.Model.Cards.Constraints.Constraint;
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
@@ -17,13 +18,6 @@ public class MovementEffect extends Effect {
 
     private int distance;
     private boolean linear;
-/*
-    public void apply(Square destination, Player target){
-        target.setPreviousPosition(target.getPosition());
-        target.setPosition(destination);
-        return;
-    }
-    */
 
     public int getDistance() {
         return distance;
@@ -34,7 +28,13 @@ public class MovementEffect extends Effect {
     }
 
     @Override
-    public void apply(TargetParameter target) {
-        
+    public void apply(TargetParameter target) throws InvalidTargetExcepion {
+        if(!constraintsCheck(target)){
+            throw new InvalidTargetExcepion();
+        }
+        else{
+            target.getEnemyPlayer().setPreviousPosition(target.getEnemyPlayer().getPosition());
+            target.getEnemyPlayer().setPosition(target.getMovement());
+        }
     }
 }

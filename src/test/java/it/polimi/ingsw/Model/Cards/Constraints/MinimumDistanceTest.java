@@ -4,6 +4,7 @@ import it.polimi.ingsw.Exception.NotFoundException;
 import it.polimi.ingsw.Model.Map.Board;
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.TargetParameter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,18 +13,18 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MinimumDistanceTest {
-/*
+
     Player owner;
     Board board;
-    Square target;
+    Square enemySquare;
     MinimumDistance test;
-    ArrayList<Square> targets;
+    TargetParameter target;
 
     @BeforeEach
     public void setup() {
         owner = new Player(true,"blue", "Franco");
         board = new Board(null,"./resources/Board/Board1.json");
-        targets = new ArrayList<Square>();
+        target = new TargetParameter(null,owner,null,null,null);
         test = new MinimumDistance(2);
 
     }
@@ -36,12 +37,12 @@ class MinimumDistanceTest {
             e.printStackTrace();
         }
         try {
-            target = board.find(2,1);
-            targets.add(target);
+            enemySquare = board.find(2,1);
+            target.getConstraintSquareList().add(enemySquare);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        assertEquals(false, test.canShoot(targets,owner));
+        assertEquals(false, test.canShoot(target));
     }
 
     @Test
@@ -52,12 +53,11 @@ class MinimumDistanceTest {
             e.printStackTrace();
         }
         try {
-            target = board.find(3,2);
-            targets.add(target);
+            enemySquare = board.find(3,2);
+            target.getConstraintSquareList().add(enemySquare);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        assertEquals(true, test.canShoot(targets,owner));
+        assertEquals(true, test.canShoot(target));
     }
-*/
 }

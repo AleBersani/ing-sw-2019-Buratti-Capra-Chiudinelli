@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Cards.Effects;
 
+import it.polimi.ingsw.Exception.InvalidTargetExcepion;
 import it.polimi.ingsw.Model.Cards.Constraints.Constraint;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.TargetParameter;
@@ -29,8 +30,13 @@ public class EffectVsPlayer extends Effect {
 
 
     @Override
-    public void apply(TargetParameter target) {
-        target.getEnemyPlayer().wound(this.damage,target.getOwner());
-        target.getEnemyPlayer().marked(this.mark,target.getOwner());
+    public void apply(TargetParameter target) throws InvalidTargetExcepion {
+        if(!constraintsCheck(target)){
+            throw new InvalidTargetExcepion();
+        }
+        else{
+            target.getEnemyPlayer().wound(this.damage,target.getOwner());
+            target.getEnemyPlayer().marked(this.mark,target.getOwner());
+        }
     }
 }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.Exception.NotFoundException;
 import it.polimi.ingsw.Model.Map.Board;
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.TargetParameter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,19 +13,18 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SameRoomTest {
-/*
-    Square target;
+    Square enemySquare;
     Player owner;
     Board board;
     SameRoom test;
-    ArrayList<Square> targets;
+    TargetParameter target;
 
     @BeforeEach
     public void setup(){
         board = new Board(null,"./resources/Board/Board1.json");
         owner = new Player(true,"Yellow","Bruno");
-        targets = new ArrayList<Square>();
         test = new SameRoom();
+        target = new TargetParameter(null,owner,null,null,null);
     }
 
     @Test
@@ -36,12 +36,12 @@ class SameRoomTest {
         }
 
         try {
-            target = board.find(1,1);
+            enemySquare = board.find(1,1);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        targets.add(target);
-        assertEquals(true,test.canShoot(targets,owner));
+        target.setTargetRoom(enemySquare.getRoom());
+        assertEquals(true,test.canShoot(target));
     }
 
     @Test
@@ -52,12 +52,11 @@ class SameRoomTest {
             e.printStackTrace();
         }
         try {
-            target = board.find(3,3);
+            enemySquare = board.find(3,3);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        targets.add(target);
-        assertEquals(false,test.canShoot(targets,owner));
+        target.setTargetRoom(enemySquare.getRoom());
+        assertEquals(false,test.canShoot(target));
     }
-    */
 }

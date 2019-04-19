@@ -1,7 +1,9 @@
 package it.polimi.ingsw.Model.Cards.Effects;
 
+import it.polimi.ingsw.Exception.InvalidTargetExcepion;
 import it.polimi.ingsw.Model.Cards.Constraints.Constraint;
 import it.polimi.ingsw.Model.Map.Room;
+import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.TargetParameter;
 
@@ -18,18 +20,17 @@ public class EffectVsRoom extends Effect {
     }
 
     @Override
-    public void apply(TargetParameter target) {
-
-    }
-/* TODO
-    public void apply(Room target, Player owner){
-        int i,j;
-        for(i=0;i < target.getSquares().size();i++){
-            for(j=0;j < target.getSquares().get(i).getOnMe().size();j++){
-                target.getSquares().get(i).getOnMe().get(i).wound(this.damage,owner);
-                target.getSquares().get(i).getOnMe().get(i).marked(this.mark,owner);
+    public void apply(TargetParameter target) throws InvalidTargetExcepion {
+        if(!constraintsCheck(target)){
+            throw new InvalidTargetExcepion();
+        }
+        else{
+            for(Square s: target.getTargetRoom().getSquares()){
+                for(Player p: s.getOnMe()){
+                    p.wound(this.damage,target.getOwner());
+                    p.marked(this.mark,target.getOwner());
+                }
             }
         }
     }
-    */
 }

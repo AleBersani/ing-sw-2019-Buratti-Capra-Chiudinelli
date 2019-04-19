@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Cards.Effects;
 
+import it.polimi.ingsw.Exception.InvalidTargetExcepion;
 import it.polimi.ingsw.Model.Cards.Constraints.Constraint;
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
@@ -16,17 +17,19 @@ public class EffectVsSquare extends Effect {
         this.damage = damage;
         this.mark = mark;
     }
-/*TODO
-    public void apply(Square target, Player owner){
-        int i;
-        for (i=0; i< target.getOnMe().size();i++){
-            target.getOnMe().get(i).wound(this.damage,owner);
-            target.getOnMe().get(i).marked(this.mark,owner);
-        }
-    }
-*/
-    @Override
-    public void apply(TargetParameter target) {
 
+    @Override
+    public void apply(TargetParameter target) throws InvalidTargetExcepion {
+        if(!constraintsCheck(target)){
+            throw new InvalidTargetExcepion();
+        }
+        else{
+            for (Player p: target.getTargetSquare().getOnMe()){
+                if(p != target.getOwner()){
+                    p.wound(this.damage,target.getOwner());
+                    p.marked(this.mark,target.getOwner());
+                }
+            }
+        }
     }
 }
