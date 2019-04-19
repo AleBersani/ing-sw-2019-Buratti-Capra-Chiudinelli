@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SameRoomTest {
-
+/*
     Square target;
     Player owner;
     Board board;
@@ -59,4 +59,5 @@ class SameRoomTest {
         targets.add(target);
         assertEquals(false,test.canShoot(targets,owner));
     }
+    */
 }
