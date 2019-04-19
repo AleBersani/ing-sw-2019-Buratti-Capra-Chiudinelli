@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SameSquareTest {
-
+/*
 
     SameSquare test;
     Player owner;
@@ -161,5 +161,5 @@ class SameSquareTest {
         targets.add(target3);
         assertEquals(false, test.canShoot(targets,owner));
     }
-
+*/
 }

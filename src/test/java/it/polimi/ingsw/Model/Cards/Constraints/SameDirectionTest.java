@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SameDirectionTest {
-
+/*
     SameDirection test;
     Square target, target2;
     Player owner;
@@ -124,4 +124,5 @@ class SameDirectionTest {
         targets.add(target2);
         assertEquals(false,test.canShoot(targets,owner));
     }
+    */
 }

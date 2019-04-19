@@ -2,15 +2,16 @@ package it.polimi.ingsw.Model.Cards.Constraints;
 
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.TargetParameter;
 
 import java.util.ArrayList;
 
 public class SameSquare extends Constraint {
 
     @Override
-    public boolean canShoot(ArrayList<Square> targets, Player owner) {
-        for (Square s : targets) {
-            if(s != owner.getPosition()){
+    public boolean canShoot(TargetParameter target) {
+        for (Square s : target.getConstraintSquareList()) {
+            if(s != target.getOwner().getPosition()){
                 return false;
             }
         }
