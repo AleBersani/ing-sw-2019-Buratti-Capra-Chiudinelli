@@ -192,12 +192,12 @@ public class Player {
         this.turn.setActionCounter((this.turn.getActionCounter()+1));
     }
 
-    public void shootFrenzy(Weapon weaponShoot,Weapon weaponReload,Square destination) throws NotLoadedException, InvalidDestinationException {
+    public void shootFrenzy(Weapon weaponShoot,Weapon weaponReload,Square destination,TargetParameter target) throws NotLoadedException, InvalidDestinationException {
         if (this.position.calcDist(destination) <= 1+onlyFrenzyAction()) {
             this.position = destination;
             weaponReload.reload();
             if (weaponShoot.isLoad())
-                weaponShoot.fire();
+                weaponShoot.fire(target);
             else
                 throw new NotLoadedException();
             }
