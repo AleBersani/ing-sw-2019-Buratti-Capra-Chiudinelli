@@ -115,8 +115,12 @@ public class Player {
 
     public void reload(Weapon weapon) throws LoadedException, NoAmmoException {
         if(!weapon.isLoad())
-            if((weapon.getCostBlue() <= this.blueAmmo) && (weapon.getCostRed() <= this.redAmmo) && (weapon.getCostYellow() <= this.yellowAmmo))
+            if((weapon.getCostBlue() <= this.blueAmmo) && (weapon.getCostRed() <= this.redAmmo) && (weapon.getCostYellow() <= this.yellowAmmo)) {
+                this.blueAmmo=this.blueAmmo-weapon.getCostBlue();
+                this.redAmmo=this.redAmmo-weapon.getCostRed();
+                this.yellowAmmo=this.yellowAmmo-weapon.getCostYellow();
                 weapon.reload();
+            }
             else
                 throw new NoAmmoException();
         else
