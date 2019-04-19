@@ -1,7 +1,9 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Exception.InvalidDestinationException;
+import it.polimi.ingsw.Exception.MaxHandSizeException;
 import it.polimi.ingsw.Exception.NotFoundException;
+import it.polimi.ingsw.Model.Cards.PowerUp;
 import it.polimi.ingsw.Model.Map.Board;
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
@@ -20,7 +22,8 @@ class PlayerTest {
     Player target,test,loser,guest;
     Square location;
     Turn turn;
-    ArrayList<Player> testingMarks;
+    ArrayList<Player> testingMarks,testingDeads;
+    ArrayList<PowerUp> testingPowerUp;
 
     @BeforeEach
     public void setup() {
@@ -30,8 +33,12 @@ class PlayerTest {
         guest = new Player(true,"blue", "Franco");
         loser = new Player(false,"yellow", "Paola");
         guest.setMark(testingMarks);
-        board = new Board(null, "./resources/Board1.json");
+        board = new Board(null, "./resources/Board/Board1.json");
+        testingDeads = new ArrayList<>();
         turn = new Turn(null,false,guest,null);
+        turn.setDeads(testingDeads);
+        testingPowerUp = new ArrayList<>();
+        target.setPowerUps(testingPowerUp);
     }
 
     @Test
@@ -84,7 +91,12 @@ class PlayerTest {
 
     @Test
     public void testDraw() {
-
+        try {
+            target.draw();
+            assertEquals(1,target.getPowerUps().size());
+        } catch (MaxHandSizeException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -96,12 +108,13 @@ class PlayerTest {
     public void testSpawn() {
 
     }
-
+    */
     @Test
     public void testDead() {
-
+        guest.setTurn(turn);
+        guest.dead();
+        assertEquals(guest,turn.getDeads().get(0));
     }
-    */
 
     @Test
     public void testWound() {

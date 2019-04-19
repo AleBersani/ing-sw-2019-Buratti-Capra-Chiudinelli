@@ -41,45 +41,46 @@ public class Player {
         this.turn.setActionCounter((this.turn.getActionCounter()+1));
     }
 
-    /* TODO GRAB
-    public void grab(Square destination) throws InvalidDestinationException, NothingToGrabException, NoAmmoException {
-        if(this.position.calcDist(destination) <= 1+isOnAdrenalineGrab())
-            if(destination.require() == false) {
-                if (destination.getClass() == AmmoPoint.class){
-                    this.redAmmo = this.redAmmo + destination.getAmmo().getRed();
-                    if (this.redAmmo > 3)
-                        this.redAmmo = 3;
-                        this.blueAmmo = this.blueAmmo + destination.getAmmo().getBlue();
-                        if (this.blueAmmo > 3)
-                            this.blueAmmo = 3;
-                        this.yellowAmmo = this.yellowAmmo + destination.getAmmo().getYellow();
-                        if (this.yellowAmmo > 3)
-                            this.yellowAmmo = 3;
-                        if (destination.getAmmo().getPowerUp() == 1)
-                            draw();
-                    } else
-                        if (destination.getWeapons().getCostRed - isRed(destination.getWeapons()) <= this.redAmmo && destination.getWeapons().getCostBlue - isBlue(getWeapons()) <= this.blueAmmo && destination.getWeapons().getCostYellow - isYellow(getWeapons()) <= this.yellowAmmo){
-                            this.weapons.add(destination.getClass().getWeapons());
-                            if (this.weapons.size() == 4) {
-                                this.weapons.remove();
-                                destination.getWeapons().add();
-                            }
-                            this.redAmmo=this.redAmmo - (destination.getWeapons().getCostRed() - isRed(destination.getWeapons());
-                            this.blueAmmo=this.blueAmmo - (destination.getWeapons().getCostBlue() - isBlue(destination.getWeapons());
-                            this.yellowAmmo=this.yellowAmmo - (destination.getWeapons().getCostYellow() - isYellow(destination.getWeapons());
-                        }
-                        else
-                            throw new NoAmmoException();
-                    this.position = destination;
+    public void grab(Square destination) throws MaxHandSizeException, NoAmmoException, MaxHandWeaponSizeException, InvalidDestinationException {
+        int i=0,j=0; //TODO CONTROL CHOOSE
+        if(this.position.calcDist(destination) <= 1+isOnAdrenalineGrab()) {
+            try {
+                destination.grabAmmo();
+                this.redAmmo = this.redAmmo + destination.grabAmmo().getRed();
+                if (this.redAmmo > 3)
+                    this.redAmmo = 3;
+                this.blueAmmo = this.blueAmmo + destination.grabAmmo().getBlue();
+                if (this.blueAmmo > 3)
+                    this.blueAmmo = 3;
+                this.yellowAmmo = this.yellowAmmo + destination.grabAmmo().getYellow();
+                if (this.yellowAmmo > 3)
+                    this.yellowAmmo = 3;
+                if (destination.grabAmmo().getPowerUp() == 1)
+                    draw();
+            } catch (ElementNotFoundException e) {
+                try{
+                    destination.grabWeapon(i);
+                    if (destination.grabWeapon(i).getCostRed() - isRed(destination.grabWeapon(i)) <= this.redAmmo && destination.grabWeapon(i).getCostBlue() - isBlue(destination.grabWeapon(i)) <= this.blueAmmo && destination.grabWeapon(i).getCostYellow() - isYellow(destination.grabWeapon(i)) <= this.yellowAmmo){
+                        this.redAmmo=this.redAmmo - (destination.grabWeapon(i).getCostRed() - isRed(destination.grabWeapon(i)));
+                        this.blueAmmo=this.blueAmmo - (destination.grabWeapon(i).getCostBlue() - isBlue(destination.grabWeapon(i)));
+                        this.yellowAmmo=this.yellowAmmo - (destination.grabWeapon(i).getCostYellow() - isYellow(destination.grabWeapon(i)));
+                        this.weapons.add(destination.grabWeapon(i));
+                        if (this.weapons.size() == 4)
+                            throw new MaxHandWeaponSizeException();
+                    }
+                    else
+                        throw new NoAmmoException();
                 }
-                else
-                    throw new NothingToGrabException();
-            else
-                throw new InvalidDestinationException();
-            this.turn.setActionCounter((this.turn.getActionCounter()+1));
-            return;
+                catch (ElementNotFoundException ex) {
+                }
+            }
+            this.position = destination;
         }
-        */
+        else
+            throw new InvalidDestinationException();
+        this.turn.setActionCounter((this.turn.getActionCounter()+1));
+    }
+
     public void shoot(Weapon weapon,Square destination) throws NotLoadedException, InvalidDestinationException {
         if(isOnAdrenalineShoot()==1)
             if(this.position.calcDist(destination) <= 1)
@@ -122,13 +123,10 @@ public class Player {
             throw new LoadedException();
     }
 
-    public void draw(){
-        if(this.powerUps.size() < maxSize)
-            this.powerUps.add(this.position.getRoom().getBoard().nextPowerUp());
-        else{
-            this.powerUps.add(position.getRoom().getBoard().nextPowerUp());
-            //discard(powerUp); TODO CONTROL POWERUP
-        }
+    public void draw() throws MaxHandSizeException {
+        this.powerUps.add(this.position.getRoom().getBoard().nextPowerUp());
+        if(this.powerUps.size() > maxSize)
+            throw new MaxHandSizeException();
     }
 
     public void discard(PowerUp powerUp){
@@ -139,20 +137,15 @@ public class Player {
             }
     }
 
-    public void spawn(){
-        if(this.position == null){
+    public void spawn() {
+    /*    TODO SPAWN
+        if(this.position == null)
             draw();
         draw();
-        }
-        /*
-        try {
-            this.position=turn.getMatch().getBoard().getfindSpawnPoint(powerUp.getcolor()); TODO CONTROL POWERUP
-        }
-        catch (NotFoundException e){
-        }
-        //discard(powerUp); TODO CONTROL POWERUP
-        */
-    }
+        discard(powerUp);
+        this.position=turn.getMatch().getBoard().findSpawnPoint(powerUp.getColor());
+    */
+            }
 
     public void dead(){
         turn.addDead(this);
@@ -175,7 +168,7 @@ public class Player {
             this.mark.remove(i);
         }
         if(this.damageCounter > 10)
-            dead();
+            this.dead();
     }
 
     public void marked(int mark, Player shooter){
@@ -209,62 +202,63 @@ public class Player {
         this.turn.setActionCounter((this.turn.getActionCounter()+1));
     }
 
-    /*  TODO FRENZY GRAB
-        public void grabFrenzy(Square destination) throws InvalidDestinationException, NothingToGrabException, NoAmmoException {
-            if(this.position.calcDist(destination) <= 2+onlyFrenzyAction())
-                if(destination.require() == false) {
-                    if (destination.getClass() == AmmoPoint.class) {
-                        this.redAmmo = this.redAmmo + destination.getAmmo().getRed();
-                        if (this.redAmmo > 3)
-                            this.redAmmo = 3;
-                        this.blueAmmo = this.blueAmmo + destination.getAmmo().getBlue();
-                        if (this.blueAmmo > 3)
-                            this.blueAmmo = 3;
-                        this.yellowAmmo = this.yellowAmmo + destination.getAmmo().getYellow();
-                        if (this.yellowAmmo > 3)
-                            this.yellowAmmo = 3;
-                        if (destination.getAmmo().getPowerUp() == 1)
-                            draw();
-                    } else
-                    if (destination.getWeapons().getCostRed - isRed(destination.getWeapons()) <= this.redAmmo && destination.getWeapons().getCostBlue - isBlue(getWeapons()) <= this.blueAmmo && destination.getWeapons().getCostYellow - isYellow(getWeapons()) <= this.yellowAmmo){
-                        this.weapons.add(destination.getClass().getWeapons());
-                        if (this.weapons.size() == 4) {
-                            this.weapons.remove();
-                            destination.getWeapons().add();
-                        }
-                        this.redAmmo=this.redAmmo - (destination.getWeapons().getCostRed() - isRed(destination.getWeapons());
-                        this.blueAmmo=this.blueAmmo - (destination.getWeapons().getCostBlue() - isBlue(destination.getWeapons());
-                        this.yellowAmmo=this.yellowAmmo - (destination.getWeapons().getCostYellow() - isYellow(destination.getWeapons());
+    public void grabFrenzy(Square destination) throws MaxHandSizeException, NoAmmoException, MaxHandWeaponSizeException, InvalidDestinationException {
+        int i=0,j=0; //TODO CONTROL CHOOSE
+        if(this.position.calcDist(destination) <= 2+onlyFrenzyAction()) {
+            try {
+                destination.grabAmmo();
+                this.redAmmo = this.redAmmo + destination.grabAmmo().getRed();
+                if (this.redAmmo > 3)
+                    this.redAmmo = 3;
+                this.blueAmmo = this.blueAmmo + destination.grabAmmo().getBlue();
+                if (this.blueAmmo > 3)
+                    this.blueAmmo = 3;
+                this.yellowAmmo = this.yellowAmmo + destination.grabAmmo().getYellow();
+                if (this.yellowAmmo > 3)
+                    this.yellowAmmo = 3;
+                if (destination.grabAmmo().getPowerUp() == 1)
+                    draw();
+            } catch (ElementNotFoundException e) {
+                try{
+                    destination.grabWeapon(i);
+                    if (destination.grabWeapon(i).getCostRed() - isRed(destination.grabWeapon(i)) <= this.redAmmo && destination.grabWeapon(i).getCostBlue() - isBlue(destination.grabWeapon(i)) <= this.blueAmmo && destination.grabWeapon(i).getCostYellow() - isYellow(destination.grabWeapon(i)) <= this.yellowAmmo){
+                        this.redAmmo=this.redAmmo - (destination.grabWeapon(i).getCostRed() - isRed(destination.grabWeapon(i)));
+                        this.blueAmmo=this.blueAmmo - (destination.grabWeapon(i).getCostBlue() - isBlue(destination.grabWeapon(i)));
+                        this.yellowAmmo=this.yellowAmmo - (destination.grabWeapon(i).getCostYellow() - isYellow(destination.grabWeapon(i)));
+                        this.weapons.add(destination.grabWeapon(i));
+                        if (this.weapons.size() == 4)
+                            throw new MaxHandWeaponSizeException();
                     }
                     else
                         throw new NoAmmoException();
-                    this.position = destination;
                 }
-                else
-                    throw new NothingToGrabException();
-            else
-                throw new InvalidDestinationException();
-            this.turn.setActionCounter((this.turn.getActionCounter()+1));
-            return;
+                catch (ElementNotFoundException ex) {
+                }
+            }
+            this.position = destination;
         }
-        */
-        /*
-        private int isRed(weapons){
-            if(weapons.getColor() == "Red")
-                return 1;
-            return 0;
-        }
-        private int isBlue(weapons){
-            if(weapons.getColor() == "Blue")
-                return 1;
-            return 0;
-        }
-        private int isYellow(weapons){
-            if(weapons.getColor() == "Yellow")
-                return 1;
-            return 0;
-        }
-        */
+        else
+            throw new InvalidDestinationException();
+        this.turn.setActionCounter((this.turn.getActionCounter()+1));
+    }
+    private int isRed(Weapon weapon){
+        if(weapon.getColor() == "Red")
+            return 1;
+        return 0;
+    }
+
+    private int isBlue(Weapon weapon){
+        if(weapon.getColor() == "Blue")
+            return 1;
+        return 0;
+    }
+
+    private int isYellow(Weapon weapon){
+        if(weapon.getColor() == "Yellow")
+            return 1;
+        return 0;
+    }
+
     private int isOnAdrenalineGrab() {
         if(this.damageCounter>=3)
             return 1;
@@ -414,6 +408,10 @@ public class Player {
 
     public void setPreviousPosition(Square previousPosition) {
         this.previousPosition = previousPosition;
+    }
+
+    public Turn getTurn() {
+        return turn;
     }
 
     public void setTurn(Turn turn) {

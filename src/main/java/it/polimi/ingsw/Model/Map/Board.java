@@ -199,10 +199,10 @@ public class Board {
         shuffle(powerUpList);
         return;
     }
-
+    /*
     public void reShuffleWeapons(){
         int i;
-        Weapon temp;
+        String temp;
         try {
             br = new BufferedReader(new FileReader("./resources/Weapon.json"));
         } catch (FileNotFoundException e) {
@@ -217,9 +217,9 @@ public class Board {
         shuffle(weaponsList);
         return;
     }
+    */
 
-
-    private Square findSpawnPoint(String color) throws NotFoundException {
+    public Square findSpawnPoint(String color) throws NotFoundException {
         int i,j;
         Square isThis;
         for (i=0;i<this.rooms.size();i++) {
@@ -253,10 +253,10 @@ public class Board {
 
     }
     private class WeaponGson{
-        private ArrayList<Weapon> elements = new ArrayList<>();
+        private ArrayList<String> weaponPath = new ArrayList<>();
 
-        public ArrayList<Weapon> get(){
-            return elements;
+        public ArrayList<String> get(){
+            return weaponPath;
         }
 
     }
