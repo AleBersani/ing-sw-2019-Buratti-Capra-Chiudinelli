@@ -13,6 +13,14 @@ public class TargetParameter {
     private ArrayList<Player> directionPlayer = new ArrayList<Player>();
     private ArrayList<Square> directionSquare = new ArrayList<Square>();
 
+    public TargetParameter(Square movement, Player owner, Player enemyPlayer, Room targetRoom, Square targetSquare) {
+        this.movement = movement;
+        this.owner = owner;
+        this.enemyPlayer = enemyPlayer;
+        this.targetRoom = targetRoom;
+        this.targetSquare = targetSquare;
+    }
+
     public Square getMovement() {
         return movement;
     }
