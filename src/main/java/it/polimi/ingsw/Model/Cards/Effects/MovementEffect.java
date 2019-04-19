@@ -3,6 +3,7 @@ package it.polimi.ingsw.Model.Cards.Effects;
 import it.polimi.ingsw.Model.Cards.Constraints.Constraint;
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.TargetParameter;
 
 import java.util.ArrayList;
 
@@ -16,12 +17,13 @@ public class MovementEffect extends Effect {
 
     private int distance;
     private boolean linear;
-
+/*
     public void apply(Square destination, Player target){
         target.setPreviousPosition(target.getPosition());
         target.setPosition(destination);
         return;
     }
+    */
 
     public int getDistance() {
         return distance;
@@ -29,5 +31,10 @@ public class MovementEffect extends Effect {
 
     public boolean isLinear() {
         return linear;
+    }
+
+    @Override
+    public void apply(TargetParameter target) {
+        
     }
 }
