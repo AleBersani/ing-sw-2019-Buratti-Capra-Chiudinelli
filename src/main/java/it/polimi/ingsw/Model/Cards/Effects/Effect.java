@@ -3,6 +3,7 @@ package it.polimi.ingsw.Model.Cards.Effects;
 import it.polimi.ingsw.Model.Cards.Constraints.*;
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.TargetParameter;
 
 import java.util.ArrayList;
 
@@ -24,9 +25,10 @@ public abstract class Effect {
         this.constraintPositivity = constraintPositivity;
     }
 
-    public boolean constraintsCheck(ArrayList<Square> targets, Player owner){
-        for(Constraint c: constraints){
-            if(!c.canShoot(targets,owner)){
+    public boolean constraintsCheck(TargetParameter target){
+        int i;
+        for(i=0;i<constraints.size();i++){
+            if(constraints.get(i).canShoot(target) !=constraintPositivity.get(i)){
                 return false;
             }
         }
