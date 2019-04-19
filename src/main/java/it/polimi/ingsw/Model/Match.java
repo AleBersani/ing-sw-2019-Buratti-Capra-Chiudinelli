@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Match {
 
-    private ArrayList<Player> players;
+    private CircularArrayList<Player> players;
     private int numPlayers,skulls;
     private ArrayList<Player> killShotTrack= new ArrayList<Player>();
     private boolean frenzyEn;
@@ -15,8 +15,25 @@ public class Match {
     private Board board;
     int i=0;
 
+    private class CircularArrayList<Player> extends ArrayList<Player>
+    {
+        public CircularArrayList(ArrayList<Player> players) {
+            for(Player p : players)
+                this.add(p);
+        }
+
+        public Player get(int index)
+        {
+            if (index == players.size())
+            {
+                index = 0 ;
+            }
+            return super.get(index);
+        }
+    }
+
     public Match(ArrayList<Player> players, int numPlayers, int skulls, boolean frenzyEn, String mode) {
-        this.players = players;
+        this.players = new CircularArrayList<Player>(players);
         this.numPlayers = numPlayers;
         this.skulls = skulls;
         this.frenzyEn = frenzyEn;
