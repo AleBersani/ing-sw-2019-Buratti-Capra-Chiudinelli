@@ -3,6 +3,7 @@ package it.polimi.ingsw.Model.Cards.Effects;
 import it.polimi.ingsw.Model.Cards.Constraints.Constraint;
 import it.polimi.ingsw.Model.Map.Room;
 import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.TargetParameter;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,11 @@ public class EffectVsRoom extends Effect {
         this.mark = mark;
     }
 
+    @Override
+    public void apply(TargetParameter target) {
+
+    }
+/* TODO
     public void apply(Room target, Player owner){
         int i,j;
         for(i=0;i < target.getSquares().size();i++){
@@ -25,4 +31,5 @@ public class EffectVsRoom extends Effect {
             }
         }
     }
+    */
 }

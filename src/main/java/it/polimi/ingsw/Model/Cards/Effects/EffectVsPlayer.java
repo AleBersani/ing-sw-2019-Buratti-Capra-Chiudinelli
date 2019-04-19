@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model.Cards.Effects;
 
 import it.polimi.ingsw.Model.Cards.Constraints.Constraint;
 import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.TargetParameter;
 
 import java.util.ArrayList;
 
@@ -18,16 +19,18 @@ public class EffectVsPlayer extends Effect {
         this.removeFromList = removeFromList;
     }
 
-    public void apply(Player target, Player owner){
-        target.wound(this.damage,owner);
-        target.marked(this.mark,owner);
-    }
-
     public boolean isAddToList() {
         return addToList;
     }
 
     public boolean isRemoveFromList() {
         return removeFromList;
+    }
+
+
+    @Override
+    public void apply(TargetParameter target) {
+        target.getEnemyPlayer().wound(this.damage,target.getOwner());
+        target.getEnemyPlayer().marked(this.mark,target.getOwner());
     }
 }

@@ -25,6 +25,8 @@ public abstract class Effect {
         this.constraintPositivity = constraintPositivity;
     }
 
+    abstract public void apply(TargetParameter target);
+
     public boolean constraintsCheck(TargetParameter target){
         int i;
         for(i=0;i<constraints.size();i++){
