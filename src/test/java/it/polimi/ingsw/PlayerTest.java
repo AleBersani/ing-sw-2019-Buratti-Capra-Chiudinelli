@@ -50,15 +50,14 @@ class PlayerTest {
             e.printStackTrace();
         }
         try {
-            guest.run(board.find(2,1));
+            guest.run(board.find(3,2));
         } catch (InvalidDestinationException e) {
             e.printStackTrace();
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-
         try {
-            assertEquals(guest.getPosition(),board.find(2,1));
+            assertEquals(guest.getPosition(),board.find(3,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -78,12 +77,23 @@ class PlayerTest {
     public void testUsePowerUp() {
 
     }
-
+    */
     @Test
     public void testCanSee() {
-
+        guest.setTurn(turn);
+        try {
+            guest.setPosition(board.find(2,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            test.setPosition(board.find(3,3));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        assertEquals(true,guest.canSee(test));
     }
-
+    /*
     @Test
     public void testReload() {
 
@@ -134,5 +144,27 @@ class PlayerTest {
         guest.marked(1,loser);
         for(i=0;i<guest.getMark().size();i++)
             assertEquals(loser,guest.getMark().get(i));
+    }
+
+    @Test
+    public void testRunFrenzy(){
+        guest.setTurn(turn);
+        try {
+            guest.setPosition(board.find(1,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            guest.runFrenzy(board.find(4,2));
+        } catch (InvalidDestinationException e) {
+            e.printStackTrace();
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            assertEquals(guest.getPosition(),board.find(4,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
