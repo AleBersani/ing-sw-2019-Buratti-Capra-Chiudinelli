@@ -4,12 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.Exception.NotFoundException;
-import it.polimi.ingsw.Model.Cards.Effects.*;
+import it.polimi.ingsw.Model.Cards.Effects.EffectVsPlayer;
+import it.polimi.ingsw.Model.Cards.Effects.EffectVsRoom;
+import it.polimi.ingsw.Model.Cards.Effects.EffectVsSquare;
+import it.polimi.ingsw.Model.Cards.Effects.MovementEffect;
 import it.polimi.ingsw.Model.Cards.PowerUp;
 import it.polimi.ingsw.Model.Cards.Weapon;
 import it.polimi.ingsw.Model.Match;
 import it.polimi.ingsw.Model.Player;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -312,7 +314,7 @@ public class Board {
         */
     }
 
-    private void shuffle(@NotNull ArrayList deck){
+    private void shuffle( ArrayList deck){
         int i,n;
         for (i=0; i<deck.size();i++){
             n=random.nextInt(deck.size());
