@@ -46,14 +46,15 @@ public class Turn {
     public void setPoints() {
         ArrayList<Player> damagePlayer = new ArrayList<>();
         ArrayList<Integer> damageCounter = new ArrayList<>();
-        int i,j,k,index=0,max=0;
-        boolean found=false;
+        int i,j,k,index,max;
+        boolean found;
 
         if(this.deads.size()>=2)        //DOUBLE KILL
-            this.deads.get(0).getDamage().get(11).setPoints(this.deads.get(0).getDamage().get(11).getPoints() + 1);
+           this.deads.get(0).getDamage().get(10).setPoints(this.deads.get(0).getDamage().get(10).getPoints() + 1);
 
         for(i=0;i<this.deads.size();i++) {
             for (j = 0; j < this.deads.get(i).getDamage().size(); j++) {
+                found=false;
                 for (k = 0; k < damagePlayer.size(); k++)
                     if(this.deads.get(i).getDamage().get(j)==damagePlayer.get(k)) {
                         damageCounter.set(k,damageCounter.get(k)+1);
@@ -65,15 +66,16 @@ public class Turn {
                 }
             }
 
-            getMatch().getKillShotTrack().add(this.deads.get(i).getDamage().get(11));
-            if(this.deads.get(i).getDamage().get(11)==this.deads.get(i).getDamage().get(12)) {
-                getMatch().getKillShotTrack().add(this.deads.get(i).getDamage().get(12));
-                this.deads.get(i).getDamage().get(12).marked(1,this.deads.get(i));
+            //getMatch().getKillShotTrack().add(this.deads.get(i).getDamage().get(10));
+            if(this.deads.get(i).getDamage().get(10)==this.deads.get(i).getDamage().get(11)) {
+                getMatch().getKillShotTrack().add(this.deads.get(i).getDamage().get(11));
+                this.deads.get(i).getDamage().get(11).marked(1,this.deads.get(i));
             }
+
             this.deads.get(i).getDamage().get(0).setPoints(this.deads.get(i).getDamage().get(0).getPoints() + 1); //FIRSTBLOOD
 
-            for(k=0;damagePlayer.isEmpty();k++) {    // SET POINT FOR ALL DAMAGER
-                for (j = 0;damageCounter.isEmpty(); j++)
+            for(k=0;!damagePlayer.isEmpty();k++) {    // SET POINT FOR ALL DAMAGER
+                for (j = 0,max=0,index=0;j<damageCounter.size();j++)
                     if (damageCounter.get(j) > max) {
                         max = damageCounter.get(j);
                         index = j;
@@ -84,10 +86,11 @@ public class Turn {
             }
 
             this.deads.get(i).setSkull(this.deads.get(i).getSkull() + 1);
-            getMatch().setSkulls(getMatch().getSkulls()-1);
+            //getMatch().setSkulls(getMatch().getSkulls()-1);
         }
 
-        for(i=0;this.deads.isEmpty();) {
+        for(i=0;!this.deads.isEmpty();) {
+            this.deads.get(i).getDamage().clear();
             this.deads.get(i).spawn();
             this.deads.remove(i);
         }

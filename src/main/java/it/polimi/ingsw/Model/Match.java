@@ -113,6 +113,10 @@ public class Match {
         return turn;
     }
 
+    public void setTurn(Turn turn) {
+        this.turn = turn;
+    }
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
