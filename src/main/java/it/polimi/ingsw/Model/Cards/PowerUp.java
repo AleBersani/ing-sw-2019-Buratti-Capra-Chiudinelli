@@ -1,12 +1,20 @@
 package it.polimi.ingsw.Model.Cards;
 
+import it.polimi.ingsw.Exception.InvalidTargetExcepion;
 import it.polimi.ingsw.Model.Cards.Effects.Effect;
+import it.polimi.ingsw.Model.TargetParameter;
 
 public class PowerUp {
     private String color, name;
     private Effect effect;
 
-    public void useEffect(){
+    public PowerUp(String color, String name) {
+        this.color = color;
+        this.name = name;
+    }
+
+    public void useEffect(TargetParameter target) throws InvalidTargetExcepion {
+        effect.apply(target);
     }
 
     public String getColor() {
@@ -19,5 +27,9 @@ public class PowerUp {
 
     public Effect getEffect() {
         return effect;
+    }
+
+    public void setEffect(Effect effect) {
+        this.effect = effect;
     }
 }

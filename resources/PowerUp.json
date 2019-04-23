@@ -1,0 +1,31 @@
+{
+  "pseudo": [
+
+      {
+        "color": "red",
+        "name": "teleport"
+      },
+      { "color": "red",
+        "name": "teleport"
+      }
+
+  ],
+
+  "movementEffects": [
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "teleport",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2147483647,
+      "linear": false
+    }
+
+  ],
+  "effectsVsPlayer": [
+
+  ],
+  "effectsVsRoom": [],
+  "effectsVsSquare": []
+}

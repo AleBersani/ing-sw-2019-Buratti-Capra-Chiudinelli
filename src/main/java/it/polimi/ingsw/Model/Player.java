@@ -92,10 +92,10 @@ public class Player {
         this.turn.setActionCounter((this.turn.getActionCounter()+1));
     }
 
-    public void usePowerUp(PowerUp powerUp){
+    public void usePowerUp(PowerUp powerUp, TargetParameter target) throws InvalidTargetExcepion {
         for(int i=0;i<this.powerUps.size();i++)
             if(this.powerUps.contains(powerUp)) {
-                this.powerUps.get(i).useEffect();
+                this.powerUps.get(i).useEffect(target);
                 discard(powerUp);
             }
     }
