@@ -29,6 +29,18 @@ public class MovementEffect extends Effect {
 
     @Override
     public void apply(TargetParameter target) throws InvalidTargetExcepion {
+
+        if(target.getEnemyPlayer().getPosition().calcDist(target.getMovement())>this.distance){
+            throw new InvalidTargetExcepion();
+        }
+
+        if(linear){
+            if((target.getEnemyPlayer().getPosition().getX()!=target.getMovement().getX())&&(target.getEnemyPlayer().getPosition().getY()!=target.getMovement().getY())){
+                throw new InvalidTargetExcepion();
+            }
+            //TODO Casi strani
+        }
+
         if(!constraintsCheck(target)){
             throw new InvalidTargetExcepion();
         }

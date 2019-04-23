@@ -8,77 +8,74 @@ import it.polimi.ingsw.Model.TargetParameter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-class SeeTest {
+class MaximumDistanceTest {
     Player owner;
-    Square enemySquare,enemySquare2,enemySquare3;
     Board board;
-    See test;
-    ArrayList<Square> targets;
+    Square enemySquare,enemySquare2,enemySquare3;
+    MaximumDistance test;
     TargetParameter target;
 
     @BeforeEach
-    public void setup(){
-        board = new Board(null,"./resources/Board/Board1.json");
-        owner = new Player(true,"red", "Bellocchio");
-        test = new See();
-        target = new TargetParameter(null,owner,null,null,null);
+    public void setup() {
+        owner = new Player(true, "blue", "Franco");
+        board = new Board(null, "./resources/Board/Board1.json");
+        target = new TargetParameter(null, owner, null, null, null);
+        test = new MaximumDistance(2);
     }
 
     @Test
-    public void testCanSee(){
-        try {
-            owner.setPosition(board.find(1,1));
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            enemySquare = board.find(2,1);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        target.getConstraintSquareList().add(enemySquare);
-        assertEquals(true, test.canShoot(target));
-    }
-
-    @Test
-    public void testCanNotSee(){
+    public void oneOutOfOneInRangeTarget(){
         try {
             owner.setPosition(board.find(1,1 ));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            enemySquare = board.find(4,3);
+            enemySquare = board.find(2,1);
+            target.getConstraintSquareList().add(enemySquare);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        target.getConstraintSquareList().add(enemySquare);
+        assertEquals(true, test.canShoot(target));
+    }
+
+    @Test
+    public void oneOutOfOneNotInRangeTarget(){
+        try {
+            owner.setPosition(board.find(1,1 ));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            enemySquare = board.find(3,2);
+            target.getConstraintSquareList().add(enemySquare);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
         assertEquals(false, test.canShoot(target));
     }
 
     @Test
-    public void canSeeAll(){
+    public void threeOfThreeEnemiesInRange(){
         try {
             owner.setPosition(board.find(1,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            enemySquare = board.find(2,1);
+            enemySquare = board.find(1,1);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            enemySquare2 = board.find(3,1);
+            enemySquare2 = board.find(2,1);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            enemySquare3 = board.find(3,2);
+            enemySquare3 = board.find(3,1);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -89,24 +86,52 @@ class SeeTest {
     }
 
     @Test
-    public void canNotSeeOneOfThem(){
+    public void oneOfThreeEnemiesOutOfRange(){
         try {
-            owner.setPosition(board.find(1,1));
+            owner.setPosition(board.find(2,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            enemySquare = board.find(2,1);
+            enemySquare = board.find(1,1);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            enemySquare2 = board.find(3,1);
+            enemySquare2 = board.find(2,1);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            enemySquare3 = board.find(3,3);
+            enemySquare3 = board.find(3,1);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        target.getConstraintSquareList().add(enemySquare);
+        target.getConstraintSquareList().add(enemySquare2);
+        target.getConstraintSquareList().add(enemySquare3);
+        assertEquals(false, test.canShoot(target));
+    }
+
+    @Test
+    public void allEnemiesOutOfRange(){
+        try {
+            owner.setPosition(board.find(2,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            enemySquare = board.find(2,2);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            enemySquare2 = board.find(2,3);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            enemySquare3 = board.find(4,2);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
