@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Model.Map.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +15,7 @@ class TurnTest {
     Turn turn;
     ArrayList<Player> damageList,damageList2,damageList3,playerList;
     Match testMatch;
+    Board board;
 
     @BeforeEach
     public void setup(){
@@ -23,6 +25,7 @@ class TurnTest {
         playerList = new ArrayList<Player>(Arrays.asList(guest,test,loser));
         testMatch = new Match(playerList,3,5,true,"normal");
         turn = new Turn(null,false,test,testMatch);
+        board = new Board(null, "./resources/Board/Board1.json");
         damageList = new ArrayList<Player>(Arrays.asList(test,guest,guest,guest,guest,guest,guest,test,test,test,test));
         damageList2 = new ArrayList<Player>(Arrays.asList(guest,guest,guest,guest,guest,guest,guest,test,test,test,test));
         damageList3 = new ArrayList<Player>(Arrays.asList(test,loser,loser,loser,test,test,test,test,test,test,test,test));
@@ -35,14 +38,18 @@ class TurnTest {
         turn.addDead(guest);
         assertEquals(2,turn.getDeads().size());
     }
-    /*
+    /* TODO REVIEW
     @Test
     void testEndTurn() {
+        turn.setMatch(testMatch);
+        turn.endTurn();
+        for(int i=0;i<this.turn.getMatch().getBoard().getRooms().size();i++)
+            for(int j=0;j<this.turn.getMatch().getBoard().getRooms().get(i).getSquares().size();j++)
+                assertEquals(false,this.turn.getMatch().getBoard().getRooms().get(i).getSquares().get(j).require());
     }
     */
     @Test
     public void testSetPoint() {
-        testMatch.setTurn(turn);
         loser.setDamage(damageList);
         assertEquals(11,loser.getDamage().size());
         turn.addDead(loser);

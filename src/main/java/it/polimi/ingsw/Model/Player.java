@@ -7,6 +7,10 @@ import it.polimi.ingsw.Model.Map.Square;
 
 import java.util.ArrayList;
 
+/**
+ *  This class represent one single player
+ */
+
 public class Player {
     private int skull, blueAmmo, redAmmo, yellowAmmo, points, damageCounter;
     private ArrayList<Player> damage = new ArrayList<Player>();
@@ -18,7 +22,7 @@ public class Player {
     private Square position, previousPosition;
     private Turn turn;
     int maxRun=3,maxRunFrenzy=4,maxSize=3;
-
+    
     public Player(boolean first, String color, String nickname) {
         this.first = first;
         this.color = color;
@@ -126,7 +130,7 @@ public class Player {
     }
 
     public void draw() throws MaxHandSizeException {
-        this.powerUps.add(this.position.getRoom().getBoard().nextPowerUp());
+        this.powerUps.add(getTurn().getMatch().getBoard().nextPowerUp());
         if(this.powerUps.size() > maxSize)
             throw new MaxHandSizeException();
     }
@@ -139,15 +143,15 @@ public class Player {
             }
     }
 
-    public void spawn() {
-    /*    TODO SPAWN
+    public void spawn(){
+        /*
         if(this.position == null)
             draw();
         draw();
-        discard(powerUp);
         this.position=turn.getMatch().getBoard().findSpawnPoint(powerUp.getColor());
-    */
-            }
+        discard(powerUp);
+        */
+    }
 
     public void dead(){
         turn.addDead(this);

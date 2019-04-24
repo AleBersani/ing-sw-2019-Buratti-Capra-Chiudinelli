@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,6 +25,7 @@ class PlayerTest {
     Turn turn;
     ArrayList<Player> testingMarks,testingDeads;
     ArrayList<PowerUp> testingPowerUp;
+    PowerUp teleporter;
 
     @BeforeEach
     public void setup() {
@@ -37,8 +39,9 @@ class PlayerTest {
         testingDeads = new ArrayList<>();
         turn = new Turn(null,false,guest,null);
         turn.setDeads(testingDeads);
-        testingPowerUp = new ArrayList<>();
-        target.setPowerUps(testingPowerUp);
+        teleporter = new PowerUp("red","teleport");
+        testingPowerUp = new ArrayList<>(Arrays.asList(teleporter,teleporter));
+        guest.setPowerUps(testingPowerUp);
     }
 
     @Test
@@ -114,21 +117,21 @@ class PlayerTest {
     @Test
     public void testDraw() {
         try {
-            target.draw();
-            assertEquals(1,target.getPowerUps().size());
+            guest.draw();
+            assertEquals(1,guest.getPowerUps().size());
         } catch (MaxHandSizeException e) {
             e.printStackTrace();
         }
     }
-
+    */
     @Test
     public void testDiscard() {
-
+        guest.discard(teleporter);
+        assertEquals(1,guest.getPowerUps().size());
     }
-
+    /*
     @Test
     public void testSpawn() {
-
     }
     */
     @Test
