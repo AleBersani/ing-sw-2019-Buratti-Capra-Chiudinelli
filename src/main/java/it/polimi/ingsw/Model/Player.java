@@ -8,21 +8,96 @@ import it.polimi.ingsw.Model.Map.Square;
 import java.util.ArrayList;
 
 /**
- *  This class represent one single player
+ * This class represent one single player
  */
-
 public class Player {
-    private int skull, blueAmmo, redAmmo, yellowAmmo, points, damageCounter;
+    /**
+     * This attribute is the number of skulls the player owns
+     */
+    private int skull;
+    /**
+     * This attribute is the number of blue ammo the player owns
+     */
+    private int blueAmmo;
+    /**
+     * This attribute is the number of red ammo the player owns
+     */
+    private int redAmmo;
+    /**
+     * This attribute is the number of yellow ammo the player owns
+     */
+    private int yellowAmmo;
+    /**
+     * This attribute is the number of points the player has
+     */
+    private int points;
+    /**
+     * This attribute is the number of damage the player has
+     */
+    private int damageCounter;
+    /**
+     * This attribute is the list of damage from the other players
+     */
     private ArrayList<Player> damage = new ArrayList<Player>();
+    /**
+     * This attribute is the list of mark from the other players
+     */
     private ArrayList<Player> mark = new ArrayList<Player>();
+    /**
+     * This attribute is the list of power up the player has
+     */
     private ArrayList<PowerUp> powerUps= new ArrayList<PowerUp>();
+    /**
+     * This attribute is the list of weapon the player has
+     */
     private ArrayList<Weapon> weapons= new ArrayList<Weapon>();
-    private boolean first, lastKill;
-    private String color, nickname;
-    private Square position, previousPosition;
+    /**
+     * This attribute indicates if it is the first player of all others
+     */
+    private boolean first;
+    /**
+     * This attribute indicates if the player made the last kill
+     */
+    private boolean lastKill;
+    /**
+     * This attribute indicates the color of the player
+     */
+    private String color;
+    /**
+     * This attribute indicates the nickname of the player
+     */
+    private String nickname;
+    /**
+     * This attribute indicates the current position of the player
+     */
+    private Square position;
+    /**
+     * This attribute indicates the previous position of the player
+     */
+    private Square previousPosition;
+    /**
+     * This attribute indicates the turn of the player
+     */
     private Turn turn;
-    int maxRun=3,maxRunFrenzy=4,maxSize=3;
-    
+    /**
+     * This constant is for the maximum movement that can be done to run during a not frenzy turn
+     */
+    int maxRun=3;
+    /**
+     * This constant is for the maximum movement that can be done to run during a frenzy turn
+     */
+    int maxRunFrenzy=4;
+    /**
+     * This constant is for the maximum quantity of type of ammo,weapons and power ups
+     */
+    int maxSize=3;
+
+    /**
+     * This constructor instantiates the player
+     * @param first This parameter is for define if the player is the first to play or not
+     * @param color This parameter is for define the color of the player
+     * @param nickname This parameter is for define the name of the player
+     */
     public Player(boolean first, String color, String nickname) {
         this.first = first;
         this.color = color;
@@ -35,6 +110,11 @@ public class Player {
         this.damageCounter = 0;
     }
 
+    /**
+     * This method is the run action that can be done in the not frenzy turn
+     * @param destination This parameter is the final destination where the player wanna move
+     * @throws InvalidDestinationException This is exception means the player can't reach tje destination
+     */
     public void run(Square destination) throws InvalidDestinationException {
         if(this.position.calcDist(destination) <= maxRun)
             this.position = destination;
