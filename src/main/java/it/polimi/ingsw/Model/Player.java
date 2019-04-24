@@ -10,6 +10,7 @@ import java.util.ArrayList;
 /**
  *  This class represent one single player
  */
+
 public class Player {
     private int skull, blueAmmo, redAmmo, yellowAmmo, points, damageCounter;
     private ArrayList<Player> damage = new ArrayList<Player>();
@@ -21,7 +22,7 @@ public class Player {
     private Square position, previousPosition;
     private Turn turn;
     int maxRun=3,maxRunFrenzy=4,maxSize=3;
-
+    
     public Player(boolean first, String color, String nickname) {
         this.first = first;
         this.color = color;
