@@ -116,6 +116,10 @@ public class Turn {
         return match;
     }
 
+    public void setMatch(Match match) {
+        this.match = match;
+    }
+
     public Player getCurrent() {
         return current;
     }

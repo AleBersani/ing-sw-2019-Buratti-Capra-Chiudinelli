@@ -126,7 +126,7 @@ public class Player {
     }
 
     public void draw() throws MaxHandSizeException {
-        this.powerUps.add(this.position.getRoom().getBoard().nextPowerUp());
+        this.powerUps.add(getTurn().getMatch().getBoard().nextPowerUp());
         if(this.powerUps.size() > maxSize)
             throw new MaxHandSizeException();
     }
@@ -139,15 +139,15 @@ public class Player {
             }
     }
 
-    public void spawn() {
-    /*    TODO SPAWN
+    public void spawn(){
+        /*
         if(this.position == null)
             draw();
         draw();
-        discard(powerUp);
         this.position=turn.getMatch().getBoard().findSpawnPoint(powerUp.getColor());
-    */
-            }
+        discard(powerUp);
+        */
+    }
 
     public void dead(){
         turn.addDead(this);
