@@ -7,6 +7,9 @@ import it.polimi.ingsw.Model.Map.Square;
 
 import java.util.ArrayList;
 
+/**
+ *  This class represent one single player
+ */
 public class Player {
     private int skull, blueAmmo, redAmmo, yellowAmmo, points, damageCounter;
     private ArrayList<Player> damage = new ArrayList<Player>();
