@@ -8,6 +8,7 @@ import it.polimi.ingsw.Model.Cards.Effects.EffectVsPlayer;
 import it.polimi.ingsw.Model.Cards.Effects.EffectVsRoom;
 import it.polimi.ingsw.Model.Cards.Effects.EffectVsSquare;
 import it.polimi.ingsw.Model.Cards.Effects.MovementEffect;
+import it.polimi.ingsw.Model.Cards.Effects.EffectsVsDirection;
 import it.polimi.ingsw.Model.Cards.PowerUp;
 import it.polimi.ingsw.Model.Cards.Weapon;
 import it.polimi.ingsw.Model.Match;
@@ -186,20 +187,19 @@ public class Board {
         for (i=0; i< jsonObject.getMovementEffects().size();i++) {
             powerUpListTemp.get(i).setEffect(jsonObject.getMovementEffects().get(i));
         }
-        for (; i< jsonObject.getEffectsVsPlayer().size()+jsonObject.getMovementEffects().size();i++) {
-            powerUpListTemp.get(i).setEffect(jsonObject.getMovementEffects().get(i));
+        for (j=0; i< jsonObject.getEffectsVsPlayer().size()+jsonObject.getMovementEffects().size();i++, j++) {
+            powerUpListTemp.get(i).setEffect(jsonObject.getMovementEffects().get(j));
         }
-        for (; i<jsonObject.getEffectsVsRoom().size()+ jsonObject.getEffectsVsPlayer().size()+jsonObject.getMovementEffects().size();i++) {
-            powerUpListTemp.get(i).setEffect(jsonObject.getMovementEffects().get(i));
+        for (j=0; i<jsonObject.getEffectsVsRoom().size()+ jsonObject.getEffectsVsPlayer().size()+jsonObject.getMovementEffects().size();i++, j++) {
+            powerUpListTemp.get(i).setEffect(jsonObject.getMovementEffects().get(j));
         }
-        for (; i<jsonObject.getEffectsVsSquare().size()+ jsonObject.getEffectsVsPlayer().size()+jsonObject.getMovementEffects().size();i++) {
-            powerUpListTemp.get(i).setEffect(jsonObject.getMovementEffects().get(i));
+        for (j=0; i<jsonObject.getEffectsVsSquare().size()+ jsonObject.getEffectsVsPlayer().size()+jsonObject.getMovementEffects().size();i++, j++) {
+            powerUpListTemp.get(i).setEffect(jsonObject.getMovementEffects().get(j));
         }
-        /*
-        for (; i<jsonObject.getEffectsVsDirection().size()+ jsonObject.getEffectsVsPlayer().size()+jsonObject.getMovementEffects().size();i++) {
-            powerUpListTemp.get(i).setEffect(jsonObject.getMovementEffects().get(i));
+        for (j=0; i<jsonObject.getEffectsVsDirection().size()+ jsonObject.getEffectsVsPlayer().size()+jsonObject.getMovementEffects().size();i++, j++) {
+            powerUpListTemp.get(i).setEffect(jsonObject.getMovementEffects().get(j));
         }
-        */
+
         powerUpList=powerUpListTemp;
         if (match!= null) {
             for (Player p : this.match.getPlayers()) {
@@ -215,25 +215,32 @@ public class Board {
         shuffle(powerUpList);
         return;
     }
-    /*
+
     public void reShuffleWeapons(){
         int i;
         String temp;
+        Weapon weapon;
         try {
-            br = new BufferedReader(new FileReader("./resources/Weapon.json"));
+            br = new BufferedReader(new FileReader("./resources/Weapon/WeaponPath.json"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        WeaponGson jsonObject = gSon.fromJson(br, WeaponGson.class);
+        WeaponPathGson jsonObject = gSon.fromJson(br, WeaponPathGson.class);
 
         for (i=0; i< jsonObject.get().size();i++) {
             temp = jsonObject.get().get(i);
-            weaponsList.add(temp);
+            try {
+                br = new BufferedReader(new FileReader(temp));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            weapon= gSon.fromJson(br, Weapon.class);
+            weaponsList.add(weapon);
         }
         shuffle(weaponsList);
         return;
     }
-    */
+
 
     public Square findSpawnPoint(String color) throws NotFoundException {
         int i,j;
@@ -268,7 +275,7 @@ public class Board {
         }
 
     }
-    private class WeaponGson{
+    private class WeaponPathGson{
         private ArrayList<String> weaponPath = new ArrayList<>();
 
         public ArrayList<String> get(){
@@ -283,7 +290,7 @@ public class Board {
         private ArrayList<EffectVsPlayer> effectsVsPlayer=new ArrayList<>();
         private ArrayList<EffectVsRoom> effectsVsRoom=new ArrayList<>();
         private ArrayList<EffectVsSquare> effectsVsSquare= new ArrayList<>();
-        //private ArrayList<EffectVsDirection> effectsVsDirection= new ArrayList<>();
+        private ArrayList<EffectsVsDirection> effectsVsDirection= new ArrayList<>();
        private class PseudoPowerUp{
            String color, name;
         }
@@ -307,16 +314,16 @@ public class Board {
         public ArrayList<EffectVsSquare> getEffectsVsSquare() {
             return effectsVsSquare;
         }
-        /*
-        public ArrayList<EffectVsDirection> getEffectsVsDirection() {
+
+        public ArrayList<EffectsVsDirection> getEffectsVsDirection() {
             return effectsVsDirection;
         }
-        */
+
     }
 
     private void shuffle( ArrayList deck){
         int i,n;
-        for (i=0; i<deck.size();i++){
+        for (i=0; i<deck.size()*2;i++){
             n=random.nextInt(deck.size());
             deck.add(deck.get(n));
             deck.remove(deck.get(n));

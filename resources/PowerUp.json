@@ -1,14 +1,114 @@
 {
   "pseudo": [
 
-      {
-        "color": "red",
-        "name": "teleport"
-      },
-      { "color": "red",
-        "name": "teleport"
-      }
+    {
+      "color": "red",
+      "name": "teleporter"
+    },
+    { "color": "red",
+      "name": "teleporter"
+    },
 
+    {
+      "color": "yellow",
+      "name": "teleporter"
+    },
+    { "color": "yellow",
+      "name": "teleporter"
+    },
+
+    {
+      "color": "blue",
+      "name": "teleporter"
+    },
+    { "color": "blue",
+      "name": "teleporter"
+    },
+
+
+
+    {
+      "color": "red",
+      "name": "newton"
+    },
+    {
+      "color": "red",
+      "name": "newton"
+    },
+
+    {
+      "color": "yellow",
+      "name": "newton"
+    },
+    {
+      "color": "yellow",
+      "name": "newton"
+    },
+
+    {
+      "color": "blue",
+      "name": "newton"
+    },
+    {
+      "color": "blue",
+      "name": "newton"
+    },
+
+
+    {
+      "color": "red",
+      "name": "tagback grenade"
+    },
+    {
+      "color": "red",
+      "name": "tagback grenade"
+    },
+
+    {
+      "color": "yellow",
+      "name": "tagback grenade"
+    },
+    {
+      "color": "yellow",
+      "name": "tagback grenade"
+    },
+
+    {
+      "color": "blue",
+      "name": "tagback grenade"
+    },
+    {
+      "color": "blue",
+      "name": "tagback grenade"
+    },
+
+
+    {
+      "color": "red",
+      "name": "targeting scope"
+    },
+    {
+      "color": "red",
+      "name": "targeting scope"
+    },
+
+    {
+      "color": "yellow",
+      "name": "targeting scope"
+    },
+    {
+      "color": "yellow",
+      "name": "targeting scope"
+    },
+
+    {
+      "color": "blue",
+      "name": "targeting scope"
+    },
+    {
+      "color": "blue",
+      "name": "targeting scope"
+    }
   ],
 
   "movementEffects": [
@@ -20,12 +120,256 @@
       "constraintPositivity": [],
       "distance": 2147483647,
       "linear": false
+    },
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "teleport",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2147483647,
+      "linear": false
+    },
+
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "teleport",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2147483647,
+      "linear": false
+    },
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "teleport",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2147483647,
+      "linear": false
+    },
+
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "teleport",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2147483647,
+      "linear": false
+    },
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "teleport",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2147483647,
+      "linear": false
+    },
+
+
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "newton",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2,
+      "linear": true
+    },
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "newton",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2,
+      "linear": true
+    },
+
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "newton",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2,
+      "linear": true
+    },
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "newton",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2,
+      "linear": true
+    },
+
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "newton",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2,
+      "linear": true
+    },
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "newton",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2,
+      "linear": true
     }
 
   ],
   "effectsVsPlayer": [
+    {"costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "tagback grenade",
+      "constraints": [],
+      "constraintPositivity": [],
+      "damage": 0,
+      "mark": 1,
+      "addToList": false,
+      "removeFromList": false
+    },
+    {"costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "tagback grenade",
+      "constraints": [],
+      "constraintPositivity": [],
+      "damage": 0,
+      "mark": 1,
+      "addToList": false,
+      "removeFromList": false
+    },
+
+    {"costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "tagback grenade",
+      "constraints": [],
+      "constraintPositivity": [],
+      "damage": 0,
+      "mark": 1,
+      "addToList": false,
+      "removeFromList": false
+    },
+    {"costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "tagback grenade",
+      "constraints": [],
+      "constraintPositivity": [],
+      "damage": 0,
+      "mark": 1,
+      "addToList": false,
+      "removeFromList": false
+    },
+
+    {"costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "tagback grenade",
+      "constraints": [],
+      "constraintPositivity": [],
+      "damage": 0,
+      "mark": 1,
+      "addToList": false,
+      "removeFromList": false
+    },
+    {"costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "tagback grenade",
+      "constraints": [],
+      "constraintPositivity": [],
+      "damage": 0,
+      "mark": 1,
+      "addToList": false,
+      "removeFromList": false
+    },
+
+
+    {"costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "targeting scope",
+      "constraints": [],
+      "constraintPositivity": [],
+      "damage": 1,
+      "mark": 0,
+      "addToList": false,
+      "removeFromList": false
+    },
+    {"costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "targeting scope",
+      "constraints": [],
+      "constraintPositivity": [],
+      "damage": 1,
+      "mark": 0,
+      "addToList": false,
+      "removeFromList": false
+    },
+
+    {"costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "targeting scope",
+      "constraints": [],
+      "constraintPositivity": [],
+      "damage": 1,
+      "mark": 0,
+      "addToList": false,
+      "removeFromList": false
+    },
+    {"costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "targeting scope",
+      "constraints": [],
+      "constraintPositivity": [],
+      "damage": 1,
+      "mark": 0,
+      "addToList": false,
+      "removeFromList": false
+    },
+
+    {"costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "targeting scope",
+      "constraints": [],
+      "constraintPositivity": [],
+      "damage": 1,
+      "mark": 0,
+      "addToList": false,
+      "removeFromList": false
+    },
+    {"costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "targeting scope",
+      "constraints": [],
+      "constraintPositivity": [],
+      "damage": 1,
+      "mark": 0,
+      "addToList": false,
+      "removeFromList": false
+    }
 
   ],
   "effectsVsRoom": [],
-  "effectsVsSquare": []
+  "effectsVsSquare": [],
+  "effectsVsDirection": []
 }
