@@ -4,13 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.Exception.NotFoundException;
+import it.polimi.ingsw.Model.Cards.*;
 import it.polimi.ingsw.Model.Cards.Effects.EffectVsPlayer;
 import it.polimi.ingsw.Model.Cards.Effects.EffectVsRoom;
 import it.polimi.ingsw.Model.Cards.Effects.EffectVsSquare;
 import it.polimi.ingsw.Model.Cards.Effects.MovementEffect;
 import it.polimi.ingsw.Model.Cards.Effects.EffectsVsDirection;
-import it.polimi.ingsw.Model.Cards.PowerUp;
-import it.polimi.ingsw.Model.Cards.Weapon;
 import it.polimi.ingsw.Model.Match;
 import it.polimi.ingsw.Model.Player;
 
@@ -227,16 +226,39 @@ public class Board {
         }
         WeaponPathGson jsonObject = gSon.fromJson(br, WeaponPathGson.class);
 
-        for (i=0; i< jsonObject.get().size();i++) {
-            temp = jsonObject.get().get(i);
+        for (i=0; i< jsonObject.getBase().size();i++) {
+            temp = jsonObject.getBase().get(i);
             try {
                 br = new BufferedReader(new FileReader(temp));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            weapon= gSon.fromJson(br, Weapon.class);
+            weapon= gSon.fromJson(br, WeaponBase.class);
             weaponsList.add(weapon);
         }
+
+        for (i=0; i< jsonObject.getAlternative().size();i++) {
+            temp = jsonObject.getAlternative().get(i);
+            try {
+                br = new BufferedReader(new FileReader(temp));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            weapon= gSon.fromJson(br, WeaponAlternative.class);
+            weaponsList.add(weapon);
+        }
+
+        for (i=0; i< jsonObject.getOptional().size();i++) {
+            temp = jsonObject.getOptional().get(i);
+            try {
+                br = new BufferedReader(new FileReader(temp));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            weapon= gSon.fromJson(br, WeaponOptional.class);
+            weaponsList.add(weapon);
+        }
+
         shuffle(weaponsList);
         return;
     }
@@ -262,11 +284,6 @@ public class Board {
         return rooms;
     }
 
-    public void setRooms(ArrayList<Room> rooms) {
-        this.rooms = rooms;
-    }
-
-
     private class AmmoGson{
         private ArrayList<AmmoTile> elements = new ArrayList<>();
 
@@ -276,10 +293,18 @@ public class Board {
 
     }
     private class WeaponPathGson{
-        private ArrayList<String> weaponPath = new ArrayList<>();
+        private ArrayList<String> weaponPathBase = new ArrayList<>();
+        private ArrayList<String> weaponPathAlternative = new ArrayList<>();
+        private ArrayList<String> weaponPathOptional = new ArrayList<>();
 
-        public ArrayList<String> get(){
-            return weaponPath;
+        public ArrayList<String> getBase(){
+            return weaponPathBase;
+        }
+        public ArrayList<String> getAlternative(){
+            return weaponPathAlternative;
+        }
+        public ArrayList<String> getOptional(){
+            return weaponPathOptional;
         }
 
     }

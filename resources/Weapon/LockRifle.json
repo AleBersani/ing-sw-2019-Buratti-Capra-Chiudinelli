@@ -1,0 +1,11 @@
+{
+  "color": "blue",
+  "name": "Lock rifle",
+  "costBlue": 2,
+  "costRed": 0,
+  "costYellow": 0,
+  "load": true,
+  "effect": [],
+  "previousTarget": [],
+  "owner": {}
+}
