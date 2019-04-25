@@ -8,7 +8,7 @@ import it.polimi.ingsw.Model.Map.Square;
 import java.util.ArrayList;
 
 /**
- * This class represent one single player
+ * This class represents one single player
  */
 public class Player {
     /**
@@ -36,27 +36,27 @@ public class Player {
      */
     private int damageCounter;
     /**
-     * This attribute is the list of damage from the other players
+     * This attribute is the damage list where there are the damages from other players
      */
     private ArrayList<Player> damage = new ArrayList<Player>();
     /**
-     * This attribute is the list of mark from the other players
+     * This attribute is the list of marks from the other players
      */
     private ArrayList<Player> mark = new ArrayList<Player>();
     /**
-     * This attribute is the list of power up the player has
+     * This attribute is the list of power ups the player has
      */
     private ArrayList<PowerUp> powerUps= new ArrayList<PowerUp>();
     /**
-     * This attribute is the list of weapon the player has
+     * This attribute is the list of weapons the player has
      */
     private ArrayList<Weapon> weapons= new ArrayList<Weapon>();
     /**
-     * This attribute indicates if it is the first player of all others
+     * This attribute indicates if the player moves first
      */
     private boolean first;
     /**
-     * This attribute indicates if the player made the last kill
+     * This attribute indicates if the player killed as last
      */
     private boolean lastKill;
     /**
@@ -80,23 +80,23 @@ public class Player {
      */
     private Turn turn;
     /**
-     * This constant is for the maximum movement that can be done to run during a not frenzy turn
+     * This constant represents the maximum movement that can be done to run during a not frenzy turn
      */
     int maxRun=3;
     /**
-     * This constant is for the maximum movement that can be done to run during a frenzy turn
+     * This constant represents the maximum movement that can be done to run during a frenzy turn
      */
     int maxRunFrenzy=4;
     /**
-     * This constant is for the maximum quantity of type of ammo,weapons and power ups
+     * This constant represents the maximum quantity of type of ammo,weapons and power ups
      */
     int maxSize=3;
 
     /**
      * This constructor instantiates the player
-     * @param first This parameter is for define if the player is the first to play or not
-     * @param color This parameter is for define the color of the player
-     * @param nickname This parameter is for define the name of the player
+     * @param first This parameter defines if the player is the first to play or not
+     * @param color This parameter defines the color of the player
+     * @param nickname This parameter defines the name of the player
      */
     public Player(boolean first, String color, String nickname) {
         this.first = first;
@@ -111,9 +111,9 @@ public class Player {
     }
 
     /**
-     * This method is the run action that can be done in the not frenzy turn
-     * @param destination This parameter is the final destination where the player wanna move
-     * @throws InvalidDestinationException This is exception means the player can't reach tje destination
+     * This method is the run action that can be done in a not-frenzy turn
+     * @param destination This parameter is the final destination where the player wants to move
+     * @throws InvalidDestinationException This exception means that the player can't reach the destination
      */
     public void run(Square destination) throws InvalidDestinationException {
         if(this.position.calcDist(destination) <= maxRun)
@@ -123,6 +123,14 @@ public class Player {
         this.turn.setActionCounter((this.turn.getActionCounter()+1));
     }
 
+    /**
+     * This method is the grab action that can be done in a not-frenzy turn
+     * @param destination This parameter is the final destination where the player wants to move to grab the ammo or the weapon
+     * @throws MaxHandSizeException This exception means that the player has already reached the maximum number of cards in a hand
+     * @throws NoAmmoException This exception means that the player doesn't have the ammo to pay the weapon cost
+     * @throws MaxHandWeaponSizeException This exception means that the player has already reached the maximum number of weapons in a hand
+     * @throws InvalidDestinationException This exception means that the player can't reach the destination
+     */
     public void grab(Square destination) throws MaxHandSizeException, NoAmmoException, MaxHandWeaponSizeException, InvalidDestinationException {
         int i=0,j=0; //TODO CONTROL CHOOSE
         if(this.position.calcDist(destination) <= 1+isOnAdrenalineGrab()) {
@@ -163,7 +171,16 @@ public class Player {
         this.turn.setActionCounter((this.turn.getActionCounter()+1));
     }
 
-    public void shoot(Weapon weapon,Square destination,TargetParameter target) throws NotLoadedException, InvalidDestinationException, InvalidTargetExcepion {
+    /**
+     * This method define the shoot action that the player can do on a not-frenzy turn
+     * @param weapon This parameter indicates the weapon that the player has chosen to fire with
+     * @param destination This parameter indicates the final destination that the player wants to reach for fire
+     * @param target This parameter indicates the target (Room,Squares,Players) of the shoot action
+     * @throws NotLoadedException This exception means the weapon is not loaded
+     * @throws InvalidDestinationException This exception means that the player can't reach the chosen destination
+     * @throws InvalidTargetException This exception means that there are no valid target chosen
+     */
+    public void shoot(Weapon weapon,Square destination,TargetParameter target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
         if(isOnAdrenalineShoot()==1)
             if(this.position.calcDist(destination) <= 1)
                 this.position = destination;
@@ -176,11 +193,12 @@ public class Player {
         this.turn.setActionCounter((this.turn.getActionCounter()+1));
     }
 
-    public void usePowerUp(PowerUp powerUp, TargetParameter target) throws InvalidTargetExcepion {
+    public void usePowerUp(PowerUp powerUp, TargetParameter target) throws InvalidTargetException {
         for(int i=0;i<this.powerUps.size();i++)
             if(this.powerUps.contains(powerUp)) {
                 this.powerUps.get(i).useEffect(target);
                 discard(powerUp);
+                return;
             }
     }
 
@@ -274,7 +292,7 @@ public class Player {
         this.turn.setActionCounter((this.turn.getActionCounter()+1));
     }
 
-    public void shootFrenzy(Weapon weaponShoot,Weapon weaponReload,Square destination,TargetParameter target) throws NotLoadedException, InvalidDestinationException, InvalidTargetExcepion {
+    public void shootFrenzy(Weapon weaponShoot,Weapon weaponReload,Square destination,TargetParameter target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
         if (this.position.calcDist(destination) <= 1+onlyFrenzyAction()) {
             this.position = destination;
             try {

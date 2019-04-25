@@ -105,7 +105,7 @@ public class Board {
 
     public Weapon nextWeapon(){
         Weapon w;
-        if (weaponsList.size()>=0) {
+        if (weaponsList.size()>0) {
             w = weaponsList.get(weaponsList.size()-1);
             weaponsList.remove(weaponsList.size()-1);
             return w;

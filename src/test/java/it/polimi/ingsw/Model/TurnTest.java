@@ -24,8 +24,8 @@ class TurnTest {
         loser = new Player(false,"yellow", "Paola");
         playerList = new ArrayList<Player>(Arrays.asList(guest,test,loser));
         testMatch = new Match(playerList,3,5,true,"normal");
-        turn = new Turn(null,false,test,testMatch);
-        board = new Board(null, "./resources/Board/Board1.json");
+        turn = new Turn(guest,false,test,testMatch);
+        board = new Board(testMatch, "./resources/Board/Board1.json");
         damageList = new ArrayList<Player>(Arrays.asList(test,guest,guest,guest,guest,guest,guest,test,test,test,test));
         damageList2 = new ArrayList<Player>(Arrays.asList(guest,guest,guest,guest,guest,guest,guest,test,test,test,test));
         damageList3 = new ArrayList<Player>(Arrays.asList(test,loser,loser,loser,test,test,test,test,test,test,test,test));
@@ -38,16 +38,17 @@ class TurnTest {
         turn.addDead(guest);
         assertEquals(2,turn.getDeads().size());
     }
-    /* TODO REVIEW
+
     @Test
     void testEndTurn() {
         turn.setMatch(testMatch);
+        testMatch.setBoard(board);
         turn.endTurn();
         for(int i=0;i<this.turn.getMatch().getBoard().getRooms().size();i++)
             for(int j=0;j<this.turn.getMatch().getBoard().getRooms().get(i).getSquares().size();j++)
                 assertEquals(false,this.turn.getMatch().getBoard().getRooms().get(i).getSquares().get(j).require());
     }
-    */
+
     @Test
     public void testSetPoint() {
         loser.setDamage(damageList);

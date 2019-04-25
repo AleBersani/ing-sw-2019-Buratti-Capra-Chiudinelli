@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Model.Cards;
 
-import it.polimi.ingsw.Exception.InvalidTargetExcepion;
+import it.polimi.ingsw.Exception.InvalidTargetException;
 import it.polimi.ingsw.Model.Cards.Effects.Effect;
 import it.polimi.ingsw.Model.TargetParameter;
 
@@ -13,7 +13,7 @@ public class PowerUp {
         this.name = name;
     }
 
-    public void useEffect(TargetParameter target) throws InvalidTargetExcepion {
+    public void useEffect(TargetParameter target) throws InvalidTargetException {
         effect.apply(target);
     }
 

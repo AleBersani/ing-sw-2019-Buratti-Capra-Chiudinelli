@@ -109,6 +109,10 @@ public class Match {
         return board;
     }
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
     public Turn getTurn() {
         return turn;
     }

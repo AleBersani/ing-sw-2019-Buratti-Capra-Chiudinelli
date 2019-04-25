@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Model.Cards.Effects;
 
-import it.polimi.ingsw.Exception.InvalidTargetExcepion;
+import it.polimi.ingsw.Exception.InvalidTargetException;
 import it.polimi.ingsw.Model.Cards.Constraints.Constraint;
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
@@ -28,21 +28,21 @@ public class MovementEffect extends Effect {
     }
 
     @Override
-    public void apply(TargetParameter target) throws InvalidTargetExcepion {
+    public void apply(TargetParameter target) throws InvalidTargetException {
 
         if(target.getEnemyPlayer().getPosition().calcDist(target.getMovement())>this.distance){
-            throw new InvalidTargetExcepion();
+            throw new InvalidTargetException();
         }
 
         if(linear){
             if((target.getEnemyPlayer().getPosition().getX()!=target.getMovement().getX())&&(target.getEnemyPlayer().getPosition().getY()!=target.getMovement().getY())){
-                throw new InvalidTargetExcepion();
+                throw new InvalidTargetException();
             }
             //TODO Casi strani
         }
 
         if(!constraintsCheck(target)){
-            throw new InvalidTargetExcepion();
+            throw new InvalidTargetException();
         }
         else{
             target.getEnemyPlayer().setPreviousPosition(target.getEnemyPlayer().getPosition());
