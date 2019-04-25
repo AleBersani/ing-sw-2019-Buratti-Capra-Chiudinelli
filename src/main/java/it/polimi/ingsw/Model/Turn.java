@@ -36,20 +36,20 @@ public class Turn {
                 while(getMatch().getBoard().getRooms().get(i).getSquares().get(j).require())
                     getMatch().getBoard().getRooms().get(i).getSquares().get(j).generate();
         if(this.dead)
-            setPoints();
+            setPoint();
         if((!getMatch().isFrenzyEn() && getMatch().getSkulls()==0 )||(getMatch().isFrenzyEn() && this.frenzy && this.current.isLastKill()))
             getMatch().endGame();
         else
             getMatch().startTurn();
     }
 
-    public void setPoints() {
+    public void setPoint() {
         ArrayList<Player> damagePlayer = new ArrayList<>();
         ArrayList<Integer> damageCounter = new ArrayList<>();
         int i,j,k,index,max;
         boolean found;
 
-        if(this.deads.size()>=2)        //DOUBLE KILL
+        if(this.deads.size()>=2)        //DOUBLE, TRIPLE, QUADRA KILL
            this.deads.get(0).getDamage().get(10).setPoints(this.deads.get(0).getDamage().get(10).getPoints() + 1);
 
         for(i=0;i<this.deads.size();i++) {
@@ -66,15 +66,15 @@ public class Turn {
                 }
             }
 
-            //getMatch().getKillShotTrack().add(this.deads.get(i).getDamage().get(10));
-            if(this.deads.get(i).getDamage().get(10)==this.deads.get(i).getDamage().get(11)) {
+            getMatch().getKillShotTrack().add(this.deads.get(i).getDamage().get(10));
+            if(this.deads.get(i).getDamage().size()==12 && this.deads.get(i).getDamage().get(10)==this.deads.get(i).getDamage().get(11)) {
                 getMatch().getKillShotTrack().add(this.deads.get(i).getDamage().get(11));
                 this.deads.get(i).getDamage().get(11).marked(1,this.deads.get(i));
             }
 
             this.deads.get(i).getDamage().get(0).setPoints(this.deads.get(i).getDamage().get(0).getPoints() + 1); //FIRSTBLOOD
 
-            for(k=0;!damagePlayer.isEmpty();k++) {    // SET POINT FOR ALL DAMAGER
+            for(k=0;!damagePlayer.isEmpty();k++) {// SET POINT FOR ALL DAMAGER
                 for (j = 0,max=0,index=0;j<damageCounter.size();j++)
                     if (damageCounter.get(j) > max) {
                         max = damageCounter.get(j);
@@ -86,7 +86,7 @@ public class Turn {
             }
 
             this.deads.get(i).setSkull(this.deads.get(i).getSkull() + 1);
-            //getMatch().setSkulls(getMatch().getSkulls()-1);
+            getMatch().setSkulls(getMatch().getSkulls()-1);
         }
 
         for(i=0;!this.deads.isEmpty();) {
@@ -114,6 +114,10 @@ public class Turn {
 
     public Match getMatch() {
         return match;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
     }
 
     public Player getCurrent() {

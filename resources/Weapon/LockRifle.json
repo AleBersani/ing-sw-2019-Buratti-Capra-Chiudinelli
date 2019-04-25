@@ -1,0 +1,52 @@
+{
+  "color": "blue",
+  "name": "Lock rifle",
+  "costBlue": 2,
+  "costRed": 0,
+  "costYellow": 0,
+  "load": true,
+  "effect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Effect",
+      "constraints": [
+        {
+          "type": "See"
+        }
+      ],
+      "constraintPositivity": [true],
+      "damage": 2,
+      "mark": 1,
+      "addToList": true,
+      "removeFromList": false
+    }
+
+
+  ],
+  "previousTarget": [],
+  "owner": null,
+  "optionalEffect": [
+    [
+      {
+        "type": "EffectVsPlayer",
+        "costBlue": 0,
+        "costRed": 1,
+        "costYellow": 0,
+        "name": "with second lock",
+        "constraints": [
+          {
+            "type": "See"
+          }
+        ],
+        "constraintPositivity": [true],
+        "damage": 0,
+        "mark": 1,
+        "addToList": false,
+        "removeFromList": true
+      }
+    ]
+  ]
+}
