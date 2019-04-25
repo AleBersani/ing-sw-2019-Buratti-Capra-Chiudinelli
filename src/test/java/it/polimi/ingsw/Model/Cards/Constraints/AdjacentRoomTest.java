@@ -2,61 +2,57 @@ package it.polimi.ingsw.Model.Cards.Constraints;
 
 import it.polimi.ingsw.Exception.NotFoundException;
 import it.polimi.ingsw.Model.Map.Board;
-import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.TargetParameter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class SameRoomTest {
-    Square enemySquare;
+class AdjacentRoomTest {
+    AdjacentRoom test;
     Player owner;
     Board board;
-    SameRoom test;
     TargetParameter target;
 
     @BeforeEach
     public void setup(){
         board = new Board(null,"./resources/Board/Board1.json");
         owner = new Player(true,"Yellow","Bruno");
-        test = new SameRoom();
+        test = new AdjacentRoom();
         target = new TargetParameter(null,owner,null,null,null);
     }
 
     @Test
-    public void sameRoomTest(){
+    void nearRoom(){
         try {
-            owner.setPosition(board.find(1,1));
+            owner.setPosition(board.find(1,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-
-        try {
-            enemySquare = board.find(1,1);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        target.setTargetRoom(enemySquare.getRoom());
+        target.setTargetRoom(board.getRooms().get(0));
         assertEquals(true,test.canShoot(target));
     }
 
     @Test
-    public void notSameRoomTest(){
+    void notNearRoom(){
+        try {
+            owner.setPosition(board.find(2,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        target.setTargetRoom(board.getRooms().get(0));
+        assertEquals(false,test.canShoot(target));
+    }
+
+    @Test
+    void inMyRoom(){
         try {
             owner.setPosition(board.find(1,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        try {
-            enemySquare = board.find(3,3);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        target.setTargetRoom(enemySquare.getRoom());
+        target.setTargetRoom(board.getRooms().get(0));
         assertEquals(false,test.canShoot(target));
     }
 }
