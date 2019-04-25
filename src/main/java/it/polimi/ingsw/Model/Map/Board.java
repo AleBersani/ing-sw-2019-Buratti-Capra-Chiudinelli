@@ -415,9 +415,9 @@ public class Board {
                     case "SameDirection":
                         return context.deserialize(jsonObject,
                                 SameDirection.class);
-                    case "SameRoom":
+                    case "AdjacentRoom":
                         return context.deserialize(jsonObject,
-                                SameRoom.class);
+                                AdjacentRoom.class);
                     case "SameSquare":
                         return context.deserialize(jsonObject,
                                 SameSquare.class);
