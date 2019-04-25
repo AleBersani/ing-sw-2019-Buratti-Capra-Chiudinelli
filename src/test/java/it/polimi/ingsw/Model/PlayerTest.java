@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exception.InvalidDestinationException;
-import it.polimi.ingsw.Exception.InvalidTargetExcepion;
+import it.polimi.ingsw.Exception.InvalidTargetException;
 import it.polimi.ingsw.Exception.MaxHandSizeException;
 import it.polimi.ingsw.Exception.NotFoundException;
 import it.polimi.ingsw.Model.Cards.PowerUp;

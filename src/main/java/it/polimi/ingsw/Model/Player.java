@@ -178,7 +178,7 @@ public class Player {
      * @param target This parameter indicates the target (Room,Squares,Players) of the shoot action
      * @throws NotLoadedException This exception means the weapon is not loaded
      * @throws InvalidDestinationException This exception means that the player can't reach the chosen destination
-     * @throws InvalidTargetException This exception means that there are no valid target chosen
+     * @throws InvalidTargetException This exception means that there are is no valid target chosen
      */
     public void shoot(Weapon weapon,Square destination,TargetParameter target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
         if(isOnAdrenalineShoot()==1)
@@ -193,6 +193,12 @@ public class Player {
         this.turn.setActionCounter((this.turn.getActionCounter()+1));
     }
 
+    /**
+     * This method is the power up use action
+     * @param powerUp This parameter is the selected power up to be used
+     * @param target This parameter is the target of the power up effect
+     * @throws InvalidTargetException This exception means that there is no valid targets chosen
+     */
     public void usePowerUp(PowerUp powerUp, TargetParameter target) throws InvalidTargetException {
         for(int i=0;i<this.powerUps.size();i++)
             if(this.powerUps.contains(powerUp)) {
@@ -202,6 +208,11 @@ public class Player {
             }
     }
 
+    /**
+     * This method allows to answer if the player can see another target player
+     * @param target This parameter is the target player
+     * @return true is the player can see the target player, false in the other case.
+     */
     public boolean canSee(Player target){
         int i;
         if(this.position.getRoom() == target.position.getRoom())

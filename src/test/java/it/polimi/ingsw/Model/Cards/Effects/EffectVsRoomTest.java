@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Model.Cards.Effects;
 
-import it.polimi.ingsw.Exception.InvalidTargetExcepion;
+import it.polimi.ingsw.Exception.InvalidTargetException;
 import it.polimi.ingsw.Exception.NotFoundException;
 import it.polimi.ingsw.Model.Cards.Constraints.AdjacentRoom;
 import it.polimi.ingsw.Model.Cards.Constraints.Constraint;
@@ -70,8 +70,8 @@ class EffectVsRoomTest {
 
         try {
             test.apply(target);
-        } catch (InvalidTargetExcepion invalidTargetExcepion) {
-            invalidTargetExcepion.printStackTrace();
+        } catch (InvalidTargetException invalidTargetException) {
+            invalidTargetException.printStackTrace();
         }
         assertEquals(1, enemy.getDamageCounter());
         assertEquals(target.getOwner(),enemy.getDamage().get(0));
