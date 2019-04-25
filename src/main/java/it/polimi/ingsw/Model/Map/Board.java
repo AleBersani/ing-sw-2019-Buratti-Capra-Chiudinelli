@@ -1,21 +1,17 @@
 package it.polimi.ingsw.Model.Map;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import it.polimi.ingsw.Exception.NotFoundException;
+import it.polimi.ingsw.Model.Cards.Constraints.*;
+import it.polimi.ingsw.Model.Cards.Effects.*;
 import it.polimi.ingsw.Model.Cards.*;
-import it.polimi.ingsw.Model.Cards.Effects.EffectVsPlayer;
-import it.polimi.ingsw.Model.Cards.Effects.EffectVsRoom;
-import it.polimi.ingsw.Model.Cards.Effects.EffectVsSquare;
-import it.polimi.ingsw.Model.Cards.Effects.MovementEffect;
-import it.polimi.ingsw.Model.Cards.Effects.EffectsVsDirection;
 import it.polimi.ingsw.Model.Match;
 import it.polimi.ingsw.Model.Player;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -110,8 +106,8 @@ public class Board {
     public Weapon nextWeapon(){
         Weapon w;
         if (weaponsList.size()>=0) {
-            w = weaponsList.get(weaponsList.size());
-            weaponsList.remove(weaponsList.size());
+            w = weaponsList.get(weaponsList.size()-1);
+            weaponsList.remove(weaponsList.size()-1);
             return w;
         }
         return null;
@@ -120,16 +116,16 @@ public class Board {
 
     public AmmoTile nextAmmo(){
         AmmoTile a;
-        a= ammoList.get(ammoList.size());
-        ammoList.remove(ammoList.size());
+        a= ammoList.get(ammoList.size()-1);
+        ammoList.remove(ammoList.size()-1);
         return a;
     }
 
 
     public PowerUp nextPowerUp(){
         PowerUp p;
-        p= powerUpList.get(powerUpList.size());
-        powerUpList.remove(powerUpList.size());
+        p= powerUpList.get(powerUpList.size()-1);
+        powerUpList.remove(powerUpList.size()-1);
         return p;
     }
 
@@ -226,6 +222,11 @@ public class Board {
         }
         WeaponPathGson jsonObject = gSon.fromJson(br, WeaponPathGson.class);
 
+        gSon = new GsonBuilder()
+                .registerTypeAdapter(Effect.class, new EffectDeserializer())
+                .registerTypeAdapter(Constraint.class, new ConstraintDeserializer())
+                .create();
+
         for (i=0; i< jsonObject.getBase().size();i++) {
             temp = jsonObject.getBase().get(i);
             try {
@@ -316,7 +317,7 @@ public class Board {
         private ArrayList<EffectVsRoom> effectsVsRoom=new ArrayList<>();
         private ArrayList<EffectVsSquare> effectsVsSquare= new ArrayList<>();
         private ArrayList<EffectsVsDirection> effectsVsDirection= new ArrayList<>();
-       private class PseudoPowerUp{
+        private class PseudoPowerUp{
            String color, name;
         }
 
@@ -358,5 +359,74 @@ public class Board {
 
     public ArrayList<AmmoTile> getAmmoList() {
         return ammoList;
+    }
+
+
+    private class EffectDeserializer implements JsonDeserializer<Effect> {
+        @Override
+        public Effect deserialize(JsonElement json, Type typeOfT,
+                                 JsonDeserializationContext context)
+                throws JsonParseException {
+            JsonObject jsonObject = json.getAsJsonObject();
+            JsonElement type = jsonObject.get("type");
+            if (type != null) {
+                switch (type.getAsString()) {
+                    case "MovementEffect":
+                        return context.deserialize(jsonObject,
+                                MovementEffect.class);
+                    case "EffectVsPlayer":
+                        return context.deserialize(jsonObject,
+                                EffectVsPlayer.class);
+                    case "EffectVsSquare":
+                        return context.deserialize(jsonObject,
+                                EffectVsSquare.class);
+                    case "EffectVsRoom":
+                        return context.deserialize(jsonObject,
+                                EffectVsRoom.class);
+                    case "EffectVsDirection":
+                        return context.deserialize(jsonObject,
+                                EffectsVsDirection.class);
+                }
+            }
+            return null;
+        }
+    }
+    private class ConstraintDeserializer implements JsonDeserializer<Constraint> {
+        @Override
+        public Constraint deserialize(JsonElement json, Type typeOfT,
+                                  JsonDeserializationContext context)
+                throws JsonParseException {
+            JsonObject jsonObject = json.getAsJsonObject();
+            JsonElement type = jsonObject.get("type");
+            if (type != null) {
+                switch (type.getAsString()) {
+                    case "MaximumDistance":
+                        return context.deserialize(jsonObject,
+                                MaximumDistance.class);
+                    case "MinimumDistance":
+                        return context.deserialize(jsonObject,
+                                MinimumDistance.class);
+                    case "NotSameSquare":
+                        return context.deserialize(jsonObject,
+                                NotSameSquare.class);
+                    case "NotSee":
+                        return context.deserialize(jsonObject,
+                                NotSee.class);
+                    case "SameDirection":
+                        return context.deserialize(jsonObject,
+                                SameDirection.class);
+                    case "SameRoom":
+                        return context.deserialize(jsonObject,
+                                SameRoom.class);
+                    case "SameSquare":
+                        return context.deserialize(jsonObject,
+                                SameSquare.class);
+                    case "See":
+                        return context.deserialize(jsonObject,
+                                See.class);
+                }
+            }
+            return null;
+        }
     }
 }
