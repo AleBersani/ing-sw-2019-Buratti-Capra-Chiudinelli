@@ -1,9 +1,9 @@
 {
   "color": "blue",
-  "name": "Lock rifle",
-  "costBlue": 2,
+  "name": "Plasma Gun",
+  "costBlue": 1,
   "costRed": 0,
-  "costYellow": 0,
+  "costYellow": 1,
   "load": true,
   "effect": [
     {
@@ -18,11 +18,10 @@
         }
       ],
       "damage": 2,
-      "mark": 1,
+      "mark": 0,
       "addToList": true,
       "removeFromList": false
     }
-
 
   ],
   "previousTarget": [],
@@ -30,18 +29,34 @@
   "optionalEffect": [
     [
       {
-        "type": "EffectVsPlayer",
+        "type": "MovementPlayer",
         "costBlue": 0,
-        "costRed": 1,
+        "costRed": 0,
         "costYellow": 0,
-        "name": "with second lock",
+        "name": "with phase glide",
+        "constraints": [
+          {
+
+          }
+        ],
+        "distance": 2,
+        "linear": false
+      }
+    ],
+    [
+      {
+        "type": "EffectVsPlayer",
+        "costBlue": 1,
+        "costRed": 0,
+        "costYellow": 0,
+        "name": "with charged shot",
         "constraints": [
           {
             "type": "See"
           }
         ],
-        "damage": 0,
-        "mark": 1,
+        "damage": 1,
+        "mark": 0,
         "addToList": false,
         "removeFromList": false
       }
