@@ -15,23 +15,24 @@ public abstract class Effect {
     private int costYellow;
     private String name;
     private ArrayList<Constraint> constraints= new ArrayList<Constraint>();
-    private ArrayList<Boolean> constraintPositivity= new ArrayList<Boolean>();
 
-    public Effect(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints, ArrayList<Boolean> constraintPositivity) {
+    public Effect(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints) {
         this.costBlue = costBlue;
         this.costRed = costRed;
         this.costYellow = costYellow;
         this.name = name;
         this.constraints = constraints;
-        this.constraintPositivity = constraintPositivity;
     }
 
     abstract public void apply(TargetParameter target) throws InvalidTargetException;
 
     public boolean constraintsCheck(TargetParameter target){
         int i;
+        if(constraints.isEmpty()){
+            return true;
+        }
         for(i=0;i<constraints.size();i++){
-            if(constraints.get(i).canShoot(target) !=constraintPositivity.get(i)){
+            if(!constraints.get(i).canShoot(target)){
                 return false;
             }
         }
@@ -58,7 +59,4 @@ public abstract class Effect {
         return constraints;
     }
 
-    public ArrayList<Boolean> getConstraintPositivity() {
-        return constraintPositivity;
-    }
 }

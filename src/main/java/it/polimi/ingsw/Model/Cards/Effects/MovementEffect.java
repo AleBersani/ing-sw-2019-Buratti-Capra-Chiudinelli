@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class MovementEffect extends Effect {
 
-    public MovementEffect(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints, ArrayList<Boolean> constraintPositivity, int distance, boolean linear) {
-        super(costBlue, costRed, costYellow, name, constraints, constraintPositivity);
+    public MovementEffect(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints, int distance, boolean linear) {
+        super(costBlue, costRed, costYellow, name, constraints);
         this.distance = distance;
         this.linear = linear;
     }
@@ -30,6 +30,8 @@ public class MovementEffect extends Effect {
     @Override
     public void apply(TargetParameter target) throws InvalidTargetException {
 
+        int mDist;
+
         if(target.getEnemyPlayer().getPosition().calcDist(target.getMovement())>this.distance){
             throw new InvalidTargetException();
         }
@@ -38,15 +40,20 @@ public class MovementEffect extends Effect {
             if((target.getEnemyPlayer().getPosition().getX()!=target.getMovement().getX())&&(target.getEnemyPlayer().getPosition().getY()!=target.getMovement().getY())){
                 throw new InvalidTargetException();
             }
-            //TODO Casi strani
+            mDist = Math.abs(target.getEnemyPlayer().getPosition().getX() - target.getMovement().getX()) + Math.abs(target.getEnemyPlayer().getPosition().getY() - target.getMovement().getY());
+            if(mDist < target.getEnemyPlayer().getPosition().calcDist(target.getMovement())){
+                throw new InvalidTargetException();
+            }
         }
 
         if(!constraintsCheck(target)){
             throw new InvalidTargetException();
         }
         else{
+            target.getEnemyPlayer().getPosition().leaves(target.getEnemyPlayer());
             target.getEnemyPlayer().setPreviousPosition(target.getEnemyPlayer().getPosition());
             target.getEnemyPlayer().setPosition(target.getMovement());
+            target.getMovement().arrives(target.getEnemyPlayer());
         }
     }
 }

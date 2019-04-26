@@ -25,7 +25,6 @@ class EffectVsRoomTest {
     TargetParameter target;
     Board board;
     ArrayList<Constraint> constraints;
-    ArrayList<Boolean> constrainPositivity;
     NotSameSquare notSameSquare;
     AdjacentRoom adjacentRoom;
 
@@ -39,9 +38,8 @@ class EffectVsRoomTest {
         notSameSquare = new NotSameSquare();
         adjacentRoom = new AdjacentRoom();
         constraints = new ArrayList<Constraint>(Arrays.asList(notSameSquare,adjacentRoom));
-        constrainPositivity = new ArrayList<Boolean>(Arrays.asList(true,true));
         target = new TargetParameter(null, owner, null, null, null);
-        test = new EffectVsRoom(0,0,0,"Vulcanizzatore",constraints,constrainPositivity,1,0);
+        test = new EffectVsRoom(0,0,0,"Vulcanizzatore",constraints,1,0);
 
     }
 
@@ -49,11 +47,11 @@ class EffectVsRoomTest {
     @Test
     void apply() {
 
-        board.getRooms().get(0).getSquares().get(0).getOnMe().add(enemy);
+        board.getRooms().get(0).getSquares().get(0).arrives(enemy);
         enemy.setPosition(board.getRooms().get(0).getSquares().get(0));
-        board.getRooms().get(0).getSquares().get(1).getOnMe().add(enemy2);
+        board.getRooms().get(0).getSquares().get(1).arrives(enemy2);
         enemy2.setPosition(board.getRooms().get(0).getSquares().get(1));
-        board.getRooms().get(0).getSquares().get(2).getOnMe().add(enemy3);
+        board.getRooms().get(0).getSquares().get(2).arrives(enemy3);
         enemy3.setPosition(board.getRooms().get(0).getSquares().get(2));
 
         target.setTargetRoom(board.getRooms().get(0));
@@ -62,7 +60,7 @@ class EffectVsRoomTest {
         target.getConstraintSquareList().add(enemy3.getPosition());
 
         try {
-            board.find(1,2).getOnMe().add(owner);
+            board.find(1,2).arrives(owner);
             owner.setPosition(board.find(1,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
@@ -79,6 +77,28 @@ class EffectVsRoomTest {
         assertEquals(target.getOwner(),enemy2.getDamage().get(0));
         assertEquals(1, enemy3.getDamageCounter());
         assertEquals(target.getOwner(),enemy3.getDamage().get(0));
+    }
 
+    @Test
+    void applyNotNearRoom() {
+
+        board.getRooms().get(0).getSquares().get(0).arrives(enemy);
+        enemy.setPosition(board.getRooms().get(0).getSquares().get(0));
+        board.getRooms().get(0).getSquares().get(1).arrives(enemy2);
+        enemy2.setPosition(board.getRooms().get(0).getSquares().get(1));
+        board.getRooms().get(0).getSquares().get(2).arrives(enemy3);
+        enemy3.setPosition(board.getRooms().get(0).getSquares().get(2));
+
+        target.setTargetRoom(board.getRooms().get(0));
+        target.getConstraintSquareList().add(enemy.getPosition());
+        target.getConstraintSquareList().add(enemy2.getPosition());
+        target.getConstraintSquareList().add(enemy3.getPosition());
+        try {
+            board.find(2,2).arrives(owner);
+            owner.setPosition(board.find(2,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        assertThrows(InvalidTargetException.class,()->test.apply(target));
     }
 }

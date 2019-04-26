@@ -12,8 +12,8 @@ public class EffectVsPlayer extends Effect {
     private int damage,mark;
     private boolean addToList,removeFromList;
 
-    public EffectVsPlayer(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints, ArrayList<Boolean> constraintPositivity, int damage, int mark, boolean addToList, boolean removeFromList) {
-        super(costBlue, costRed, costYellow, name, constraints, constraintPositivity);
+    public EffectVsPlayer(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints, int damage, int mark, boolean addToList, boolean removeFromList) {
+        super(costBlue, costRed, costYellow, name, constraints);
         this.damage = damage;
         this.mark = mark;
         this.addToList = addToList;

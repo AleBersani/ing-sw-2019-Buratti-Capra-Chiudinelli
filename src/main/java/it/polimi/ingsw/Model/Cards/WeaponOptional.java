@@ -19,9 +19,7 @@ public class WeaponOptional extends Weapon {
     @Override
     public void fireOptional(TargetParameter target, int which) throws InvalidTargetException {
         for (Effect e : optionalEffect.get(which)){
-            if (e.constraintsCheck(target)){
-                e.apply(target);
-            }
+            e.apply(target);
         }
     }
 

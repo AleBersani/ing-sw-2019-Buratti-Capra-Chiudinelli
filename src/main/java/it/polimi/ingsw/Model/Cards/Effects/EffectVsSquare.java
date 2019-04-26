@@ -12,8 +12,8 @@ public class EffectVsSquare extends Effect {
 
     private int damage,mark;
 
-    public EffectVsSquare(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints, ArrayList<Boolean> constraintPositivity, int damage, int mark) {
-        super(costBlue, costRed, costYellow, name, constraints, constraintPositivity);
+    public EffectVsSquare(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints, int damage, int mark) {
+        super(costBlue, costRed, costYellow, name, constraints);
         this.damage = damage;
         this.mark = mark;
     }
