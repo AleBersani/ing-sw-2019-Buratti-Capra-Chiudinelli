@@ -24,7 +24,8 @@ class PlayerTest {
     Player target,test,loser,guest;
     Square location;
     Turn turn;
-    ArrayList<Player> testingMarks,testingDeads;
+    Match testMatch;
+    ArrayList<Player> testingMarks,testingDeads,playerList;
     ArrayList<PowerUp> testingPowerUp;
     PowerUp teleporter;
     TargetParameter targetParameterTeleporter;
@@ -37,13 +38,15 @@ class PlayerTest {
         guest = new Player(true,"blue", "Franco");
         loser = new Player(false,"yellow", "Paola");
         guest.setMark(testingMarks);
-        board = new Board(null, "./resources/Board/Board1.json");
+        board = new Board(testMatch, "./resources/Board/Board1.json");
         testingDeads = new ArrayList<>();
-        turn = new Turn(null,false,guest,null);
+        turn = new Turn(null,false,guest,testMatch);
         turn.setDeads(testingDeads);
         teleporter = new PowerUp("red","teleport");
         testingPowerUp = new ArrayList<>(Arrays.asList(teleporter,teleporter));
         guest.setPowerUps(testingPowerUp);
+        playerList = new ArrayList<Player>(Arrays.asList(guest,test,loser));
+        testMatch = new Match(playerList,3,5,true,"normal");
     }
 
     @Test
@@ -135,17 +138,20 @@ class PlayerTest {
     public void testReload() {
 
     }
-
+    */
     @Test
     public void testDraw() {
+        guest.setTurn(turn);
+        turn.setMatch(testMatch);
+        testMatch.setBoard(board);
         try {
             guest.draw();
-            assertEquals(1,guest.getPowerUps().size());
+            assertEquals(3,guest.getPowerUps().size());
         } catch (MaxHandSizeException e) {
             e.printStackTrace();
         }
     }
-    */
+
     @Test
     public void testDiscard() {
         guest.discard(teleporter);
