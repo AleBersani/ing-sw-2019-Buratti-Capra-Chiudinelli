@@ -24,9 +24,7 @@ public class WeaponAlternative extends Weapon {
 
     public void fireAlternative(TargetParameter target) throws InvalidTargetException {
         for (Effect e : alternativeEffect){
-            if(e.constraintsCheck(target)){
-                e.apply(target);
-            }
+            e.apply(target);
         }
         return;
     }

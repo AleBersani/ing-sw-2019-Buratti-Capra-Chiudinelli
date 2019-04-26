@@ -50,7 +50,7 @@ class MovementEffectTest {
         } catch (InvalidTargetException invalidTargetExcepion) {
             invalidTargetExcepion.printStackTrace();
         }
-        assertTrue(target.getMovement().getOnMe().contains(enemy));
+        assertEquals(enemy,target.getMovement().getOnMe().get(0));
     }
 
     @Test
@@ -71,7 +71,7 @@ class MovementEffectTest {
         } catch (InvalidTargetException invalidTargetExcepion) {
             invalidTargetExcepion.printStackTrace();
         }
-        assertTrue(target.getMovement().getOnMe().contains(enemy));
+        assertEquals(enemy,target.getMovement().getOnMe().get(0));
     }
 
     @Test

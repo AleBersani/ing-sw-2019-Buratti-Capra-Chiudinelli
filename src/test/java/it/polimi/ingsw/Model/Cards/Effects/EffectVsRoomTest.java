@@ -99,6 +99,6 @@ class EffectVsRoomTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        assertThrows(InvalidTargetExcepion.class,()->test.apply(target));
+        assertThrows(InvalidTargetException.class,()->test.apply(target));
     }
 }
