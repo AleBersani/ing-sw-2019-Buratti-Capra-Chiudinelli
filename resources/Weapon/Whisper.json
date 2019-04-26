@@ -1,0 +1,32 @@
+{
+  "color": "blue",
+  "name": "Whisper",
+  "costBlue": 2,
+  "costRed": 0,
+  "costYellow": 1,
+  "load": true,
+  "effect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Effect",
+      "constraints": [
+        {
+          "type": "See"
+        },
+        {
+          "type": "MinimumDistance",
+          "distance": 2
+        }
+      ],
+      "damage": 3,
+      "mark": 1,
+      "addToList": false,
+      "removeFromList": false
+    }
+  ],
+  "previousTarget": [],
+  "owner": null
+}

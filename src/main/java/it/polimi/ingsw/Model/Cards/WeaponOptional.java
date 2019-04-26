@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Model.Cards;
 
-import it.polimi.ingsw.Exception.InvalidTargetExcepion;
+import it.polimi.ingsw.Exception.InvalidTargetException;
 import it.polimi.ingsw.Exception.NotThisKindOfWeapon;
 import it.polimi.ingsw.Model.Cards.Effects.Effect;
 import it.polimi.ingsw.Model.TargetParameter;
@@ -17,7 +17,7 @@ public class WeaponOptional extends Weapon {
     }
 
     @Override
-    public void fireOptional(TargetParameter target, int which) throws InvalidTargetExcepion {
+    public void fireOptional(TargetParameter target, int which) throws InvalidTargetException {
         for (Effect e : optionalEffect.get(which)){
             if (e.constraintsCheck(target)){
                 e.apply(target);

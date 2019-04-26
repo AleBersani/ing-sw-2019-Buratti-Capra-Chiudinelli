@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Model.Cards.Effects;
 
-import it.polimi.ingsw.Exception.InvalidTargetExcepion;
+import it.polimi.ingsw.Exception.InvalidTargetException;
 import it.polimi.ingsw.Model.Cards.Constraints.Constraint;
 import it.polimi.ingsw.Model.TargetParameter;
 
@@ -18,9 +18,9 @@ public class EffectsVsDirection extends Effect {
     }
 
     @Override
-    public void apply(TargetParameter target) throws InvalidTargetExcepion {
+    public void apply(TargetParameter target) throws InvalidTargetException {
         if(!constraintsCheck(target)){
-            throw new InvalidTargetExcepion();
+            throw new InvalidTargetException();
         }
         else{
             //TODO

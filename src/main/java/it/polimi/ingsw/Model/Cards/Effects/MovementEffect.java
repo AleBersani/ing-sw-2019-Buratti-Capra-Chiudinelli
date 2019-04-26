@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Model.Cards.Effects;
 
-import it.polimi.ingsw.Exception.InvalidTargetExcepion;
+import it.polimi.ingsw.Exception.InvalidTargetException;
 import it.polimi.ingsw.Model.Cards.Constraints.Constraint;
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class MovementEffect extends Effect {
 
-    public MovementEffect(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints, int distance, boolean linear) {
-        super(costBlue, costRed, costYellow, name, constraints);
+    public MovementEffect(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints, ArrayList<Boolean> constraintPositivity, int distance, boolean linear) {
+        super(costBlue, costRed, costYellow, name, constraints, constraintPositivity);
         this.distance = distance;
         this.linear = linear;
     }
@@ -28,32 +28,25 @@ public class MovementEffect extends Effect {
     }
 
     @Override
-    public void apply(TargetParameter target) throws InvalidTargetExcepion {
-        int mDist;
+    public void apply(TargetParameter target) throws InvalidTargetException {
 
         if(target.getEnemyPlayer().getPosition().calcDist(target.getMovement())>this.distance){
-            throw new InvalidTargetExcepion();
+            throw new InvalidTargetException();
         }
 
         if(linear){
             if((target.getEnemyPlayer().getPosition().getX()!=target.getMovement().getX())&&(target.getEnemyPlayer().getPosition().getY()!=target.getMovement().getY())){
-                throw new InvalidTargetExcepion();
+                throw new InvalidTargetException();
             }
-
-            mDist = Math.abs(target.getEnemyPlayer().getPosition().getX() - target.getMovement().getX()) + Math.abs(target.getEnemyPlayer().getPosition().getY() - target.getMovement().getY());
-            if(mDist < target.getEnemyPlayer().getPosition().calcDist(target.getMovement())){
-                throw new InvalidTargetExcepion();
-            }
+            //TODO Casi strani
         }
 
         if(!constraintsCheck(target)){
-            throw new InvalidTargetExcepion();
+            throw new InvalidTargetException();
         }
         else{
-            target.getEnemyPlayer().getPosition().leaves(target.getEnemyPlayer());
             target.getEnemyPlayer().setPreviousPosition(target.getEnemyPlayer().getPosition());
             target.getEnemyPlayer().setPosition(target.getMovement());
-            target.getMovement().arrives(target.getEnemyPlayer());
         }
     }
 }

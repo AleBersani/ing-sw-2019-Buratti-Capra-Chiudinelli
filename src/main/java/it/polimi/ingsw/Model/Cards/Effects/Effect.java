@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Model.Cards.Effects;
 
-import it.polimi.ingsw.Exception.InvalidTargetExcepion;
+import it.polimi.ingsw.Exception.InvalidTargetException;
 import it.polimi.ingsw.Model.Cards.Constraints.*;
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
@@ -24,7 +24,7 @@ public abstract class Effect {
         this.constraints = constraints;
     }
 
-    abstract public void apply(TargetParameter target) throws InvalidTargetExcepion;
+    abstract public void apply(TargetParameter target) throws InvalidTargetException;
 
     public boolean constraintsCheck(TargetParameter target){
         int i;

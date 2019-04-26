@@ -1,8 +1,8 @@
 {
   "color": "blue",
-  "name": "Lock rifle",
-  "costBlue": 2,
-  "costRed": 0,
+  "name": "T.H.O.R.",
+  "costBlue": 1,
+  "costRed": 1,
   "costYellow": 0,
   "load": true,
   "effect": [
@@ -18,11 +18,10 @@
         }
       ],
       "damage": 2,
-      "mark": 1,
+      "mark": 0,
       "addToList": true,
       "removeFromList": false
     }
-
 
   ],
   "previousTarget": [],
@@ -31,18 +30,36 @@
     [
       {
         "type": "EffectVsPlayer",
-        "costBlue": 0,
-        "costRed": 1,
+        "costBlue": 1,
+        "costRed": 0,
         "costYellow": 0,
-        "name": "with second lock",
+        "name": "with chain reaction",
         "constraints": [
           {
             "type": "See"
           }
         ],
-        "damage": 0,
-        "mark": 1,
-        "addToList": false,
+        "damage": 1,
+        "mark": 0,
+        "addToList": true,
+        "removeFromList": false
+      }
+    ],
+    [
+      {
+        "type": "EffectVsPlayer",
+        "costBlue": 1,
+        "costRed": 0,
+        "costYellow": 0,
+        "name": "with high voltage",
+        "constraints": [
+          {
+            "type": "See"
+          }
+        ],
+        "damage": 2,
+        "mark": 0,
+        "addToList": true,
         "removeFromList": false
       }
     ]

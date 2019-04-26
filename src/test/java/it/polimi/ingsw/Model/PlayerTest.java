@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Exception.InvalidDestinationException;
+import it.polimi.ingsw.Exception.InvalidTargetException;
 import it.polimi.ingsw.Exception.MaxHandSizeException;
 import it.polimi.ingsw.Exception.NotFoundException;
 import it.polimi.ingsw.Model.Cards.PowerUp;
@@ -26,6 +27,7 @@ class PlayerTest {
     ArrayList<Player> testingMarks,testingDeads;
     ArrayList<PowerUp> testingPowerUp;
     PowerUp teleporter;
+    TargetParameter targetParameterTeleporter;
 
     @BeforeEach
     public void setup() {
@@ -90,7 +92,27 @@ class PlayerTest {
 
     @Test
     public void testUsePowerUp() {
-
+        guest.setTurn(turn);
+        try {
+            guest.setPosition(board.find(3,3));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            targetParameterTeleporter = new TargetParameter(board.find(1,1),guest,null,null,null);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            guest.usePowerUp(teleporter,targetParameterTeleporter);
+        } catch (InvalidTargetExcepion invalidTargetExcepion) {
+            invalidTargetExcepion.printStackTrace();
+        }
+        try {
+            assertEquals(guest.getPosition(),board.find(1,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
     }
     */
     @Test

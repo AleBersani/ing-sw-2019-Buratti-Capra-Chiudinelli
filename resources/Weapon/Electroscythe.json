@@ -1,0 +1,42 @@
+{
+  "color": "blue",
+  "name": "Electroscythe",
+  "costBlue": 1,
+  "costRed": 0,
+  "costYellow": 0,
+  "load": true,
+  "effect": [
+    {
+      "type": "EffectVsSquare",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {
+          "type": "SameSquare"
+        }
+      ],
+      "damage": 1,
+      "mark": 0
+    }
+  ],
+  "previousTarget": [],
+  "owner": null,
+  "alternativeEffect": [
+    {
+      "type": "EffectVsSquare",
+      "costBlue": 1,
+      "costRed": 1,
+      "costYellow": 0,
+      "name": "in Reaper Mode",
+      "constraints": [
+        {
+          "type": "SameSquare"
+        }
+      ],
+      "damage": 2,
+      "mark": 0
+    }
+  ]
+}
