@@ -31,9 +31,7 @@ public abstract class Weapon {
 
     public void fire(TargetParameter target) throws InvalidTargetExcepion {
         for (Effect e: effect){
-            if(e.constraintsCheck(target)){
                 e.apply(target);
-            }
         }
         return;
     }

@@ -13,8 +13,8 @@ public class EffectVsRoom extends Effect {
 
     private int damage,mark;
 
-    public EffectVsRoom(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints, ArrayList<Boolean> constraintPositivity, int damage, int mark) {
-        super(costBlue, costRed, costYellow, name, constraints, constraintPositivity);
+    public EffectVsRoom(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints, int damage, int mark) {
+        super(costBlue, costRed, costYellow, name, constraints);
         this.damage = damage;
         this.mark = mark;
     }
