@@ -1,0 +1,112 @@
+{
+  "color": "red",
+  "name": "Flamethrower",
+  "costBlue": 0,
+  "costRed": 1,
+  "costYellow": 0,
+  "load": true,
+  "effect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {
+          "type": "NotSameSquare"
+        },
+        {
+          "type": "MaximumDistance",
+          "distance": 1
+        },
+        {
+          "type": "See"
+        }
+      ],
+      "damage": 1,
+      "mark": 0,
+      "addToList": true,
+      "removeFromList": false
+    },
+
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {
+          "type": "NotSameSquare"
+        },
+        {
+          "type": "MaximumDistance",
+          "distance": 2
+        },
+        {
+          "type": "MinimumDistance",
+          "distance": 2
+        },
+        {
+          "type": "SameDirection"
+        }
+      ],
+      "damage": 1,
+      "mark": 0,
+      "addToList": false,
+      "removeFromList": false
+
+    }
+  ],
+  "previousTarget": [],
+  "owner": null,
+  "alternativeEffect": [
+    {
+      "type": "EffectVsSquare",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 2,
+      "name": "in Barbecue Mode",
+      "constraints": [
+        {
+          "type": "NotSameSquare"
+        },
+        {
+          "type": "MaximumDistance",
+          "distance": 1
+        },
+        {
+          "type": "See"
+        }
+      ],
+      "damage": 2,
+      "mark": 0
+    },
+    {
+      "type": "EffectVsSquare",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 2,
+      "name": "in Barbecue Mode",
+      "constraints": [
+        {
+          "type": "NotSameSquare"
+        },
+        {
+          "type": "MaximumDistance",
+          "distance": 2
+        },
+        {
+          "type": "MinimumDistance",
+          "distance": 2
+        },
+        {
+          "type": "SameDirection"
+        }
+      ],
+      "damage": 1,
+      "mark": 0
+    }
+  ]
+}

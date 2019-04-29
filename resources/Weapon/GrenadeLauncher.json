@@ -1,0 +1,61 @@
+{
+  "color": "red",
+  "name": "Grenade Launcher",
+  "costBlue": 0,
+  "costRed": 1,
+  "costYellow": 0,
+  "load": true,
+  "effect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Effect",
+      "constraints": [
+        {
+          "type": "See"
+        }
+      ],
+      "damage": 1,
+      "mark": 0,
+      "addToList": false,
+      "removeFromList": false
+    },
+
+    {
+      "type": "MovementEffect",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Effect",
+      "constraints": [
+
+      ],
+      "distance": 1
+    }
+
+
+  ],
+  "previousTarget": [],
+  "owner": null,
+  "optionalEffect": [
+    [
+      {
+        "type": "EffectVsSquare",
+        "costBlue": 0,
+        "costRed": 1,
+        "costYellow": 0,
+        "name": "with extra grenade",
+        "constraints": [
+          {
+            "type": "See"
+          }
+        ],
+        "damage": 1,
+        "mark": 0
+      }
+
+    ]
+  ]
+}

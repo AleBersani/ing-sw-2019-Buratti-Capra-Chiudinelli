@@ -1,0 +1,105 @@
+{
+  "color": "red",
+  "name": "Vortex Cannon",
+  "costBlue": 1,
+  "costRed": 1,
+  "costYellow": 0,
+  "load": true,
+  "effect": [
+    {
+      "type": "MovementEffect",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Effect",
+      "constraints": [
+
+      ],
+      "distance": 1
+    },
+
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Effect",
+      "constraints": [
+        {
+          "type": "See"
+        },
+        {
+          "type": "NotSameSquare"
+        }
+      ],
+      "damage": 2,
+      "mark": 0,
+      "addToList": true,
+      "removeFromList": false
+    }
+
+
+  ],
+  "previousTarget": [],
+  "owner": null,
+  "optionalEffect": [
+    [
+
+      {
+        "type": "MovementEffect",
+        "costBlue": 0,
+        "costRed": 1,
+        "costYellow": 0,
+        "name": "with black hole",
+        "constraints": [
+
+        ],
+        "distance": 1
+      },
+      {
+        "type": "MovementEffect",
+        "costBlue": 0,
+        "costRed": 1,
+        "costYellow": 0,
+        "name": "with black hole",
+        "constraints": [
+
+        ],
+        "distance": 1
+      },
+      {
+        "type": "EffectVsPlayer",
+        "costBlue": 0,
+        "costRed": 1,
+        "costYellow": 0,
+        "name": "with black hole",
+        "constraints": [
+          {
+            "type": "See"
+          }
+        ],
+        "damage": 0,
+        "mark": 1,
+        "addToList": false,
+        "removeFromList": false
+      },
+      {
+        "type": "EffectVsPlayer",
+        "costBlue": 0,
+        "costRed": 1,
+        "costYellow": 0,
+        "name": "with black hole",
+        "constraints": [
+          {
+            "type": "See"
+          }
+        ],
+        "damage": 0,
+        "mark": 1,
+        "addToList": false,
+        "removeFromList": false
+      }
+
+    ]
+  ]
+}
