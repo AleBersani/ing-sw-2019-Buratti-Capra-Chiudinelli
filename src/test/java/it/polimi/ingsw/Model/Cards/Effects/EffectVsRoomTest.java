@@ -6,7 +6,6 @@ import it.polimi.ingsw.Model.Cards.Constraints.AdjacentRoom;
 import it.polimi.ingsw.Model.Cards.Constraints.Constraint;
 import it.polimi.ingsw.Model.Cards.Constraints.NotSameSquare;
 import it.polimi.ingsw.Model.Map.Board;
-import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.TargetParameter;
 import org.junit.jupiter.api.BeforeEach;

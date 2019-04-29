@@ -7,7 +7,7 @@ public class NotSee extends Constraint {
 
     @Override
     public boolean canShoot(TargetParameter target) {
-        boolean i;
+
         for (Square s : target.getConstraintSquareList()) {
             if(target.getOwner().getPosition().getRoom()!= s.getRoom()){
                 for(Square d: target.getOwner().getPosition().getDoors()){
