@@ -25,6 +25,7 @@ public class EffectsVsDirection extends Effect {
             throw new InvalidTargetException();
         }
         else{
+//TODO possibile modifica che suddivide l'effetto contro i giocatori in due effetti vs Player con costraint sameDirection sul secondo
             for(i=0;i<target.getDirectionSquare().size();i++){
                 for(Player player: target.getDirectionSquare().get(i).getOnMe()){
                     if(player!=target.getOwner()){

@@ -129,4 +129,32 @@ class EffectsVsDirectionTest {
             }
         }
     }
+
+    @Test
+    void notApply(){
+        test.getConstraints().add(sameDirection);
+        try {
+            owner.setPosition(board.find(2,2));
+            board.find(2,2).arrives(owner);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            enemy.setPosition(board.find(3,2));
+            board.find(3,2).arrives(enemy);
+            target.getDirectionSquare().add(enemy.getPosition());
+            target.getConstraintSquareList().add(enemy.getPosition());
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            enemy3.setPosition(board.find(1,2));
+            board.find(1,2).arrives(enemy3);
+            target.getDirectionSquare().add(enemy3.getPosition());
+            target.getConstraintSquareList().add(enemy3.getPosition());
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        assertThrows(InvalidTargetException.class,()->test.apply(target));
+    }
 }
