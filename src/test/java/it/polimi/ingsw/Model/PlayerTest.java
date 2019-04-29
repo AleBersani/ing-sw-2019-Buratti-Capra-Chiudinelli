@@ -96,6 +96,8 @@ class PlayerTest {
     @Test
     public void testUsePowerUp() {
         guest.setTurn(turn);
+        turn.setMatch(testMatch);
+        testMatch.setBoard(board);
         try {
             guest.setPosition(board.find(3,3));
         } catch (NotFoundException e) {
@@ -108,8 +110,8 @@ class PlayerTest {
         }
         try {
             guest.usePowerUp(teleporter,targetParameterTeleporter);
-        } catch (InvalidTargetExcepion invalidTargetExcepion) {
-            invalidTargetExcepion.printStackTrace();
+        } catch (InvalidTargetException invalidTargetException) {
+            invalidTargetException.printStackTrace();
         }
         try {
             assertEquals(guest.getPosition(),board.find(1,1));
