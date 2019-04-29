@@ -1,0 +1,42 @@
+{
+  "color": "red",
+  "name": "Furnace",
+  "costBlue": 1,
+  "costRed": 1,
+  "costYellow": 0,
+  "load": true,
+  "effect": [
+    {
+      "type": "EffectVsRoom",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {
+          "type": "AdjacentRoom"
+        }
+      ],
+      "damage": 1,
+      "mark": 0
+    }
+  ],
+  "previousTarget": [],
+  "owner": null,
+  "alternativeEffect": [
+    {
+      "type": "EffectVsSquare",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "in Cozy Fire Mode",
+      "constraints": [
+        {
+          "type": "NotSameSquare"
+        }
+      ],
+      "damage": 1,
+      "mark": 1
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "color": "red",
+  "name": "Heatseeker",
+  "costBlue": 0,
+  "costRed": 2,
+  "costYellow": 1,
+  "load": true,
+  "effect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Effect",
+      "constraints": [
+        {
+          "type": "NotSee"
+        }
+      ],
+      "damage": 3,
+      "mark": 0,
+      "addToList": false,
+      "removeFromList": false
+    }
+  ],
+  "previousTarget": [],
+  "owner": null
+}

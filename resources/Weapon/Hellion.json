@@ -1,0 +1,81 @@
+{
+  "color": "red",
+  "name": "Hellion",
+  "costBlue": 1,
+  "costRed": 1,
+  "costYellow": 0,
+  "load": true,
+  "effect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {
+          "type": "See"
+        },
+        {
+          "type": "NotSameSquare"
+        }
+      ],
+      "damage": 1,
+      "mark": 0,
+      "addToList": true,
+      "removeFromList": false
+    },
+    {
+      "type": "EffectVsSquare",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Effect",
+      "constraints": [
+        {
+          "type": "NotSameSquare"
+        }
+      ],
+      "damage": 0,
+      "mark": 1
+    }
+
+  ],
+  "previousTarget": [],
+  "owner": null,
+  "alternativeEffect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 1,
+      "costYellow": 0,
+      "name": "in Nano-tracer Mode",
+      "constraints": [
+        {
+          "type": "See"
+        },
+        {
+          "type": "NotSameSquare"
+        }
+      ],
+      "damage": 1,
+      "mark": 0,
+      "addToList": true,
+      "removeFromList": false
+    },
+    {
+      "type": "EffectVsSquare",
+      "costBlue": 0,
+      "costRed": 1,
+      "costYellow": 0,
+      "name": "in Nano-tracer Mode",
+      "constraints": [
+        {
+          "type": "NotSameSquare"
+        }
+      ],
+      "damage": 0,
+      "mark": 2
+    }
+  ]
+}
