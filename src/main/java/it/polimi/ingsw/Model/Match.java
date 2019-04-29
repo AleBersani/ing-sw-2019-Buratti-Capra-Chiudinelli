@@ -62,7 +62,7 @@ public class Match {
         ArrayList<Player> killPlayer = new ArrayList<>();
         ArrayList<Integer> killCounter = new ArrayList<>();
         ArrayList<Player> winPlayer = new ArrayList<>();
-        int i,k,max=0,index=0,maxPoint;
+        int i,k,max=0,index=0;
         boolean found,added;
 
         if (getTurn().getCurrent().isLastKill() && getTurn().isFrenzy()) {
@@ -101,7 +101,11 @@ public class Match {
             }
             while(added);
 
-            //if(winPlayer.size()>1) TODO CONTROL
+            while(winPlayer.size()>1){
+
+
+            }
+
         }
     }
 
