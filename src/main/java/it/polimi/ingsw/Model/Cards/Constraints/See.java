@@ -20,8 +20,9 @@ public class See extends Constraint {
                         i= true;
                     }
                 }
-                if(!i)
+                if(!i) {
                     return false;
+                }
             }
         }
         return true;
