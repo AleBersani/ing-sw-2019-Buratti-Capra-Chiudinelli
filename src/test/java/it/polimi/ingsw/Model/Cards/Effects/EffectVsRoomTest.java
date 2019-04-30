@@ -26,6 +26,7 @@ class EffectVsRoomTest {
     ArrayList<Constraint> constraints;
     NotSameSquare notSameSquare;
     AdjacentRoom adjacentRoom;
+    ArrayList<Boolean> constrainPositivity;
 
     @BeforeEach
     public void setup(){
@@ -37,8 +38,9 @@ class EffectVsRoomTest {
         notSameSquare = new NotSameSquare();
         adjacentRoom = new AdjacentRoom();
         constraints = new ArrayList<Constraint>(Arrays.asList(notSameSquare,adjacentRoom));
+        constrainPositivity = new ArrayList<Boolean>();
         target = new TargetParameter(null, owner, null, null, null);
-        test = new EffectVsRoom(0,0,0,"Vulcanizzatore",constraints,1,0);
+        test = new EffectVsRoom(0,0,0,"Vulcanizzatore",constraints,constrainPositivity,1,0);
 
     }
 
@@ -66,7 +68,7 @@ class EffectVsRoomTest {
         }
 
         try {
-            test.apply(target);
+            test.apply(target,null);
         } catch (InvalidTargetException invalidTargetException) {
             invalidTargetException.printStackTrace();
         }
@@ -98,6 +100,6 @@ class EffectVsRoomTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        assertThrows(InvalidTargetException.class,()->test.apply(target));
+        assertThrows(InvalidTargetException.class,()->test.apply(target,null));
     }
 }
