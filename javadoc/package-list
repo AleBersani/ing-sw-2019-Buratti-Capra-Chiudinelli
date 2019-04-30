@@ -1,7 +1,7 @@
 it.polimi.ingsw
-it.polimi.ingsw.Exception
-it.polimi.ingsw.Model
-it.polimi.ingsw.Model.Cards
-it.polimi.ingsw.Model.Cards.Constraints
-it.polimi.ingsw.Model.Cards.Effects
-it.polimi.ingsw.Model.Map
+it.polimi.ingsw.exception
+it.polimi.ingsw.model
+it.polimi.ingsw.model.cards
+it.polimi.ingsw.model.cards.constraints
+it.polimi.ingsw.model.cards.effects
+it.polimi.ingsw.model.map
