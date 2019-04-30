@@ -19,7 +19,7 @@ public class EffectVsSquare extends Effect {
     }
 
     @Override
-    public void apply(TargetParameter target, Weapon weapon) throws InvalidTargetException {
+    public void apply(TargetParameter target, ArrayList<Player> previousTarget) throws InvalidTargetException {
         if(!constraintsCheck(target)){
             throw new InvalidTargetException();
         }
