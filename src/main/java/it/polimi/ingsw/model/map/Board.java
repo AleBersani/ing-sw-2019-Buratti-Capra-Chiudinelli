@@ -15,7 +15,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
 
-
+/**
+ * This class represents a board
+ */
 public class Board {
     private ArrayList<Room> rooms= new ArrayList<Room>();
     private ArrayList<AmmoTile> ammoList= new ArrayList<AmmoTile>();
@@ -27,7 +29,11 @@ public class Board {
     private BufferedReader br;
     private Random random = new Random();
 
-
+    /**
+     * This method generate a board from a json file and generate the deck of cards
+     * @param match represent the match that need the Board
+     * @param type is the path of the json file that describes the board
+     */
     public Board(Match match, String type){
         this.match=match;
         this.type= type;
@@ -92,6 +98,13 @@ public class Board {
         this.reShuffleWeapons();
     }
 
+    /**
+     * This method return the Square from the coordinates
+     * @param x represent the x coordinate of the Square to find
+     * @param y represent the y coordinate of the Square to find
+     * @return the Square of coordinate x, y
+     * @throws NotFoundException is thrown when does not exist in this board a Square with coordinates x,y
+     */
     public Square find(int x, int y) throws NotFoundException {
 
         for (Room r : rooms){
@@ -102,6 +115,10 @@ public class Board {
         throw (new NotFoundException());
     }
 
+    /**
+     * This method return the first card of the deck of Weapon and remove that Weapon from the deck
+     * @return the first card of the deck of Weapons
+     */
     public Weapon nextWeapon(){
         Weapon w;
         if (weaponsList.size()>0) {
@@ -113,6 +130,10 @@ public class Board {
     }
 
 
+    /**
+     * This method return the first card of the deck of AmmoTile and remove that AmmoTile from the deck
+     * @return the first card of the deck of AmmoTile
+     */
     public AmmoTile nextAmmo(){
         AmmoTile a;
         a= ammoList.get(ammoList.size()-1);
@@ -120,7 +141,10 @@ public class Board {
         return a;
     }
 
-
+    /**
+     * This method return the first card of the deck of PowerUp and remove that PowerUp from the deck
+     * @return the first card of the deck of PowerUp
+     */
     public PowerUp nextPowerUp(){
         PowerUp p;
         p= powerUpList.get(powerUpList.size()-1);
@@ -128,6 +152,10 @@ public class Board {
         return p;
     }
 
+    /**
+     * This method generate the deck of AmmoTiles from a json file, remove from the deck the AmmoTiles already
+     * on the board and then reshuffle it
+     */
     public void reShuffleAmmo(){
         int i;
         AmmoTile temp;
@@ -161,8 +189,10 @@ public class Board {
         return;
     }
 
-
-
+    /**
+     * This method generate the deck of PowerUp from a json file, remove from the deck the PowerUp already
+     * in some Player hand and then reshuffle it
+     */
     public void reShufflePowerUps(){
         int i,j;
         PowerUp temp;
@@ -210,6 +240,9 @@ public class Board {
         return;
     }
 
+    /**
+     * This method generate the deck of Weapon from a json file, and then reshuffle it
+     */
     public void reShuffleWeapons(){
         int i;
         String temp;
@@ -263,7 +296,12 @@ public class Board {
         return;
     }
 
-
+    /**
+     * This method search the SpawnPoint of the color required
+     * @param color the color of the SpawnPoint
+     * @return the SpawnPoint with color=color parameter
+     * @throws NotFoundException is thrown when there are not SpawnPoint with the color required
+     */
     public Square findSpawnPoint(String color) throws NotFoundException {
         int i,j;
         Square isThis;
@@ -284,6 +322,9 @@ public class Board {
         return rooms;
     }
 
+    /**
+     * This class is used for parsing the AmmoTile from the json file
+     */
     private class AmmoGson{
         private ArrayList<AmmoTile> elements = new ArrayList<>();
 
@@ -292,6 +333,10 @@ public class Board {
         }
 
     }
+
+    /**
+     * This class is used for parsing the Weapons from the json file
+     */
     private class WeaponPathGson{
         private ArrayList<String> weaponPathBase = new ArrayList<>();
         private ArrayList<String> weaponPathAlternative = new ArrayList<>();
@@ -309,6 +354,9 @@ public class Board {
 
     }
 
+    /**
+     * This class is used for parsing the PowerUp from the json file
+     */
     private class PowerUpGson{
         private ArrayList<PseudoPowerUp> pseudo = new ArrayList<>();
         private ArrayList<MovementEffect> movementEffects=new ArrayList<>();
@@ -346,6 +394,10 @@ public class Board {
 
     }
 
+    /**
+     * this method is used for shuffling decks
+     * @param deck is the deck that needs to be shuffled
+     */
     private void shuffle( ArrayList deck){
         int i,n;
         for (i=0; i<deck.size()*2;i++){
@@ -361,6 +413,9 @@ public class Board {
     }
 
 
+    /**
+     * This class is used for specifying the type of Effect need to be imported from the json file
+     */
     private class EffectDeserializer implements JsonDeserializer<Effect> {
         @Override
         public Effect deserialize(JsonElement json, Type typeOfT,
@@ -390,6 +445,9 @@ public class Board {
             return null;
         }
     }
+    /**
+     * This class is used for specifying the type of Constraint need to be imported from the json file
+     */
     private class ConstraintDeserializer implements JsonDeserializer<Constraint> {
         @Override
         public Constraint deserialize(JsonElement json, Type typeOfT,
