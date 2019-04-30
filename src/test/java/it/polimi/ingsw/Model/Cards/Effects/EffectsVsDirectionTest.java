@@ -24,6 +24,7 @@ class EffectsVsDirectionTest {
     Player owner;
     TargetParameter target;
     Board board;
+    ArrayList<Boolean> constrainPositivity;
     ArrayList<Constraint> constraints;
     ArrayList<Integer> damage, mark;
     SameDirection sameDirection;
@@ -40,11 +41,12 @@ class EffectsVsDirectionTest {
         sameDirection = new SameDirection();
         notSameSquare = new NotSameSquare();
         maximumDistance = new MaximumDistance(2);
+        constrainPositivity = new ArrayList<Boolean>();
         constraints = new ArrayList<Constraint>();
         target = new TargetParameter(null, owner, null, null, null);
         damage = new ArrayList<Integer>(Arrays.asList(2,1));
         mark = new ArrayList<Integer>(Arrays.asList(0,0));
-        test = new EffectsVsDirection(0,0,0,"sandro",constraints,damage,mark);
+        test = new EffectsVsDirection(0,0,0,"sandro",constraints,constrainPositivity,damage,mark);
     }
 
     @Test
@@ -73,7 +75,7 @@ class EffectsVsDirectionTest {
             e.printStackTrace();
         }
         try {
-            test.apply(target);
+            test.apply(target,null);
         } catch (InvalidTargetException e) {
             e.printStackTrace();
         }
@@ -116,7 +118,7 @@ class EffectsVsDirectionTest {
             e.printStackTrace();
         }
         try {
-            test.apply(target);
+            test.apply(target,null);
         } catch (InvalidTargetException e) {
             e.printStackTrace();
         }
@@ -155,6 +157,6 @@ class EffectsVsDirectionTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        assertThrows(InvalidTargetException.class,()->test.apply(target));
+        assertThrows(InvalidTargetException.class,()->test.apply(target,null));
     }
 }

@@ -31,7 +31,7 @@ public abstract class Weapon {
 
     public void fire(TargetParameter target) throws InvalidTargetException {
         for (Effect e: effect){
-                e.apply(target);
+                e.apply(target, this);
         }
         return;
     }

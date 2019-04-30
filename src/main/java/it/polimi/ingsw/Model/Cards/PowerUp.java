@@ -14,7 +14,7 @@ public class PowerUp {
     }
 
     public void useEffect(TargetParameter target) throws InvalidTargetException {
-        effect.apply(target);
+        effect.apply(target,null);
     }
 
     public String getColor() {

@@ -21,6 +21,7 @@ class EffectVsPlayerTest {
     TargetParameter target;
     Board board;
     ArrayList<Constraint> constraints;
+    ArrayList<Boolean> constrainPositivity;
 
     @BeforeEach
     void  setup(){
@@ -28,8 +29,9 @@ class EffectVsPlayerTest {
         enemy = new Player(true, "green", "Lucio");
         board = new Board(null, "./resources/Board/Board1.json");
         constraints = new ArrayList<Constraint>();
+        constrainPositivity = new ArrayList<Boolean>();
         target = new TargetParameter(null, owner, null, null, null);
-        test = new EffectVsPlayer(0,0,0,"lumbro",constraints,1,0,false,false);
+        test = new EffectVsPlayer(0,0,0,"lumbro",constraints,constrainPositivity,1,0,false,false);
     }
 
     @Test
@@ -49,7 +51,7 @@ class EffectVsPlayerTest {
             e.printStackTrace();
         }
         try {
-            test.apply(target);
+            test.apply(target,null);
         } catch (InvalidTargetException e) {
             e.printStackTrace();
         }
