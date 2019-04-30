@@ -188,8 +188,10 @@ public class Player {
                 this.position = destination;
             else
                 throw new InvalidDestinationException();
-        if(weapon.isLoad())
+        if(weapon.isLoad()) {
             weapon.fire(target);
+            weapon.getPreviousTarget().clear();
+        }
         else
             throw new NotLoadedException();
         this.turn.setActionCounter((this.turn.getActionCounter()+1));
