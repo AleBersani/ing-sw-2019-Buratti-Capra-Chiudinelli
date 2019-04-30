@@ -47,8 +47,10 @@ public class Match {
 
     public void startTurn(){
         this.turn = new Turn(this.players.get(i+1),this.setFrenzy(),this.players.get(i),this);
+        /* TODO SPAWN TO CONTROLLER
         if(getTurn().getCurrent().getPosition() == null)
             getTurn().getCurrent().spawn();
+        */
         i++;
     }
 
