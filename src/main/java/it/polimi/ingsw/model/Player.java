@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
+import it.polimi.ingsw.model.map.AmmoTile;
 import it.polimi.ingsw.model.map.Square;
 
 import java.util.ArrayList;
@@ -46,11 +47,11 @@ public class Player {
     /**
      * This attribute is the list of power ups the player has
      */
-    private ArrayList<PowerUp> powerUps= new ArrayList<>();
+    private ArrayList<PowerUp> powerUps = new ArrayList<>();
     /**
      * This attribute is the list of weapons the player has
      */
-    private ArrayList<Weapon> weapons= new ArrayList<>();
+    private ArrayList<Weapon> weapons = new ArrayList<>();
     /**
      * This attribute indicates if the player moves first
      */
@@ -82,15 +83,15 @@ public class Player {
     /**
      * This constant represents the maximum movement that can be done to run during a not frenzy turn
      */
-    int maxRun=3;
+    int maxRun = 3;
     /**
      * This constant represents the maximum movement that can be done to run during a frenzy turn
      */
-    int maxRunFrenzy=4;
+    int maxRunFrenzy = 4;
     /**
      * This constant represents the maximum quantity of type of ammo,weapons and power ups
      */
-    int maxSize=3;
+    int maxSize = 3;
 
     /**
      * This constructor instantiates the player
@@ -116,61 +117,68 @@ public class Player {
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
      */
     public void run(Square destination) throws InvalidDestinationException {
-        if(this.position.calcDist(destination) <= maxRun)
+        if (this.position.calcDist(destination) <= maxRun)
             this.position = destination;
         else
             throw new InvalidDestinationException();
-        this.turn.setActionCounter((this.turn.getActionCounter()+1));
+        this.turn.setActionCounter((this.turn.getActionCounter() + 1));
     }
 
     /**
-     * This method is the grab action that can be done in a not-frenzy turn
+     * This method is the grab action that can be done to take ammo
      * @param destination This parameter is the final destination where the player wants to move to grab the ammo or the weapon
      * @throws MaxHandSizeException This exception means that the player has already reached the maximum number of cards in a hand
-     * @throws NoAmmoException This exception means that the player doesn't have the ammo to pay the weapon cost
-     * @throws MaxHandWeaponSizeException This exception means that the player has already reached the maximum number of weapons in a hand
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
+     * @throws NullAmmoException This exception means that the player didn't grab anything
+     * @throws ElementNotFoundException This exception means that there isn't a takeable element
      */
-    public void grab(Square destination) throws MaxHandSizeException, NoAmmoException, MaxHandWeaponSizeException, InvalidDestinationException {
-        int i=0; //TODO CONTROL CHOOSE
-        if(this.position.calcDist(destination) <= 1+isOnAdrenalineGrab()) {
-            try {
-                destination.grabAmmo();
-                this.redAmmo = this.redAmmo + destination.grabAmmo().getRed();
+    public void grab(Square destination) throws MaxHandSizeException, InvalidDestinationException, NullAmmoException, ElementNotFoundException {
+        AmmoTile ammoTile;
+        if (this.position.calcDist(destination) <= 1 + isOnAdrenalineGrab() || this.position.calcDist(destination) <= 1 + onFrenzy() + onlyFrenzyAction()) {
+            ammoTile = destination.grabAmmo();
+            if (ammoTile != null) {
+                this.redAmmo = this.redAmmo + ammoTile.getRed();
                 if (this.redAmmo > 3)
                     this.redAmmo = 3;
-                this.blueAmmo = this.blueAmmo + destination.grabAmmo().getBlue();
+                this.blueAmmo = this.blueAmmo + ammoTile.getBlue();
                 if (this.blueAmmo > 3)
                     this.blueAmmo = 3;
-                this.yellowAmmo = this.yellowAmmo + destination.grabAmmo().getYellow();
+                this.yellowAmmo = this.yellowAmmo + ammoTile.getYellow();
                 if (this.yellowAmmo > 3)
                     this.yellowAmmo = 3;
-                if (destination.grabAmmo().getPowerUp() == 1)
+                if (ammoTile.getPowerUp() == 1)
                     draw();
-            } catch (ElementNotFoundException e) {
-                /*
-                try{
-                    destination.grabWeapon(i);
-                    if (destination.grabWeapon(i).getCostRed() - isRed(destination.grabWeapon(i)) <= this.redAmmo && destination.grabWeapon(i).getCostBlue() - isBlue(destination.grabWeapon(i)) <= this.blueAmmo && destination.grabWeapon(i).getCostYellow() - isYellow(destination.grabWeapon(i)) <= this.yellowAmmo){
-                        this.redAmmo=this.redAmmo - (destination.grabWeapon(i).getCostRed() - isRed(destination.grabWeapon(i)));
-                        this.blueAmmo=this.blueAmmo - (destination.grabWeapon(i).getCostBlue() - isBlue(destination.grabWeapon(i)));
-                        this.yellowAmmo=this.yellowAmmo - (destination.grabWeapon(i).getCostYellow() - isYellow(destination.grabWeapon(i)));
-                        this.weapons.add(destination.grabWeapon(i));
-                        if (this.weapons.size() == 4)
-                            throw new MaxHandWeaponSizeException();
-                    }
-                    else
-                        throw new NoAmmoException();
-                }
-                catch (ElementNotFoundException ex) {
-                }
-                */
-            }
+            } else
+                throw new NullAmmoException();
             this.position = destination;
+        } else
+            throw new InvalidDestinationException();
+        this.turn.setActionCounter((this.turn.getActionCounter() + 1));
+    }
+
+    /**
+     * This method is the grab action that can be done to take a chosen weapon
+     * @param destination This parameter is the final destination where the player wants to move to grab the ammo or the weapon
+     * @param position This parameter is the position of the weapon that the player wants to pick
+     * @throws ElementNotFoundException This exception means that there isn't a takeable element
+     * @throws MaxHandWeaponSizeException This exception means that the player has already reached the maximum number of weapons in a hand
+     * @throws NoAmmoException This exception means that the player doesn't have enough ammo to buy a weapon
+     */
+    public void grabWeapon(Square destination,int position) throws ElementNotFoundException, MaxHandWeaponSizeException, NoAmmoException {
+        Weapon weapon;
+        weapon=destination.grabWeapon(position);
+        if (weapon.getCostRed() - isRed(weapon) <= this.redAmmo && weapon.getCostBlue() - isBlue(weapon) <= this.blueAmmo && weapon.getCostYellow() - isYellow(weapon) <= this.yellowAmmo){
+            this.redAmmo=this.redAmmo - (weapon.getCostRed() - isRed(weapon));
+            this.blueAmmo=this.blueAmmo - (weapon.getCostBlue() - isBlue(weapon));
+            this.yellowAmmo=this.yellowAmmo - (weapon.getCostYellow() - isYellow(weapon));
+            this.weapons.add(weapon);
+            if (this.weapons.size() == 4)
+                throw new MaxHandWeaponSizeException();
         }
         else
-            throw new InvalidDestinationException();
-        this.turn.setActionCounter((this.turn.getActionCounter()+1));
+            throw new NoAmmoException();
+        this.position = destination;
+        this.turn.setActionCounter((this.turn.getActionCounter() + 1));
     }
 
     /**
@@ -182,19 +190,19 @@ public class Player {
      * @throws InvalidDestinationException This exception means that the player can't reach the chosen destination
      * @throws InvalidTargetException This exception means that there are is no valid target chosen
      */
-    public void shoot(Weapon weapon,Square destination,TargetParameter target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
-        if(isOnAdrenalineShoot()==1)
-            if(this.position.calcDist(destination) <= 1)
+    // TODO SHOOT CONTROLLER
+    public void shoot(Weapon weapon, Square destination, TargetParameter target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
+        if (isOnAdrenalineShoot() == 1)
+            if (this.position.calcDist(destination) <= 1)
                 this.position = destination;
             else
                 throw new InvalidDestinationException();
-        if(weapon.isLoad()) {
+        if (weapon.isLoad()) {
             weapon.fire(target);
             weapon.getPreviousTarget().clear();
-        }
-        else
+        } else
             throw new NotLoadedException();
-        this.turn.setActionCounter((this.turn.getActionCounter()+1));
+        this.turn.setActionCounter((this.turn.getActionCounter() + 1));
     }
 
     /**
@@ -204,8 +212,8 @@ public class Player {
      * @throws InvalidTargetException This exception means that there is no valid target chosen
      */
     public void usePowerUp(PowerUp powerUp, TargetParameter target) throws InvalidTargetException {
-        for(int i=0;i<this.powerUps.size();i++)
-            if(this.powerUps.contains(powerUp)) {
+        for (int i = 0; i < this.powerUps.size(); i++)
+            if (this.powerUps.contains(powerUp)) {
                 this.powerUps.get(i).useEffect(target);
                 discard(powerUp);
                 return;
@@ -217,12 +225,12 @@ public class Player {
      * @param target This parameter is the target player
      * @return true is the player can see the target player, false in the other case.
      */
-    public boolean canSee(Player target){
+    public boolean canSee(Player target) {
         int i;
-        if(this.position.getRoom() == target.position.getRoom())
+        if (this.position.getRoom() == target.position.getRoom())
             return true;
-        for(i=0;i<this.position.getDoors().size();i++){
-            if(this.position.getDoors().get(i).getRoom() == target.position.getRoom())
+        for (i = 0; i < this.position.getDoors().size(); i++) {
+            if (this.position.getDoors().get(i).getRoom() == target.position.getRoom())
                 return true;
         }
         return false;
@@ -235,14 +243,13 @@ public class Player {
      * @throws NoAmmoException This exception means that the player doesn't have the ammo to reload
      */
     public void reload(Weapon weapon) throws LoadedException, NoAmmoException {
-        if(!weapon.isLoad())
-            if((weapon.getCostBlue() <= this.blueAmmo) && (weapon.getCostRed() <= this.redAmmo) && (weapon.getCostYellow() <= this.yellowAmmo)) {
-                this.blueAmmo=this.blueAmmo-weapon.getCostBlue();
-                this.redAmmo=this.redAmmo-weapon.getCostRed();
-                this.yellowAmmo=this.yellowAmmo-weapon.getCostYellow();
+        if (!weapon.isLoad())
+            if ((weapon.getCostBlue() <= this.blueAmmo) && (weapon.getCostRed() <= this.redAmmo) && (weapon.getCostYellow() <= this.yellowAmmo)) {
+                this.blueAmmo = this.blueAmmo - weapon.getCostBlue();
+                this.redAmmo = this.redAmmo - weapon.getCostRed();
+                this.yellowAmmo = this.yellowAmmo - weapon.getCostYellow();
                 weapon.reload();
-            }
-            else
+            } else
                 throw new NoAmmoException();
         else
             throw new LoadedException();
@@ -254,7 +261,7 @@ public class Player {
      */
     public void draw() throws MaxHandSizeException {
         this.powerUps.add(getTurn().getMatch().getBoard().nextPowerUp());
-        if(this.powerUps.size() > maxSize)
+        if (this.powerUps.size() > maxSize)
             throw new MaxHandSizeException();
     }
 
@@ -262,9 +269,9 @@ public class Player {
      * This method allows the player to discard a selected card from the hand
      * @param powerUp This parameter is the selected power up that the player wants to discard
      */
-    public void discard(PowerUp powerUp){
-        for(int i=0;i<this.powerUps.size();i++)
-            if(this.powerUps.contains(powerUp)) {
+    public void discard(PowerUp powerUp) {
+        for (int i = 0; i < this.powerUps.size(); i++)
+            if (this.powerUps.contains(powerUp)) {
                 this.powerUps.remove(i);
                 return;
             }
@@ -276,38 +283,38 @@ public class Player {
      * @throws NotFoundException This exception means that is not found the spawn point
      */
     public void spawn(PowerUp powerUp) throws NotFoundException {
-        this.position=turn.getMatch().getBoard().findSpawnPoint(powerUp.getColor());
+        this.position = turn.getMatch().getBoard().findSpawnPoint(powerUp.getColor());
         discard(powerUp);
     }
 
     /**
      * This method add the player that is dead in this turn to a list
      */
-    public void dead(){
+    public void dead() {
         turn.addDead(this);
     }
 
     /**
      * This method allows to add the damage counters to this player
-     * @param damage This parameter is the number of damage dealt by the shooter
+     * @param damage  This parameter is the number of damage dealt by the shooter
      * @param shooter This parameter is the player who shoot
      */
-    public void wound(int damage, Player shooter){
+    public void wound(int damage, Player shooter) {
         int i;
-        for(i=0;i<damage;i++){
-            if(this.damage.size()<12){
+        for (i = 0; i < damage; i++) {
+            if (this.damage.size() < 12) {
                 this.damage.add(shooter);
                 this.damageCounter++;
             }
         }
-        for(i=0;i<this.mark.size();i++){
-            if(this.mark.get(i) == shooter && this.damage.size()<12) {
+        for (i = 0; i < this.mark.size(); i++) {
+            if (this.mark.get(i) == shooter && this.damage.size() < 12) {
                 this.damage.add(shooter);
                 this.damageCounter++;
-                }
+            }
             this.mark.remove(i);
         }
-        if(this.damageCounter > 10)
+        if (this.damageCounter > 10)
             this.dead();
     }
 
@@ -316,14 +323,14 @@ public class Player {
      * @param mark This parameter is the number of marks to be added to the player
      * @param shooter This parameter is the player who applies these marks
      */
-    public void marked(int mark, Player shooter){
+    public void marked(int mark, Player shooter) {
         int i;
         int counter;
-        for(i=0,counter=0;i<this.mark.size();i++)
-            if(this.mark.get(i) == shooter)
+        for (i = 0, counter = 0; i < this.mark.size(); i++)
+            if (this.mark.get(i) == shooter)
                 counter++;
-        for(i=0;i<mark && counter<3;i++,counter++)
-            this.mark.add(this.mark.size(),shooter);
+        for (i = 0; i < mark && counter < 3; i++, counter++)
+            this.mark.add(this.mark.size(), shooter);
     }
 
     /**
@@ -332,89 +339,50 @@ public class Player {
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
      */
     public void runFrenzy(Square destination) throws InvalidDestinationException {
-        if(this.position.calcDist(destination) <= maxRunFrenzy)
+        if (this.position.calcDist(destination) <= maxRunFrenzy)
             this.position = destination;
         else
             throw new InvalidDestinationException();
-        this.turn.setActionCounter((this.turn.getActionCounter()+1));
+        this.turn.setActionCounter((this.turn.getActionCounter() + 1));
     }
 
     /**
      * This method is the shoot action that can be done in a frenzy turn
-     * @param weaponShoot This parameter is the weapon that the player wants to fire with
+     * @param weaponShoot  This parameter is the weapon that the player wants to fire with
      * @param weaponReload This parameter is the weapon that the player wants to reload
-     * @param destination This parameter is the final destination where the player wants to move
-     * @param target This parameter is the target of the shoot action
-     * @throws NotLoadedException This exception means that the weapon is not load
+     * @param destination  This parameter is the final destination where the player wants to move
+     * @param target       This parameter is the target of the shoot action
+     * @throws NotLoadedException          This exception means that the weapon is not load
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
-     * @throws InvalidTargetException This exception means that there is no valid target chosen
+     * @throws InvalidTargetException      This exception means that there is no valid target chosen
      */
-    public void shootFrenzy(Weapon weaponShoot,Weapon weaponReload,Square destination,TargetParameter target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
-        if (this.position.calcDist(destination) <= 1+onlyFrenzyAction()) {
+    public void shootFrenzy(Weapon weaponShoot, Weapon weaponReload, Square destination, TargetParameter target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
+        if (this.position.calcDist(destination) <= 1 + onlyFrenzyAction()) {
             this.position = destination;
             try {
                 reload(weaponReload);
-            } catch (LoadedException e) {
-                e.printStackTrace();
-            } catch (NoAmmoException e) {
+            } catch (LoadedException | NoAmmoException e) {
                 e.printStackTrace();
             }
             if (weaponShoot.isLoad())
                 weaponShoot.fire(target);
             else
                 throw new NotLoadedException();
-            }
-        else
+        } else
             throw new InvalidDestinationException();
-        this.turn.setActionCounter((this.turn.getActionCounter()+1));
+        this.turn.setActionCounter((this.turn.getActionCounter() + 1));
     }
 
     /**
      * This method is the grab action that can be done in a frenzy turn
      * @param destination This parameter is the final destination where the player wants to move
      * @throws MaxHandSizeException This exception means that the player has more then three cards in hand
-     * @throws NoAmmoException This exception means that the player doesn't have the ammo to reload
-     * @throws MaxHandWeaponSizeException This exception means that the player has already reached the maximum number of weapons
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
+     * @throws NullAmmoException This exception means that the player doesn't grab anything
+     * @throws ElementNotFoundException This exception means that there isn't a takeable element
      */
-    public void grabFrenzy(Square destination) throws MaxHandSizeException, NoAmmoException, MaxHandWeaponSizeException, InvalidDestinationException {
-        int i=0; //TODO CONTROL CHOOSE
-        if(this.position.calcDist(destination) <= 2+onlyFrenzyAction()) {
-            try {
-                destination.grabAmmo();
-                this.redAmmo = this.redAmmo + destination.grabAmmo().getRed();
-                if (this.redAmmo > 3)
-                    this.redAmmo = 3;
-                this.blueAmmo = this.blueAmmo + destination.grabAmmo().getBlue();
-                if (this.blueAmmo > 3)
-                    this.blueAmmo = 3;
-                this.yellowAmmo = this.yellowAmmo + destination.grabAmmo().getYellow();
-                if (this.yellowAmmo > 3)
-                    this.yellowAmmo = 3;
-                if (destination.grabAmmo().getPowerUp() == 1)
-                    draw();
-            } catch (ElementNotFoundException e) {
-                try{
-                    destination.grabWeapon(i);
-                    if (destination.grabWeapon(i).getCostRed() - isRed(destination.grabWeapon(i)) <= this.redAmmo && destination.grabWeapon(i).getCostBlue() - isBlue(destination.grabWeapon(i)) <= this.blueAmmo && destination.grabWeapon(i).getCostYellow() - isYellow(destination.grabWeapon(i)) <= this.yellowAmmo){
-                        this.redAmmo=this.redAmmo - (destination.grabWeapon(i).getCostRed() - isRed(destination.grabWeapon(i)));
-                        this.blueAmmo=this.blueAmmo - (destination.grabWeapon(i).getCostBlue() - isBlue(destination.grabWeapon(i)));
-                        this.yellowAmmo=this.yellowAmmo - (destination.grabWeapon(i).getCostYellow() - isYellow(destination.grabWeapon(i)));
-                        this.weapons.add(destination.grabWeapon(i));
-                        if (this.weapons.size() == 4)
-                            throw new MaxHandWeaponSizeException();
-                    }
-                    else
-                        throw new NoAmmoException();
-                }
-                catch (ElementNotFoundException ex) {
-                }
-            }
-            this.position = destination;
-        }
-        else
-            throw new InvalidDestinationException();
-        this.turn.setActionCounter((this.turn.getActionCounter()+1));
+    public void grabFrenzy(Square destination) throws InvalidDestinationException, MaxHandSizeException, NullAmmoException, ElementNotFoundException {
+        grab(destination);
     }
 
     /**
@@ -422,8 +390,8 @@ public class Player {
      * @param weapon This parameter is the weapon chosen by the player
      * @return 1 if the weapons is red, 0 otherwise
      */
-    private int isRed(Weapon weapon){
-        if(weapon.getColor().equals("Red"))
+    private int isRed(Weapon weapon) {
+        if (weapon.getColor().equals("Red"))
             return 1;
         return 0;
     }
@@ -433,8 +401,8 @@ public class Player {
      * @param weapon This parameter is the weapon chosen by the player
      * @return 1 if the weapons is blue, 0 otherwise
      */
-    private int isBlue(Weapon weapon){
-        if(weapon.getColor().equals("Blue"))
+    private int isBlue(Weapon weapon) {
+        if (weapon.getColor().equals("Blue"))
             return 1;
         return 0;
     }
@@ -444,8 +412,8 @@ public class Player {
      * @param weapon This parameter is the weapon chosen by the player
      * @return 1 if the weapons is yellow, 0 otherwise
      */
-    private int isYellow(Weapon weapon){
-        if(weapon.getColor().equals("Yellow"))
+    private int isYellow(Weapon weapon) {
+        if (weapon.getColor().equals("Yellow"))
             return 1;
         return 0;
     }
@@ -455,7 +423,7 @@ public class Player {
      * @return 1 if the player has 3 or more damage counters, 0 otherwise
      */
     private int isOnAdrenalineGrab() {
-        if(this.damageCounter>=3)
+        if (this.damageCounter >= 3)
             return 1;
         return 0;
     }
@@ -465,54 +433,96 @@ public class Player {
      * @return 1 if the player has 6 or more damage counters, 0 otherwise
      */
     private int isOnAdrenalineShoot() {
-        if(this.damageCounter>=6)
+        if (this.damageCounter >= 6)
             return 1;
         return 0;
     }
 
     /**
-     * This method
-     * @return 1 if the player is the first player or if his final turn comes later then
+     * This method return an integer for upgrade the movement in a frenzy turn (used for compress grab)
+     * @return 1 if it's a frenzy turn, 0 otherwise
+     */
+    private int onFrenzy() {
+        if (this.turn.isFrenzy())
+            return 1;
+        return 0;
+    }
+
+    /**
+     * This method return and integer for upgrade the movement in the frenzy action
+     * @return 1 if the player is the first player or if his final turn comes later then the first player, 0 otherwise
      */
     private int onlyFrenzyAction() {
-        int lastcont=0;
-        for(int i=0;i<this.turn.getMatch().getPlayers().size();i++)
-            if(this.turn.getMatch().getPlayers().get(i).isLastKill())
-                lastcont=i;
-        for(int i=0;i<this.turn.getMatch().getPlayers().size();i++)
-            if(this.turn.getMatch().getPlayers().contains(this) && i<=lastcont)
+        int lastcont = 0;
+        for (int i = 0; i < this.turn.getMatch().getPlayers().size(); i++)
+            if (this.turn.getMatch().getPlayers().get(i).isLastKill())
+                lastcont = i;
+        for (int i = 0; i < this.turn.getMatch().getPlayers().size(); i++)
+            if (this.turn.getMatch().getPlayers().contains(this) && i <= lastcont)
                 return 1;
         return 0;
     }
 
+    /**
+     * This method returns the number of skulls of the player
+     * @return The number of skulls that the player owns
+     */
     public int getSkull() {
         return skull;
     }
 
+    /**
+     * This method sets the number of skulls of the player
+     * @param skull The number of skulls that the player'll have
+     */
     public void setSkull(int skull) {
         this.skull = skull;
     }
 
+    /**
+     * This method return the number of blue ammo that the player owns
+     * @return The number of blue ammo that the player has
+     */
     public int getBlueAmmo() {
         return blueAmmo;
     }
 
+    /**
+     * This method sets the number of blue ammo of the player
+     * @param blueAmmo The number of blue ammo that the player'll have
+     */
     public void setBlueAmmo(int blueAmmo) {
         this.blueAmmo = blueAmmo;
     }
 
+    /**
+     * This method return the number of red ammo that the player owns
+     * @return The number of red ammo that the player has
+     */
     public int getRedAmmo() {
         return redAmmo;
     }
 
+    /**
+     * This method sets the number of red ammo of the player
+     * @param redAmmo The number of red ammo that the player'll have
+     */
     public void setRedAmmo(int redAmmo) {
         this.redAmmo = redAmmo;
     }
 
+    /**
+     * This method return the number of yellow ammo that the player owns
+     * @return The number of yellow ammo that the player has
+     */
     public int getYellowAmmo() {
         return yellowAmmo;
     }
 
+    /**
+     * This method sets the number of yellow ammo of the player
+     * @param yellowAmmo The number of yellow ammo that the player'll have
+     */
     public void setYellowAmmo(int yellowAmmo) {
         this.yellowAmmo = yellowAmmo;
     }
