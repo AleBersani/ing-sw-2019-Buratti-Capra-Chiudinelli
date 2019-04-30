@@ -36,14 +36,13 @@ public class Board {
         ArrayList<String> tempC= new ArrayList<>();
         ArrayList<Integer> coord= new ArrayList<>();
         Square temp1,temp2;
-        int i;
 
         try {
             br = new BufferedReader(new FileReader(type));
             JsonObject jsonObject = gSon.fromJson(br, JsonObject.class);
 
 
-            for(i=1; i<=jsonObject.get("nRooms").getAsInt(); i++){
+            for(int i=1; i<=jsonObject.get("nRooms").getAsInt(); i++){
                 tempX.clear();
                 tempY.clear();
                 tempC.clear();
@@ -66,7 +65,7 @@ public class Board {
                         this
                         ));
             }
-            for (i=1; i<=jsonObject.get("nDoors").getAsInt(); i++){
+            for (int i=1; i<=jsonObject.get("nDoors").getAsInt(); i++){
                 coord.clear();
                 for (JsonElement j : jsonObject.get("from"+Integer.toString(i)).getAsJsonArray()) {
                     coord.add(j.getAsInt());
@@ -90,7 +89,7 @@ public class Board {
         }
         this.reShuffleAmmo();
         this.reShufflePowerUps();
-        //this.reShuffleWeapons();
+        this.reShuffleWeapons();
     }
 
     public Square find(int x, int y) throws NotFoundException {
@@ -282,7 +281,7 @@ public class Board {
     }
 
     public ArrayList<Room> getRooms() {
-        return rooms;
+        return (ArrayList<Room>) rooms.clone();
     }
 
     private class AmmoGson{

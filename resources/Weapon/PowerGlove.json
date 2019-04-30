@@ -1,0 +1,104 @@
+{
+  "color": "yellow",
+  "name": "Power Glove",
+  "costBlue": 1,
+  "costRed": 0,
+  "costYellow": 1,
+  "load": true,
+  "effect": [
+    {
+      "type": "MovementEffect",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {
+          "type": "NotSameSquare"
+        }
+      ],
+      "distance": 1
+    },
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {
+          "type": "SameSquare"
+        }
+      ],
+      "damage": 1,
+      "mark": 2,
+      "addToList": false,
+      "removeFromList": false
+    }
+  ],
+  "previousTarget": [],
+  "owner": null,
+  "alternativeEffect": [
+    {
+      "type": "MovementEffect",
+      "costBlue": 1,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "in Rocket fist Mode",
+      "constraints": [
+        {
+          "type": "NotSameSquare"
+        }
+      ],
+      "distance": 1
+    },
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 1,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "in Rocket fist Mode",
+      "constraints": [
+        {
+          "type": "SameSquare"
+        }
+      ],
+      "damage": 2,
+      "mark": 0,
+      "addToList": false,
+      "removeFromList": false
+    },
+    {
+      "type": "MovementEffect",
+      "costBlue": 1,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "in Rocket fist Mode",
+      "constraints": [
+        {
+          "type": "NotSameSquare"
+        },
+        {
+          "type": "SameDirection"
+        }
+      ],
+      "distance": 1
+    },
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 1,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "in Rocket fist Mode",
+      "constraints": [
+        {
+          "type": "SameSquare"
+        }
+      ],
+      "damage": 2,
+      "mark": 0,
+      "addToList": false,
+      "removeFromList": false
+    }
+  ]
+}

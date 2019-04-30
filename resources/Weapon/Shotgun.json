@@ -1,0 +1,61 @@
+{
+  "color": "yellow",
+  "name": "Shotgun",
+  "costBlue": 0,
+  "costRed": 0,
+  "costYellow": 2,
+  "load": true,
+  "effect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {
+          "type": "SameSquare"
+        }
+      ],
+      "damage": 3,
+      "mark": 0,
+      "addToList": true,
+      "removeFromList": false
+    },
+    {
+      "type": "MovementEffect",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {}
+      ],
+      "distance": 1
+    }
+  ],
+  "previousTarget": [],
+  "owner": null,
+  "alternativeEffect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "in long barrel Mode",
+      "constraints": [
+        {
+          "type": "See"
+        },
+        {
+          "type": "MaximumDistance",
+          "distance": 1
+        }
+      ],
+      "damage": 2,
+      "mark": 0,
+      "addToList": false,
+      "removeFromList": false
+    }
+  ]
+}

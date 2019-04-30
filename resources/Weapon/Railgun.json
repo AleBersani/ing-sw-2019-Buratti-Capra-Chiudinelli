@@ -1,0 +1,66 @@
+{
+  "color": "yellow",
+  "name": "Railgun",
+  "costBlue": 1,
+  "costRed": 0,
+  "costYellow": 2,
+  "load": true,
+  "effect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {
+          "type": "SameDirection"
+        }
+
+      ],
+      "damage": 3,
+      "mark": 0,
+      "addToList": false,
+      "removeFromList": false
+    }
+  ],
+
+  "previousTarget": [],
+  "owner": null,
+  "alternativeEffect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "in Piercing Mode",
+      "constraints": [
+        {
+          "type": "SameDirection"
+        }
+
+      ],
+      "damage": 2,
+      "mark": 0,
+      "addToList": true,
+      "removeFromList": false
+    },
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "in Piercing Mode",
+      "constraints": [
+        {
+          "type": "SameDirection"
+        }
+
+      ],
+      "damage": 2,
+      "mark": 0,
+      "addToList": false,
+      "removeFromList": false
+    }
+  ]
+}

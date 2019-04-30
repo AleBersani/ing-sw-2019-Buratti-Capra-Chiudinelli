@@ -1,0 +1,62 @@
+{
+  "color": "yellow",
+  "name": "Cyberblade",
+  "costBlue": 0,
+  "costRed": 1,
+  "costYellow": 1,
+  "load": true,
+  "effect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Effect",
+      "constraints": [
+        {
+          "type": "SameSquare"
+        }
+      ],
+      "damage": 2,
+      "mark": 0,
+      "addToList": true,
+      "removeFromList": false
+    }
+  ],
+  "previousTarget": [],
+  "owner": null,
+  "optionalEffect": [
+    [
+      {
+        "type": "MovementEffect",
+        "costBlue": 0,
+        "costRed": 0,
+        "costYellow": 0,
+        "name": "with shadowstep",
+        "constraints": [
+          {}
+        ],
+        "distance": 1
+      }
+
+    ],
+    [
+      {
+        "type": "EffectVsPlayer",
+        "costBlue": 0,
+        "costRed": 0,
+        "costYellow": 1,
+        "name": "with slice and dice",
+        "constraints": [
+          {
+            "type": "SameSquare"
+          }
+        ],
+        "damage": 2,
+        "mark": 0,
+        "addToList": false,
+        "removeFromList": false
+      }
+    ]
+  ]
+}

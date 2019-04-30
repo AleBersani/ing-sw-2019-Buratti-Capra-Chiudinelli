@@ -1,0 +1,129 @@
+{
+  "color": "yellow",
+  "name": "Shockwave",
+  "costBlue": 0,
+  "costRed": 0,
+  "costYellow": 1,
+  "load": true,
+  "effect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {
+          "type": "MaximumDistance",
+          "distance": 1
+        },
+        {
+          "type": "NotSameSquare"
+        }
+      ],
+      "damage": 1,
+      "mark": 0,
+      "addToList": true,
+      "removeFromList": false
+    },
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {
+          "type": "MaximumDistance",
+          "distance": 1
+        },
+        {
+          "type": "NotSameSquare"
+        }
+      ],
+      "damage": 1,
+      "mark": 0,
+      "addToList": true,
+      "removeFromList": false
+    },
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {
+          "type": "MaximumDistance",
+          "distance": 1
+        },
+        {
+          "type": "NotSameSquare"
+        }
+      ],
+      "damage": 1,
+      "mark": 0,
+      "addToList": true,
+      "removeFromList": false
+    }
+  ],
+  "previousTarget": [],
+  "owner": null,
+  "alternativeEffect": [
+    {
+      "type": "EffectVsSquare",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 1,
+      "name": "in tsunami Mode",
+      "constraints": [
+        {
+          "type": "NotSameSquare"
+        },
+        {
+          "type": "MaximumDistance",
+          "distance": 1
+        }
+      ],
+      "damage": 1,
+      "mark": 0
+    },
+    {
+      "type": "EffectVsSquare",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 1,
+      "name": "in tsunami Mode",
+      "constraints": [
+        {
+          "type": "NotSameSquare"
+        },
+        {
+          "type": "MaximumDistance",
+          "distance": 1
+        }
+      ],
+      "damage": 1,
+      "mark": 0
+    },
+    {
+      "type": "EffectVsSquare",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 1,
+      "name": "in tsunami Mode",
+      "constraints": [
+        {
+          "type": "NotSameSquare"
+        },
+        {
+          "type": "MaximumDistance",
+          "distance": 1
+        }
+      ],
+      "damage": 1,
+      "mark": 0
+    }
+
+  ]
+}

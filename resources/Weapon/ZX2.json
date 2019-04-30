@@ -1,0 +1,78 @@
+{
+  "color": "yellow",
+  "name": "ZX-2",
+  "costBlue": 0,
+  "costRed": 1,
+  "costYellow": 1,
+  "load": true,
+  "effect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {
+          "type": "See"
+        }
+      ],
+      "damage": 1,
+      "mark": 2,
+      "addToList": false,
+      "removeFromList": false
+    }
+  ],
+  "previousTarget": [],
+  "owner": null,
+  "alternativeEffect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "in Scanner Mode",
+      "constraints": [
+        {
+          "type": "See"
+        }
+      ],
+      "damage": 0,
+      "mark": 1,
+      "addToList": false,
+      "removeFromList": false
+    },
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "in Scanner Mode",
+      "constraints": [
+        {
+          "type": "See"
+        }
+      ],
+      "damage": 0,
+      "mark": 1,
+      "addToList": false,
+      "removeFromList": false
+    },
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "in Scanner Mode",
+      "constraints": [
+        {
+          "type": "See"
+        }
+      ],
+      "damage": 0,
+      "mark": 1,
+      "addToList": false,
+      "removeFromList": false
+    }
+  ]
+}

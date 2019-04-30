@@ -2,7 +2,6 @@ package it.polimi.ingsw.Model.Cards.Effects;
 
 import it.polimi.ingsw.Exception.InvalidTargetException;
 import it.polimi.ingsw.Model.Cards.Constraints.Constraint;
-import it.polimi.ingsw.Model.Cards.Weapon;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.TargetParameter;
 

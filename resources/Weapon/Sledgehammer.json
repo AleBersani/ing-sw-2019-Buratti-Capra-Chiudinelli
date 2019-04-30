@@ -1,0 +1,59 @@
+{
+  "color": "yellow",
+  "name": "Sledgehammer",
+  "costBlue": 0,
+  "costRed": 0,
+  "costYellow": 2,
+  "load": true,
+  "effect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {
+          "type": "SameSquare"
+        }
+      ],
+      "damage": 2,
+      "mark": 0,
+      "addToList": false,
+      "removeFromList": false
+    }
+
+  ],
+  "previousTarget": [],
+  "owner": null,
+  "alternativeEffect": [
+    {
+      "type": "EffectVsPlayer",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {
+          "type": "SameSquare"
+        }
+      ],
+      "damage": 3,
+      "mark": 0,
+      "addToList": false,
+      "removeFromList": false
+    },
+    {
+      "type": "MovementEffect",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {}
+      ],
+      "distance": 2,
+      "linear": true
+    }
+  ]
+}
