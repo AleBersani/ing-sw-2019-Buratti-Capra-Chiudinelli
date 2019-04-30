@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class TurnTest {
 
@@ -22,13 +23,13 @@ class TurnTest {
         guest = new Player(true,"blue", "Franco");
         test = new Player(true,"red", "France");
         loser = new Player(false,"yellow", "Paola");
-        playerList = new ArrayList<Player>(Arrays.asList(guest,test,loser));
+        playerList = new ArrayList<>(Arrays.asList(guest,test,loser));
         testMatch = new Match(playerList,3,5,true,"normal");
         turn = new Turn(guest,false,test,testMatch);
         board = new Board(testMatch, "./resources/Board/Board1.json");
-        damageList = new ArrayList<Player>(Arrays.asList(test,guest,guest,guest,guest,guest,guest,test,test,test,test));
-        damageList2 = new ArrayList<Player>(Arrays.asList(guest,guest,guest,guest,guest,guest,guest,test,test,test,test));
-        damageList3 = new ArrayList<Player>(Arrays.asList(test,loser,loser,loser,test,test,test,test,test,test,test,test));
+        damageList = new ArrayList<>(Arrays.asList(test,guest,guest,guest,guest,guest,guest,test,test,test,test));
+        damageList2 = new ArrayList<>(Arrays.asList(guest,guest,guest,guest,guest,guest,guest,test,test,test,test));
+        damageList3 = new ArrayList<>(Arrays.asList(test,loser,loser,loser,test,test,test,test,test,test,test,test));
     }
 
     @Test
@@ -46,7 +47,7 @@ class TurnTest {
         turn.endTurn();
         for(int i=0;i<this.turn.getMatch().getBoard().getRooms().size();i++)
             for(int j=0;j<this.turn.getMatch().getBoard().getRooms().get(i).getSquares().size();j++)
-                assertEquals(false,this.turn.getMatch().getBoard().getRooms().get(i).getSquares().get(j).require());
+                assertFalse(this.turn.getMatch().getBoard().getRooms().get(i).getSquares().get(j).require());
     }
 
     @Test

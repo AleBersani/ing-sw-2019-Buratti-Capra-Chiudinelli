@@ -65,6 +65,10 @@ public abstract class Weapon {
         return load;
     }
 
+    public void setLoad(boolean load) {
+        this.load = load;
+    }
+
     public ArrayList<Effect> getEffect() {
         return effect;
     }

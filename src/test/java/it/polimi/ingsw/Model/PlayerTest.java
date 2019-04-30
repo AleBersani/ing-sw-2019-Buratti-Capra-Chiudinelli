@@ -1,10 +1,9 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Exception.InvalidDestinationException;
-import it.polimi.ingsw.Exception.InvalidTargetException;
-import it.polimi.ingsw.Exception.MaxHandSizeException;
-import it.polimi.ingsw.Exception.NotFoundException;
+import it.polimi.ingsw.Exception.*;
 import it.polimi.ingsw.Model.Cards.PowerUp;
+import it.polimi.ingsw.Model.Cards.Weapon;
+import it.polimi.ingsw.Model.Map.AmmoTile;
 import it.polimi.ingsw.Model.Map.Board;
 import it.polimi.ingsw.Model.Map.Square;
 import it.polimi.ingsw.Model.Player;
@@ -29,6 +28,8 @@ class PlayerTest {
     ArrayList<PowerUp> testingPowerUp;
     PowerUp teleporter;
     TargetParameter targetParameterTeleporter;
+    Weapon lockRifle;
+    AmmoTile ammoTest;
 
     @BeforeEach
     public void setup() {
@@ -47,6 +48,7 @@ class PlayerTest {
         guest.setPowerUps(testingPowerUp);
         playerList = new ArrayList<Player>(Arrays.asList(guest,test,loser));
         testMatch = new Match(playerList,3,5,true,"normal");
+        ammoTest = new AmmoTile(2,1,0,0);
     }
 
     @Test
@@ -85,7 +87,33 @@ class PlayerTest {
     /*
     @Test
     public void testGrab() {
-
+        board.getAmmoList().add(ammoTest);
+        try {
+            guest.setPosition(board.find(2,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            board.find(2,2).generate();
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            guest.grab(board.find(2,2));
+        } catch (MaxHandSizeException e) {
+            e.printStackTrace();
+        } catch (NoAmmoException e) {
+            e.printStackTrace();
+        } catch (MaxHandWeaponSizeException e) {
+            e.printStackTrace();
+        } catch (InvalidDestinationException e) {
+            e.printStackTrace();
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        assertEquals(2,guest.getRedAmmo());
+        assertEquals(1,guest.getBlueAmmo());
+        assertEquals(0,guest.getYellowAmmo());
     }
 
     @Test
@@ -135,12 +163,48 @@ class PlayerTest {
         }
         assertEquals(true,guest.canSee(test));
     }
-    /*
+
     @Test
     public void testReload() {
-
+        lockRifle = new Weapon("blue","Lock rifle",2,0,0,null) {
+            @Override
+            public void fireOptional(TargetParameter target, int which) throws NotThisKindOfWeapon, InvalidTargetException {
+            }
+            @Override
+            public void fireAlternative(TargetParameter target) throws NotThisKindOfWeapon, InvalidTargetException {
+            }
+        };
+        lockRifle.setLoad(false);
+        guest.setBlueAmmo(3);
+        guest.setYellowAmmo(2);
+        guest.setRedAmmo(0);
+        try {
+            guest.reload(lockRifle);
+        } catch (LoadedException e) {
+            e.printStackTrace();
+        } catch (NoAmmoException e) {
+            e.printStackTrace();
+        }
+        assertEquals(1,guest.getBlueAmmo());
+        assertEquals(2,guest.getYellowAmmo());
+        assertEquals(0,guest.getRedAmmo());
+        try {
+            guest.reload(lockRifle);
+        } catch (LoadedException e) {
+            assertEquals(0,0);
+        } catch (NoAmmoException e) {
+            e.printStackTrace();
+        }
+        lockRifle.setLoad(false);
+        try {
+            guest.reload(lockRifle);
+        } catch (LoadedException e) {
+            e.printStackTrace();
+        } catch (NoAmmoException e) {
+            assertEquals(0,0);
+        }
     }
-    */
+
     @Test
     public void testDraw() {
         guest.setTurn(turn);
@@ -159,11 +223,11 @@ class PlayerTest {
         guest.discard(teleporter);
         assertEquals(1,guest.getPowerUps().size());
     }
-    /*
+
     @Test
     public void testSpawn() {
     }
-    */
+
     @Test
     public void testDead() {
         guest.setTurn(turn);

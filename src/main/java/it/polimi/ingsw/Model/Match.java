@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Exception.SpawnNeedException;
 import it.polimi.ingsw.Model.Map.Board;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class Match {
     }
 
     public Match(ArrayList<Player> players, int numPlayers, int skulls, boolean frenzyEn, String mode) {
-        this.players = new CircularArrayList<Player>(players);
+        this.players = new CircularArrayList<>(players);
         this.numPlayers = numPlayers;
         this.skulls = skulls;
         this.frenzyEn = frenzyEn;
@@ -41,16 +42,16 @@ public class Match {
         i=0;
     }
 
-    public void start(){
+    public void start() {
         getTurn().endTurn();
     }
 
-    public void startTurn(){
+    public void startTurn() {
         this.turn = new Turn(this.players.get(i+1),this.setFrenzy(),this.players.get(i),this);
-        /* TODO SPAWN TO CONTROLLER
+        /* TODO PUT IT IN CONTROLLER
         if(getTurn().getCurrent().getPosition() == null)
-            getTurn().getCurrent().spawn();
-        */
+            throw new SpawnNeedException();
+         */
         i++;
     }
 
@@ -63,9 +64,15 @@ public class Match {
     public void endGame(){
         ArrayList<Player> killPlayer = new ArrayList<>();
         ArrayList<Integer> killCounter = new ArrayList<>();
+        ArrayList<Player> killPriority = new ArrayList<>();
         ArrayList<Player> winPlayer = new ArrayList<>();
-        int i,k,max=0,index=0;
-        boolean found,added;
+        int i;
+        int k;
+        int max=0;
+        int index=0;
+        boolean found;
+        boolean added;
+        boolean equal=true;
 
         if (getTurn().getCurrent().isLastKill() && getTurn().isFrenzy()) {
             for (i = 0, found = false; i < this.killShotTrack.size(); i++) {
@@ -81,19 +88,20 @@ public class Match {
             }
 
             for(i=0;killPlayer.isEmpty();i++) {    // SET POINT FOR ALL KILLER
-                for (k = 0;killCounter.isEmpty(); k++)
+                for (k = 0;k<killCounter.size(); k++)
                     if (killCounter.get(k) > max) {
                         max = killCounter.get(k);
                         index = k;
                     }
                 killPlayer.get(index).setPoints(killPlayer.get(index).getPoints() + getTurn().calcPoints(i));
+                killPriority.add(killPlayer.get(index));
                 killCounter.remove(index);
                 killPlayer.remove(index);
             }
 
             do {
                 for (i = 0,added=false; i < this.numPlayers; i++)
-                    if (this.players.get(i).getPoints() >= max && !winPlayer.contains(this.players.get(i))) {
+                    if (this.players.get(i).getPoints() >=  max && !winPlayer.contains(this.players.get(i))) {
                         max = this.players.get(i).getPoints();
                         index = i;
                         added=true;
@@ -103,11 +111,25 @@ public class Match {
             }
             while(added);
 
-            while(winPlayer.size()>1){
+            //if there are more than one player with the same point, control and remove if there are player that didn't make a kill
+            if(winPlayer.size()>1) {
+                for (i = 0; i < winPlayer.size(); i++)
+                    if (!killPriority.contains(winPlayer.get(i))) {
+                        winPlayer.remove(i);
+                        i--;
+                        equal = false;
+                    }
 
-
+                if(!equal) {
+                    found = false;
+                    for (i = 0; i < killPriority.size() && !found; i++)
+                        if (winPlayer.contains(killPriority.get(i))) {
+                            found = true;
+                            winPlayer.clear();
+                            winPlayer.add(killPriority.get(i));
+                        }
+                }
             }
-
         }
     }
 

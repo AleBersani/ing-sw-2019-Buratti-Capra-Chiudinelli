@@ -148,6 +148,7 @@ public class Player {
                 if (destination.grabAmmo().getPowerUp() == 1)
                     draw();
             } catch (ElementNotFoundException e) {
+                /*
                 try{
                     destination.grabWeapon(i);
                     if (destination.grabWeapon(i).getCostRed() - isRed(destination.grabWeapon(i)) <= this.redAmmo && destination.grabWeapon(i).getCostBlue() - isBlue(destination.grabWeapon(i)) <= this.blueAmmo && destination.grabWeapon(i).getCostYellow() - isYellow(destination.grabWeapon(i)) <= this.yellowAmmo){
@@ -163,6 +164,7 @@ public class Player {
                 }
                 catch (ElementNotFoundException ex) {
                 }
+                */
             }
             this.position = destination;
         }
@@ -297,10 +299,9 @@ public class Player {
             }
         }
         for(i=0;i<this.mark.size();i++){
-            if(this.mark.get(i) == shooter)
-                if(this.damage.size()<12){
-                    this.damage.add(shooter);
-                    this.damageCounter++;
+            if(this.mark.get(i) == shooter && this.damage.size()<12) {
+                this.damage.add(shooter);
+                this.damageCounter++;
                 }
             this.mark.remove(i);
         }
@@ -314,7 +315,8 @@ public class Player {
      * @param shooter This parameter is the player who applies these marks
      */
     public void marked(int mark, Player shooter){
-        int i,counter;
+        int i;
+        int counter;
         for(i=0,counter=0;i<this.mark.size();i++)
             if(this.mark.get(i) == shooter)
                 counter++;
@@ -419,7 +421,7 @@ public class Player {
      * @return 1 if the weapons is red, 0 otherwise
      */
     private int isRed(Weapon weapon){
-        if(weapon.getColor() == "Red")
+        if(weapon.getColor().equals("Red"))
             return 1;
         return 0;
     }
@@ -430,7 +432,7 @@ public class Player {
      * @return 1 if the weapons is blue, 0 otherwise
      */
     private int isBlue(Weapon weapon){
-        if(weapon.getColor() == "Blue")
+        if(weapon.getColor().equals("Blue"))
             return 1;
         return 0;
     }
@@ -441,7 +443,7 @@ public class Player {
      * @return 1 if the weapons is yellow, 0 otherwise
      */
     private int isYellow(Weapon weapon){
-        if(weapon.getColor() == "Yellow")
+        if(weapon.getColor().equals("Yellow"))
             return 1;
         return 0;
     }
