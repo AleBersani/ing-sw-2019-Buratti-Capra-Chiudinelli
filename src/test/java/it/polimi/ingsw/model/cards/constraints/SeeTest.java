@@ -19,6 +19,7 @@ class SeeTest {
     See test;
     ArrayList<Square> targets;
     TargetParameter target;
+    ArrayList<Player> previousTarget;
 
     @BeforeEach
     public void setup(){
@@ -26,6 +27,7 @@ class SeeTest {
         owner = new Player(true,"red", "Bellocchio");
         test = new See();
         target = new TargetParameter(null,owner,null,null,null);
+        previousTarget = new ArrayList<Player>();
     }
 
     @Test
@@ -41,7 +43,7 @@ class SeeTest {
             e.printStackTrace();
         }
         target.getConstraintSquareList().add(enemySquare);
-        assertEquals(true, test.canShoot(target));
+        assertEquals(true, test.canShoot(target,true,previousTarget));
     }
 
     @Test
@@ -57,7 +59,7 @@ class SeeTest {
             e.printStackTrace();
         }
         target.getConstraintSquareList().add(enemySquare);
-        assertEquals(false, test.canShoot(target));
+        assertEquals(false, test.canShoot(target,true,previousTarget));
     }
 
     @Test
@@ -85,7 +87,7 @@ class SeeTest {
         target.getConstraintSquareList().add(enemySquare);
         target.getConstraintSquareList().add(enemySquare2);
         target.getConstraintSquareList().add(enemySquare3);
-        assertEquals(true, test.canShoot(target));
+        assertEquals(true, test.canShoot(target,true,previousTarget));
     }
 
     @Test
@@ -113,6 +115,6 @@ class SeeTest {
         target.getConstraintSquareList().add(enemySquare);
         target.getConstraintSquareList().add(enemySquare2);
         target.getConstraintSquareList().add(enemySquare3);
-        assertEquals(false, test.canShoot(target));
+        assertEquals(false, test.canShoot(target,true,previousTarget));
     }
 }

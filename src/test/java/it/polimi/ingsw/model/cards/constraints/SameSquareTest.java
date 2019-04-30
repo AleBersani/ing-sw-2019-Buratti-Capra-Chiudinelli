@@ -8,6 +8,8 @@ import it.polimi.ingsw.model.TargetParameter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SameSquareTest {
@@ -18,6 +20,7 @@ class SameSquareTest {
     Square enemySquare, enemySquare2, enemySquare3;
     Board board;
     TargetParameter target;
+    ArrayList<Player> previousTarget;
 
     @BeforeEach
     public void setup(){
@@ -25,6 +28,7 @@ class SameSquareTest {
         owner = new Player(true,"red","Luciano");
         test = new SameSquare();
         target = new TargetParameter(null,owner,null,null,null);
+        previousTarget = new ArrayList<Player>();
     }
 
     @Test
@@ -42,7 +46,7 @@ class SameSquareTest {
             e.printStackTrace();
         }
         target.getConstraintSquareList().add(enemySquare);
-        assertEquals(true, test.canShoot(target));
+        assertEquals(true, test.canShoot(target,true,previousTarget));
     }
 
     @Test
@@ -58,7 +62,7 @@ class SameSquareTest {
             e.printStackTrace();
         }
         target.getConstraintSquareList().add(enemySquare);
-        assertEquals(false, test.canShoot(target));
+        assertEquals(false, test.canShoot(target,true,previousTarget));
     }
 
     @Test
@@ -80,7 +84,7 @@ class SameSquareTest {
         }
         target.getConstraintSquareList().add(enemySquare);
         target.getConstraintSquareList().add(enemySquare2);
-        assertEquals(true, test.canShoot(target));
+        assertEquals(true, test.canShoot(target,true,previousTarget));
     }
 
     @Test
@@ -102,7 +106,7 @@ class SameSquareTest {
         }
         target.getConstraintSquareList().add(enemySquare);
         target.getConstraintSquareList().add(enemySquare2);
-        assertEquals(false, test.canShoot(target));
+        assertEquals(false, test.canShoot(target,true,previousTarget));
     }
 
     @Test
@@ -130,7 +134,7 @@ class SameSquareTest {
         target.getConstraintSquareList().add(enemySquare);
         target.getConstraintSquareList().add(enemySquare2);
         target.getConstraintSquareList().add(enemySquare3);
-        assertEquals(true, test.canShoot(target));
+        assertEquals(true, test.canShoot(target,true,previousTarget));
     }
 
     @Test
@@ -158,6 +162,6 @@ class SameSquareTest {
         target.getConstraintSquareList().add(enemySquare);
         target.getConstraintSquareList().add(enemySquare2);
         target.getConstraintSquareList().add(enemySquare3);
-        assertEquals(false, test.canShoot(target));
+        assertEquals(false, test.canShoot(target,true,previousTarget));
     }
 }

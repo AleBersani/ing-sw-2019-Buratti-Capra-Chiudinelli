@@ -8,17 +8,18 @@ import it.polimi.ingsw.model.TargetParameter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class NotSameSquareTest {
-
-
 
     NotSameSquare test;
     Player owner;
     Square enemySquare, enemySquare2, enemySquare3;
     Board board;
     TargetParameter target;
+    ArrayList<Player> previousTarget;
 
     @BeforeEach
     public void setup(){
@@ -26,6 +27,7 @@ class NotSameSquareTest {
         owner = new Player(true,"red","Luciano");
         test = new NotSameSquare();
         target = new TargetParameter(null,owner,null,null,null);
+        previousTarget = new ArrayList<Player>();
     }
 
     @Test
@@ -53,7 +55,7 @@ class NotSameSquareTest {
         target.getConstraintSquareList().add(enemySquare);
         target.getConstraintSquareList().add(enemySquare2);
         target.getConstraintSquareList().add(enemySquare3);
-        assertEquals(true, test.canShoot(target));
+        assertEquals(true, test.canShoot(target,true,previousTarget));
     }
 
     @Test
@@ -81,6 +83,6 @@ class NotSameSquareTest {
         target.getConstraintSquareList().add(enemySquare);
         target.getConstraintSquareList().add(enemySquare2);
         target.getConstraintSquareList().add(enemySquare3);
-        assertEquals(false, test.canShoot(target));
+        assertEquals(false, test.canShoot(target,true,previousTarget));
     }
 }

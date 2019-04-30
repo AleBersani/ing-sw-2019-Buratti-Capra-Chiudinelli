@@ -49,7 +49,7 @@ public class MovementEffect extends Effect {
             }
         }
 
-        if(!constraintsCheck(target)){
+        if(!constraintsCheck(target,previousTarget)){
             throw new InvalidTargetException();
         }
         else{

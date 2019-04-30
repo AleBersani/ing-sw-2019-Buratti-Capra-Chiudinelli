@@ -220,9 +220,6 @@ public class Board {
         for (j=0; i<jsonObject.getEffectsVsSquare().size()+ jsonObject.getEffectsVsPlayer().size()+jsonObject.getMovementEffects().size();i++, j++) {
             powerUpListTemp.get(i).setEffect(jsonObject.getMovementEffects().get(j));
         }
-        for (j=0; i<jsonObject.getEffectsVsDirection().size()+ jsonObject.getEffectsVsPlayer().size()+jsonObject.getMovementEffects().size();i++, j++) {
-            powerUpListTemp.get(i).setEffect(jsonObject.getMovementEffects().get(j));
-        }
 
         powerUpList=powerUpListTemp;
         if (match!= null) {
@@ -363,7 +360,6 @@ public class Board {
         private ArrayList<EffectVsPlayer> effectsVsPlayer=new ArrayList<>();
         private ArrayList<EffectVsRoom> effectsVsRoom=new ArrayList<>();
         private ArrayList<EffectVsSquare> effectsVsSquare= new ArrayList<>();
-        private ArrayList<EffectsVsDirection> effectsVsDirection= new ArrayList<>();
         private class PseudoPowerUp{
            String color, name;
         }
@@ -386,10 +382,6 @@ public class Board {
 
         public ArrayList<EffectVsSquare> getEffectsVsSquare() {
             return effectsVsSquare;
-        }
-
-        public ArrayList<EffectsVsDirection> getEffectsVsDirection() {
-            return effectsVsDirection;
         }
 
     }
@@ -437,9 +429,6 @@ public class Board {
                     case "EffectVsRoom":
                         return context.deserialize(jsonObject,
                                 EffectVsRoom.class);
-                    case "EffectVsDirection":
-                        return context.deserialize(jsonObject,
-                                EffectsVsDirection.class);
                 }
             }
             return null;
