@@ -3,6 +3,7 @@ package it.polimi.ingsw.Model.Cards.Effects;
 import it.polimi.ingsw.Exception.InvalidTargetException;
 import it.polimi.ingsw.Model.Cards.Constraints.Constraint;
 import it.polimi.ingsw.Model.Cards.Weapon;
+import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.TargetParameter;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class MovementEffect extends Effect {
     }
 
     @Override
-    public void apply(TargetParameter target, Weapon weapon) throws InvalidTargetException {
+    public void apply(TargetParameter target, ArrayList<Player> previousTarget) throws InvalidTargetException {
 
         int mDist;
 

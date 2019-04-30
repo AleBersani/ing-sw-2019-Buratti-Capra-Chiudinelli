@@ -3,9 +3,11 @@ package it.polimi.ingsw.Model.Cards.Effects;
 import it.polimi.ingsw.Exception.InvalidTargetException;
 import it.polimi.ingsw.Model.Cards.Constraints.Constraint;
 import it.polimi.ingsw.Model.Cards.Weapon;
+import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.TargetParameter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Effect {
 
@@ -25,7 +27,7 @@ public abstract class Effect {
         this.constraintPositivity=constraintPositivity;
     }
 
-    abstract public void apply(TargetParameter target, Weapon weapon) throws InvalidTargetException;
+    abstract public void apply(TargetParameter target, ArrayList<Player> previousTarget) throws InvalidTargetException;
 
     public boolean constraintsCheck(TargetParameter target){
         int i;
