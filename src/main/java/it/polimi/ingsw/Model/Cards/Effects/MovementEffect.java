@@ -2,22 +2,24 @@ package it.polimi.ingsw.Model.Cards.Effects;
 
 import it.polimi.ingsw.Exception.InvalidTargetException;
 import it.polimi.ingsw.Model.Cards.Constraints.Constraint;
-import it.polimi.ingsw.Model.Map.Square;
-import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.TargetParameter;
 
 import java.util.ArrayList;
 
 public class MovementEffect extends Effect {
 
-    public MovementEffect(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints, int distance, boolean linear) {
-        super(costBlue, costRed, costYellow, name, constraints);
+    public MovementEffect(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints,ArrayList<Boolean> constraintPositivity, int distance, boolean linear, boolean addToList, boolean removeFromList) {
+        super(costBlue, costRed, costYellow, name, constraints, constraintPositivity);
         this.distance = distance;
         this.linear = linear;
+        this.addToList=addToList;
+        this.removeFromList=removeFromList;
     }
 
     private int distance;
     private boolean linear;
+    private boolean addToList;
+    private boolean removeFromList;
 
     public int getDistance() {
         return distance;

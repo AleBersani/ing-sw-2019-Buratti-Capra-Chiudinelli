@@ -12,8 +12,8 @@ public class EffectsVsDirection extends Effect {
     private ArrayList<Integer> damageList;
     private ArrayList<Integer> markList;
 
-    public EffectsVsDirection(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints, ArrayList<Integer> damageList, ArrayList<Integer> markList) {
-        super(costBlue, costRed, costYellow, name, constraints);
+    public EffectsVsDirection(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints,ArrayList<Boolean> constraintPositivity, ArrayList<Integer> damageList, ArrayList<Integer> markList) {
+        super(costBlue, costRed, costYellow, name, constraints, constraintPositivity);
         this.damageList = damageList;
         this.markList = markList;
     }
