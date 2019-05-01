@@ -24,7 +24,7 @@ public abstract class Square {
      * @param x is the x coordinate of the square
      * @param y is the y coordinate of the square
      * @param color is the color of the square
-     * @param room is the room in wich is positioned this square
+     * @param room is the room in which is positioned this square
      */
     public Square(int x, int y, String color, Room room) {
         this.x = x;
@@ -103,7 +103,7 @@ public abstract class Square {
 
     /**
      * this method return if this square need a new resource
-     * @return if this square need a new resource
+     * @return true if this square need a new resource
      */
     public abstract boolean require();
 
@@ -123,7 +123,7 @@ public abstract class Square {
      * this method return a weapon on this
      * @param position is the index of what weapon needs to be returned
      * @return the weapon on this at the index position, if there are not weapon on that index return null
-     * @throws ElementNotFoundException
+     * @throws ElementNotFoundException is thrown if this is not a SpawnPoint
      */
     public abstract Weapon grabWeapon( int position) throws ElementNotFoundException;
 
