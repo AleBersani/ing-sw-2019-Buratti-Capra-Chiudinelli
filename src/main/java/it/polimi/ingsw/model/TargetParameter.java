@@ -11,15 +11,16 @@ public class TargetParameter {
     private Room targetRoom;
     private Square targetSquare;
     private Square constraintSquare;
+    private String typeOfFire;
 
-    public TargetParameter(Square movement, Player owner, Player enemyPlayer, Room targetRoom, Square targetSquare) {
+    public TargetParameter(Square movement, Player owner, Player enemyPlayer, Room targetRoom, Square targetSquare, String typeOfFire) {
         this.movement = movement;
         this.owner = owner;
         this.enemyPlayer = enemyPlayer;
         this.targetRoom = targetRoom;
         this.targetSquare = targetSquare;
+        this.typeOfFire = typeOfFire;
     }
-
     public Square getMovement() {
         return movement;
     }

@@ -29,7 +29,7 @@ class MovementEffectTest {
         board = new Board(null, "./resources/Board/Board1.json");
         constraints = new ArrayList<Constraint>();
         constrainPositivity = new ArrayList<Boolean>();
-        target = new TargetParameter(null, owner, enemy, null, null);
+        target = new TargetParameter(null, owner, enemy, null, null,null);
         test = new MovementEffect(0,0,0,"Lablo",constraints,constrainPositivity,3,true,false,false);
         test2 = new MovementEffect(0,0,0,"Lablo",constraints,constrainPositivity,2,false,false,false);
     }
