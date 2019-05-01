@@ -10,10 +10,7 @@ public class TargetParameter {
     private Player enemyPlayer;
     private Room targetRoom;
     private Square targetSquare;
-    //constraintSquareList is made from other parameter input in the Controller
-    private ArrayList<Square> constraintSquareList = new ArrayList<Square>();
-    private ArrayList<Player> directionPlayer = new ArrayList<Player>();
-    private ArrayList<Square> directionSquare = new ArrayList<Square>();
+    private Square constraintSquare;
 
     public TargetParameter(Square movement, Player owner, Player enemyPlayer, Room targetRoom, Square targetSquare) {
         this.movement = movement;
@@ -43,17 +40,9 @@ public class TargetParameter {
         return targetSquare;
     }
 
-    public ArrayList<Square> getConstraintSquareList() {
-        return constraintSquareList;
-    }
+    public Square getConstraintSquare() { return constraintSquare; }
 
-    public ArrayList<Player> getDirectionPlayer() {
-        return directionPlayer;
-    }
-
-    public ArrayList<Square> getDirectionSquare() {
-        return directionSquare;
-    }
+    public void setConstraintSquare(Square constraintSquare) { this.constraintSquare = constraintSquare; }
 
     public void setMovement(Square movement) {
         this.movement = movement;

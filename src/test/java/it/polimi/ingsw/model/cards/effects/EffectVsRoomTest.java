@@ -35,10 +35,9 @@ class EffectVsRoomTest {
         enemy2 = new Player(true, "red", "Fabio");
         enemy3 = new Player(true, "yellow", "Gino");
         board = new Board(null, "./resources/Board/Board1.json");
-        notSameSquare = new NotSameSquare();
         adjacentRoom = new AdjacentRoom();
-        constraints = new ArrayList<Constraint>(Arrays.asList(notSameSquare,adjacentRoom));
-        constrainPositivity = new ArrayList<Boolean>(Arrays.asList(true,true));
+        constraints = new ArrayList<Constraint>(Arrays.asList(adjacentRoom));
+        constrainPositivity = new ArrayList<Boolean>(Arrays.asList(true));
         target = new TargetParameter(null, owner, null, null, null);
         test = new EffectVsRoom(0,0,0,"Vulcanizzatore",constraints,constrainPositivity,1,0);
 
@@ -54,11 +53,7 @@ class EffectVsRoomTest {
         enemy2.setPosition(board.getRooms().get(0).getSquares().get(1));
         board.getRooms().get(0).getSquares().get(2).arrives(enemy3);
         enemy3.setPosition(board.getRooms().get(0).getSquares().get(2));
-
         target.setTargetRoom(board.getRooms().get(0));
-        target.getConstraintSquareList().add(enemy.getPosition());
-        target.getConstraintSquareList().add(enemy2.getPosition());
-        target.getConstraintSquareList().add(enemy3.getPosition());
 
         try {
             board.find(1,2).arrives(owner);
@@ -89,11 +84,8 @@ class EffectVsRoomTest {
         enemy2.setPosition(board.getRooms().get(0).getSquares().get(1));
         board.getRooms().get(0).getSquares().get(2).arrives(enemy3);
         enemy3.setPosition(board.getRooms().get(0).getSquares().get(2));
-
         target.setTargetRoom(board.getRooms().get(0));
-        target.getConstraintSquareList().add(enemy.getPosition());
-        target.getConstraintSquareList().add(enemy2.getPosition());
-        target.getConstraintSquareList().add(enemy3.getPosition());
+
         try {
             board.find(2,2).arrives(owner);
             owner.setPosition(board.find(2,2));

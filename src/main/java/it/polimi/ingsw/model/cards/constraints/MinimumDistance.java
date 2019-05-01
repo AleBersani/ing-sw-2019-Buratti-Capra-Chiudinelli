@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.cards.constraints;
 
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.TargetParameter;
+import it.polimi.ingsw.model.map.Square;
 
 import java.util.ArrayList;
 
@@ -16,8 +16,13 @@ public class MinimumDistance extends Constraint {
 
     @Override
     public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget) {
-        for (Square s : target.getConstraintSquareList()) {
-            if (target.getOwner().getPosition().calcDist(s) < this.distance) {
+        ArrayList<Square> allTarget = new ArrayList<Square>();
+        for(Player previousPlayer: previousTarget){
+            allTarget.add(previousPlayer.getPosition());
+        }
+        allTarget.add(target.getConstraintSquare());
+        for(Square targetSquare: allTarget){
+            if((target.getOwner().getPosition().calcDist(targetSquare)<this.distance)==constraintPositivity) {
                 return false;
             }
         }

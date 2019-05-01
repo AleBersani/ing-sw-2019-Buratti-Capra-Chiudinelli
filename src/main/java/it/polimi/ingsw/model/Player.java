@@ -172,13 +172,13 @@ public class Player {
             this.blueAmmo=this.blueAmmo - (weapon.getCostBlue() - isBlue(weapon));
             this.yellowAmmo=this.yellowAmmo - (weapon.getCostYellow() - isYellow(weapon));
             this.weapons.add(weapon);
+            this.position = destination;
+            this.turn.setActionCounter((this.turn.getActionCounter() + 1));
             if (this.weapons.size() == 4)
                 throw new MaxHandWeaponSizeException();
         }
         else
             throw new NoAmmoException();
-        this.position = destination;
-        this.turn.setActionCounter((this.turn.getActionCounter() + 1));
     }
 
     /**
