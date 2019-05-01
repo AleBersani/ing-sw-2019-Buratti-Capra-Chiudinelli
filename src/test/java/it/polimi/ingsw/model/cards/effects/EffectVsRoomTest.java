@@ -4,7 +4,6 @@ import it.polimi.ingsw.exception.InvalidTargetException;
 import it.polimi.ingsw.exception.NotFoundException;
 import it.polimi.ingsw.model.cards.constraints.AdjacentRoom;
 import it.polimi.ingsw.model.cards.constraints.Constraint;
-import it.polimi.ingsw.model.cards.constraints.NotSameSquare;
 import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TargetParameter;
@@ -24,7 +23,6 @@ class EffectVsRoomTest {
     TargetParameter target;
     Board board;
     ArrayList<Constraint> constraints;
-    NotSameSquare notSameSquare;
     AdjacentRoom adjacentRoom;
     ArrayList<Boolean> constrainPositivity;
 

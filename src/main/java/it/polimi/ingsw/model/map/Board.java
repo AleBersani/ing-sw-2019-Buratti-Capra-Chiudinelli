@@ -449,12 +449,6 @@ public class Board {
                     case "MinimumDistance":
                         return context.deserialize(jsonObject,
                                 MinimumDistance.class);
-                    case "NotSameSquare":
-                        return context.deserialize(jsonObject,
-                                NotSameSquare.class);
-                    case "NotSee":
-                        return context.deserialize(jsonObject,
-                                NotSee.class);
                     case "SameDirection":
                         return context.deserialize(jsonObject,
                                 SameDirection.class);

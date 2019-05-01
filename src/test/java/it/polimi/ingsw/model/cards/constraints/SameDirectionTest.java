@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SameDirectionTest {
-/*
     SameDirection test;
-    Square enemySquare, enemySquare2;
+    Player enemy;
+    Square enemySquare;
     Player owner;
     Board board;
     TargetParameter target;
@@ -24,6 +24,7 @@ class SameDirectionTest {
     @BeforeEach
     public void setup(){
         board = new Board(null,"./resources/Board/Board1.json");
+        enemy = new Player(true,"blue", "Fabiano");
         owner = new Player(true,"red", "Fabiolo");
         test = new SameDirection();
         target = new TargetParameter(null,owner,null,null,null);
@@ -42,7 +43,7 @@ class SameDirectionTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        target.getConstraintSquareList().add(enemySquare);
+        target.setConstraintSquare(enemySquare);
         assertEquals(true, test.canShoot(target,true,previousTarget));
     }
 
@@ -58,7 +59,7 @@ class SameDirectionTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        target.getConstraintSquareList().add(enemySquare);
+        target.setConstraintSquare(enemySquare);
         assertEquals(false,test.canShoot(target,true,previousTarget));
     }
 
@@ -70,17 +71,17 @@ class SameDirectionTest {
             e.printStackTrace();
         }
         try {
-            enemySquare = board.find(3,3);
+            enemy.setPosition(board.find(3,3));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            enemySquare2 = board.find(3,2);
+            enemySquare = board.find(3,2);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        target.getConstraintSquareList().add(enemySquare);
-        target.getConstraintSquareList().add(enemySquare2);
+        previousTarget.add(enemy);
+        target.setConstraintSquare(enemySquare);
         assertEquals(true, test.canShoot(target,true,previousTarget));
     }
 
@@ -97,12 +98,12 @@ class SameDirectionTest {
             e.printStackTrace();
         }
         try {
-            enemySquare2 = board.find(3,2);
+            enemy.setPosition(board.find(3,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        target.getConstraintSquareList().add(enemySquare);
-        target.getConstraintSquareList().add(enemySquare2);
+        previousTarget.add(enemy);
+        target.setConstraintSquare(enemySquare);
         assertEquals(false,test.canShoot(target,true,previousTarget));
     }
 
@@ -119,13 +120,13 @@ class SameDirectionTest {
             e.printStackTrace();
         }
         try {
-            enemySquare2 = board.find(3,2);
+            enemy.setPosition(board.find(3,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        target.getConstraintSquareList().add(enemySquare);
-        target.getConstraintSquareList().add(enemySquare2);
+        previousTarget.add(enemy);
+        target.setConstraintSquare(enemySquare);
         assertEquals(false,test.canShoot(target,true,previousTarget));
     }
-    */
+
 }

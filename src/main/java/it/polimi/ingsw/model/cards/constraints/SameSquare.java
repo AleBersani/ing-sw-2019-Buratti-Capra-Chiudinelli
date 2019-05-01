@@ -10,13 +10,16 @@ public class SameSquare extends Constraint {
 
     @Override
     public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget) {
-        /*
-        for (Square s : target.getConstraintSquareList()) {
-            if(s != target.getOwner().getPosition()){
+        ArrayList<Square> allTarget = new ArrayList<Square>();
+        for(Player previousPlayer: previousTarget){
+            allTarget.add(previousPlayer.getPosition());
+        }
+        allTarget.add(target.getConstraintSquare());
+        for (Square targetSquare : allTarget) {
+            if((targetSquare != target.getOwner().getPosition())==constraintPositivity){
                 return false;
             }
         }
-        */
         return true;
     }
 }
