@@ -30,7 +30,7 @@ class SeeTest {
         enemy = new Player(true, "green", "Lucio");
         enemy2 = new Player(true, "red", "Fabio");
         test = new See();
-        target = new TargetParameter(null,owner,null,null,null);
+        target = new TargetParameter(null,owner,null,null,null,null);
         previousTarget = new ArrayList<Player>();
     }
 

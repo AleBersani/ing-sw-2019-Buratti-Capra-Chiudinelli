@@ -44,8 +44,8 @@ public class Match {
     int i;
 
     /**
-     *
-     * @param <Player>
+     * This class is the circular array list of players
+     * @param <Player> This parameter is the player list
      */
     private class CircularArrayList<Player> extends ArrayList<Player>
     {
@@ -72,7 +72,7 @@ public class Match {
      * @param mode This parameter is the mode that the players are playing
      */
     public Match(ArrayList<Player> players, int numPlayers, int skulls, boolean frenzyEn, String mode) {
-        this.players = new CircularArrayList<>(players);
+        this.players = new CircularArrayList<Player>(players);
         this.numPlayers = numPlayers;
         this.skulls = skulls;
         this.frenzyEn = frenzyEn;
@@ -246,6 +246,14 @@ public class Match {
      */
     public ArrayList<Player> getKillShotTrack() {
         return killShotTrack;
+    }
+
+    /**
+     * This method sets the killshot track of the match
+     * @param killShotTrack This parameter is the killshot track that the match'll have
+     */
+    public void setKillShotTrack(ArrayList<Player> killShotTrack) {
+        this.killShotTrack = killShotTrack;
     }
 
     /**

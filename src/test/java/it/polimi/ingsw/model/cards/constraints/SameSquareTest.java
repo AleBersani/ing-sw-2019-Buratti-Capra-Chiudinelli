@@ -26,7 +26,7 @@ class SameSquareTest {
         board = new Board(null,"./resources/Board/Board1.json");
         owner = new Player(true,"red","Luciano");
         test = new SameSquare();
-        target = new TargetParameter(null,owner,null,null,null);
+        target = new TargetParameter(null,owner,null,null,null,null);
         previousTarget = new ArrayList<Player>();
     }
 

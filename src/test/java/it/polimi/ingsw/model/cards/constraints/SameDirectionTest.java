@@ -27,7 +27,7 @@ class SameDirectionTest {
         enemy = new Player(true,"blue", "Fabiano");
         owner = new Player(true,"red", "Fabiolo");
         test = new SameDirection();
-        target = new TargetParameter(null,owner,null,null,null);
+        target = new TargetParameter(null,owner,null,null,null,null);
         previousTarget = new ArrayList<Player>();
     }
 
