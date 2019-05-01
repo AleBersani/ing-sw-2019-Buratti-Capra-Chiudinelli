@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SameDirectionTest {
-
+/*
     SameDirection test;
     Square enemySquare, enemySquare2;
     Player owner;
@@ -127,4 +127,5 @@ class SameDirectionTest {
         target.getConstraintSquareList().add(enemySquare2);
         assertEquals(false,test.canShoot(target,true,previousTarget));
     }
+    */
 }

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SeeTest {
+    /*
     Player owner;
     Square enemySquare,enemySquare2,enemySquare3;
     Board board;
@@ -117,4 +118,5 @@ class SeeTest {
         target.getConstraintSquareList().add(enemySquare3);
         assertEquals(false, test.canShoot(target,true,previousTarget));
     }
+    */
 }

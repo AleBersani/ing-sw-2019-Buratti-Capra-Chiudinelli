@@ -446,9 +446,6 @@ public class Board {
             JsonElement type = jsonObject.get("type");
             if (type != null) {
                 switch (type.getAsString()) {
-                    case "MaximumDistance":
-                        return context.deserialize(jsonObject,
-                                MaximumDistance.class);
                     case "MinimumDistance":
                         return context.deserialize(jsonObject,
                                 MinimumDistance.class);

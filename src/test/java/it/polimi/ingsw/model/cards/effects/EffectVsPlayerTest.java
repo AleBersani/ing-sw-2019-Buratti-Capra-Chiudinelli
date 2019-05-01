@@ -46,7 +46,7 @@ class EffectVsPlayerTest {
             enemy.setPosition(board.find(2,1));
             board.find(2,1).arrives(enemy);
             target.setEnemyPlayer(enemy);
-            target.getConstraintSquareList().add(enemy.getPosition());
+            target.setConstraintSquare(enemy.getPosition());
         } catch (NotFoundException e) {
             e.printStackTrace();
         }

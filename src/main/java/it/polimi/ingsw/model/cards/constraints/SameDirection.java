@@ -10,7 +10,7 @@ public class SameDirection extends Constraint {
 
     @Override
     public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget) {
-
+/*
         ArrayList<Integer> positions;
         positions = new ArrayList<Integer>();
         int i;
@@ -47,7 +47,7 @@ public class SameDirection extends Constraint {
                 }
             }
         }
-
+*/
         return true;
     }
 

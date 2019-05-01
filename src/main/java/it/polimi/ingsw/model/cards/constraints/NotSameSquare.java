@@ -10,11 +10,7 @@ public class NotSameSquare extends Constraint {
 
     @Override
     public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget) {
-        for (Square s : target.getConstraintSquareList()) {
-            if(s == target.getOwner().getPosition()){
-                return false;
-            }
-        }
+
         return true;
     }
 }

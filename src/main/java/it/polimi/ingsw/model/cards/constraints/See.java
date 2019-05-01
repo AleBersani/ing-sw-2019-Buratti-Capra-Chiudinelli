@@ -10,6 +10,7 @@ public class See extends Constraint {
 
     @Override
     public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget) {
+        /*
         boolean i;
         for (Square s : target.getConstraintSquareList()) {
             i = false;
@@ -24,6 +25,7 @@ public class See extends Constraint {
                 }
             }
         }
+        */
         return true;
     }
 }
