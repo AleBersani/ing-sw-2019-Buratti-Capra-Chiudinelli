@@ -10,12 +10,16 @@ public class SameDirection extends Constraint {
 
     @Override
     public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget) {
-/*
         ArrayList<Integer> positions;
         positions = new ArrayList<Integer>();
+        ArrayList<Square> allTarget = new ArrayList<Square>();
         int i;
+        for(Player previousPlayer: previousTarget){
+            allTarget.add(previousPlayer.getPosition());
+        }
+        allTarget.add(target.getConstraintSquare());
 
-        for(Square s: target.getConstraintSquareList()){
+        for(Square s: allTarget){
             if((target.getOwner().getPosition().getY() != s.getY())&&(target.getOwner().getPosition().getX() != s.getX())){
                 return false;
             }
@@ -47,7 +51,6 @@ public class SameDirection extends Constraint {
                 }
             }
         }
-*/
         return true;
     }
 

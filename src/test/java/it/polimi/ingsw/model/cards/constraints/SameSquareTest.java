@@ -13,11 +13,10 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SameSquareTest {
-/*
 
     SameSquare test;
     Player owner;
-    Square enemySquare, enemySquare2, enemySquare3;
+    Square enemySquare;
     Board board;
     TargetParameter target;
     ArrayList<Player> previousTarget;
@@ -45,7 +44,7 @@ class SameSquareTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        target.getConstraintSquareList().add(enemySquare);
+        target.setConstraintSquare(enemySquare);
         assertEquals(true, test.canShoot(target,true,previousTarget));
     }
 
@@ -61,34 +60,12 @@ class SameSquareTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        target.getConstraintSquareList().add(enemySquare);
+        target.setConstraintSquare(enemySquare);
         assertEquals(false, test.canShoot(target,true,previousTarget));
     }
 
     @Test
-    public void sameSquareTwoTarget(){
-        try {
-            owner.setPosition(board.find(1,1));
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            enemySquare = board.find(1,1);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            enemySquare2 = board.find(1,1);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        target.getConstraintSquareList().add(enemySquare);
-        target.getConstraintSquareList().add(enemySquare2);
-        assertEquals(true, test.canShoot(target,true,previousTarget));
-    }
-
-    @Test
-    public void notSameSquareTwoTarget(){
+    public void notSameSquareNotCase(){
         try {
             owner.setPosition(board.find(2,3));
         } catch (NotFoundException e) {
@@ -99,70 +76,25 @@ class SameSquareTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        try {
-            enemySquare2 = board.find(2,3);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        target.getConstraintSquareList().add(enemySquare);
-        target.getConstraintSquareList().add(enemySquare2);
-        assertEquals(false, test.canShoot(target,true,previousTarget));
+        target.setConstraintSquare(enemySquare);
+        assertEquals(true, test.canShoot(target,false,previousTarget));
     }
 
     @Test
-    public void sameSquareThreeTarget(){
+    public void sameSquareNotCase(){
+
         try {
             owner.setPosition(board.find(1,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        try {
-            enemySquare = board.find(1,1);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            enemySquare2 = board.find(1,1);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            enemySquare3 = board.find(1,1);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        target.getConstraintSquareList().add(enemySquare);
-        target.getConstraintSquareList().add(enemySquare2);
-        target.getConstraintSquareList().add(enemySquare3);
-        assertEquals(true, test.canShoot(target,true,previousTarget));
-    }
 
-    @Test
-    public void notSameSquareThreeTarget(){
-        try {
-            owner.setPosition(board.find(1,1));
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
         try {
             enemySquare = board.find(1,1);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        try {
-            enemySquare2 = board.find(1,1);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            enemySquare3 = board.find(3,2);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        target.getConstraintSquareList().add(enemySquare);
-        target.getConstraintSquareList().add(enemySquare2);
-        target.getConstraintSquareList().add(enemySquare3);
-        assertEquals(false, test.canShoot(target,true,previousTarget));
+        target.setConstraintSquare(enemySquare);
+        assertEquals(false, test.canShoot(target,false,previousTarget));
     }
-    */
 }

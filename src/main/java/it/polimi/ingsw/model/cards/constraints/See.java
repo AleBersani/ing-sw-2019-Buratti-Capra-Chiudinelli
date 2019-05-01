@@ -10,22 +10,30 @@ public class See extends Constraint {
 
     @Override
     public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget) {
-        /*
+        ArrayList<Square> allTarget = new ArrayList<Square>();
+        for(Player previousPlayer: previousTarget){
+            allTarget.add(previousPlayer.getPosition());
+        }
+        allTarget.add(target.getConstraintSquare());
         boolean i;
-        for (Square s : target.getConstraintSquareList()) {
-            i = false;
-            if(target.getOwner().getPosition().getRoom()!= s.getRoom()){
-                for(Square d: target.getOwner().getPosition().getDoors()){
-                    if(d.getRoom()== s.getRoom()){
-                        i= true;
+        for (Square targetSquare : allTarget) {
+            i = !constraintPositivity;
+            if(target.getOwner().getPosition().getRoom()!= targetSquare.getRoom()){
+                for(Square door: target.getOwner().getPosition().getDoors()){
+                    if(door.getRoom()== targetSquare.getRoom()){
+                        i= constraintPositivity;
                     }
                 }
                 if(!i) {
                     return false;
                 }
             }
+            else{
+                if(!constraintPositivity){
+                    return false;
+                }
+            }
         }
-        */
         return true;
     }
 }
