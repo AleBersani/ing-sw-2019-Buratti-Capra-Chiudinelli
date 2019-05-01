@@ -8,6 +8,8 @@ import it.polimi.ingsw.model.TargetParameter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MaximumDistanceTest {
@@ -16,6 +18,7 @@ class MaximumDistanceTest {
     Square enemySquare,enemySquare2,enemySquare3;
     MaximumDistance test;
     TargetParameter target;
+    ArrayList<Player> previousTarget;
 
     @BeforeEach
     public void setup() {
@@ -23,6 +26,7 @@ class MaximumDistanceTest {
         board = new Board(null, "./resources/Board/Board1.json");
         target = new TargetParameter(null, owner, null, null, null);
         test = new MaximumDistance(2);
+        previousTarget = new ArrayList<Player>();
     }
 
     @Test
@@ -38,7 +42,7 @@ class MaximumDistanceTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        assertEquals(true, test.canShoot(target));
+        assertEquals(true, test.canShoot(target,true,previousTarget));
     }
 
     @Test
@@ -54,7 +58,7 @@ class MaximumDistanceTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        assertEquals(false, test.canShoot(target));
+        assertEquals(false, test.canShoot(target,true,previousTarget));
     }
 
     @Test
@@ -82,7 +86,7 @@ class MaximumDistanceTest {
         target.getConstraintSquareList().add(enemySquare);
         target.getConstraintSquareList().add(enemySquare2);
         target.getConstraintSquareList().add(enemySquare3);
-        assertEquals(true, test.canShoot(target));
+        assertEquals(true, test.canShoot(target,true,previousTarget));
     }
 
     @Test
@@ -110,7 +114,7 @@ class MaximumDistanceTest {
         target.getConstraintSquareList().add(enemySquare);
         target.getConstraintSquareList().add(enemySquare2);
         target.getConstraintSquareList().add(enemySquare3);
-        assertEquals(false, test.canShoot(target));
+        assertEquals(false, test.canShoot(target,true,previousTarget));
     }
 
     @Test
@@ -138,6 +142,6 @@ class MaximumDistanceTest {
         target.getConstraintSquareList().add(enemySquare);
         target.getConstraintSquareList().add(enemySquare2);
         target.getConstraintSquareList().add(enemySquare3);
-        assertEquals(false, test.canShoot(target));
+        assertEquals(false, test.canShoot(target,true,previousTarget));
     }
 }

@@ -38,7 +38,7 @@ class EffectVsRoomTest {
         notSameSquare = new NotSameSquare();
         adjacentRoom = new AdjacentRoom();
         constraints = new ArrayList<Constraint>(Arrays.asList(notSameSquare,adjacentRoom));
-        constrainPositivity = new ArrayList<Boolean>();
+        constrainPositivity = new ArrayList<Boolean>(Arrays.asList(true,true));
         target = new TargetParameter(null, owner, null, null, null);
         test = new EffectVsRoom(0,0,0,"Vulcanizzatore",constraints,constrainPositivity,1,0);
 

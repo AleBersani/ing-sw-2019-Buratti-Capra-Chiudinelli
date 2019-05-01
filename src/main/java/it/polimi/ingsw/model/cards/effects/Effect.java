@@ -14,7 +14,7 @@ public abstract class Effect {
     private int costYellow;
     private String name;
     private ArrayList<Constraint> constraints= new ArrayList<Constraint>();
-    private ArrayList<Boolean> constraintPositivity= new ArrayList<>();
+    private ArrayList<Boolean> constraintPositivity= new ArrayList<Boolean>();
 
     public Effect(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints, ArrayList<Boolean> constraintPositivity ) {
         this.costBlue = costBlue;
@@ -27,13 +27,13 @@ public abstract class Effect {
 
     abstract public void apply(TargetParameter target, ArrayList<Player> previousTarget) throws InvalidTargetException;
 
-    public boolean constraintsCheck(TargetParameter target){
+    public boolean constraintsCheck(TargetParameter target, ArrayList<Player> previousTarget){
         int i;
         if(constraints.isEmpty()){
             return true;
         }
         for(i=0;i<constraints.size();i++){
-            if(!constraints.get(i).canShoot(target)){
+            if(!constraints.get(i).canShoot(target,this.constraintPositivity.get(i),previousTarget)){
                 return false;
             }
         }

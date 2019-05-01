@@ -1,7 +1,10 @@
 package it.polimi.ingsw.model.cards.constraints;
 
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.TargetParameter;
+
+import java.util.ArrayList;
 
 /**
  * this class checks if the player shoot at a room
@@ -13,7 +16,7 @@ public class AdjacentRoom extends Constraint {
      * @return true if the player can shoot at the target room, false if the player can't shoot
      */
     @Override
-    public boolean canShoot(TargetParameter target) {
+    public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget) {
         if(target.getTargetRoom() == target.getOwner().getPosition().getRoom()){
             return false;
         }
