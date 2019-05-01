@@ -25,7 +25,7 @@ class MinimumDistanceTest {
     public void setup() {
         owner = new Player(true,"blue", "Franco");
         board = new Board(null,"./resources/Board/Board1.json");
-        target = new TargetParameter(null,owner,null,null,null);
+        target = new TargetParameter(null,owner,null,null,null,null);
         test = new MinimumDistance(2);
         test1 = new MinimumDistance(3);
         previousTarget = new ArrayList<Player>();

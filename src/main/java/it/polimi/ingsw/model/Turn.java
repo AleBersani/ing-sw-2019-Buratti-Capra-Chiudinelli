@@ -2,6 +2,9 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents a turn
+ */
 public class Turn {
 
     private Player next;
