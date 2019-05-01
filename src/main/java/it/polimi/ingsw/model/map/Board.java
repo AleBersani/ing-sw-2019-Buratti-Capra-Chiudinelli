@@ -19,10 +19,10 @@ import java.util.Random;
  * This class represents a board
  */
 public class Board {
-    private ArrayList<Room> rooms= new ArrayList<Room>();
-    private ArrayList<AmmoTile> ammoList= new ArrayList<AmmoTile>();
-    private ArrayList<PowerUp> powerUpList= new ArrayList<PowerUp>();
-    private ArrayList<Weapon> weaponsList= new ArrayList<Weapon>();
+    private ArrayList<Room> rooms= new ArrayList<>();
+    private ArrayList<AmmoTile> ammoList= new ArrayList<>();
+    private ArrayList<PowerUp> powerUpList= new ArrayList<>();
+    private ArrayList<Weapon> weaponsList= new ArrayList<>();
     private Match match;
     private Gson gSon= new Gson();
     private String type;
@@ -30,7 +30,7 @@ public class Board {
     private Random random = new Random();
 
     /**
-     * This method generate a board from a json file and generate the deck of cards
+     * This method generate a board from a json file and generate the decks of cards
      * @param match represent the match that need the Board
      * @param type is the path of the json file that describes the board
      */
