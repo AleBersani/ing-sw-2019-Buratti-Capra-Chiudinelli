@@ -72,7 +72,7 @@ public class Match {
      * @param mode This parameter is the mode that the players are playing
      */
     public Match(ArrayList<Player> players, int numPlayers, int skulls, boolean frenzyEn, String mode) {
-        this.players = new CircularArrayList<Player>(players);
+        this.players = new CircularArrayList<>(players);
         this.numPlayers = numPlayers;
         this.skulls = skulls;
         this.frenzyEn = frenzyEn;
@@ -117,7 +117,6 @@ public class Match {
         ArrayList<Integer> killCounter = new ArrayList<>();
         ArrayList<Player> killPriority = new ArrayList<>();
         ArrayList<Player> winPlayer = new ArrayList<>();
-        int i;
         int k;
         int max=0;
         int index=0;
@@ -184,8 +183,8 @@ public class Match {
                     }
             }
         }
-        /*PRINT FOR TEST
-        for (i = 0; i < winPlayer.size(); i++)
+        //print for test
+        /*for (i = 0; i < winPlayer.size(); i++)
             System.out.println(winPlayer.get(i).getNickname());
         */
     }

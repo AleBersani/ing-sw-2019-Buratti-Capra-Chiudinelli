@@ -219,6 +219,16 @@ class PlayerTest {
 
     @Test
     public void testSpawn() {
+        guest.setTurn(turn);
+        turn.setMatch(testMatch);
+        testMatch.setBoard(board);
+        try {
+            guest.spawn(teleporter);
+            assertEquals(guest.getPosition(),board.find(1,2));
+            assertEquals(1,guest.getPowerUps().size());
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
