@@ -6,11 +6,11 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class Client {
+public class Client2 {
     private String ip;
     private int port;
 
-    public Client(String ip, int port) {
+    public Client2(String ip, int port) {
         this.ip = ip;
         this.port = port;
     }
