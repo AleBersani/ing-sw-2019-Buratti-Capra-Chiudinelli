@@ -113,8 +113,6 @@ public class Turn {
                 this.deads.get(i).getDamage().get(11).marked(1,this.deads.get(i));
             }
 
-            this.deads.get(i).getDamage().get(0).setPoints(this.deads.get(i).getDamage().get(0).getPoints() + 1); //FIRSTBLOOD
-
             for(k=0;!damagePlayer.isEmpty();k++) {// SET POINT FOR ALL DAMAGER
                 for (j = 0,max=0,index=0;j<damageCounter.size();j++)
                     if (damageCounter.get(j) > max) {
@@ -125,8 +123,10 @@ public class Turn {
                 damageCounter.remove(index);
                 damagePlayer.remove(index);
             }
-
-            this.deads.get(i).setSkull(this.deads.get(i).getSkull() + 1);
+            if(!this.deads.get(i).isTurnedPlank()) {
+                this.deads.get(i).getDamage().get(0).setPoints(this.deads.get(i).getDamage().get(0).getPoints() + 1); //FIRSTBLOOD
+                this.deads.get(i).setSkull(this.deads.get(i).getSkull() + 1);
+            }
             getMatch().setSkulls(getMatch().getSkulls()-1);
         }
 

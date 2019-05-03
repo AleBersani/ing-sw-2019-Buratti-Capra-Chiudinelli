@@ -81,6 +81,10 @@ public class Player {
      */
     private Turn turn;
     /**
+     *  This attribute indicates if the plank is turned or not
+     */
+    private boolean turnedPlank;
+    /**
      * This constant represents the maximum movement that can be done to run during a not frenzy turn
      */
     int maxRun = 3;
@@ -109,6 +113,7 @@ public class Player {
         this.yellowAmmo = 1;
         this.points = 0;
         this.damageCounter = 0;
+        this.turnedPlank=false;
     }
 
     /**
@@ -352,9 +357,9 @@ public class Player {
      * @param weaponReload This parameter is the weapon that the player wants to reload
      * @param destination  This parameter is the final destination where the player wants to move
      * @param target       This parameter is the target of the shoot action
-     * @throws NotLoadedException          This exception means that the weapon is not load
+     * @throws NotLoadedException This exception means that the weapon is not load
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
-     * @throws InvalidTargetException      This exception means that there is no valid target chosen
+     * @throws InvalidTargetException This exception means that there is no valid target chosen
      */
     public void shootFrenzy(Weapon weaponShoot, Weapon weaponReload, Square destination, TargetParameter target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
         if (this.position.calcDist(destination) <= 1 + onlyFrenzyAction()) {
@@ -423,7 +428,7 @@ public class Player {
      * @return 1 if the player has 3 or more damage counters, 0 otherwise
      */
     private int isOnAdrenalineGrab() {
-        if (this.damageCounter >= 3)
+        if (this.damageCounter >= 3 && !this.turnedPlank)
             return 1;
         return 0;
     }
@@ -433,7 +438,7 @@ public class Player {
      * @return 1 if the player has 6 or more damage counters, 0 otherwise
      */
     private int isOnAdrenalineShoot() {
-        if (this.damageCounter >= 6)
+        if (this.damageCounter >= 6 && !this.turnedPlank)
             return 1;
         return 0;
     }
@@ -541,6 +546,22 @@ public class Player {
      */
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    /**
+     * This method returns if the plank is turned or not
+     * @return True if is turned, false if not
+     */
+    public boolean isTurnedPlank() {
+        return turnedPlank;
+    }
+
+    /**
+     * This method sets if the plank is turned or not
+     * @param turnedPlank This parameter will sets if the plank is turned or not
+     */
+    public void setTurnedPlank(boolean turnedPlank) {
+        this.turnedPlank = turnedPlank;
     }
 
     /**
