@@ -544,6 +544,14 @@ public class Player {
     }
 
     /**
+     * This method returns the nickname of the player
+     * @return The nickname of the player
+     */
+    public String getNickname() {
+        return nickname;
+    }
+
+    /**
      * This method returns the damage counters that the player owns
      * @return The amount of damage counters that the player has
      */
