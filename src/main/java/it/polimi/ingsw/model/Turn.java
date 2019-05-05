@@ -6,15 +6,42 @@ import java.util.ArrayList;
  * This class represents a turn
  */
 public class Turn {
-
+    /**
+     * This attribute is the player who plays after the current
+     */
     private Player next;
+    /**
+     * This attribute is the counter of the actions during a turn
+     */
     private int actionCounter;
+    /**
+     * This attribute is the list of players dead in this turn
+     */
     private ArrayList <Player> deads;
+    /**
+     * This attribute keep track if at least a player is dead in this turn
+     */
     private boolean dead;
+    /**
+     * This attribute keep track if the turn is a frenzy turn
+     */
     private boolean frenzy;
+    /**
+     * This attribute is the current player that is playing in this turn
+     */
     private Player current;
+    /**
+     * Thi attribute is the match
+     */
     private Match match;
 
+    /**
+     * This constructor instantiates the turn
+     * @param next This parameter is the next player that plays after the current player
+     * @param frenzy This parameter is if the turn is frenzy or not
+     * @param current This parameter is the current player that is playing
+     * @param match This parameter is the match of the turn
+     */
     public Turn(Player next, boolean frenzy, Player current, Match match) {
         this.next = next;
         this.frenzy = frenzy;
@@ -25,11 +52,18 @@ public class Turn {
         this.deads=new ArrayList<>();
     }
 
+    /**
+     * This method adds a dead player to a list
+     * @param dead This parameter is the player that is dead in this turn
+     */
     public void addDead(Player dead){
             this.deads.add(dead);
             this.dead=true;
     }
 
+    /**
+     * This method controls, at the end of each turn, if some ammo tiles are missing from the board, if someone is dead, and restart the turn or end the game
+     */
     public void endTurn(){
         for(int i=0;i<getMatch().getBoard().getRooms().size();i++)
             for(int j=0;j<getMatch().getBoard().getRooms().get(i).getSquares().size();j++)
@@ -43,6 +77,9 @@ public class Turn {
             getMatch().startTurn();
     }
 
+    /**
+     * This method sets the point to every player who damaged the deads on the list
+     */
     public void setPoint() {
         ArrayList<Player> damagePlayer = new ArrayList<>();
         ArrayList<Integer> damageCounter = new ArrayList<>();
@@ -76,8 +113,6 @@ public class Turn {
                 this.deads.get(i).getDamage().get(11).marked(1,this.deads.get(i));
             }
 
-            this.deads.get(i).getDamage().get(0).setPoints(this.deads.get(i).getDamage().get(0).getPoints() + 1); //FIRSTBLOOD
-
             for(k=0;!damagePlayer.isEmpty();k++) {// SET POINT FOR ALL DAMAGER
                 for (j = 0,max=0,index=0;j<damageCounter.size();j++)
                     if (damageCounter.get(j) > max) {
@@ -88,20 +123,25 @@ public class Turn {
                 damageCounter.remove(index);
                 damagePlayer.remove(index);
             }
-
-            this.deads.get(i).setSkull(this.deads.get(i).getSkull() + 1);
+            if(!this.deads.get(i).isTurnedPlank()) {
+                this.deads.get(i).getDamage().get(0).setPoints(this.deads.get(i).getDamage().get(0).getPoints() + 1); //FIRSTBLOOD
+                this.deads.get(i).setSkull(this.deads.get(i).getSkull() + 1);
+            }
             getMatch().setSkulls(getMatch().getSkulls()-1);
         }
-
 
         for(i=0;!this.deads.isEmpty();) {
             this.deads.get(i).getDamage().clear();
             //this.deads.get(i).spawn(); TODO SPAWN TO CONTROLLER
             this.deads.remove(i);
         }
-
     }
 
+    /**
+     * This method calculates the right points the player has earned
+     * @param skulls This parameter is the number of skulls that the player owns
+     * @return The amount of points that the player has earned
+     */
      int calcPoints(int skulls){
         if(skulls==0)
             return 8;
@@ -117,35 +157,67 @@ public class Turn {
         return 1;
     }
 
+    /**
+     * This method return the actual match
+     * @return The match of the turn
+     */
     public Match getMatch() {
         return match;
     }
 
+    /**
+     * This method sets the match of this turn
+     * @param match This parameter is the match that the turn'll have
+     */
     public void setMatch(Match match) {
         this.match = match;
     }
 
+    /**
+     * This turn return the current player that is playing this turn
+     * @return The player that is playing this turn
+     */
     public Player getCurrent() {
         return current;
     }
 
+    /**
+     * This method return the list of dead players
+     * @return The list of dead players
+     */
     public ArrayList<Player> getDeads() {
         return deads;
     }
 
+    /**
+     * This method sets the list of dead players
+     * @param deads This parameter is the list of dead players that will be set
+     */
+    public void setDeads(ArrayList<Player> deads) {
+        this.deads = deads;
+    }
+
+    /**
+     * This method return the number of actions done this turn
+     * @return The number of actions done this turn
+     */
     public int getActionCounter() {
         return actionCounter;
     }
 
+    /**
+     * This method sets the numbers of action in this turn
+     * @param actionCounter This parameter is the number of action that will be set
+     */
     public void setActionCounter(int actionCounter) {
         this.actionCounter = actionCounter;
     }
 
+    /**
+     * This method return is the turn is frenzy or not
+     * @return True is the turn is a frenzy turn, false otherwise
+     */
     public boolean isFrenzy() {
         return frenzy;
-    }
-
-    public void setDeads(ArrayList<Player> deads) {
-        this.deads = deads;
     }
 }

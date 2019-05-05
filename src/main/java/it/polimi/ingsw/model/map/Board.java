@@ -306,7 +306,7 @@ public class Board {
             for (j=0;j<this.rooms.get(i).getSquares().size(); j++) {
                 isThis=this.rooms.get(i).getSquares().get(j);
                 if(isThis.getClass()==SpawnPoint.class){
-                    if (isThis.getColor()== color){
+                    if (isThis.getColor().equals(color)){
                         return isThis;
                     }
                 }

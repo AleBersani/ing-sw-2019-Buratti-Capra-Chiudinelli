@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PlayerTest {
 
@@ -44,7 +45,7 @@ class PlayerTest {
         teleporter = new PowerUp("red","teleport");
         testingPowerUp = new ArrayList<>(Arrays.asList(teleporter,teleporter));
         guest.setPowerUps(testingPowerUp);
-        playerList = new ArrayList<Player>(Arrays.asList(guest,test,loser));
+        playerList = new ArrayList<>(Arrays.asList(guest,test,loser));
         testMatch = new Match(playerList,3,5,true,"normal");
         ammoTest = new AmmoTile(2,1,0,0);
     }
@@ -59,9 +60,7 @@ class PlayerTest {
         }
         try {
             guest.run(board.find(4,3));
-        } catch (InvalidDestinationException e) {
-            e.printStackTrace();
-        } catch (NotFoundException e) {
+        } catch (InvalidDestinationException | NotFoundException e) {
             e.printStackTrace();
         }
         try {
@@ -71,9 +70,7 @@ class PlayerTest {
         }
         try {
             guest.run(board.find(3,1));
-        } catch (InvalidDestinationException e) {
-            e.printStackTrace();
-        } catch (NotFoundException e) {
+        } catch (InvalidDestinationException | NotFoundException e) {
             e.printStackTrace();
         }
         try {
@@ -159,7 +156,7 @@ class PlayerTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        assertEquals(true,guest.canSee(test));
+        assertTrue(guest.canSee(test));
     }
 
     @Test
@@ -178,9 +175,7 @@ class PlayerTest {
         guest.setRedAmmo(0);
         try {
             guest.reload(lockRifle);
-        } catch (LoadedException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
+        } catch (LoadedException | NoAmmoException e) {
             e.printStackTrace();
         }
         assertEquals(1,guest.getBlueAmmo());
@@ -224,6 +219,16 @@ class PlayerTest {
 
     @Test
     public void testSpawn() {
+        guest.setTurn(turn);
+        turn.setMatch(testMatch);
+        testMatch.setBoard(board);
+        try {
+            guest.spawn(teleporter);
+            assertEquals(guest.getPosition(),board.find(1,2));
+            assertEquals(1,guest.getPowerUps().size());
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -263,9 +268,7 @@ class PlayerTest {
         }
         try {
             guest.runFrenzy(board.find(4,2));
-        } catch (InvalidDestinationException e) {
-            e.printStackTrace();
-        } catch (NotFoundException e) {
+        } catch (InvalidDestinationException | NotFoundException e) {
             e.printStackTrace();
         }
         try {
@@ -275,9 +278,7 @@ class PlayerTest {
         }
         try {
             guest.runFrenzy(board.find(1,1));
-        } catch (InvalidDestinationException e) {
-            e.printStackTrace();
-        } catch (NotFoundException e) {
+        } catch (InvalidDestinationException | NotFoundException e) {
             e.printStackTrace();
         }
         try {

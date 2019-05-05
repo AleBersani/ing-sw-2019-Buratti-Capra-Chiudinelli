@@ -44,8 +44,8 @@ public class Match {
     int i;
 
     /**
-     *
-     * @param <Player>
+     * This class is the circular array list of players
+     * @param <Player> This parameter is the player list
      */
     private class CircularArrayList<Player> extends ArrayList<Player>
     {
@@ -117,7 +117,6 @@ public class Match {
         ArrayList<Integer> killCounter = new ArrayList<>();
         ArrayList<Player> killPriority = new ArrayList<>();
         ArrayList<Player> winPlayer = new ArrayList<>();
-        int i;
         int k;
         int max=0;
         int index=0;
@@ -125,63 +124,69 @@ public class Match {
         boolean added;
         boolean equal=true;
 
-        if (getTurn().getCurrent().isLastKill() && getTurn().isFrenzy()) {
-            for (i = 0, found = false; i < this.killShotTrack.size(); i++) {
-                for (k = 0; k < killPlayer.size(); k++)
-                    if (this.killShotTrack.get(i) == killPlayer.get(k)) {
-                        killCounter.set(k, killCounter.get(k) + 1);
-                        found = true;
-                    }
-                if (!found) {
-                    killPlayer.add(k, this.killShotTrack.get(i));
-                    killCounter.add(k, 1);
+        for (i = 0; i < this.killShotTrack.size(); i++) {
+            for (k = 0,found=false; k < killPlayer.size() && !found; k++)
+                if (this.killShotTrack.get(i) == killPlayer.get(k)) {
+                    killCounter.set(k, killCounter.get(k) + 1);
+                    found = true;
                 }
-            }
-
-            for(i=0;killPlayer.isEmpty();i++) {    // SET POINT FOR ALL KILLER
-                for (k = 0;k<killCounter.size(); k++)
-                    if (killCounter.get(k) > max) {
-                        max = killCounter.get(k);
-                        index = k;
-                    }
-                killPlayer.get(index).setPoints(killPlayer.get(index).getPoints() + getTurn().calcPoints(i));
-                killPriority.add(killPlayer.get(index));
-                killCounter.remove(index);
-                killPlayer.remove(index);
-            }
-
-            do {
-                for (i = 0,added=false; i < this.numPlayers; i++)
-                    if (this.players.get(i).getPoints() >=  max && !winPlayer.contains(this.players.get(i))) {
-                        max = this.players.get(i).getPoints();
-                        index = i;
-                        added=true;
-                    }
-                if(added)
-                    winPlayer.add(this.players.get(index));
-            }
-            while(added);
-
-            //if there are more than one player with the same point, control and remove if there are player that didn't make a kill
-            if(winPlayer.size()>1) {
-                for (i = 0; i < winPlayer.size(); i++)
-                    if (!killPriority.contains(winPlayer.get(i))) {
-                        winPlayer.remove(i);
-                        i--;
-                        equal = false;
-                    }
-
-                if(!equal) {
-                    found = false;
-                    for (i = 0; i < killPriority.size() && !found; i++)
-                        if (winPlayer.contains(killPriority.get(i))) {
-                            found = true;
-                            winPlayer.clear();
-                            winPlayer.add(killPriority.get(i));
-                        }
-                }
+            if (!found) {
+                killPlayer.add(this.killShotTrack.get(i));
+                killCounter.add(1);
             }
         }
+
+        for(i=0;!killPlayer.isEmpty();i++) {    // SET POINT FOR ALL KILLER
+            for (k = 0,max=0,index=0;k<killCounter.size(); k++)
+                if (killCounter.get(k) > max) {
+                    max = killCounter.get(k);
+                    index = k;
+                }
+            killPlayer.get(index).setPoints(killPlayer.get(index).getPoints() + getTurn().calcPoints(i));
+            killPriority.add(killPlayer.get(index));
+            killCounter.remove(index);
+            killPlayer.remove(index);
+        }
+
+        max=0;
+        do {
+            for (i = 0,added = false; i < this.numPlayers; i++)
+                if (this.players.get(i).getPoints() >= max && !winPlayer.contains(this.players.get(i))) {
+                    max = this.players.get(i).getPoints();
+                    index = i;
+                    added = true;
+                }
+            if (added)
+                winPlayer.add(this.players.get(index));
+        }
+        while(added);
+
+        //if there are more than one player with the same point, control and remove if there are player that didn't make a kill
+        if(winPlayer.size()>1) {
+            for (i = 0; i < winPlayer.size(); i++)
+                if(killPriority.contains(winPlayer.get(i))) {
+                    equal = false;
+                    for (i = 0; i < winPlayer.size(); i++)
+                        if (!killPriority.contains(winPlayer.get(i))) {
+                            winPlayer.remove(i);
+                            i--;
+                        }
+                }
+
+            if(!equal) {
+                found = false;
+                for (i = 0; i < killPriority.size() && !found; i++)
+                    if (winPlayer.contains(killPriority.get(i))) {
+                        found = true;
+                        winPlayer.clear();
+                        winPlayer.add(killPriority.get(i));
+                    }
+            }
+        }
+        //print for test
+        /*for (i = 0; i < winPlayer.size(); i++)
+            System.out.println(winPlayer.get(i).getNickname());
+        */
     }
 
     /**
@@ -246,6 +251,14 @@ public class Match {
      */
     public ArrayList<Player> getKillShotTrack() {
         return killShotTrack;
+    }
+
+    /**
+     * This method sets the killshot track of the match
+     * @param killShotTrack This parameter is the killshot track that the match'll have
+     */
+    public void setKillShotTrack(ArrayList<Player> killShotTrack) {
+        this.killShotTrack = killShotTrack;
     }
 
     /**

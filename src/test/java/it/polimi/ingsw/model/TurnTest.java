@@ -100,4 +100,20 @@ class TurnTest {
         testSetPoint3();
         assertEquals(4,testMatch.getKillShotTrack().size());
     }
+    //TESTED THE RIGHT POINTS CALCULATION WHEN THE PLANK IS TURNED
+    @Test
+    public void testSetPoint5(){
+        testSetPoint();
+        loser.setDamage(damageList2);
+        assertEquals(11,loser.getDamage().size());
+        loser.setTurnedPlank(true);
+        loser.setSkull(3);
+        turn.addDead(loser);
+        turn.setPoint();
+        assertEquals(10,guest.getPoints());
+        assertEquals(8,test.getPoints());
+        assertEquals(3,loser.getSkull());
+        assertEquals(0,turn.getDeads().size());
+        assertEquals(0,loser.getDamage().size());
+    }
 }
