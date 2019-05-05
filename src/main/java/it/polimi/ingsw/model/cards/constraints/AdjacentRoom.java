@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards.constraints;
 
+import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.TargetParameter;
@@ -16,7 +17,10 @@ public class AdjacentRoom extends Constraint {
      * @return true if the player can shoot at the target room, false if the player can't shoot
      */
     @Override
-    public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget) {
+    public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget)throws NoOwnerException {
+        if((target.getOwner()==null)||(target.getOwner().getPosition()==null)){
+            throw new NoOwnerException();
+        }
         if(target.getTargetRoom() == target.getOwner().getPosition().getRoom()){
             return false;
         }

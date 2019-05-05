@@ -45,9 +45,7 @@ public class TargetParameter {
 
     public void setConstraintSquare(Square constraintSquare) { this.constraintSquare = constraintSquare; }
 
-    public void setMovement(Square movement) {
-        this.movement = movement;
-    }
+    public void setMovement(Square movement) { this.movement = movement; }
 
     public void setOwner(Player owner) {
         this.owner = owner;

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards.constraints;
 
+import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.exception.NotFoundException;
 import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.Player;
@@ -24,7 +25,7 @@ class AdjacentRoomTest {
         owner = new Player(true,"Yellow","Bruno");
         test = new AdjacentRoom();
         previousTarget = new ArrayList<Player>();
-        target = new TargetParameter(null,owner,null,null,null);
+        target = new TargetParameter(null,owner,null,null,null,null);
     }
 
     @Test
@@ -35,7 +36,11 @@ class AdjacentRoomTest {
             e.printStackTrace();
         }
         target.setTargetRoom(board.getRooms().get(0));
-        assertEquals(true,test.canShoot(target,true,previousTarget));
+        try {
+            assertEquals(true,test.canShoot(target,true,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -46,7 +51,11 @@ class AdjacentRoomTest {
             e.printStackTrace();
         }
         target.setTargetRoom(board.getRooms().get(0));
-        assertEquals(false,test.canShoot(target,true,previousTarget));
+        try {
+            assertEquals(false,test.canShoot(target,true,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -57,6 +66,10 @@ class AdjacentRoomTest {
             e.printStackTrace();
         }
         target.setTargetRoom(board.getRooms().get(0));
-        assertEquals(false,test.canShoot(target,true,previousTarget));
+        try {
+            assertEquals(false,test.canShoot(target,true,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 }

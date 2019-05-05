@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards.effects;
 
 import it.polimi.ingsw.exception.InvalidTargetException;
+import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.model.cards.constraints.Constraint;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TargetParameter;
@@ -33,8 +34,12 @@ public abstract class Effect {
             return true;
         }
         for(i=0;i<constraints.size();i++){
-            if(!constraints.get(i).canShoot(target,this.constraintPositivity.get(i),previousTarget)){
-                return false;
+            try {
+                if(!constraints.get(i).canShoot(target,this.constraintPositivity.get(i),previousTarget)){
+                    return false;
+                }
+            } catch (NoOwnerException e) {
+                e.printStackTrace();
             }
         }
         return true;

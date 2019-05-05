@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards.constraints;
 
+import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.TargetParameter;
@@ -9,11 +10,12 @@ import java.util.ArrayList;
 public class SameDirection extends Constraint {
 
     @Override
-    public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget) {
-        ArrayList<Integer> positions;
-        positions = new ArrayList<Integer>();
+    public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget)throws NoOwnerException {
+        if((target.getOwner()==null)||(target.getOwner().getPosition()==null)){
+            throw new NoOwnerException();
+        }
+        ArrayList<Integer> positions = new ArrayList<Integer>();
         ArrayList<Square> allTarget = new ArrayList<Square>();
-        int i;
         for(Player previousPlayer: previousTarget){
             allTarget.add(previousPlayer.getPosition());
         }
@@ -44,7 +46,7 @@ public class SameDirection extends Constraint {
             }
         }
 
-        for(i=1;i<positions.size();i++){
+        for(int i=1;i<positions.size();i++){
             if((positions.get(i)!= 1)&&(positions.get(i-1)!=1)){
                 if(positions.get(i)!=positions.get(i-1)){
                     return false;

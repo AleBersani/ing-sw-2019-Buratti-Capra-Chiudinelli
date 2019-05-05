@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards.constraints;
 
+import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.exception.NotFoundException;
 import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.map.Square;
@@ -24,10 +25,10 @@ class SameDirectionTest {
     @BeforeEach
     public void setup(){
         board = new Board(null,"./resources/Board/Board1.json");
-        enemy = new Player(true,"blue", "Fabiano");
+        enemy = new Player(false,"blue", "Fabiano");
         owner = new Player(true,"red", "Fabiolo");
         test = new SameDirection();
-        target = new TargetParameter(null,owner,null,null,null);
+        target = new TargetParameter(null,owner,null,null,null,null);
         previousTarget = new ArrayList<Player>();
     }
 
@@ -44,7 +45,11 @@ class SameDirectionTest {
             e.printStackTrace();
         }
         target.setConstraintSquare(enemySquare);
-        assertEquals(true, test.canShoot(target,true,previousTarget));
+        try {
+            assertEquals(true, test.canShoot(target,true,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -60,7 +65,11 @@ class SameDirectionTest {
             e.printStackTrace();
         }
         target.setConstraintSquare(enemySquare);
-        assertEquals(false,test.canShoot(target,true,previousTarget));
+        try {
+            assertEquals(false,test.canShoot(target,true,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -82,7 +91,11 @@ class SameDirectionTest {
         }
         previousTarget.add(enemy);
         target.setConstraintSquare(enemySquare);
-        assertEquals(true, test.canShoot(target,true,previousTarget));
+        try {
+            assertEquals(true, test.canShoot(target,true,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -104,7 +117,11 @@ class SameDirectionTest {
         }
         previousTarget.add(enemy);
         target.setConstraintSquare(enemySquare);
-        assertEquals(false,test.canShoot(target,true,previousTarget));
+        try {
+            assertEquals(false,test.canShoot(target,true,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -126,7 +143,11 @@ class SameDirectionTest {
         }
         previousTarget.add(enemy);
         target.setConstraintSquare(enemySquare);
-        assertEquals(false,test.canShoot(target,true,previousTarget));
+        try {
+            assertEquals(false,test.canShoot(target,true,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 
 }

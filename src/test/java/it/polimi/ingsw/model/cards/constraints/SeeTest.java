@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards.constraints;
 
+import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.exception.NotFoundException;
 import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.map.Square;
@@ -10,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SeeTest {
 
@@ -18,7 +19,7 @@ class SeeTest {
     Player enemy,enemy2;
     Square enemySquare;
     Board board;
-    See test;
+    See test,test2;
     ArrayList<Square> targets;
     TargetParameter target;
     ArrayList<Player> previousTarget;
@@ -29,8 +30,9 @@ class SeeTest {
         owner = new Player(true,"blue", "Bellocchio");
         enemy = new Player(true, "green", "Lucio");
         enemy2 = new Player(true, "red", "Fabio");
-        test = new See();
-        target = new TargetParameter(null,owner,null,null,null);
+        test = new See(false);
+        test2 = new See(true);
+        target = new TargetParameter(null,owner,null,null,null,null);
         previousTarget = new ArrayList<Player>();
     }
 
@@ -47,7 +49,11 @@ class SeeTest {
             e.printStackTrace();
         }
         target.setConstraintSquare(enemySquare);
-        assertEquals(true, test.canShoot(target,true,previousTarget));
+        try {
+            assertTrue(test.canShoot(target,true,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -63,11 +69,55 @@ class SeeTest {
             e.printStackTrace();
         }
         target.setConstraintSquare(enemySquare);
-        assertEquals(false, test.canShoot(target,true,previousTarget));
+        try {
+            assertFalse(test.canShoot(target,true,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void canSeeAll(){
+    public void testCanNotSeeNotCase(){
+        try {
+            owner.setPosition(board.find(1,1 ));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            enemySquare = board.find(4,3);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        target.setConstraintSquare(enemySquare);
+        try {
+            assertTrue(test.canShoot(target,false,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testCanSeeNotCase(){
+        try {
+            owner.setPosition(board.find(1,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            enemySquare = board.find(2,1);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        target.setConstraintSquare(enemySquare);
+        try {
+            assertFalse(test.canShoot(target,false,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void canSeeConcatenate(){
         try {
             owner.setPosition(board.find(1,1));
         } catch (NotFoundException e) {
@@ -91,18 +141,22 @@ class SeeTest {
         previousTarget.add(enemy);
         previousTarget.add(enemy2);
         target.setConstraintSquare(enemySquare);
-        assertEquals(true, test.canShoot(target,true,previousTarget));
+        try {
+            assertTrue(test2.canShoot(target,true,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void canNotSeeOneOfThem(){
+    public void canNotSeeConcatenateNotCase(){
         try {
-            owner.setPosition(board.find(1,1));
+            owner.setPosition(board.find(2,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            enemy.setPosition(board.find(2,1));
+            enemy.setPosition(board.find(2,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -112,101 +166,104 @@ class SeeTest {
             e.printStackTrace();
         }
         try {
-            enemySquare = board.find(3,3);
+            enemySquare = board.find(4,2);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         previousTarget.add(enemy);
         previousTarget.add(enemy2);
         target.setConstraintSquare(enemySquare);
-        assertEquals(false, test.canShoot(target,true,previousTarget));
+        try {
+            assertTrue(test2.canShoot(target,false,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void testCanNotSeeNotCase(){
-        try {
-            owner.setPosition(board.find(1,1 ));
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            enemySquare = board.find(4,3);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        target.setConstraintSquare(enemySquare);
-        assertEquals(true, test.canShoot(target,false,previousTarget));
-    }
-
-    @Test
-    public void testCanSeeNotCase(){
+    public void canNotSeeOnePreviousConcatenate(){
         try {
             owner.setPosition(board.find(1,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            enemySquare = board.find(2,1);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        target.setConstraintSquare(enemySquare);
-        assertEquals(false, test.canShoot(target,false,previousTarget));
-    }
-
-    @Test
-    public void canSeeOneOfThemNotCase(){
-        try {
-            owner.setPosition(board.find(2,1));
+            enemy.setPosition(board.find(2,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            enemy.setPosition(board.find(3,3));
+            enemy2.setPosition(board.find(3,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            enemy2.setPosition(board.find(3,2));
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            enemySquare = board.find(1,1);
+            enemySquare = board.find(3,2);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         previousTarget.add(enemy);
         previousTarget.add(enemy2);
         target.setConstraintSquare(enemySquare);
-        assertEquals(false, test.canShoot(target,false,previousTarget));
+        try {
+            assertFalse(test2.canShoot(target,true,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void canNotSeeAllOfThemNotCase(){
+    public void canSeeLastTargetConcatenateNotCase(){
         try {
             owner.setPosition(board.find(2,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            enemy.setPosition(board.find(3,3));
+            enemy.setPosition(board.find(2,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            enemy2.setPosition(board.find(3,2));
+            enemy2.setPosition(board.find(3,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            enemySquare = board.find(1,2);
+            enemySquare = board.find(3,2);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         previousTarget.add(enemy);
         previousTarget.add(enemy2);
         target.setConstraintSquare(enemySquare);
-        assertEquals(true, test.canShoot(target,false,previousTarget));
+        try {
+            assertFalse(test2.canShoot(target,false,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void noOwnerConcatenate(){
+        try {
+            enemy.setPosition(board.find(2,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            enemy2.setPosition(board.find(3,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            enemySquare = board.find(4,2);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        previousTarget.add(enemy);
+        previousTarget.add(enemy2);
+        target.setConstraintSquare(enemySquare);
+        assertThrows(NoOwnerException.class,()->test2.canShoot(target,true,previousTarget));
     }
 }

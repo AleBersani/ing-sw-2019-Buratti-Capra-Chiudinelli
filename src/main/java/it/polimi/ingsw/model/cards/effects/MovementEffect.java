@@ -9,18 +9,20 @@ import java.util.ArrayList;
 
 public class MovementEffect extends Effect {
 
-    public MovementEffect(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints,ArrayList<Boolean> constraintPositivity, int distance, boolean linear, boolean addToList, boolean removeFromList) {
+    public MovementEffect(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints,ArrayList<Boolean> constraintPositivity, int distance, boolean linear, boolean addToList, boolean removeFromList, boolean self) {
         super(costBlue, costRed, costYellow, name, constraints, constraintPositivity);
         this.distance = distance;
         this.linear = linear;
         this.addToList=addToList;
         this.removeFromList=removeFromList;
+        this.self=self;
     }
 
     private int distance;
     private boolean linear;
     private boolean addToList;
     private boolean removeFromList;
+    private boolean self;
 
     public int getDistance() {
         return distance;
@@ -32,19 +34,26 @@ public class MovementEffect extends Effect {
 
     @Override
     public void apply(TargetParameter target, ArrayList<Player> previousTarget) throws InvalidTargetException {
-
         int mDist;
+        Player player;
 
-        if(target.getEnemyPlayer().getPosition().calcDist(target.getMovement())>this.distance){
+        if(self){
+            player=target.getOwner();
+        }
+        else{
+            player=target.getEnemyPlayer();
+        }
+
+        if(player.getPosition().calcDist(target.getMovement())>this.distance){
             throw new InvalidTargetException();
         }
 
         if(linear){
-            if((target.getEnemyPlayer().getPosition().getX()!=target.getMovement().getX())&&(target.getEnemyPlayer().getPosition().getY()!=target.getMovement().getY())){
+            if((player.getPosition().getX()!=target.getMovement().getX())&&(player.getPosition().getY()!=target.getMovement().getY())){
                 throw new InvalidTargetException();
             }
-            mDist = Math.abs(target.getEnemyPlayer().getPosition().getX() - target.getMovement().getX()) + Math.abs(target.getEnemyPlayer().getPosition().getY() - target.getMovement().getY());
-            if(mDist < target.getEnemyPlayer().getPosition().calcDist(target.getMovement())){
+            mDist = Math.abs(player.getPosition().getX() - target.getMovement().getX()) + Math.abs(player.getPosition().getY() - target.getMovement().getY());
+            if(mDist < player.getPosition().calcDist(target.getMovement())){
                 throw new InvalidTargetException();
             }
         }
@@ -53,10 +62,16 @@ public class MovementEffect extends Effect {
             throw new InvalidTargetException();
         }
         else{
-            target.getEnemyPlayer().getPosition().leaves(target.getEnemyPlayer());
-            target.getEnemyPlayer().setPreviousPosition(target.getEnemyPlayer().getPosition());
-            target.getEnemyPlayer().setPosition(target.getMovement());
-            target.getMovement().arrives(target.getEnemyPlayer());
+            player.getPosition().leaves(player);
+            player.setPreviousPosition(player.getPosition());
+            player.setPosition(target.getMovement());
+            target.getMovement().arrives(player);
+            if(addToList){
+                previousTarget.add(target.getEnemyPlayer());
+            }
+            if(removeFromList){
+                previousTarget.remove(target.getEnemyPlayer());
+            }
         }
     }
 }

@@ -30,8 +30,8 @@ class MovementEffectTest {
         constraints = new ArrayList<Constraint>();
         constrainPositivity = new ArrayList<Boolean>();
         target = new TargetParameter(null, owner, enemy, null, null,null);
-        test = new MovementEffect(0,0,0,"Lablo",constraints,constrainPositivity,3,true,false,false);
-        test2 = new MovementEffect(0,0,0,"Lablo",constraints,constrainPositivity,2,false,false,false);
+        test = new MovementEffect(0,0,0,"Lablo",constraints,constrainPositivity,3,true,false,false,false);
+        test2 = new MovementEffect(0,0,0,"Lablo",constraints,constrainPositivity,2,false,false,false,false);
     }
 
     @Test

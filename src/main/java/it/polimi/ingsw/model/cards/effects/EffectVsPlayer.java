@@ -37,6 +37,12 @@ public class EffectVsPlayer extends Effect {
         else{
             target.getEnemyPlayer().wound(this.damage,target.getOwner());
             target.getEnemyPlayer().marked(this.mark,target.getOwner());
+            if(addToList){
+                previousTarget.add(target.getEnemyPlayer());
+            }
+            if(removeFromList){
+                previousTarget.remove(target.getEnemyPlayer());
+            }
         }
     }
 }
