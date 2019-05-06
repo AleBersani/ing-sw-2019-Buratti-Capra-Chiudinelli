@@ -133,7 +133,7 @@ class PlayerTest {
             assertThrows(NullAmmoException.class,()->guest.grab(board.find(3,2)));
         }
     }
-    //TESTED THE FIRST ADRENALINE POWER UP MOVEMENT
+    //TESTED THE FIRST ADRENALINE POWER UP MOVEMENT AND THE ELEMENT NOT FOUND
     @Test
     public void testGrab2() {
         guest.setTurn(turn);
@@ -162,6 +162,12 @@ class PlayerTest {
             assertEquals(board.find(2,1),guest.getPosition());
         } catch (NotFoundException e) {
             e.printStackTrace();
+        }
+        assertEquals(1,guest.getTurn().getActionCounter());
+        try {
+            guest.grab(board.find(3,1));
+        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            assertThrows(ElementNotFoundException.class,()->guest.grab(board.find(3,1)));
         }
         assertEquals(1,guest.getTurn().getActionCounter());
     }
@@ -282,6 +288,11 @@ class PlayerTest {
             assertEquals(3,guest.getPowerUps().size());
         } catch (MaxHandSizeException e) {
             e.printStackTrace();
+        }
+        try {
+            guest.draw();
+        } catch (MaxHandSizeException e) {
+            assertThrows(MaxHandSizeException.class,()->guest.draw());
         }
     }
 
