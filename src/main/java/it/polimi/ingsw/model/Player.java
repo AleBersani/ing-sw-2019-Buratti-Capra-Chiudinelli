@@ -195,7 +195,6 @@ public class Player {
      * @throws InvalidDestinationException This exception means that the player can't reach the chosen destination
      * @throws InvalidTargetException This exception means that there are is no valid target chosen
      */
-    // TODO SHOOT CONTROLLER
     public void shoot(Weapon weapon, Square destination, TargetParameter target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
         if (isOnAdrenalineShoot() == 1)
             if (this.position.calcDist(destination) <= 1)
@@ -457,14 +456,17 @@ public class Player {
      * This method return and integer for upgrade the movement in the frenzy action
      * @return 1 if the player is the first player or if his final turn comes later then the first player, 0 otherwise
      */
-    private int onlyFrenzyAction() {
+    public int onlyFrenzyAction() {
         int lastcont = 0;
-        for (int i = 0; i < this.turn.getMatch().getPlayers().size(); i++)
-            if (this.turn.getMatch().getPlayers().get(i).isLastKill())
-                lastcont = i;
-        for (int i = 0; i < this.turn.getMatch().getPlayers().size(); i++)
-            if (this.turn.getMatch().getPlayers().contains(this) && i <= lastcont)
-                return 1;
+        int i;
+        if (this.turn.isFrenzy()) {
+            for (i = 0; i < this.turn.getMatch().getPlayers().size(); i++)
+                if (this.turn.getMatch().getPlayers().get(i).isLastKill())
+                    lastcont = i;
+            for (i = 0; i < this.turn.getMatch().getPlayers().size(); i++)
+                if (this.turn.getMatch().getPlayers().get(i)==this && i <= lastcont)
+                    return 1;
+        }
         return 0;
     }
 
@@ -581,6 +583,14 @@ public class Player {
     }
 
     /**
+     * This method sets the damage counters of the player
+     * @param damageCounter This parameter is te number of damage counters that the player'll own
+     */
+    public void setDamageCounter(int damageCounter) {
+        this.damageCounter = damageCounter;
+    }
+
+    /**
      * This method returns the damage list of a the player
      * @return The list of damages done by other players
      */
@@ -634,6 +644,14 @@ public class Player {
      */
     public boolean isLastKill() {
         return lastKill;
+    }
+
+    /**
+     * This method sets if the player is the last killer or not
+     * @param lastKill This parameter is true if the player'll be the last killer, false otherwise
+     */
+    public void setLastKill(boolean lastKill) {
+        this.lastKill = lastKill;
     }
 
     /**

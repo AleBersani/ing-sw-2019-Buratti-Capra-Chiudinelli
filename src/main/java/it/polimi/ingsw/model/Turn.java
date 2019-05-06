@@ -220,4 +220,12 @@ public class Turn {
     public boolean isFrenzy() {
         return frenzy;
     }
+
+    /**
+     * This method sets a turn to frenzy or not
+     * @param frenzy This parameter is true if the turn'll be frenzy, false otherwise
+     */
+    public void setFrenzy(boolean frenzy) {
+        this.frenzy = frenzy;
+    }
 }
