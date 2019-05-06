@@ -106,11 +106,7 @@ class PlayerTest {
         try {
             guest.grab(board.find(3,3));
         } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
-            try {
-                assertEquals(board.find(2,2),guest.getPosition());
-            } catch (NotFoundException ex) {
-                ex.printStackTrace();
-            }
+            assertThrows(InvalidDestinationException.class,()->guest.grab(board.find(3,3)));
         }
         try {
             board.find(3,2).generate();
@@ -154,11 +150,7 @@ class PlayerTest {
         try {
             guest.grab(board.find(1,1));
         } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
-            try {
-                assertEquals(board.find(3,2),guest.getPosition());
-            } catch (NotFoundException ex) {
-                ex.printStackTrace();
-            }
+            assertThrows(InvalidDestinationException.class,()->guest.grab(board.find(1,1)));
         }
         assertEquals(0,guest.getTurn().getActionCounter());
         try {
@@ -266,7 +258,7 @@ class PlayerTest {
         try {
             guest.reload(lockRifle);
         } catch (LoadedException e) {
-            assertEquals(0,0);
+            assertThrows(LoadedException.class,()->guest.reload(lockRifle));
         } catch (NoAmmoException e) {
             e.printStackTrace();
         }
@@ -276,7 +268,7 @@ class PlayerTest {
         } catch (LoadedException e) {
             e.printStackTrace();
         } catch (NoAmmoException e) {
-            assertEquals(0,0);
+            assertThrows(NoAmmoException.class,()->guest.reload(lockRifle));
         }
     }
 

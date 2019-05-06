@@ -3,16 +3,16 @@ package it.polimi.ingsw.communication;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class EchoServerClientHandler implements Runnable {
-    static ArrayList<String> nicknameList= new ArrayList<>();
     private Socket socket;
     public EchoServerClientHandler(Socket socket) {
         this.socket = socket;
     }
     public void run() {
+        int i;
+        boolean timeLimit=false;
         try {
             Scanner in = new Scanner(socket.getInputStream());
             PrintWriter out = new PrintWriter(socket.getOutputStream());
@@ -22,21 +22,30 @@ public class EchoServerClientHandler implements Runnable {
                     break;
                 }
                 else {
-                    if(nicknameList.contains(line)) {
+                    if(MultiEchoServer.getNicknameList().contains(line)) {
                         out.println(line + " nickname already used, please enter another one");
                         out.flush();
                     }
                     else {
                         out.println(line + " nickname registered");
                         out.flush();
-                        nicknameList.add(line);
+                        System.out.println(line + " is logged");
+                        MultiEchoServer.getNicknameList().add(line);
                         break;
                     }
                 }
             }
-            while(nicknameList.size()<2){
+            while(MultiEchoServer.getNicknameList().size()<5 && !timeLimit){
                 out.println("Waiting other players...");
                 out.flush();
+                if(MultiEchoServer.getNicknameList().size()>=3)
+                    for(i=0;i<60;i++) {
+                        Thread.sleep(1000);
+                        if(MultiEchoServer.getNicknameList().size()!=3)
+                            break;
+                        if(i==59)
+                            timeLimit=true;
+                    }
             }
             out.println("Starting game...");
             out.flush();
@@ -44,7 +53,7 @@ public class EchoServerClientHandler implements Runnable {
             in.close();
             out.close();
             socket.close();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             System.err.println(e.getMessage());
         }
     }
