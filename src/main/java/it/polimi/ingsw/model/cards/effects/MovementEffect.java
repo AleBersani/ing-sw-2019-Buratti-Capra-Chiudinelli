@@ -33,7 +33,7 @@ public class MovementEffect extends Effect {
     }
 
     @Override
-    public void apply(TargetParameter target, ArrayList<Player> previousTarget) throws InvalidTargetException {
+    public void apply(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget) throws InvalidTargetException {
         int mDist;
         Player player;
 
@@ -67,10 +67,11 @@ public class MovementEffect extends Effect {
             player.setPosition(target.getMovement());
             target.getMovement().arrives(player);
             if(addToList){
-                previousTarget.add(target.getEnemyPlayer());
+                previousTarget.get(0).add(target.getEnemyPlayer());
             }
             if(removeFromList){
-                previousTarget.remove(target.getEnemyPlayer());
+                previousTarget.get(0).remove(target.getEnemyPlayer());
+                previousTarget.get(1).add(target.getEnemyPlayer());
             }
         }
     }

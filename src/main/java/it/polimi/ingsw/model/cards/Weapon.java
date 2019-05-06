@@ -14,7 +14,7 @@ public abstract class Weapon {
     private int costBlue,costRed,costYellow;
     private boolean load;
     private ArrayList<Effect> effect;
-    private ArrayList<Player> previousTarget;
+    private ArrayList<ArrayList<Player>> previousTarget;
     private Player owner;
 
     public Weapon(String color, String name, int costBlue, int costRed, int costYellow, ArrayList<Effect> effect) {
@@ -26,7 +26,7 @@ public abstract class Weapon {
         this.effect = effect;
         load=true;
         owner=null;
-        previousTarget= new ArrayList<Player>();
+        previousTarget= new ArrayList<ArrayList<Player>>();
     }
 
     public void fire(TargetParameter target) throws InvalidTargetException {
@@ -73,7 +73,7 @@ public abstract class Weapon {
         return effect;
     }
 
-    public ArrayList<Player> getPreviousTarget() {
+    public ArrayList<ArrayList<Player>> getPreviousTarget() {
         return previousTarget;
     }
 

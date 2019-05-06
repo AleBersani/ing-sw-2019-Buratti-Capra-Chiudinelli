@@ -30,7 +30,7 @@ public class EffectVsPlayer extends Effect {
 
 
     @Override
-    public void apply(TargetParameter target, ArrayList<Player> previousTarget) throws InvalidTargetException {
+    public void apply(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget) throws InvalidTargetException {
         if(!constraintsCheck(target,previousTarget)){
             throw new InvalidTargetException();
         }
@@ -38,10 +38,11 @@ public class EffectVsPlayer extends Effect {
             target.getEnemyPlayer().wound(this.damage,target.getOwner());
             target.getEnemyPlayer().marked(this.mark,target.getOwner());
             if(addToList){
-                previousTarget.add(target.getEnemyPlayer());
+                previousTarget.get(0).add(target.getEnemyPlayer());
             }
             if(removeFromList){
-                previousTarget.remove(target.getEnemyPlayer());
+                previousTarget.get(0).remove(target.getEnemyPlayer());
+                previousTarget.get(1).add(target.getEnemyPlayer());
             }
         }
     }

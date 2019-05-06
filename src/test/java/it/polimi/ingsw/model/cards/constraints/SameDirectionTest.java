@@ -20,16 +20,18 @@ class SameDirectionTest {
     Player owner;
     Board board;
     TargetParameter target;
-    ArrayList<Player> previousTarget;
+    ArrayList<ArrayList<Player>> previousTarget;
 
     @BeforeEach
     public void setup(){
         board = new Board(null,"./resources/Board/Board1.json");
         enemy = new Player(false,"blue", "Fabiano");
         owner = new Player(true,"red", "Fabiolo");
-        test = new SameDirection();
+        test = new SameDirection(0);
         target = new TargetParameter(null,owner,null,null,null,null);
-        previousTarget = new ArrayList<Player>();
+        previousTarget = new ArrayList<ArrayList<Player>>();
+        previousTarget.add(new ArrayList<Player>());
+        previousTarget.add(new ArrayList<Player>());
     }
 
     @Test
@@ -89,7 +91,7 @@ class SameDirectionTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        previousTarget.add(enemy);
+        previousTarget.get(test.getLevel()).add(enemy);
         target.setConstraintSquare(enemySquare);
         try {
             assertEquals(true, test.canShoot(target,true,previousTarget));
@@ -115,7 +117,7 @@ class SameDirectionTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        previousTarget.add(enemy);
+        previousTarget.get(test.getLevel()).add(enemy);
         target.setConstraintSquare(enemySquare);
         try {
             assertEquals(false,test.canShoot(target,true,previousTarget));
@@ -141,7 +143,7 @@ class SameDirectionTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        previousTarget.add(enemy);
+        previousTarget.get(test.getLevel()).add(enemy);
         target.setConstraintSquare(enemySquare);
         try {
             assertEquals(false,test.canShoot(target,true,previousTarget));
@@ -149,5 +151,5 @@ class SameDirectionTest {
             e.printStackTrace();
         }
     }
-
+//TODO cambiare assertEquals
 }

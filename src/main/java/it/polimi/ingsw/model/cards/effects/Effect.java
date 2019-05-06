@@ -26,9 +26,9 @@ public abstract class Effect {
         this.constraintPositivity=constraintPositivity;
     }
 
-    abstract public void apply(TargetParameter target, ArrayList<Player> previousTarget) throws InvalidTargetException;
+    abstract public void apply(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget) throws InvalidTargetException;
 
-    public boolean constraintsCheck(TargetParameter target, ArrayList<Player> previousTarget){
+    public boolean constraintsCheck(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget){
         int i;
         if(constraints.isEmpty()){
             return true;

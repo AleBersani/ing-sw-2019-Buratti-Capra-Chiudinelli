@@ -15,7 +15,7 @@ class SamePlayerTest {
     Player enemy,enemy2,enemy3;
     Board board;
     TargetParameter target;
-    ArrayList<Player> previousTarget;
+    ArrayList<ArrayList<Player>> previousTarget;
     SamePlayer test;
 
     @BeforeEach
@@ -25,37 +25,40 @@ class SamePlayerTest {
         enemy2 = new Player(false,"red", "Fabiolo");
         enemy3 = new Player(false,"red", "Fagiolo");
         target = new TargetParameter(null,null,enemy,null,null,null);
-        previousTarget = new ArrayList<Player>();
-        test = new SamePlayer();
+        previousTarget = new ArrayList<ArrayList<Player>>();
+        previousTarget.add(new ArrayList<Player>());
+        previousTarget.add(new ArrayList<Player>());
+        test = new SamePlayer(0);
     }
+    //TODO test con level a 1
 
     @Test
     void samePreviousPlayer() {
-        previousTarget.add(enemy);
-        previousTarget.add(enemy2);
-        previousTarget.add(enemy3);
+        previousTarget.get(test.getLevel()).add(enemy);
+        previousTarget.get(test.getLevel()).add(enemy2);
+        previousTarget.get(test.getLevel()).add(enemy3);
         assertTrue(test.canShoot(target,true,previousTarget));
     }
 
     @Test
     void notSamePreviousPlayer(){
-        previousTarget.add(enemy2);
-        previousTarget.add(enemy3);
+        previousTarget.get(test.getLevel()).add(enemy2);
+        previousTarget.get(test.getLevel()).add(enemy3);
         assertFalse(test.canShoot(target,true,previousTarget));
     }
 
     @Test
     void notSamePreviousPlayerNotCase(){
-        previousTarget.add(enemy2);
-        previousTarget.add(enemy3);
+        previousTarget.get(test.getLevel()).add(enemy2);
+        previousTarget.get(test.getLevel()).add(enemy3);
         assertTrue(test.canShoot(target,false,previousTarget));
     }
 
     @Test
     void samePreviousPlayerNotCase() {
-        previousTarget.add(enemy);
-        previousTarget.add(enemy2);
-        previousTarget.add(enemy3);
+        previousTarget.get(test.getLevel()).add(enemy);
+        previousTarget.get(test.getLevel()).add(enemy2);
+        previousTarget.get(test.getLevel()).add(enemy3);
         assertFalse(test.canShoot(target,false,previousTarget));
     }
 }

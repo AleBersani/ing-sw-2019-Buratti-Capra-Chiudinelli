@@ -8,6 +8,13 @@ import java.util.ArrayList;
 
 public abstract class Constraint {
 
-    abstract public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget) throws NoOwnerException;
+    private int level;
 
+    public Constraint(int level) {
+        this.level = level;
+    }
+
+    abstract public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<ArrayList<Player>> previousTarget) throws NoOwnerException;
+
+    public int getLevel() { return level; }
 }

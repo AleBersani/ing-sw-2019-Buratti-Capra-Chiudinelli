@@ -12,14 +12,15 @@ public class MinimumDistance extends Constraint {
     private int distance;
     private boolean concatenate;
 
-    public MinimumDistance(int distance, boolean concatenate) {
+    public MinimumDistance(int distance, boolean concatenate, int level) {
+        super(level);
         this.distance = distance;
         this.concatenate = concatenate;
     }
 
     //controlla che ci sia una distanza minima tra owner e i giocatori bersagliati uno ad uno, concatenato
     @Override
-    public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget) throws NoOwnerException {
+    public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<ArrayList<Player>> previousTarget) throws NoOwnerException {
         ArrayList<Square> allTarget = new ArrayList<Square>();
         allTarget.add(target.getConstraintSquare());
         if(!concatenate){
@@ -29,8 +30,8 @@ public class MinimumDistance extends Constraint {
             allTarget.add(target.getOwner().getPosition());
         }
         else {
-            for(int j=previousTarget.size();j>0;j--){
-                allTarget.add(previousTarget.get(j-1).getPosition());
+            for(int j=previousTarget.get(getLevel()).size();j>0;j--){
+                allTarget.add(previousTarget.get(getLevel()).get(j-1).getPosition());
             }
         }
         for(int i=1;i<allTarget.size();i++){

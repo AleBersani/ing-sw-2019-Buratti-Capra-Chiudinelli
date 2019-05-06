@@ -11,10 +11,13 @@ public class See extends Constraint {
 
     boolean concatenate;
 
-    public See(boolean concatenate) { this.concatenate = concatenate; }
+    public See(boolean concatenate, int level) {
+        super(level);
+        this.concatenate = concatenate;
+    }
 
     @Override
-    public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget)throws NoOwnerException {
+    public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<ArrayList<Player>> previousTarget)throws NoOwnerException {
 
         if((target.getOwner()==null)||(target.getOwner().getPosition()==null)){
             throw new NoOwnerException();
@@ -22,7 +25,7 @@ public class See extends Constraint {
         ArrayList<Square> allTarget = new ArrayList<Square>();
         allTarget.add(target.getOwner().getPosition());
         if(concatenate){
-            for(Player previousPlayer: previousTarget){
+            for(Player previousPlayer: previousTarget.get(getLevel())){
                 allTarget.add(previousPlayer.getPosition());
             }
         }

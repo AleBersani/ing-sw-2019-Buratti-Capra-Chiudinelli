@@ -20,7 +20,7 @@ class MinimumDistanceTest {
     Board board;
     MinimumDistance test, test1, test2;
     TargetParameter target;
-    ArrayList<Player> previousTarget;
+    ArrayList<ArrayList<Player>> previousTarget;
 
     @BeforeEach
     public void setup() {
@@ -29,10 +29,12 @@ class MinimumDistanceTest {
         enemy2 = new Player(false,"green", "Fazzio");
         board = new Board(null,"./resources/Board/Board1.json");
         target = new TargetParameter(null,owner,null,null,null,null);
-        test = new MinimumDistance(2,false);
-        test1 = new MinimumDistance(3,false);
-        test2 = new MinimumDistance(2,true);
-        previousTarget = new ArrayList<Player>();
+        test = new MinimumDistance(2,false,0);
+        test1 = new MinimumDistance(3,false,0);
+        test2 = new MinimumDistance(2,true,0);
+        previousTarget = new ArrayList<ArrayList<Player>>();
+        previousTarget.add(new ArrayList<Player>());
+        previousTarget.add(new ArrayList<Player>());
 
     }
 
@@ -129,8 +131,8 @@ class MinimumDistanceTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        previousTarget.add(enemy);
-        previousTarget.add(enemy2);
+        previousTarget.get(test2.getLevel()).add(enemy);
+        previousTarget.get(test2.getLevel()).add(enemy2);
         try {
             assertTrue(test2.canShoot(target,false,previousTarget));
         } catch (NoOwnerException e) {
@@ -155,8 +157,8 @@ class MinimumDistanceTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        previousTarget.add(enemy);
-        previousTarget.add(enemy2);
+        previousTarget.get(test2.getLevel()).add(enemy);
+        previousTarget.get(test2.getLevel()).add(enemy2);
         try {
             assertFalse(test2.canShoot(target,false,previousTarget));
         } catch (NoOwnerException e) {
@@ -181,8 +183,8 @@ class MinimumDistanceTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        previousTarget.add(enemy);
-        previousTarget.add(enemy2);
+        previousTarget.get(test2.getLevel()).add(enemy);
+        previousTarget.get(test2.getLevel()).add(enemy2);
         try {
             assertFalse(test2.canShoot(target,true,previousTarget));
         } catch (NoOwnerException e) {
@@ -207,8 +209,8 @@ class MinimumDistanceTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        previousTarget.add(enemy);
-        previousTarget.add(enemy2);
+        previousTarget.get(test2.getLevel()).add(enemy);
+        previousTarget.get(test2.getLevel()).add(enemy2);
         try {
             assertTrue(test2.canShoot(target,true,previousTarget));
         } catch (NoOwnerException e) {

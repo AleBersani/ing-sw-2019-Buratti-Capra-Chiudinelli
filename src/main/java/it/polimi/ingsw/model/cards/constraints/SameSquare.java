@@ -8,17 +8,20 @@ import java.util.ArrayList;
 
 public class SameSquare extends Constraint {
 
-    private boolean controllEnemy;
+    private boolean controlEnemy;
 
-    public SameSquare(boolean controllEnemy) { this.controllEnemy = controllEnemy; }
+    public SameSquare(boolean controlEnemy, int level) {
+        super(level);
+        this.controlEnemy = controlEnemy;
+    }
 
     @Override
-    public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget) throws NoOwnerException {
+    public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<ArrayList<Player>> previousTarget) throws NoOwnerException {
         ArrayList<Square> allTarget = new ArrayList<Square>();
         allTarget.add(target.getConstraintSquare());
-        if(controllEnemy){
-            for(int j=previousTarget.size();j>0;j--){
-                allTarget.add(previousTarget.get(j-1).getPosition());
+        if(controlEnemy){
+            for(int j=previousTarget.get(getLevel()).size();j>0;j--){
+                allTarget.add(previousTarget.get(getLevel()).get(j-1).getPosition());
             }
         }
         else {

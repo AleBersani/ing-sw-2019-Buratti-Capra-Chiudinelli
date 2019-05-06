@@ -19,7 +19,7 @@ public class EffectVsRoom extends Effect {
     }
 
     @Override
-    public void apply(TargetParameter target, ArrayList<Player> previousTarget) throws InvalidTargetException {
+    public void apply(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget) throws InvalidTargetException {
         if(!constraintsCheck(target,previousTarget)){
             throw new InvalidTargetException();
         }

@@ -21,7 +21,7 @@ class SeeTest {
     Board board;
     See test,test2;
     TargetParameter target;
-    ArrayList<Player> previousTarget;
+    ArrayList<ArrayList<Player>> previousTarget;
 
     @BeforeEach
     public void setup(){
@@ -29,10 +29,12 @@ class SeeTest {
         owner = new Player(true,"blue", "Bellocchio");
         enemy = new Player(true, "green", "Lucio");
         enemy2 = new Player(true, "red", "Fabio");
-        test = new See(false);
-        test2 = new See(true);
+        test = new See(false,0);
+        test2 = new See(true,0);
         target = new TargetParameter(null,owner,null,null,null,null);
-        previousTarget = new ArrayList<Player>();
+        previousTarget = new ArrayList<ArrayList<Player>>();
+        previousTarget.add(new ArrayList<Player>());
+        previousTarget.add(new ArrayList<Player>());
     }
 
     @Test
@@ -137,8 +139,8 @@ class SeeTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        previousTarget.add(enemy);
-        previousTarget.add(enemy2);
+        previousTarget.get(test.getLevel()).add(enemy);
+        previousTarget.get(test.getLevel()).add(enemy2);
         target.setConstraintSquare(enemySquare);
         try {
             assertTrue(test2.canShoot(target,true,previousTarget));
@@ -169,8 +171,8 @@ class SeeTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        previousTarget.add(enemy);
-        previousTarget.add(enemy2);
+        previousTarget.get(test.getLevel()).add(enemy);
+        previousTarget.get(test.getLevel()).add(enemy2);
         target.setConstraintSquare(enemySquare);
         try {
             assertTrue(test2.canShoot(target,false,previousTarget));
@@ -201,8 +203,8 @@ class SeeTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        previousTarget.add(enemy);
-        previousTarget.add(enemy2);
+        previousTarget.get(test.getLevel()).add(enemy);
+        previousTarget.get(test.getLevel()).add(enemy2);
         target.setConstraintSquare(enemySquare);
         try {
             assertFalse(test2.canShoot(target,true,previousTarget));
@@ -233,8 +235,8 @@ class SeeTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        previousTarget.add(enemy);
-        previousTarget.add(enemy2);
+        previousTarget.get(test.getLevel()).add(enemy);
+        previousTarget.get(test.getLevel()).add(enemy2);
         target.setConstraintSquare(enemySquare);
         try {
             assertFalse(test2.canShoot(target,false,previousTarget));
@@ -265,8 +267,8 @@ class SeeTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        previousTarget.add(enemy);
-        previousTarget.add(enemy2);
+        previousTarget.get(test.getLevel()).add(enemy);
+        previousTarget.get(test.getLevel()).add(enemy2);
         target.setConstraintSquare(enemySquare);
         try {
             assertTrue(test2.canShoot(target,false,previousTarget));

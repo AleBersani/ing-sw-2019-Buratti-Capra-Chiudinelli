@@ -17,14 +17,16 @@ class AdjacentRoomTest {
     Player owner;
     Board board;
     TargetParameter target;
-    ArrayList<Player> previousTarget;
+    ArrayList<ArrayList<Player>> previousTarget;
 
     @BeforeEach
     public void setup(){
         board = new Board(null,"./resources/Board/Board1.json");
         owner = new Player(true,"Yellow","Bruno");
-        test = new AdjacentRoom();
-        previousTarget = new ArrayList<Player>();
+        test = new AdjacentRoom(0);
+        previousTarget = new ArrayList<ArrayList<Player>>();
+        previousTarget.add(new ArrayList<Player>());
+        previousTarget.add(new ArrayList<Player>());
         target = new TargetParameter(null,owner,null,null,null,null);
     }
 

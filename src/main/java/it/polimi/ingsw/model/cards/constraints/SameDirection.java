@@ -9,14 +9,18 @@ import java.util.ArrayList;
 
 public class SameDirection extends Constraint {
 
+    public SameDirection(int level) {
+        super(level);
+    }
+
     @Override
-    public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<Player> previousTarget)throws NoOwnerException {
+    public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<ArrayList<Player>> previousTarget)throws NoOwnerException {
         if((target.getOwner()==null)||(target.getOwner().getPosition()==null)){
             throw new NoOwnerException();
         }
         ArrayList<Integer> positions = new ArrayList<Integer>();
         ArrayList<Square> allTarget = new ArrayList<Square>();
-        for(Player previousPlayer: previousTarget){
+        for(Player previousPlayer: previousTarget.get(getLevel())){
             allTarget.add(previousPlayer.getPosition());
         }
         allTarget.add(target.getConstraintSquare());

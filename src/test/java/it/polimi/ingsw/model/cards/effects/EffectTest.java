@@ -24,36 +24,38 @@ class EffectTest {
     Player owner,enemy,enemy2,enemy3;
     Board board;
     TargetParameter target;
-    ArrayList<Player> previousTarget;
+    ArrayList<ArrayList<Player>> previousTarget;
     Effect effect;
     ArrayList<Constraint> constraints;
     ArrayList<Boolean> constrainPositivity;
 
     @BeforeEach
     void setup(){
-        see = new See(false);
-        see2 = new See(true);
-        sameSquare = new SameSquare(false);
-        sameSquare2 = new SameSquare(true);
-        samePlayer = new SamePlayer();
-        sameDirection = new SameDirection();
-        minimumDistanceConcatenate = new MinimumDistance(1,true);
-        minimumDistanceConcatenate2 = new MinimumDistance(2,true);
-        minimumDistance2 = new MinimumDistance(2,false);
-        minimumDistance3 = new MinimumDistance(3,false);
-        adjacentRoom = new AdjacentRoom();
+        see = new See(false,0);
+        see2 = new See(true,0);
+        sameSquare = new SameSquare(false,0);
+        sameSquare2 = new SameSquare(true,0);
+        samePlayer = new SamePlayer(0);
+        sameDirection = new SameDirection(0);
+        minimumDistanceConcatenate = new MinimumDistance(1,true,0);
+        minimumDistanceConcatenate2 = new MinimumDistance(2,true,0);
+        minimumDistance2 = new MinimumDistance(2,false,0);
+        minimumDistance3 = new MinimumDistance(3,false,0);
+        adjacentRoom = new AdjacentRoom(0);
         board = new Board(null,"./resources/Board/Board1.json");
         owner = new Player(true,"blue", "Bellocchio");
         enemy = new Player(false, "green", "Lucio");
         enemy2 = new Player(false, "red", "Fabio");
         enemy3 = new Player(false, "yellow", "Ciccio");
         target = new TargetParameter(null,owner,null,null,null,null);
-        previousTarget = new ArrayList<Player>();
+        previousTarget = new ArrayList<ArrayList<Player>>();
+        previousTarget.add(new ArrayList<Player>());
+        previousTarget.add(new ArrayList<Player>());
         constraints = new ArrayList<Constraint>();
         constrainPositivity = new ArrayList<Boolean>();
         effect = new Effect(0,0,0,"elio",constraints,constrainPositivity) {
             @Override
-            public void apply(TargetParameter target, ArrayList<Player> previousTarget) throws InvalidTargetException {
+            public void apply(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget) throws InvalidTargetException {
 
             }
         };
@@ -74,7 +76,7 @@ class EffectTest {
         target.setTargetRoom(board.getRooms().get(0));
         constraints.add(adjacentRoom);
         constrainPositivity.add(true);
-        previousTarget.add(enemy);
+        previousTarget.get(0).add(enemy);
         assertTrue(effect.constraintsCheck(target,previousTarget));
     }
 
@@ -141,8 +143,8 @@ class EffectTest {
         constrainPositivity.add(true);
         constraints.add(minimumDistanceConcatenate2);
         constrainPositivity.add(false);
-        previousTarget.add(enemy2);
-        previousTarget.add(enemy3);
+        previousTarget.get(0).add(enemy2);
+        previousTarget.get(0).add(enemy3);
         target.setEnemyPlayer(enemy);
         target.setConstraintSquare(enemy.getPosition());
         assertTrue(effect.constraintsCheck(target,previousTarget));
@@ -182,8 +184,8 @@ class EffectTest {
         constrainPositivity.add(true);
         constraints.add(sameSquare2);
         constrainPositivity.add(false);
-        previousTarget.add(enemy2);
-        previousTarget.add(enemy3);
+        previousTarget.get(0).add(enemy2);
+        previousTarget.get(0).add(enemy3);
         target.setEnemyPlayer(enemy);
         target.setConstraintSquare(enemy.getPosition());
         assertTrue(effect.constraintsCheck(target,previousTarget));
