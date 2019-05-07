@@ -31,7 +31,7 @@ class PlayerTest {
 
     @BeforeEach
     public void setup() {
-        test = new Player(true,"red", "France");
+        test = new Player(false,"red", "France");
         target = new Player(false,"green", "Giuzeppi");
         testingMarks = new ArrayList<>();
         guest = new Player(true,"blue", "Franco");
@@ -170,6 +170,76 @@ class PlayerTest {
             assertThrows(ElementNotFoundException.class,()->guest.grab(board.find(3,1)));
         }
         assertEquals(1,guest.getTurn().getActionCounter());
+    }
+    //TESTED THE RIGHT MOVEMENT ON A FRENZY TURN
+    @Test
+    public void testGrab3() {
+        guest.setTurn(turn);
+        guest.setDamageCounter(0);
+        guest.setTurnedPlank(false);
+        turn.setMatch(testMatch);
+        turn.setFrenzy(true);
+        testMatch.setBoard(board);
+        turn.endTurn();
+        try {
+            guest.setPosition(board.find(1,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            guest.grab(board.find(3,2));
+        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            e.printStackTrace();
+        }
+        test.setTurn(turn);
+        test.setLastKill(true);
+        try {
+            test.setPosition(board.find(1,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            test.grab(board.find(2,3));
+        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            e.printStackTrace();
+        }
+        loser.setTurn(turn);
+        try {
+            loser.setPosition(board.find(1,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            loser.grab(board.find(2,2));
+        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGrab4(){
+        guest.setTurn(turn);
+        guest.setDamageCounter(0);
+        guest.setTurnedPlank(false);
+        turn.setMatch(testMatch);
+        turn.setFrenzy(true);
+        testMatch.setBoard(board);
+        turn.endTurn();
+        try {
+            guest.setPosition(board.find(1,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            guest.grab(board.find(3,1));
+        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            assertThrows(ElementNotFoundException.class,()->guest.grab(board.find(3,1)));
+        }
+        try {
+            guest.grabWeapon(board.find(3,1),1);
+        } catch (ElementNotFoundException | MaxHandWeaponSizeException | NoAmmoException | NotFoundException e) {
+            e.printStackTrace();
+        }
     }
     /*
     @Test
