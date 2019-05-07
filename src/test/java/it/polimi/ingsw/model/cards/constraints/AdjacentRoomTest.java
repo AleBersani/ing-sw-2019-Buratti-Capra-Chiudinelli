@@ -39,7 +39,7 @@ class AdjacentRoomTest {
         }
         target.setTargetRoom(board.getRooms().get(0));
         try {
-            assertEquals(true,test.canShoot(target,true,previousTarget));
+            assertTrue(test.canShoot(target,true,previousTarget));
         } catch (NoOwnerException e) {
             e.printStackTrace();
         }
@@ -54,7 +54,7 @@ class AdjacentRoomTest {
         }
         target.setTargetRoom(board.getRooms().get(0));
         try {
-            assertEquals(false,test.canShoot(target,true,previousTarget));
+            assertFalse(test.canShoot(target,true,previousTarget));
         } catch (NoOwnerException e) {
             e.printStackTrace();
         }
@@ -69,7 +69,7 @@ class AdjacentRoomTest {
         }
         target.setTargetRoom(board.getRooms().get(0));
         try {
-            assertEquals(false,test.canShoot(target,true,previousTarget));
+            assertFalse(test.canShoot(target,true,previousTarget));
         } catch (NoOwnerException e) {
             e.printStackTrace();
         }

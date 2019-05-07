@@ -51,7 +51,7 @@ class MinimumDistanceTest {
             e.printStackTrace();
         }
         try {
-            assertEquals(false, test.canShoot(target,true,previousTarget));
+            assertFalse(test.canShoot(target,true,previousTarget));
         } catch (NoOwnerException e) {
             e.printStackTrace();
         }
@@ -70,7 +70,7 @@ class MinimumDistanceTest {
             e.printStackTrace();
         }
         try {
-            assertEquals(true, test.canShoot(target,true,previousTarget));
+            assertTrue(test.canShoot(target,true,previousTarget));
         } catch (NoOwnerException e) {
             e.printStackTrace();
         }
@@ -89,7 +89,7 @@ class MinimumDistanceTest {
             e.printStackTrace();
         }
         try {
-            assertEquals(false, test1.canShoot(target,false,previousTarget));
+            assertFalse(test1.canShoot(target,false,previousTarget));
         } catch (NoOwnerException e) {
             e.printStackTrace();
         }
@@ -108,7 +108,7 @@ class MinimumDistanceTest {
             e.printStackTrace();
         }
         try {
-            assertEquals(true, test1.canShoot(target,false,previousTarget));
+            assertTrue( test1.canShoot(target,false,previousTarget));
         } catch (NoOwnerException e) {
             e.printStackTrace();
         }
