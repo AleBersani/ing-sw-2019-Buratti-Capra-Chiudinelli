@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SameDirectionTest {
     SameDirection test;
@@ -48,7 +48,7 @@ class SameDirectionTest {
         }
         target.setConstraintSquare(enemySquare);
         try {
-            assertEquals(true, test.canShoot(target,true,previousTarget));
+            assertTrue(test.canShoot(target,true,previousTarget));
         } catch (NoOwnerException e) {
             e.printStackTrace();
         }
@@ -68,7 +68,7 @@ class SameDirectionTest {
         }
         target.setConstraintSquare(enemySquare);
         try {
-            assertEquals(false,test.canShoot(target,true,previousTarget));
+            assertFalse(test.canShoot(target,true,previousTarget));
         } catch (NoOwnerException e) {
             e.printStackTrace();
         }
@@ -94,7 +94,7 @@ class SameDirectionTest {
         previousTarget.get(test.getLevel()).add(enemy);
         target.setConstraintSquare(enemySquare);
         try {
-            assertEquals(true, test.canShoot(target,true,previousTarget));
+            assertTrue(test.canShoot(target,true,previousTarget));
         } catch (NoOwnerException e) {
             e.printStackTrace();
         }
@@ -120,7 +120,7 @@ class SameDirectionTest {
         previousTarget.get(test.getLevel()).add(enemy);
         target.setConstraintSquare(enemySquare);
         try {
-            assertEquals(false,test.canShoot(target,true,previousTarget));
+            assertFalse(test.canShoot(target,true,previousTarget));
         } catch (NoOwnerException e) {
             e.printStackTrace();
         }
@@ -146,10 +146,9 @@ class SameDirectionTest {
         previousTarget.get(test.getLevel()).add(enemy);
         target.setConstraintSquare(enemySquare);
         try {
-            assertEquals(false,test.canShoot(target,true,previousTarget));
+            assertFalse(test.canShoot(target,true,previousTarget));
         } catch (NoOwnerException e) {
             e.printStackTrace();
         }
     }
-//TODO cambiare assertEquals
 }
