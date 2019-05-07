@@ -25,7 +25,9 @@ public class EffectVsSquare extends Effect {
         else{
             for (Player p: target.getTargetSquare().getOnMe()){
                 if(p != target.getOwner()){
-                    p.wound(this.damage,target.getOwner());
+                    if(this.damage!=0){
+                        p.wound(this.damage,target.getOwner());
+                    }
                     p.marked(this.mark,target.getOwner());
                 }
             }
