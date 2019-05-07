@@ -474,153 +474,115 @@ public class Player {
      * This method returns the number of skulls of the player
      * @return The number of skulls that the player owns
      */
-    public int getSkull() {
-        return skull;
-    }
+    public int getSkull() { return skull; }
 
     /**
      * This method sets the number of skulls of the player
      * @param skull This parameter is the number of skulls that the player'll have
      */
-    public void setSkull(int skull) {
-        this.skull = skull;
-    }
+    public void setSkull(int skull) { this.skull = skull; }
 
     /**
      * This method returns the number of blue ammo that the player owns
      * @return The number of blue ammo that the player has
      */
-    public int getBlueAmmo() {
-        return blueAmmo;
-    }
+    public int getBlueAmmo() { return blueAmmo; }
 
     /**
      * This method sets the number of blue ammo of the player
      * @param blueAmmo This parameter is the number of blue ammo that the player'll have
      */
-    public void setBlueAmmo(int blueAmmo) {
-        this.blueAmmo = blueAmmo;
-    }
+    public void setBlueAmmo(int blueAmmo) { this.blueAmmo = blueAmmo; }
 
     /**
      * This method returns the number of red ammo that the player owns
      * @return The number of red ammo that the player has
      */
-    public int getRedAmmo() {
-        return redAmmo;
-    }
+    public int getRedAmmo() { return redAmmo; }
 
     /**
      * This method sets the number of red ammo of the player
      * @param redAmmo This parameter is the number of red ammo that the player'll have
      */
-    public void setRedAmmo(int redAmmo) {
-        this.redAmmo = redAmmo;
-    }
+    public void setRedAmmo(int redAmmo) { this.redAmmo = redAmmo; }
 
     /**
      * This method returns the number of yellow ammo that the player owns
      * @return The number of yellow ammo that the player has
      */
-    public int getYellowAmmo() {
-        return yellowAmmo;
-    }
+    public int getYellowAmmo() { return yellowAmmo; }
 
     /**
      * This method sets the number of yellow ammo of the player
      * @param yellowAmmo This parameter is the number of yellow ammo that the player'll have
      */
-    public void setYellowAmmo(int yellowAmmo) {
-        this.yellowAmmo = yellowAmmo;
-    }
+    public void setYellowAmmo(int yellowAmmo) { this.yellowAmmo = yellowAmmo; }
 
     /**
      * This method returns the total points the player has done
      * @return The amount of points that the player has earned
      */
-    public int getPoints() {
-        return points;
-    }
+    public int getPoints() { return points; }
 
     /**
      * This method set the points of the player
      * @param points This parameter is the amount of points that the player'll have
      */
-    public void setPoints(int points) {
-        this.points = points;
-    }
+    public void setPoints(int points) { this.points = points; }
 
     /**
      * This method returns if the plank is turned or not
      * @return True if is turned, false if not
      */
-    public boolean isTurnedPlank() {
-        return turnedPlank;
-    }
+    public boolean isTurnedPlank() { return turnedPlank; }
 
     /**
      * This method sets if the plank is turned or not
      * @param turnedPlank This parameter will sets if the plank is turned or not
      */
-    public void setTurnedPlank(boolean turnedPlank) {
-        this.turnedPlank = turnedPlank;
-    }
+    public void setTurnedPlank(boolean turnedPlank) { this.turnedPlank = turnedPlank; }
 
     /**
      * This method returns the nickname of the player
      * @return The nickname of the player
      */
-    public String getNickname() {
-        return nickname;
-    }
+    public String getNickname() { return nickname; }
 
     /**
      * This method returns the damage counters that the player owns
      * @return The amount of damage counters that the player has
      */
-    public int getDamageCounter() {
-        return damageCounter;
-    }
+    public int getDamageCounter() { return damageCounter; }
 
     /**
      * This method sets the damage counters of the player
      * @param damageCounter This parameter is te number of damage counters that the player'll own
      */
-    public void setDamageCounter(int damageCounter) {
-        this.damageCounter = damageCounter;
-    }
+    public void setDamageCounter(int damageCounter) { this.damageCounter = damageCounter; }
 
     /**
      * This method returns the damage list of a the player
      * @return The list of damages done by other players
      */
-    public ArrayList<Player> getDamage() {
-        return damage;
-    }
+    public ArrayList<Player> getDamage() { return damage; }
 
     /**
      * This method sets a list of damages of a player
      * @param damage This parameter is the list that the player'll have
      */
-    public void setDamage(ArrayList<Player> damage) {
-        this.damage = damage;
-    }
+    public void setDamage(ArrayList<Player> damage) { this.damage = damage; }
 
     /**
      * This method returns the mark list of a the player
      * @return The list of marks done by other players
      */
-    public ArrayList<Player> getMark() {
-        return mark;
-    }
+    public ArrayList<Player> getMark() { return mark; }
 
     /**
      * This method sets a list of marks of a player
      * @param mark This parameter is the list that the player'll have
      */
-    public void setMark(ArrayList<Player> mark) {
-        this.mark = mark;
-    }
+    public void setMark(ArrayList<Player> mark) { this.mark = mark; }
 
     /**
      * This method returns the power up list of the player
@@ -706,9 +668,7 @@ public class Player {
      * This method return the turn of the player
      * @return The turn of the player
      */
-    public Turn getTurn() {
-        return turn;
-    }
+    public Turn getTurn() { return turn; }
 
     /**
      * This method sets the turn of the player
