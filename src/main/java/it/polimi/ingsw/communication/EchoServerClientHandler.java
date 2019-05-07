@@ -12,12 +12,13 @@ public class EchoServerClientHandler implements Runnable {
     }
     public void run() {
         int i;
+        String line;
         boolean timeLimit=false;
         try {
             Scanner in = new Scanner(socket.getInputStream());
             PrintWriter out = new PrintWriter(socket.getOutputStream());
             while (true) {
-                String line = in.nextLine();
+                line = in.nextLine();
                 if (line.equals("quit")) {
                     break;
                 }
@@ -35,20 +36,22 @@ public class EchoServerClientHandler implements Runnable {
                     }
                 }
             }
-            while(MultiEchoServer.getNicknameList().size()<5 && !timeLimit){
-                out.println("Waiting other players...");
+            if(!line.equals("quit")) {
+                while (MultiEchoServer.getNicknameList().size() < 5 && !timeLimit) {
+                    out.println("Waiting other players...");
+                    out.flush();
+                    if (MultiEchoServer.getNicknameList().size() >= 3)
+                        for (i = 0; i < 60; i++) {
+                            Thread.sleep(1000);
+                            if (MultiEchoServer.getNicknameList().size() != 3)
+                                break;
+                            if (i == 59)
+                                timeLimit = true;
+                        }
+                }
+                out.println("Starting game...");
                 out.flush();
-                if(MultiEchoServer.getNicknameList().size()>=3)
-                    for(i=0;i<60;i++) {
-                        Thread.sleep(1000);
-                        if(MultiEchoServer.getNicknameList().size()!=3)
-                            break;
-                        if(i==59)
-                            timeLimit=true;
-                    }
             }
-            out.println("Starting game...");
-            out.flush();
             //TODO START THE GAME
             in.close();
             out.close();
