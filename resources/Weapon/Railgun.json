@@ -14,9 +14,12 @@
       "name": "Basic Mode",
       "constraints": [
         {
-          "type": "SameDirection"
+          "type": "SameDirection",
+          "level": 0
         }
-
+      ],
+      "constraintPositivity": [
+        true
       ],
       "damage": 3,
       "mark": 0,
@@ -25,7 +28,7 @@
     }
   ],
 
-  "previousTarget": [],
+  "previousTarget": [[]],
   "owner": null,
   "alternativeEffect": [
     {
@@ -36,9 +39,13 @@
       "name": "in Piercing Mode",
       "constraints": [
         {
-          "type": "SameDirection"
+          "type": "SameDirection",
+          "level": 0
         }
 
+      ],
+      "constraintPositivity": [
+        true
       ],
       "damage": 2,
       "mark": 0,
@@ -53,9 +60,13 @@
       "name": "in Piercing Mode",
       "constraints": [
         {
-          "type": "SameDirection"
+          "type": "SameDirection",
+          "level": 0
         }
 
+      ],
+      "constraintPositivity": [
+        true
       ],
       "damage": 2,
       "mark": 0,

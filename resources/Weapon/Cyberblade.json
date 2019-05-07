@@ -14,8 +14,13 @@
       "name": "Basic Effect",
       "constraints": [
         {
-          "type": "SameSquare"
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true
       ],
       "damage": 2,
       "mark": 0,
@@ -23,7 +28,7 @@
       "removeFromList": false
     }
   ],
-  "previousTarget": [],
+  "previousTarget": [[]],
   "owner": null,
   "optionalEffect": [
     [
@@ -33,10 +38,13 @@
         "costRed": 0,
         "costYellow": 0,
         "name": "with shadowstep",
-        "constraints": [
-          {}
-        ],
-        "distance": 1
+        "constraints": [],
+        "constraintPositivity": [],
+        "distance": 1,
+        "linear": false,
+        "addToList": false,
+        "removeFromList": false,
+        "self": true
       }
 
     ],
@@ -49,8 +57,18 @@
         "name": "with slice and dice",
         "constraints": [
           {
-            "type": "SameSquare"
+            "type": "SameSquare",
+            "controlEnemy": false,
+            "level": 0
+          },
+          {
+            "type": "SamePlayer",
+            "level": 0
           }
+        ],
+        "constraintPositivity": [
+          true,
+          false
         ],
         "damage": 2,
         "mark": 0,

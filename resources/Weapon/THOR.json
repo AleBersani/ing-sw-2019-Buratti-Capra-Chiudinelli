@@ -14,8 +14,13 @@
       "name": "Basic Effect",
       "constraints": [
         {
-          "type": "See"
+          "type": "See",
+          "concatenate": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true
       ],
       "damage": 2,
       "mark": 0,
@@ -24,7 +29,7 @@
     }
 
   ],
-  "previousTarget": [],
+  "previousTarget": [[]],
   "owner": null,
   "optionalEffect": [
     [
@@ -36,8 +41,13 @@
         "name": "with chain reaction",
         "constraints": [
           {
-            "type": "See"
+            "type": "See",
+            "concatenate": true,
+            "level": 0
           }
+        ],
+        "constraintPositivity": [
+          true
         ],
         "damage": 1,
         "mark": 0,
@@ -54,12 +64,17 @@
         "name": "with high voltage",
         "constraints": [
           {
-            "type": "See"
+            "type": "See",
+            "concatenate": true,
+            "level": 0
           }
+        ],
+        "constraintPositivity": [
+          true
         ],
         "damage": 2,
         "mark": 0,
-        "addToList": true,
+        "addToList": false,
         "removeFromList": false
       }
     ]

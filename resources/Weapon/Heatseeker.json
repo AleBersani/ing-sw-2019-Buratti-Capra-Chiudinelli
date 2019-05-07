@@ -14,8 +14,13 @@
       "name": "Basic Effect",
       "constraints": [
         {
-          "type": "NotSee"
+          "type": "See",
+          "concatenate": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        false
       ],
       "damage": 3,
       "mark": 0,
@@ -23,6 +28,6 @@
       "removeFromList": false
     }
   ],
-  "previousTarget": [],
+  "previousTarget": [[]],
   "owner": null
 }

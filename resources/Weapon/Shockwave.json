@@ -14,12 +14,20 @@
       "name": "Basic Mode",
       "constraints": [
         {
-          "type": "MaximumDistance",
-          "distance": 1
+          "type": "MinimumDistance",
+          "distance": 2,
+          "concatenate": false,
+          "level": 0
         },
         {
-          "type": "NotSameSquare"
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        false,
+        false
       ],
       "damage": 1,
       "mark": 0,
@@ -34,12 +42,25 @@
       "name": "Basic Mode",
       "constraints": [
         {
-          "type": "MaximumDistance",
-          "distance": 1
+          "type": "MinimumDistance",
+          "distance": 2,
+          "concatenate": false,
+          "level": 0
         },
         {
-          "type": "NotSameSquare"
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
+        },
+        {
+          "type": "SamePlayer",
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        false,
+        false,
+        false
       ],
       "damage": 1,
       "mark": 0,
@@ -54,12 +75,25 @@
       "name": "Basic Mode",
       "constraints": [
         {
-          "type": "MaximumDistance",
-          "distance": 1
+          "type": "MinimumDistance",
+          "distance": 2,
+          "concatenate": false,
+          "level": 0
         },
         {
-          "type": "NotSameSquare"
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
+        },
+        {
+          "type": "SamePlayer",
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        false,
+        false,
+        false
       ],
       "damage": 1,
       "mark": 0,
@@ -67,63 +101,20 @@
       "removeFromList": false
     }
   ],
-  "previousTarget": [],
+  "previousTarget": [[]],
   "owner": null,
   "alternativeEffect": [
     {
-      "type": "EffectVsSquare",
+      "type": "AreaEffect",
       "costBlue": 0,
       "costRed": 0,
       "costYellow": 1,
       "name": "in tsunami Mode",
-      "constraints": [
-        {
-          "type": "NotSameSquare"
-        },
-        {
-          "type": "MaximumDistance",
-          "distance": 1
-        }
-      ],
+      "constraints": [],
+      "constraintPositivity": [],
       "damage": 1,
-      "mark": 0
-    },
-    {
-      "type": "EffectVsSquare",
-      "costBlue": 0,
-      "costRed": 0,
-      "costYellow": 1,
-      "name": "in tsunami Mode",
-      "constraints": [
-        {
-          "type": "NotSameSquare"
-        },
-        {
-          "type": "MaximumDistance",
-          "distance": 1
-        }
-      ],
-      "damage": 1,
-      "mark": 0
-    },
-    {
-      "type": "EffectVsSquare",
-      "costBlue": 0,
-      "costRed": 0,
-      "costYellow": 1,
-      "name": "in tsunami Mode",
-      "constraints": [
-        {
-          "type": "NotSameSquare"
-        },
-        {
-          "type": "MaximumDistance",
-          "distance": 1
-        }
-      ],
-      "damage": 1,
-      "mark": 0
+      "mark": 0,
+      "distance": 1
     }
-
   ]
 }

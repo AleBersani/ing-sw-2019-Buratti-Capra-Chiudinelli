@@ -14,8 +14,13 @@
       "name": "Basic Mode",
       "constraints": [
         {
-          "type": "See"
+          "type": "See",
+          "concatenate": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true
       ],
       "damage": 1,
       "mark": 2,
@@ -23,7 +28,7 @@
       "removeFromList": false
     }
   ],
-  "previousTarget": [],
+  "previousTarget": [[]],
   "owner": null,
   "alternativeEffect": [
     {
@@ -34,12 +39,17 @@
       "name": "in Scanner Mode",
       "constraints": [
         {
-          "type": "See"
+          "type": "See",
+          "concatenate": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true
       ],
       "damage": 0,
       "mark": 1,
-      "addToList": false,
+      "addToList": true,
       "removeFromList": false
     },
     {
@@ -50,12 +60,22 @@
       "name": "in Scanner Mode",
       "constraints": [
         {
-          "type": "See"
+          "type": "See",
+          "concatenate": false,
+          "level": 0
+        },
+        {
+          "type": "SamePlayer",
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true,
+        false
       ],
       "damage": 0,
       "mark": 1,
-      "addToList": false,
+      "addToList": true,
       "removeFromList": false
     },
     {
@@ -66,12 +86,22 @@
       "name": "in Scanner Mode",
       "constraints": [
         {
-          "type": "See"
+          "type": "See",
+          "concatenate": false,
+          "level": 0
+        },
+        {
+          "type": "SamePlayer",
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true,
+        false
       ],
       "damage": 0,
       "mark": 1,
-      "addToList": false,
+      "addToList": true,
       "removeFromList": false
     }
   ]

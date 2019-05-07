@@ -14,14 +14,18 @@
       "name": "Basic Mode",
       "constraints": [
         {
-          "type": "AdjacentRoom"
+          "type": "AdjacentRoom",
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true
       ],
       "damage": 1,
       "mark": 0
     }
   ],
-  "previousTarget": [],
+  "previousTarget": [[]],
   "owner": null,
   "alternativeEffect": [
     {
@@ -32,8 +36,20 @@
       "name": "in Cozy Fire Mode",
       "constraints": [
         {
-          "type": "NotSameSquare"
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
+        },
+        {
+          "type": "MinimumDistance",
+          "distance": 2,
+          "concatenate": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity":[
+        false,
+        false
       ],
       "damage": 1,
       "mark": 1

@@ -429,6 +429,9 @@ public class Board {
                     case "EffectVsRoom":
                         return context.deserialize(jsonObject,
                                 EffectVsRoom.class);
+                    case "AreaEffect":
+                        return context.deserialize(jsonObject,
+                                AreaEffect.class);
                 }
             }
             return null;
@@ -461,6 +464,9 @@ public class Board {
                     case "See":
                         return context.deserialize(jsonObject,
                                 See.class);
+                    case "SamePlayer":
+                        return context.deserialize(jsonObject,
+                                SamePlayer.class);
                 }
             }
             return null;

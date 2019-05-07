@@ -7,19 +7,6 @@
   "load": true,
   "effect": [
     {
-      "type": "MovementEffect",
-      "costBlue": 0,
-      "costRed": 0,
-      "costYellow": 0,
-      "name": "Basic Mode",
-      "constraints": [
-        {
-          "type": "NotSameSquare"
-        }
-      ],
-      "distance": 1
-    },
-    {
       "type": "EffectVsPlayer",
       "costBlue": 0,
       "costRed": 0,
@@ -27,31 +14,58 @@
       "name": "Basic Mode",
       "constraints": [
         {
-          "type": "SameSquare"
+          "type": "See",
+          "concatenate": false,
+          "level": 0
+        },
+        {
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
+        },
+        {
+          "type": "MinimumDistance",
+          "distance": 2,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true,
+        false,
+        false
       ],
       "damage": 1,
       "mark": 2,
+      "addToList": true,
+      "removeFromList": false
+    },
+    {
+      "type": "MovementEffect",
+      "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "Basic Mode",
+      "constraints": [
+        {
+          "type": "SameSquare",
+          "controlEnemy": true,
+          "level": 0
+        }
+      ],
+      "constraintPositivity": [
+        true
+      ],
+      "distance": 1,
+      "linear": false,
+      "self": true,
       "addToList": false,
       "removeFromList": false
     }
   ],
-  "previousTarget": [],
+  "previousTarget": [[]],
   "owner": null,
   "alternativeEffect": [
-    {
-      "type": "MovementEffect",
-      "costBlue": 1,
-      "costRed": 0,
-      "costYellow": 0,
-      "name": "in Rocket fist Mode",
-      "constraints": [
-        {
-          "type": "NotSameSquare"
-        }
-      ],
-      "distance": 1
-    },
+
     {
       "type": "EffectVsPlayer",
       "costBlue": 1,
@@ -60,12 +74,29 @@
       "name": "in Rocket fist Mode",
       "constraints": [
         {
-          "type": "SameSquare"
+          "type": "See",
+          "concatenate": false,
+          "level": 0
+        },
+        {
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
+        },
+        {
+          "type": "MinimumDistance",
+          "distance": 2,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true,
+        false,
+        false
       ],
       "damage": 2,
       "mark": 0,
-      "addToList": false,
+      "addToList": true,
       "removeFromList": false
     },
     {
@@ -76,13 +107,19 @@
       "name": "in Rocket fist Mode",
       "constraints": [
         {
-          "type": "NotSameSquare"
-        },
-        {
-          "type": "SameDirection"
+          "type": "SameSquare",
+          "controlEnemy": true,
+          "level": 0
         }
       ],
-      "distance": 1
+      "constraintPositivity": [
+        true
+      ],
+      "distance": 1,
+      "linear": false,
+      "self":true,
+      "addToList": false,
+      "removeFromList": false
     },
     {
       "type": "EffectVsPlayer",
@@ -92,11 +129,55 @@
       "name": "in Rocket fist Mode",
       "constraints": [
         {
-          "type": "SameSquare"
+          "type": "See",
+          "concatenate": false,
+          "level": 0
+        },
+        {
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
+        },
+        {
+          "type": "MinimumDistance",
+          "distance": 2,
+          "level": 0
+        },
+        {
+          "type": "SameDirection",
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true,
+        false,
+        false,
+        true
       ],
       "damage": 2,
       "mark": 0,
+      "addToList": true,
+      "removeFromList": true
+    },
+    {
+      "type": "MovementEffect",
+      "costBlue": 1,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "in Rocket fist Mode",
+      "constraints": [
+        {
+          "type": "SameSquare",
+          "controlEnemy": true,
+          "level": 1
+        }
+      ],
+      "constraintPositivity": [
+        true
+      ],
+      "distance": 1,
+      "linear": false,
+      "self":true,
       "addToList": false,
       "removeFromList": false
     }

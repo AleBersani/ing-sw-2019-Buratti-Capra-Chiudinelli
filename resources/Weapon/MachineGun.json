@@ -14,8 +14,13 @@
       "name": "Basic Effect",
       "constraints": [
         {
-          "type": "See"
+          "type": "See",
+          "concatenate": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true
       ],
       "damage": 1,
       "mark": 0,
@@ -31,8 +36,17 @@
       "name": "Basic Effect",
       "constraints": [
         {
-          "type": "See"
+          "type": "See",
+          "concatenate": false,
+          "level": 0
+        },
+        {
+          "type": "SamePlayer"
         }
+      ],
+      "constraintPositivity": [
+        true,
+        false
       ],
       "damage": 1,
       "mark": 0,
@@ -40,9 +54,8 @@
       "removeFromList": false
     }
 
-
   ],
-  "previousTarget": [],
+  "previousTarget": [[]],
   "owner": null,
   "optionalEffect": [
     [
@@ -54,10 +67,20 @@
         "name": "with focus shot",
         "constraints": [
           {
-            "type": "See"
+            "type": "See",
+            "concatenate": false,
+            "level": 0
+          },
+          {
+            "type": "SamePlayer",
+            "level": 0
           }
         ],
-        "damage": 0,
+        "constraintPositivity": [
+          true,
+          true
+        ],
+        "damage": 1,
         "mark": 0,
         "addToList": false,
         "removeFromList": true
@@ -72,8 +95,44 @@
         "name": "with turret tripod",
         "constraints": [
           {
-            "type": "See"
+            "type": "See",
+            "concatenate": false,
+            "level": 0
+          },
+          {
+            "type": "SamePlayer",
+            "level": 0
           }
+        ],
+        "positivityConstraint": [
+          true,
+          true
+        ],
+        "damage": 1,
+        "mark": 0,
+        "addToList": false,
+        "removeFromList": true
+      },
+      {
+        "type": "EffectVsPlayer",
+        "costBlue": 1,
+        "costRed": 0,
+        "costYellow": 0,
+        "name": "with turret tripod",
+        "constraints": [
+          {
+            "type": "See",
+            "concatenate": false,
+            "level": 0
+          },
+          {
+            "type": "SamePlayer",
+            "level": 1
+          }
+        ],
+        "positivityConstraint": [
+          true,
+          false
         ],
         "damage": 1,
         "mark": 0,

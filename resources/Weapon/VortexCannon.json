@@ -12,10 +12,13 @@
       "costRed": 0,
       "costYellow": 0,
       "name": "Basic Effect",
-      "constraints": [
-
-      ],
-      "distance": 1
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 1,
+      "linear": false,
+      "self": false,
+      "addToList": true,
+      "removeFromList": false
     },
 
     {
@@ -26,21 +29,34 @@
       "name": "Basic Effect",
       "constraints": [
         {
-          "type": "See"
+          "type": "See",
+          "concatenate": false,
+          "level": 0
         },
         {
-          "type": "NotSameSquare"
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
+        },
+        {
+          "type": "SamePlayer",
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true,
+        false,
+        true
       ],
       "damage": 2,
       "mark": 0,
-      "addToList": true,
-      "removeFromList": false
+      "addToList": false,
+      "removeFromList": true
     }
 
 
   ],
-  "previousTarget": [],
+  "previousTarget": [[]],
   "owner": null,
   "optionalEffect": [
     [
@@ -52,9 +68,57 @@
         "costYellow": 0,
         "name": "with black hole",
         "constraints": [
-
+          {
+            "type": "SamePlayer",
+            "level": 1
+          },
+          {
+            "type": "SameSquare",
+            "controlEnemy": true,
+            "level": 1
+          },
+          {
+            "type": "SameSquare",
+            "controlEnemy": false,
+            "level": 0
+          }
         ],
-        "distance": 1
+        "constraintPositivity": [
+          false,
+          true,
+          false
+        ],
+        "distance": 1,
+        "linear": false,
+        "self": false,
+        "addToList": true,
+        "removeFromList": false
+      },
+      {
+        "type": "EffectVsPlayer",
+        "costBlue": 0,
+        "costRed": 1,
+        "costYellow": 0,
+        "name": "with black hole",
+        "constraints": [
+          {
+            "type": "See",
+            "concatenate": false,
+            "level": 0
+          },
+          {
+            "type": "SamePlayer",
+            "level": 0
+          }
+        ],
+        "constraintPositivity":[
+          true,
+          true
+        ],
+        "damage": 1,
+        "mark": 0,
+        "addToList": false,
+        "removeFromList": true
       },
       {
         "type": "MovementEffect",
@@ -63,26 +127,33 @@
         "costYellow": 0,
         "name": "with black hole",
         "constraints": [
-
-        ],
-        "distance": 1
-      },
-      {
-        "type": "EffectVsPlayer",
-        "costBlue": 0,
-        "costRed": 1,
-        "costYellow": 0,
-        "name": "with black hole",
-        "constraints": [
           {
-            "type": "See"
+            "type": "SamePlayer",
+            "level": 1
+          },
+          {
+            "type": "SameSquare",
+            "controlEnemy": true,
+            "level": 1
+          },
+          {
+            "type": "SameSquare",
+            "controlEnemy": false,
+            "level": 0
           }
         ],
-        "damage": 0,
-        "mark": 1,
-        "addToList": false,
+        "constraintPositivity": [
+          false,
+          true,
+          false
+        ],
+        "distance": 1,
+        "linear": false,
+        "self": false,
+        "addToList": true,
         "removeFromList": false
       },
+
       {
         "type": "EffectVsPlayer",
         "costBlue": 0,
@@ -91,15 +162,24 @@
         "name": "with black hole",
         "constraints": [
           {
-            "type": "See"
+            "type": "See",
+            "concatenate": false,
+            "level": 0
+          },
+          {
+            "type": "SamePlayer",
+            "level": 0
           }
         ],
-        "damage": 0,
-        "mark": 1,
+        "constraintPositivity":[
+          true,
+          true
+        ],
+        "damage": 1,
+        "mark": 0,
         "addToList": false,
         "removeFromList": false
       }
-
     ]
   ]
 }

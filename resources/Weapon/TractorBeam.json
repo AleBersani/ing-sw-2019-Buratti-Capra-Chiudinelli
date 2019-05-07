@@ -12,10 +12,13 @@
       "costRed": 0,
       "costYellow": 0,
       "name": "Basic Mode",
-      "constraints": [
-
-      ],
-      "distance": 2
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2,
+      "linear": false,
+      "self": false,
+      "addToList": true,
+      "removeFromList": false
     },
     {
       "type": "EffectVsPlayer",
@@ -25,7 +28,13 @@
       "name": "Basic Mode",
       "constraints": [
         {
-          "type": "See"
+          "type": "See",
+          "concatenate": false,
+          "level": 0
+        },
+        {
+          "type": "SamePlayer",
+          "level": 0
         }
       ],
       "damage": 1,
@@ -34,7 +43,7 @@
       "removeFromList": false
     }
   ],
-  "previousTarget": [],
+  "previousTarget": [[]],
   "owner": null,
   "alternativeEffect": [
     {
@@ -43,10 +52,13 @@
       "costRed": 1,
       "costYellow": 1,
       "name": "in Punisher Mode",
-      "constraints": [
-        {}
-      ],
-      "distance": 2
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2,
+      "linear": false,
+      "self": false,
+      "addToList": true,
+      "removeFromList": false
     },
     {
       "type": "EffectVsPlayer",
@@ -56,8 +68,18 @@
       "name": "in Punisher Mode",
       "constraints": [
         {
-          "type": "SameSquare"
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
+        },
+        {
+          "type": "SamePlayer",
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true,
+        true
       ],
       "damage": 3,
       "mark": 0,

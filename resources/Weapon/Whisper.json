@@ -14,12 +14,20 @@
       "name": "Basic Effect",
       "constraints": [
         {
-          "type": "See"
+          "type": "See",
+          "concatenate": false,
+          "level": 0
         },
         {
           "type": "MinimumDistance",
-          "distance": 2
+          "distance": 2,
+          "concatenate": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true,
+        true
       ],
       "damage": 3,
       "mark": 1,
@@ -27,6 +35,6 @@
       "removeFromList": false
     }
   ],
-  "previousTarget": [],
+  "previousTarget": [[]],
   "owner": null
 }

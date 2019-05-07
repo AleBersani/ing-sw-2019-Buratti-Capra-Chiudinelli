@@ -14,15 +14,19 @@
       "name": "Basic Mode",
       "constraints": [
         {
-          "type": "NotSameSquare"
+          "type": "SameSquare",
+          "level": 0
         },
         {
-          "type": "MaximumDistance",
-          "distance": 1
-        },
-        {
-          "type": "See"
+          "type": "MinimumDistance",
+          "distance": 2,
+          "concatenate": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        false,
+        false
       ],
       "damage": 1,
       "mark": 0,
@@ -38,19 +42,37 @@
       "name": "Basic Mode",
       "constraints": [
         {
-          "type": "NotSameSquare"
-        },
-        {
-          "type": "MaximumDistance",
-          "distance": 2
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
         },
         {
           "type": "MinimumDistance",
-          "distance": 2
+          "distance": 2,
+          "concatenate": false,
+          "level": 0
         },
         {
-          "type": "SameDirection"
+          "type": "MinimumDistance",
+          "distance": 3,
+          "concatenate": false,
+          "level": 0
+        },
+        {
+          "type": "SameDirection",
+          "level": 0
+        },
+        {
+          "type": "SamePlayer",
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        false,
+        true,
+        false,
+        true,
+        false
       ],
       "damage": 1,
       "mark": 0,
@@ -59,7 +81,7 @@
 
     }
   ],
-  "previousTarget": [],
+  "previousTarget": [[]],
   "owner": null,
   "alternativeEffect": [
     {
@@ -70,15 +92,20 @@
       "name": "in Barbecue Mode",
       "constraints": [
         {
-          "type": "NotSameSquare"
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
         },
         {
-          "type": "MaximumDistance",
-          "distance": 1
-        },
-        {
-          "type": "See"
+          "type": "MinimumDistance",
+          "distance": 2,
+          "concatenate": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        false,
+        false
       ],
       "damage": 2,
       "mark": 0
@@ -91,19 +118,32 @@
       "name": "in Barbecue Mode",
       "constraints": [
         {
-          "type": "NotSameSquare"
-        },
-        {
-          "type": "MaximumDistance",
-          "distance": 2
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
         },
         {
           "type": "MinimumDistance",
-          "distance": 2
+          "distance": 3,
+          "concatenate": false,
+          "level": 0
         },
         {
-          "type": "SameDirection"
+          "type": "MinimumDistance",
+          "distance": 2,
+          "concatenate": false,
+          "level": 0
+        },
+        {
+          "type": "SameDirection",
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        false,
+        false,
+        true,
+        true
       ],
       "damage": 1,
       "mark": 0

@@ -119,7 +119,10 @@
       "constraints": [],
       "constraintPositivity": [],
       "distance": 2147483647,
-      "linear": false
+      "linear": false,
+      "self": true,
+      "addToList": false,
+      "removeFromList": false
     },
     { "costBlue": 0,
       "costRed": 0,
@@ -128,26 +131,10 @@
       "constraints": [],
       "constraintPositivity": [],
       "distance": 2147483647,
-      "linear": false
-    },
-
-    { "costBlue": 0,
-      "costRed": 0,
-      "costYellow": 0,
-      "name": "teleport",
-      "constraints": [],
-      "constraintPositivity": [],
-      "distance": 2147483647,
-      "linear": false
-    },
-    { "costBlue": 0,
-      "costRed": 0,
-      "costYellow": 0,
-      "name": "teleport",
-      "constraints": [],
-      "constraintPositivity": [],
-      "distance": 2147483647,
-      "linear": false
+      "linear": false,
+      "self": true,
+      "addToList": false,
+      "removeFromList": false
     },
 
     { "costBlue": 0,
@@ -157,7 +144,10 @@
       "constraints": [],
       "constraintPositivity": [],
       "distance": 2147483647,
-      "linear": false
+      "linear": false,
+      "self": true,
+      "addToList": false,
+      "removeFromList": false
     },
     { "costBlue": 0,
       "costRed": 0,
@@ -166,7 +156,35 @@
       "constraints": [],
       "constraintPositivity": [],
       "distance": 2147483647,
-      "linear": false
+      "linear": false,
+      "self": true,
+      "addToList": false,
+      "removeFromList": false
+    },
+
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "teleport",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2147483647,
+      "linear": false,
+      "self": true,
+      "addToList": false,
+      "removeFromList": false
+    },
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "teleport",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2147483647,
+      "linear": false,
+      "self": true,
+      "addToList": false,
+      "removeFromList": false
     },
 
 
@@ -177,7 +195,10 @@
       "constraints": [],
       "constraintPositivity": [],
       "distance": 2,
-      "linear": true
+      "linear": true,
+      "self": false,
+      "addToList": false,
+      "removeFromList": false
     },
     { "costBlue": 0,
       "costRed": 0,
@@ -186,26 +207,10 @@
       "constraints": [],
       "constraintPositivity": [],
       "distance": 2,
-      "linear": true
-    },
-
-    { "costBlue": 0,
-      "costRed": 0,
-      "costYellow": 0,
-      "name": "newton",
-      "constraints": [],
-      "constraintPositivity": [],
-      "distance": 2,
-      "linear": true
-    },
-    { "costBlue": 0,
-      "costRed": 0,
-      "costYellow": 0,
-      "name": "newton",
-      "constraints": [],
-      "constraintPositivity": [],
-      "distance": 2,
-      "linear": true
+      "linear": true,
+      "self": false,
+      "addToList": false,
+      "removeFromList": false
     },
 
     { "costBlue": 0,
@@ -215,7 +220,10 @@
       "constraints": [],
       "constraintPositivity": [],
       "distance": 2,
-      "linear": true
+      "linear": true,
+      "self": false,
+      "addToList": false,
+      "removeFromList": false
     },
     { "costBlue": 0,
       "costRed": 0,
@@ -224,7 +232,35 @@
       "constraints": [],
       "constraintPositivity": [],
       "distance": 2,
-      "linear": true
+      "linear": true,
+      "self": false,
+      "addToList": false,
+      "removeFromList": false
+    },
+
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "newton",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2,
+      "linear": true,
+      "self": false,
+      "addToList": false,
+      "removeFromList": false
+    },
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "newton",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2,
+      "linear": true,
+      "self": false,
+      "addToList": false,
+      "removeFromList": false
     }
 
   ],

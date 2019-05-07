@@ -14,14 +14,19 @@
       "name": "Basic Mode",
       "constraints": [
         {
-          "type": "SameSquare"
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true
       ],
       "damage": 1,
       "mark": 0
     }
   ],
-  "previousTarget": [],
+  "previousTarget": [[]],
   "owner": null,
   "alternativeEffect": [
     {
@@ -32,8 +37,13 @@
       "name": "in Reaper Mode",
       "constraints": [
         {
-          "type": "SameSquare"
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true
       ],
       "damage": 2,
       "mark": 0

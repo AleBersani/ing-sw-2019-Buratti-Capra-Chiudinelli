@@ -1,9 +1,9 @@
 {
   "color": "red",
   "name": "Hellion",
-  "costBlue": 1,
+  "costBlue": 0,
   "costRed": 1,
-  "costYellow": 0,
+  "costYellow": 1,
   "load": true,
   "effect": [
     {
@@ -14,11 +14,17 @@
       "name": "Basic Mode",
       "constraints": [
         {
-          "type": "See"
+          "type": "See",
+          "concatenate": false
         },
         {
-          "type": "NotSameSquare"
+          "type": "SameSquare",
+          "controlEnemy": false
         }
+      ],
+      "constraintPositivity": [
+        true,
+        false
       ],
       "damage": 1,
       "mark": 0,
@@ -30,18 +36,27 @@
       "costBlue": 0,
       "costRed": 0,
       "costYellow": 0,
-      "name": "Basic Effect",
+      "name": "Basic Mode",
       "constraints": [
         {
-          "type": "NotSameSquare"
+          "type": "SameSquare",
+          "controlEnemy": true
+        },
+        {
+          "type": "SameSquare",
+          "controlEnemy": false
         }
+      ],
+      "constraintPositivity": [
+        true,
+        false
       ],
       "damage": 0,
       "mark": 1
     }
 
   ],
-  "previousTarget": [],
+  "previousTarget": [[]],
   "owner": null,
   "alternativeEffect": [
     {
@@ -49,14 +64,22 @@
       "costBlue": 0,
       "costRed": 1,
       "costYellow": 0,
-      "name": "in Nano-tracer Mode",
+      "name": "in nano-tracer Mode",
       "constraints": [
         {
-          "type": "See"
+          "type": "See",
+          "concatenate": false,
+          "level": 0
         },
         {
-          "type": "NotSameSquare"
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true,
+        false
       ],
       "damage": 1,
       "mark": 0,
@@ -68,11 +91,22 @@
       "costBlue": 0,
       "costRed": 1,
       "costYellow": 0,
-      "name": "in Nano-tracer Mode",
+      "name": "in nano-tracer Mode",
       "constraints": [
         {
-          "type": "NotSameSquare"
+          "type": "SameSquare",
+          "controlEnemy": true,
+          "level": 0
+        },
+        {
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true,
+        false
       ],
       "damage": 0,
       "mark": 2

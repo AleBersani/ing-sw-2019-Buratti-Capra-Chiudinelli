@@ -14,8 +14,13 @@
       "name": "Basic Mode",
       "constraints": [
         {
-          "type": "SameSquare"
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true
       ],
       "damage": 2,
       "mark": 0,
@@ -24,7 +29,7 @@
     }
 
   ],
-  "previousTarget": [],
+  "previousTarget": [[]],
   "owner": null,
   "alternativeEffect": [
     {
@@ -32,15 +37,20 @@
       "costBlue": 0,
       "costRed": 0,
       "costYellow": 0,
-      "name": "Basic Mode",
+      "name": "in pulverize Mode",
       "constraints": [
         {
-          "type": "SameSquare"
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
         }
+      ],
+      "constraintPositivity": [
+        true
       ],
       "damage": 3,
       "mark": 0,
-      "addToList": false,
+      "addToList": true,
       "removeFromList": false
     },
     {
@@ -48,12 +58,19 @@
       "costBlue": 0,
       "costRed": 0,
       "costYellow": 0,
-      "name": "Basic Mode",
+      "name": "in pulverize Mode",
       "constraints": [
-        {}
+        {
+          "type": "SamePlayer",
+          "level": 0
+        }
+      ],
+      "constraintPositivity": [
+        true
       ],
       "distance": 2,
-      "linear": true
+      "linear": true,
+      "self": false
     }
   ]
 }
