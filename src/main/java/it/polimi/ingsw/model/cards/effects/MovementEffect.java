@@ -66,13 +66,7 @@ public class MovementEffect extends Effect {
             player.setPreviousPosition(player.getPosition());
             player.setPosition(target.getMovement());
             target.getMovement().arrives(player);
-            if(addToList){
-                previousTarget.get(0).add(target.getEnemyPlayer());
-            }
-            if(removeFromList){
-                previousTarget.get(0).remove(target.getEnemyPlayer());
-                previousTarget.get(1).add(target.getEnemyPlayer());
-            }
+            this.previousMan(previousTarget,target.getEnemyPlayer(),this.addToList,this.removeFromList);
         }
     }
 }

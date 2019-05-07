@@ -49,10 +49,10 @@ class PlayerTest {
         testMatch = new Match(playerList,3,5,true,"normal");
         lockRifle = new Weapon("blue","Lock rifle",2,0,0,null) {
             @Override
-            public void fireOptional(TargetParameter target, int which) throws NotThisKindOfWeapon, InvalidTargetException {
+            public void fireOptional(ArrayList<TargetParameter> target, int which) throws NotThisKindOfWeapon, InvalidTargetException {
             }
             @Override
-            public void fireAlternative(TargetParameter target) throws NotThisKindOfWeapon, InvalidTargetException {
+            public void fireAlternative(ArrayList<TargetParameter> target) throws NotThisKindOfWeapon, InvalidTargetException {
             }
         };
     }

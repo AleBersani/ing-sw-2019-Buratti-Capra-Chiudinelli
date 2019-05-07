@@ -26,12 +26,7 @@ public class EffectVsRoom extends Effect {
         else{
             for(Square s: target.getTargetRoom().getSquares()){
                 for(Player p: s.getOnMe()){
-                    if(p!=target.getOwner()){
-                        if(this.damage!=0){
-                            p.wound(this.damage,target.getOwner());
-                        }
-                        p.marked(this.mark,target.getOwner());
-                    }
+                    doRealDamage(target.getOwner(),p,this.damage,this.mark);
                 }
             }
         }

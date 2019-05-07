@@ -21,6 +21,9 @@ public class TargetParameter {
         this.targetSquare = targetSquare;
         this.typeOfFire = typeOfFire;
     }
+
+    //TODO aggiungere constraintSquare al constructor
+
     public Square getMovement() {
         return movement;
     }

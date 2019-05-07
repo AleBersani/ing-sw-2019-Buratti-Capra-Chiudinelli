@@ -195,7 +195,7 @@ public class Player {
      * @throws InvalidDestinationException This exception means that the player can't reach the chosen destination
      * @throws InvalidTargetException This exception means that there are is no valid target chosen
      */
-    public void shoot(Weapon weapon, Square destination, TargetParameter target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
+    public void shoot(Weapon weapon, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
         if (isOnAdrenalineShoot() == 1)
             if (this.position.calcDist(destination) <= 1)
                 this.position = destination;
@@ -208,6 +208,7 @@ public class Player {
             throw new NotLoadedException();
         this.turn.setActionCounter((this.turn.getActionCounter() + 1));
     }
+    //TODO aggiungere la scelta con TypeOfFire
 
     /**
      * This method is the power up use action
@@ -360,7 +361,7 @@ public class Player {
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
      * @throws InvalidTargetException This exception means that there is no valid target chosen
      */
-    public void shootFrenzy(Weapon weaponShoot, Weapon weaponReload, Square destination, TargetParameter target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
+    public void shootFrenzy(Weapon weaponShoot, Weapon weaponReload, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
         if (this.position.calcDist(destination) <= 1 + onlyFrenzyAction()) {
             this.position = destination;
             try {
@@ -376,6 +377,7 @@ public class Player {
             throw new InvalidDestinationException();
         this.turn.setActionCounter((this.turn.getActionCounter() + 1));
     }
+//TODO aggiungere la scelta con TypeOfFire
 
     /**
      * This method is the grab action that can be done in a frenzy turn

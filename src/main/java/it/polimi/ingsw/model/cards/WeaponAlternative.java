@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.exception.InvalidTargetException;
+import it.polimi.ingsw.exception.NoAmmoException;
 import it.polimi.ingsw.exception.NotThisKindOfWeapon;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.effects.Effect;
 import it.polimi.ingsw.model.TargetParameter;
 
@@ -18,14 +20,20 @@ public class WeaponAlternative extends Weapon {
 
 
     @Override
-    public void fireOptional(TargetParameter target, int which) throws NotThisKindOfWeapon {
+    public void fireOptional(ArrayList<TargetParameter> target, int which) throws NotThisKindOfWeapon {
         throw new NotThisKindOfWeapon();
     }
 
-    public void fireAlternative(TargetParameter target) throws InvalidTargetException {
-        for (Effect e : alternativeEffect){
-            e.apply(target, this.getPreviousTarget());
+    public void fireAlternative(ArrayList<TargetParameter> target) throws InvalidTargetException, NoAmmoException {
+        Player owner = target.get(0).getOwner();
+        Effect effect = alternativeEffect.get(0);
+        if((owner.getRedAmmo()<effect.getCostRed())||(owner.getBlueAmmo()<effect.getCostBlue())||(owner.getYellowAmmo()<effect.getCostYellow())){
+            throw new NoAmmoException();
         }
+        for(int i=0;i<alternativeEffect.size();i++){
+            alternativeEffect.get(i).apply(target.get(i), this.getPreviousTarget());
+        }
+        this.pay(owner,effect);
         return;
     }
 }

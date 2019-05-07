@@ -45,6 +45,25 @@ public abstract class Effect {
         return true;
     }
 
+    protected void previousMan(ArrayList<ArrayList<Player>> previousTarget,Player enemy,boolean addToList,boolean removeFromList){
+        if(addToList){
+            previousTarget.get(0).add(enemy);
+        }
+        if(removeFromList){
+            previousTarget.get(0).remove(enemy);
+            previousTarget.get(1).add(enemy);
+        }
+    }
+
+    protected void doRealDamage(Player owner,Player enemy,int damage,int mark){
+        if(enemy!=owner){
+            if(damage!=0){
+                enemy.wound(damage,owner);
+            }
+            enemy.marked(mark,owner);
+        }
+    }
+
     public int getCostBlue() {
         return costBlue;
     }

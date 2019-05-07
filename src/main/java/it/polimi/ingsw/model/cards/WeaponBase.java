@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.exception.NotThisKindOfWeapon;
 import it.polimi.ingsw.model.cards.effects.Effect;
 import it.polimi.ingsw.model.TargetParameter;
 
@@ -11,12 +12,12 @@ public class WeaponBase extends Weapon {
     }
 
     @Override
-    public void fireOptional(TargetParameter target, int which) {
-
+    public void fireOptional(ArrayList<TargetParameter> target, int which) throws NotThisKindOfWeapon {
+        throw new NotThisKindOfWeapon();
     }
 
     @Override
-    public void fireAlternative(TargetParameter target) {
-
+    public void fireAlternative(ArrayList<TargetParameter> target) throws NotThisKindOfWeapon {
+        throw new NotThisKindOfWeapon();
     }
 }

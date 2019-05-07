@@ -38,17 +38,8 @@ public class EffectVsPlayer extends Effect {
             if(target.getEnemyPlayer()==target.getOwner()){
                 throw new InvalidTargetException();
             }
-            if(this.damage!=0){
-                target.getEnemyPlayer().wound(this.damage,target.getOwner());
-            }
-            target.getEnemyPlayer().marked(this.mark,target.getOwner());
-            if(addToList){
-                previousTarget.get(0).add(target.getEnemyPlayer());
-            }
-            if(removeFromList){
-                previousTarget.get(0).remove(target.getEnemyPlayer());
-                previousTarget.get(1).add(target.getEnemyPlayer());
-            }
+            doRealDamage(target.getOwner(),target.getEnemyPlayer(),this.damage,this.mark);
+            previousMan(previousTarget,target.getEnemyPlayer(),this.addToList,this.removeFromList);
         }
     }
 }
