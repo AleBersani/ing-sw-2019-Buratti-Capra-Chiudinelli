@@ -16,7 +16,7 @@ class SamePlayerTest {
     Board board;
     TargetParameter target;
     ArrayList<ArrayList<Player>> previousTarget;
-    SamePlayer test;
+    SamePlayer test,test1;
 
     @BeforeEach
     void setup(){
@@ -29,6 +29,7 @@ class SamePlayerTest {
         previousTarget.add(new ArrayList<Player>());
         previousTarget.add(new ArrayList<Player>());
         test = new SamePlayer(0);
+        test1 = new SamePlayer(1);
     }
     //TODO test con level a 1
 
@@ -60,5 +61,14 @@ class SamePlayerTest {
         previousTarget.get(test.getLevel()).add(enemy2);
         previousTarget.get(test.getLevel()).add(enemy3);
         assertFalse(test.canShoot(target,false,previousTarget));
+    }
+
+    @Test
+    void samePreviousLevelOne(){
+        previousTarget.get((test1.getLevel())).add(enemy);
+        previousTarget.get(test1.getLevel()).add(enemy3);
+        previousTarget.get(test.getLevel()).add(enemy2);
+        assertTrue(test1.canShoot(target,true,previousTarget));
+        assertFalse(test.canShoot(target,true,previousTarget));
     }
 }

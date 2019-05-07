@@ -27,6 +27,8 @@ public abstract class Weapon {
         load=true;
         owner=null;
         previousTarget= new ArrayList<ArrayList<Player>>();
+        previousTarget.add(new ArrayList<Player>());
+        previousTarget.add(new ArrayList<Player>());
     }
 
     public void fire(TargetParameter target) throws InvalidTargetException {
