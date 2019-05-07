@@ -319,6 +319,10 @@ public class Board {
         return rooms;
     }
 
+    public ArrayList<Weapon> getWeaponsListCopy(){
+        return (ArrayList<Weapon>)weaponsList.clone();
+    }
+
     /**
      * This class is used for parsing the AmmoTile from the json file
      */
