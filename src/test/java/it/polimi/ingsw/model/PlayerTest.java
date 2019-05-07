@@ -215,11 +215,45 @@ class PlayerTest {
             e.printStackTrace();
         }
     }
-
+    //TESTED THE WEAPON GRAB WITHOUT AMMO
     @Test
     public void testGrab4(){
         guest.setTurn(turn);
         guest.setDamageCounter(0);
+        guest.setRedAmmo(0);
+        guest.setBlueAmmo(0);
+        guest.setYellowAmmo(0);
+        guest.setTurnedPlank(false);
+        turn.setMatch(testMatch);
+        turn.setFrenzy(true);
+        testMatch.setBoard(board);
+        turn.endTurn();
+        try {
+            guest.setPosition(board.find(1,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            guest.grab(board.find(3,1));
+        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            assertThrows(ElementNotFoundException.class,()->guest.grab(board.find(3,1)));
+        }
+        try {
+            guest.grabWeapon(board.find(3,1),1);
+        } catch (ElementNotFoundException | MaxHandWeaponSizeException | NoAmmoException | NotFoundException e) {
+            assertThrows(NoAmmoException.class,()->guest.grabWeapon(board.find(3,1),1));
+        }
+        assertEquals(0,guest.getTurn().getActionCounter());
+        assertEquals(0,guest.getWeapons().size());
+    }
+    //TESTED THE WEAPON GRAB WITH AMMO
+    @Test
+    public void testGrab5(){
+        guest.setTurn(turn);
+        guest.setDamageCounter(0);
+        guest.setRedAmmo(3);
+        guest.setBlueAmmo(3);
+        guest.setYellowAmmo(3);
         guest.setTurnedPlank(false);
         turn.setMatch(testMatch);
         turn.setFrenzy(true);
@@ -240,6 +274,8 @@ class PlayerTest {
         } catch (ElementNotFoundException | MaxHandWeaponSizeException | NoAmmoException | NotFoundException e) {
             e.printStackTrace();
         }
+        assertEquals(1,guest.getTurn().getActionCounter());
+        assertEquals(1,guest.getWeapons().size());
     }
     /*
     @Test

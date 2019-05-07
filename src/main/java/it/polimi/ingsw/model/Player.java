@@ -623,11 +623,19 @@ public class Player {
     }
 
     /**
-     * This method returns the power up list of a player owns
+     * This method returns the power up list of the player
      * @return The list of power ups that the player has
      */
     public ArrayList<PowerUp> getPowerUps() {
         return powerUps;
+    }
+
+    /**
+     * This method return the weapon list of the player
+     * @return The list of wepons that the player has
+     */
+    public ArrayList<Weapon> getWeapons() {
+        return weapons;
     }
 
     /**
