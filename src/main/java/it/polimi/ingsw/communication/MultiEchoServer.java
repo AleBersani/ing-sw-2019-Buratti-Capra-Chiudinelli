@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MultiEchoServer {
+    static ArrayList<String> nicknameList= new ArrayList<>();
     private int port;
     public MultiEchoServer(int port) {
         this.port = port;
@@ -35,5 +36,9 @@ public class MultiEchoServer {
     public static void main(String[] args) {
         MultiEchoServer echoServer = new MultiEchoServer(5000);
         echoServer.startServer();
+    }
+
+    public static ArrayList<String> getNicknameList() {
+        return nicknameList;
     }
 }

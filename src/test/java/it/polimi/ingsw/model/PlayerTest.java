@@ -12,8 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
@@ -26,9 +25,9 @@ class PlayerTest {
     ArrayList<Player> testingMarks,testingDeads,playerList;
     ArrayList<PowerUp> testingPowerUp;
     PowerUp teleporter;
-    TargetParameter targetParameterTeleporter;
+    TargetParameter targetParameterTeleporter,targetShoot;
     Weapon lockRifle;
-    AmmoTile ammoTest;
+    AmmoTile ammoTileTest;
 
     @BeforeEach
     public void setup() {
@@ -40,14 +39,22 @@ class PlayerTest {
         guest.setMark(testingMarks);
         board = new Board(testMatch, "./resources/Board/Board1.json");
         testingDeads = new ArrayList<>();
-        turn = new Turn(null,false,guest,testMatch);
+        turn = new Turn(null,false,guest,null);
         turn.setDeads(testingDeads);
         teleporter = new PowerUp("red","teleport");
         testingPowerUp = new ArrayList<>(Arrays.asList(teleporter,teleporter));
         guest.setPowerUps(testingPowerUp);
         playerList = new ArrayList<>(Arrays.asList(guest,test,loser));
+        ammoTileTest = new AmmoTile(2,1,0,0);
         testMatch = new Match(playerList,3,5,true,"normal");
-        ammoTest = new AmmoTile(2,1,0,0);
+        lockRifle = new Weapon("blue","Lock rifle",2,0,0,null) {
+            @Override
+            public void fireOptional(TargetParameter target, int which) throws NotThisKindOfWeapon, InvalidTargetException {
+            }
+            @Override
+            public void fireAlternative(TargetParameter target) throws NotThisKindOfWeapon, InvalidTargetException {
+            }
+        };
     }
 
     @Test
@@ -63,6 +70,7 @@ class PlayerTest {
         } catch (InvalidDestinationException | NotFoundException e) {
             e.printStackTrace();
         }
+        assertEquals(1,guest.getTurn().getActionCounter());
         try {
             assertEquals(guest.getPosition(),board.find(4,3));
         } catch (NotFoundException e) {
@@ -78,41 +86,121 @@ class PlayerTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
+        assertEquals(2,guest.getTurn().getActionCounter());
     }
-    /*
+    //TESTED THE RIGHT MOVEMENT AND THE RIGHT GRAB
     @Test
     public void testGrab() {
-        board.getAmmoList().add(ammoTest);
+        guest.setTurn(turn);
+        guest.setDamageCounter(0);
+        guest.setTurnedPlank(false);
+        turn.setMatch(testMatch);
+        testMatch.setBoard(board);
+        board.getAmmoList().clear();
+        board.getAmmoList().add(ammoTileTest);
         try {
             guest.setPosition(board.find(2,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            board.find(2,2).generate();
+            guest.grab(board.find(3,3));
+        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            assertThrows(InvalidDestinationException.class,()->guest.grab(board.find(3,3)));
+        }
+        try {
+            board.find(3,2).generate();
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
         try {
-            guest.grab(board.find(2,2));
-        } catch (MaxHandSizeException e) {
+            guest.grab(board.find(3,2));
+        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
             e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (MaxHandWeaponSizeException e) {
-            e.printStackTrace();
-        } catch (InvalidDestinationException e) {
-            e.printStackTrace();
+        }
+        try {
+            assertEquals(board.find(3,2),guest.getPosition());
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        assertEquals(2,guest.getRedAmmo());
-        assertEquals(1,guest.getBlueAmmo());
-        assertEquals(0,guest.getYellowAmmo());
+        assertEquals(3,guest.getRedAmmo());
+        assertEquals(2,guest.getBlueAmmo());
+        assertEquals(1,guest.getYellowAmmo());
+        assertEquals(1,guest.getTurn().getActionCounter());
+        try {
+            guest.grab(board.find(3,2));
+        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            assertThrows(NullAmmoException.class,()->guest.grab(board.find(3,2)));
+        }
     }
-
+    //TESTED THE FIRST ADRENALINE POWER UP MOVEMENT AND THE ELEMENT NOT FOUND
+    @Test
+    public void testGrab2() {
+        guest.setTurn(turn);
+        guest.setDamageCounter(3);
+        guest.setTurnedPlank(false);
+        turn.setMatch(testMatch);
+        testMatch.setBoard(board);
+        turn.endTurn();
+        try {
+            guest.setPosition(board.find(3,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            guest.grab(board.find(1,1));
+        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            assertThrows(InvalidDestinationException.class,()->guest.grab(board.find(1,1)));
+        }
+        assertEquals(0,guest.getTurn().getActionCounter());
+        try {
+            guest.grab(board.find(2,1));
+        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            assertEquals(board.find(2,1),guest.getPosition());
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        assertEquals(1,guest.getTurn().getActionCounter());
+        try {
+            guest.grab(board.find(3,1));
+        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            assertThrows(ElementNotFoundException.class,()->guest.grab(board.find(3,1)));
+        }
+        assertEquals(1,guest.getTurn().getActionCounter());
+    }
+    /*
     @Test
     public void testShoot() {
+        guest.setTurn(turn);
+        guest.setDamageCounter(6);
+        try {
+            guest.setPosition(board.find(2,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        lockRifle.setLoad(true);
+        try {
+            targetShoot = new TargetParameter(null,guest,test,null,board.find(4,3),"effect");
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            guest.shoot(lockRifle,board.find(3,2),targetShoot);
+        } catch (NotLoadedException | InvalidDestinationException | InvalidTargetException | NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            assertEquals(board.find(3,2),guest.getPosition());
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        assertEquals(2,test.getDamageCounter());
+        assertEquals(1,test.getMark().size());
+        assertEquals(guest,test.getMark().get(0));
+        assertEquals(1,guest.getTurn().getActionCounter());
 
     }
 
@@ -127,7 +215,7 @@ class PlayerTest {
             e.printStackTrace();
         }
         try {
-            targetParameterTeleporter = new TargetParameter(board.find(1,1),guest,null,null,null);
+            targetParameterTeleporter = new TargetParameter(board.find(1,1),guest,null,null,null,null);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -161,14 +249,6 @@ class PlayerTest {
 
     @Test
     public void testReload() {
-        lockRifle = new Weapon("blue","Lock rifle",2,0,0,null) {
-            @Override
-            public void fireOptional(TargetParameter target, int which) throws NotThisKindOfWeapon, InvalidTargetException {
-            }
-            @Override
-            public void fireAlternative(TargetParameter target) throws NotThisKindOfWeapon, InvalidTargetException {
-            }
-        };
         lockRifle.setLoad(false);
         guest.setBlueAmmo(3);
         guest.setYellowAmmo(2);
@@ -184,7 +264,7 @@ class PlayerTest {
         try {
             guest.reload(lockRifle);
         } catch (LoadedException e) {
-            assertEquals(0,0);
+            assertThrows(LoadedException.class,()->guest.reload(lockRifle));
         } catch (NoAmmoException e) {
             e.printStackTrace();
         }
@@ -194,7 +274,7 @@ class PlayerTest {
         } catch (LoadedException e) {
             e.printStackTrace();
         } catch (NoAmmoException e) {
-            assertEquals(0,0);
+            assertThrows(NoAmmoException.class,()->guest.reload(lockRifle));
         }
     }
 
@@ -208,6 +288,11 @@ class PlayerTest {
             assertEquals(3,guest.getPowerUps().size());
         } catch (MaxHandSizeException e) {
             e.printStackTrace();
+        }
+        try {
+            guest.draw();
+        } catch (MaxHandSizeException e) {
+            assertThrows(MaxHandSizeException.class,()->guest.draw());
         }
     }
 
@@ -287,5 +372,27 @@ class PlayerTest {
             e.printStackTrace();
         }
 
+    }
+
+    @Test
+    public void testOnlyFrenzyAction(){
+        test.setLastKill(true);
+        loser.setTurn(turn);
+        turn.setMatch(testMatch);
+        testMatch.setBoard(board);
+        turn.setFrenzy(true);
+        assertEquals(0,loser.onlyFrenzyAction());
+        guest.setTurn(turn);
+        assertEquals(1,guest.onlyFrenzyAction());
+        test.setTurn(turn);
+        assertEquals(1,test.onlyFrenzyAction());
+        test.setLastKill(false);
+        guest.setLastKill(true);
+        guest.setTurn(turn);
+        assertEquals(1,guest.onlyFrenzyAction());
+        test.setTurn(turn);
+        assertEquals(0,test.onlyFrenzyAction());
+        loser.setTurn(turn);
+        assertEquals(0,loser.onlyFrenzyAction());
     }
 }
