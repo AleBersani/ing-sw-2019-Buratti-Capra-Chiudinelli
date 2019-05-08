@@ -1,0 +1,421 @@
+package it.polimi.ingsw.model.cards;
+
+import it.polimi.ingsw.exception.InvalidTargetException;
+import it.polimi.ingsw.exception.NoAmmoException;
+import it.polimi.ingsw.exception.NotFoundException;
+import it.polimi.ingsw.exception.NotThisKindOfWeapon;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.TargetParameter;
+import it.polimi.ingsw.model.map.Board;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class WeaponAlternativeTest {
+
+    Weapon weapon;
+    Player owner;
+    Player enemy,enemy2,enemy3;
+    Board board;
+    ArrayList<TargetParameter> target;
+
+    @BeforeEach
+    void setup(){
+        owner = new Player(true,"red","Luciano");
+        enemy = new Player(false,"blue", "Fabiano");
+        enemy2 = new Player(false,"red", "Fabiolo");
+        enemy3 = new Player(false,"red", "Fagiolo");
+        board = new Board(null,"./resources/Board/Board1.json");
+        target = new ArrayList<TargetParameter>();
+        target.add(new TargetParameter(null,owner,null,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null,null));
+
+    }
+
+    @Test
+    void electroscythe() {
+        for(Weapon w: board.getWeaponsListCopy()){
+            if(w.getName().equals("Electroscythe")){
+                weapon = w;
+            }
+        }
+        weapon.setOwner(owner);
+        try {
+            owner.setPosition(board.find(2,1));
+            owner.getPosition().arrives(owner);
+            enemy.setPosition(board.find(2,1));
+            enemy.getPosition().arrives(enemy);
+            enemy2.setPosition(board.find(2,1));
+            enemy2.getPosition().arrives(enemy2);
+            enemy3.setPosition(board.find(2,1));
+            enemy3.getPosition().arrives(enemy3);
+            target.get(0).setTargetSquare(board.find(2,1));
+            target.get(0).setConstraintSquare(board.find(2,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            weapon.fire(target);
+        } catch (InvalidTargetException e) {
+            e.printStackTrace();
+        }
+        assertEquals(1,enemy.getDamageCounter());
+        assertEquals(owner,enemy.getDamage().get(0));
+        assertEquals(1,enemy2.getDamageCounter());
+        assertEquals(owner,enemy2.getDamage().get(0));
+        assertEquals(1,enemy3.getDamageCounter());
+        assertEquals(owner,enemy3.getDamage().get(0));
+
+        enemy.getPosition().leaves(enemy);
+        enemy2.getPosition().leaves(enemy2);
+        enemy3.getPosition().leaves(enemy3);
+
+        enemy.getDamage().clear();
+        enemy.setDamageCounter(0);
+        enemy2.getDamage().clear();
+        enemy2.setDamageCounter(0);
+        enemy3.getDamage().clear();
+        enemy3.setDamageCounter(0);
+        try {
+            enemy.setPosition(board.find(1,1));
+            enemy.getPosition().arrives(enemy);
+            enemy2.setPosition(board.find(2,1));
+            enemy2.getPosition().arrives(enemy2);
+            enemy3.setPosition(board.find(2,1));
+            enemy3.getPosition().arrives(enemy3);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            weapon.fire(target);
+        } catch (InvalidTargetException e) {
+            e.printStackTrace();
+        }
+        assertEquals(0,enemy.getDamageCounter());
+        assertEquals(1,enemy2.getDamageCounter());
+        assertEquals(owner,enemy2.getDamage().get(0));
+        assertEquals(1,enemy3.getDamageCounter());
+        assertEquals(owner,enemy3.getDamage().get(0));
+
+        enemy.getPosition().leaves(enemy);
+        enemy2.getPosition().leaves(enemy2);
+        enemy3.getPosition().leaves(enemy3);
+
+        enemy.getDamage().clear();
+        enemy.setDamageCounter(0);
+        enemy2.getDamage().clear();
+        enemy2.setDamageCounter(0);
+        enemy3.getDamage().clear();
+        enemy3.setDamageCounter(0);
+
+        for(TargetParameter targetParameter: target){
+            targetParameter.setConstraintSquare(null);
+            targetParameter.setEnemyPlayer(null);
+            targetParameter.setTargetSquare(null);
+            targetParameter.setTargetRoom(null);
+            targetParameter.setMovement(null);
+        }
+
+        owner.setYellowAmmo(3);
+        owner.setBlueAmmo(3);
+        owner.setRedAmmo(3);
+
+        try {
+            enemy.setPosition(board.find(2,1));
+            enemy.getPosition().arrives(enemy);
+            enemy2.setPosition(board.find(2,1));
+            enemy2.getPosition().arrives(enemy2);
+            enemy3.setPosition(board.find(2,1));
+            enemy3.getPosition().arrives(enemy3);
+            target.get(0).setTargetSquare(board.find(2,1));
+            target.get(0).setConstraintSquare(board.find(2,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            weapon.fireAlternative(target);
+        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+            notThisKindOfWeapon.printStackTrace();
+        } catch (InvalidTargetException e) {
+            e.printStackTrace();
+        } catch (NoAmmoException e) {
+            e.printStackTrace();
+        }
+        assertEquals(2,enemy.getDamageCounter());
+        assertEquals(2,enemy2.getDamageCounter());
+        assertEquals(2,enemy3.getDamageCounter());
+        for(int i=0;i<2;i++){
+            assertEquals(owner,enemy.getDamage().get(i));
+            assertEquals(owner,enemy2.getDamage().get(i));
+            assertEquals(owner,enemy3.getDamage().get(i));
+        }
+
+        owner.setYellowAmmo(3);
+        owner.setBlueAmmo(3);
+        owner.setRedAmmo(3);
+
+        try {
+            target.get(0).setTargetSquare(board.find(2,2));
+            target.get(0).setConstraintSquare(board.find(2,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        assertThrows(InvalidTargetException.class,()->weapon.fireAlternative(target));
+
+        owner.setYellowAmmo(0);
+        owner.setBlueAmmo(0);
+        owner.setRedAmmo(0);
+        assertThrows(NoAmmoException.class,()->weapon.fireAlternative(target));
+    }
+
+    @Test
+    void flamethrower(){
+        for(Weapon w: board.getWeaponsListCopy()){
+            if(w.getName().equals("Flamethrower")){
+                weapon = w;
+            }
+        }
+        weapon.setOwner(owner);
+        try {
+            owner.setPosition(board.find(4,2));
+            owner.getPosition().arrives(owner);
+            enemy.setPosition(board.find(3,2));
+            enemy.getPosition().arrives(enemy);
+            enemy2.setPosition(board.find(2,2));
+            enemy2.getPosition().arrives(enemy2);
+            target.get(0).setEnemyPlayer(enemy);
+            target.get(0).setConstraintSquare(enemy.getPosition());
+            target.get(1).setEnemyPlayer(enemy2);
+            target.get(1).setConstraintSquare(enemy2.getPosition());
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            weapon.fire(target);
+        } catch (InvalidTargetException e) {
+            e.printStackTrace();
+        }
+        assertEquals(1,enemy.getDamageCounter());
+        assertEquals(owner,enemy.getDamage().get(0));
+        assertEquals(1,enemy2.getDamageCounter());
+        assertEquals(owner,enemy2.getDamage().get(0));
+
+        enemy.getPosition().leaves(enemy);
+        enemy2.getPosition().leaves(enemy2);
+
+        enemy.getDamage().clear();
+        enemy.setDamageCounter(0);
+        enemy2.getDamage().clear();
+        enemy2.setDamageCounter(0);
+
+        for(TargetParameter targetParameter: target){
+            targetParameter.setConstraintSquare(null);
+            targetParameter.setEnemyPlayer(null);
+            targetParameter.setTargetSquare(null);
+            targetParameter.setTargetRoom(null);
+            targetParameter.setMovement(null);
+        }
+
+        owner.setYellowAmmo(3);
+        owner.setBlueAmmo(3);
+        owner.setRedAmmo(3);
+        try {
+            enemy.setPosition(board.find(3,2));
+            enemy.getPosition().arrives(enemy);
+            enemy2.setPosition(board.find(3,2));
+            enemy2.getPosition().arrives(enemy2);
+            enemy3.setPosition(board.find(2,2));
+            enemy3.getPosition().arrives(enemy3);
+            target.get(0).setTargetSquare(board.find(3,2));
+            target.get(0).setConstraintSquare(board.find(3,2));
+            target.get(1).setTargetSquare(board.find(2,2));
+            target.get(1).setConstraintSquare(board.find(2,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            weapon.fireAlternative(target);
+        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+            notThisKindOfWeapon.printStackTrace();
+        } catch (InvalidTargetException e) {
+            e.printStackTrace();
+        } catch (NoAmmoException e) {
+            e.printStackTrace();
+        }
+        assertEquals(2,enemy.getDamageCounter());
+        assertEquals(2,enemy2.getDamageCounter());
+        assertEquals(1,enemy3.getDamageCounter());
+        for(int i=0;i<2;i++){
+            assertEquals(owner,enemy.getDamage().get(i));
+            assertEquals(owner,enemy2.getDamage().get(i));
+        }
+        assertEquals(owner,enemy3.getDamage().get(0));
+
+        enemy.getPosition().leaves(enemy);
+        enemy2.getPosition().leaves(enemy2);
+        enemy3.getPosition().leaves(enemy3);
+
+        enemy.getDamage().clear();
+        enemy.setDamageCounter(0);
+        enemy2.getDamage().clear();
+        enemy2.setDamageCounter(0);
+        enemy3.getDamage().clear();
+        enemy3.setDamageCounter(0);
+
+        for(TargetParameter targetParameter: target){
+            targetParameter.setConstraintSquare(null);
+            targetParameter.setEnemyPlayer(null);
+            targetParameter.setTargetSquare(null);
+            targetParameter.setTargetRoom(null);
+            targetParameter.setMovement(null);
+        }
+
+        owner.setYellowAmmo(3);
+        owner.setBlueAmmo(3);
+        owner.setRedAmmo(3);
+        try {
+            enemy.setPosition(board.find(3,2));
+            enemy.getPosition().arrives(enemy);
+            enemy2.setPosition(board.find(1,2));
+            enemy2.getPosition().arrives(enemy2);
+            target.get(0).setEnemyPlayer(enemy);
+            target.get(0).setConstraintSquare(enemy.getPosition());
+            target.get(1).setEnemyPlayer(enemy2);
+            target.get(1).setConstraintSquare(enemy2.getPosition());
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        assertThrows(InvalidTargetException.class,()->weapon.fire(target));
+    }
+
+    @Test
+    void furnace(){
+        for(Weapon w: board.getWeaponsListCopy()){
+            if(w.getName().equals("Furnace")){
+                weapon = w;
+            }
+        }
+        weapon.setOwner(owner);
+        enemy.setPosition(board.getRooms().get(0).getSquares().get(0));
+        enemy.getPosition().arrives(enemy);
+        enemy2.setPosition(board.getRooms().get(0).getSquares().get(1));
+        enemy2.getPosition().arrives(enemy2);
+        enemy3.setPosition(board.getRooms().get(0).getSquares().get(2));
+        enemy3.getPosition().arrives(enemy3);
+        target.get(0).setTargetRoom(board.getRooms().get(0));
+        try {
+            owner.setPosition(board.find(1,2));
+            owner.getPosition().arrives(owner);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            weapon.fire(target);
+        } catch (InvalidTargetException e) {
+            e.printStackTrace();
+        }
+        assertEquals(1,enemy.getDamageCounter());
+        assertEquals(owner,enemy.getDamage().get(0));
+        assertEquals(1,enemy2.getDamageCounter());
+        assertEquals(owner,enemy2.getDamage().get(0));
+        assertEquals(1,enemy3.getDamageCounter());
+        assertEquals(owner,enemy3.getDamage().get(0));
+
+        enemy.getPosition().leaves(enemy);
+        enemy2.getPosition().leaves(enemy2);
+        enemy3.getPosition().leaves(enemy3);
+
+        enemy.getDamage().clear();
+        enemy.setDamageCounter(0);
+        enemy2.getDamage().clear();
+        enemy2.setDamageCounter(0);
+        enemy3.getDamage().clear();
+        enemy3.setDamageCounter(0);
+
+        for(TargetParameter targetParameter: target){
+            targetParameter.setConstraintSquare(null);
+            targetParameter.setEnemyPlayer(null);
+            targetParameter.setTargetSquare(null);
+            targetParameter.setTargetRoom(null);
+            targetParameter.setMovement(null);
+        }
+
+        try {
+            enemy.setPosition(board.find(1,1));
+            enemy.getPosition().arrives(enemy);
+            enemy2.setPosition(board.find(1,1));
+            enemy2.getPosition().arrives(enemy2);
+            enemy3.setPosition(board.find(1,1));
+            enemy3.getPosition().arrives(enemy3);
+            target.get(0).setTargetSquare(board.find(1,1));
+            target.get(0).setConstraintSquare(board.find(1,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            weapon.fireAlternative(target);
+        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+            notThisKindOfWeapon.printStackTrace();
+        } catch (InvalidTargetException e) {
+            e.printStackTrace();
+        } catch (NoAmmoException e) {
+            e.printStackTrace();
+        }
+        assertEquals(1,enemy.getDamageCounter());
+        assertEquals(owner,enemy.getDamage().get(0));
+        assertEquals(1,enemy2.getDamageCounter());
+        assertEquals(owner,enemy2.getDamage().get(0));
+        assertEquals(1,enemy3.getDamageCounter());
+        assertEquals(owner,enemy3.getDamage().get(0));
+        assertEquals(owner,enemy.getMark().get(0));
+        assertEquals(owner,enemy2.getMark().get(0));
+        assertEquals(owner,enemy3.getMark().get(0));
+
+        for(TargetParameter targetParameter: target){
+            targetParameter.setConstraintSquare(null);
+            targetParameter.setEnemyPlayer(null);
+            targetParameter.setTargetSquare(null);
+            targetParameter.setTargetRoom(null);
+            targetParameter.setMovement(null);
+        }
+        target.get(0).setTargetRoom(board.getRooms().get(1));
+        assertThrows(InvalidTargetException.class,()->weapon.fire(target));
+
+        for(TargetParameter targetParameter: target){
+            targetParameter.setConstraintSquare(null);
+            targetParameter.setEnemyPlayer(null);
+            targetParameter.setTargetSquare(null);
+            targetParameter.setTargetRoom(null);
+            targetParameter.setMovement(null);
+        }
+
+        try {
+            target.get(0).setTargetSquare(board.find(2,1));
+            target.get(0).setConstraintSquare(board.find(2,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        assertThrows(InvalidTargetException.class,()->weapon.fireAlternative(target));
+
+        for(TargetParameter targetParameter: target){
+            targetParameter.setConstraintSquare(null);
+            targetParameter.setEnemyPlayer(null);
+            targetParameter.setTargetSquare(null);
+            targetParameter.setTargetRoom(null);
+            targetParameter.setMovement(null);
+        }
+        try {
+            target.get(0).setTargetSquare(board.find(1,2));
+            target.get(0).setConstraintSquare(board.find(1,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        assertThrows(InvalidTargetException.class,()->weapon.fireAlternative(target));
+    }
+
+
+}
