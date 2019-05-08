@@ -3,12 +3,16 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
+import it.polimi.ingsw.model.cards.constraints.Constraint;
+import it.polimi.ingsw.model.cards.effects.EffectVsPlayer;
+import it.polimi.ingsw.model.cards.effects.MovementEffect;
 import it.polimi.ingsw.model.map.AmmoTile;
 import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.map.Square;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -24,10 +28,12 @@ class PlayerTest {
     Match testMatch;
     ArrayList<Player> testingMarks,testingDeads,playerList;
     ArrayList<PowerUp> testingPowerUp;
-    PowerUp teleporter;
-    TargetParameter targetParameterTeleporter,targetShoot;
+    PowerUp teleporter,tagbackGrenade,newton,targetingScope;
+    TargetParameter targetParameterTeleporter,targetParameterNewton,targetParameterTagbackGrenade,targetParameterTargetingScope,targetShoot;
     Weapon lockRifle;
     AmmoTile ammoTileTest;
+    ArrayList<Constraint> list = new ArrayList<>();
+    ArrayList<Boolean> list2 = new ArrayList<>();
 
     @BeforeEach
     public void setup() {
@@ -42,6 +48,13 @@ class PlayerTest {
         turn = new Turn(null,false,guest,null);
         turn.setDeads(testingDeads);
         teleporter = new PowerUp("red","teleport");
+        teleporter.setEffect(new MovementEffect(0,0,0,"teleport",list,list2,2147483647,false,false,false,true));
+        tagbackGrenade= new PowerUp("blue", "tagback grenade");
+        tagbackGrenade.setEffect(new EffectVsPlayer(0,0,0,"tagback grenade",list,list2,0,1,false,false));
+        newton=new PowerUp("yellow", "newton");
+        newton.setEffect(new MovementEffect(0,0,0,"newton",list,list2,2,true,false,false,false));
+        targetingScope = new PowerUp("blue","targeting scope");
+        targetingScope.setEffect(new EffectVsPlayer(0,0,0,"targeting scope",list,list2,1,0,false,false));
         testingPowerUp = new ArrayList<>(Arrays.asList(teleporter,teleporter));
         guest.setPowerUps(testingPowerUp);
         playerList = new ArrayList<>(Arrays.asList(guest,test,loser));
@@ -280,36 +293,32 @@ class PlayerTest {
     /*
     @Test
     public void testShoot() {
+        ArrayList<TargetParameter> parameterList = new ArrayList<>();
         guest.setTurn(turn);
-        guest.setDamageCounter(6);
         try {
             guest.setPosition(board.find(2,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        lockRifle.setLoad(true);
         try {
-            targetShoot = new TargetParameter(null,guest,test,null,board.find(4,3),"effect");
+            test.setPosition(board.find(1,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
+        targetShoot = new TargetParameter(null,guest,test,null,null,null,null);
+        parameterList.add(targetShoot);
+        ArrayList<Weapon> weaponList = board.getWeaponsListCopy();
+        for(Weapon i : weaponList)
+            if(i.getName().equals("Lock rifle"))
+                lockRifle = i;
         try {
-            guest.shoot(lockRifle,board.find(3,2),targetShoot);
+            guest.shoot(lockRifle,board.find(2,2),parameterList);
         } catch (NotLoadedException | InvalidDestinationException | InvalidTargetException | NotFoundException e) {
             e.printStackTrace();
         }
-        try {
-            assertEquals(board.find(3,2),guest.getPosition());
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        assertEquals(2,test.getDamageCounter());
-        assertEquals(1,test.getMark().size());
-        assertEquals(guest,test.getMark().get(0));
-        assertEquals(1,guest.getTurn().getActionCounter());
-
     }
-
+    */
+    //TESTED THE TELEPORTER POWER UP
     @Test
     public void testUsePowerUp() {
         guest.setTurn(turn);
@@ -321,7 +330,12 @@ class PlayerTest {
             e.printStackTrace();
         }
         try {
-            targetParameterTeleporter = new TargetParameter(board.find(1,1),guest,null,null,null,null);
+            targetParameterTeleporter = new TargetParameter(board.find(1,1),guest,null,null,null,null,null);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            targetParameterTeleporter.setConstraintSquare(board.find(1,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -335,8 +349,130 @@ class PlayerTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
+        assertEquals(1,guest.getPowerUps().size());
     }
-    */
+    //TESTED THE NEWTON POWER UP (LINEAR MOVEMENT)
+    @Test
+    public void testUsePowerUp2() {
+        guest.setTurn(turn);
+        turn.setMatch(testMatch);
+        testMatch.setBoard(board);
+        testingPowerUp.clear();
+        testingPowerUp.add(newton);
+        guest.setPowerUps(testingPowerUp);
+        try {
+            test.setPosition(board.find(4,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            targetParameterNewton = new TargetParameter(board.find(2,2),guest,test,null,null,null,null);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            targetParameterNewton.setConstraintSquare(board.find(2,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            guest.usePowerUp(newton,targetParameterNewton);
+        } catch (InvalidTargetException e) {
+            e.printStackTrace();
+        }
+        try {
+            assertEquals(test.getPosition(),board.find(2,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        assertEquals(0,guest.getPowerUps().size());
+    }
+    //TESTED THE NEWTON POWER UP (NOT LINEAR MOVEMENT)
+    @Test
+    public void testUsePowerUp3() {
+        guest.setTurn(turn);
+        turn.setMatch(testMatch);
+        testMatch.setBoard(board);
+        testingPowerUp.clear();
+        testingPowerUp.add(newton);
+        guest.setPowerUps(testingPowerUp);
+        try {
+            test.setPosition(board.find(4,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            targetParameterNewton = new TargetParameter(board.find(3,1),guest,test,null,null,null,null);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            targetParameterNewton.setConstraintSquare(board.find(3,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            guest.usePowerUp(newton,targetParameterNewton);
+        } catch (InvalidTargetException e) {
+            assertThrows(InvalidTargetException.class,()->guest.usePowerUp(newton,targetParameterNewton));
+        }
+        try {
+            assertEquals(test.getPosition(),board.find(4,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        assertEquals(1,guest.getPowerUps().size());
+    }
+    //TESTED THE TARGETING SCOPE POWER UP
+    @Test
+    public void testUsePowerUp4(){
+        guest.setTurn(turn);
+        turn.setMatch(testMatch);
+        testMatch.setBoard(board);
+        testingPowerUp.clear();
+        testingPowerUp.add(targetingScope);
+        guest.setPowerUps(testingPowerUp);
+        targetParameterTargetingScope = new TargetParameter(null,guest,test,null,null,null,null);
+        try {
+            guest.usePowerUp(targetingScope,targetParameterTargetingScope);
+        } catch (InvalidTargetException e) {
+            e.printStackTrace();
+        }
+        assertEquals(1,test.getDamageCounter());
+        assertEquals(guest,test.getDamage().get(0));
+        assertEquals(0,guest.getPowerUps().size());
+        targetParameterTargetingScope = new TargetParameter(null,guest,guest,null,null,null,null);
+        try {
+            guest.usePowerUp(targetingScope,targetParameterTargetingScope);
+        } catch (InvalidTargetException e) {
+            assertThrows(InvalidTargetException.class,()->guest.usePowerUp(targetingScope,targetParameterTargetingScope));
+        }
+    }
+    //TESTED THE TAGBACK GRENADE POWER UP
+    @Test
+    public void testUsePowerUp5(){
+        guest.setTurn(turn);
+        turn.setMatch(testMatch);
+        testMatch.setBoard(board);
+        testingPowerUp.clear();
+        testingPowerUp.add(tagbackGrenade);
+        guest.setPowerUps(testingPowerUp);
+        targetParameterTagbackGrenade = new TargetParameter(null,guest,test,null,null,null,null);
+        try {
+            guest.usePowerUp(tagbackGrenade,targetParameterTagbackGrenade);
+        } catch (InvalidTargetException e) {
+            e.printStackTrace();
+        }
+        assertEquals(guest,test.getMark().get(0));
+        assertEquals(0,guest.getPowerUps().size());
+        targetParameterTagbackGrenade = new TargetParameter(null,guest,guest,null,null,null,null);
+        try {
+            guest.usePowerUp(tagbackGrenade,targetParameterTagbackGrenade);
+        } catch (InvalidTargetException e) {
+            assertThrows(InvalidTargetException.class,()->guest.usePowerUp(tagbackGrenade,targetParameterTagbackGrenade));
+        }
+    }
+
     @Test
     public void testCanSee() {
         guest.setTurn(turn);

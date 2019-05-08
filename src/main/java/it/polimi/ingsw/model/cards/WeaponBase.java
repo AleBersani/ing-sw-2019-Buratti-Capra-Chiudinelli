@@ -12,6 +12,11 @@ public class WeaponBase extends Weapon {
     }
 
     @Override
+    protected boolean canPay(ArrayList<Integer> payment, int which) {
+        return true;
+    }
+
+    @Override
     public void fireOptional(ArrayList<TargetParameter> target, int which) throws NotThisKindOfWeapon {
         throw new NotThisKindOfWeapon();
     }
@@ -20,4 +25,6 @@ public class WeaponBase extends Weapon {
     public void fireAlternative(ArrayList<TargetParameter> target) throws NotThisKindOfWeapon {
         throw new NotThisKindOfWeapon();
     }
+
+
 }

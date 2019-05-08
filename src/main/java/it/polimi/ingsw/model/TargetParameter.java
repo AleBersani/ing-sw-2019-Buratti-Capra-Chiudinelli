@@ -65,4 +65,7 @@ public class TargetParameter {
         this.targetSquare = targetSquare;
     }
 
+    public String getTypeOfFire() {
+        return typeOfFire;
+    }
 }

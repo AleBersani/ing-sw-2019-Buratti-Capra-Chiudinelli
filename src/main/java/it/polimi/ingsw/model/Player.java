@@ -195,20 +195,47 @@ public class Player {
      * @throws InvalidDestinationException This exception means that the player can't reach the chosen destination
      * @throws InvalidTargetException This exception means that there are is no valid target chosen
      */
-    public void shoot(Weapon weapon, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
+    public void shoot(Weapon weapon, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, NotThisKindOfWeapon, NoAmmoException {
         if (isOnAdrenalineShoot() == 1)
             if (this.position.calcDist(destination) <= 1)
                 this.position = destination;
             else
                 throw new InvalidDestinationException();
+        String[] parts = target.get(0).getTypeOfFire().split("-");
+        String part1 = parts[0];
+        String part2 = parts[1];
+        int which= Integer.parseInt(part2);
         if (weapon.isLoad()) {
-            weapon.fire(target);
-            weapon.getPreviousTarget().clear();
+            switch(part1) {
+                case ("Base"): {
+                    weapon.fire(target);
+                    break;
+                }
+                case ("Alternative"): {
+                    weapon.fireAlternative(target);
+                    break;
+                }
+
+                case ("Optional"): {
+                    weapon.fireOptional(target, which);
+                    break;
+                }
+
+            }
         } else
             throw new NotLoadedException();
-        this.turn.setActionCounter((this.turn.getActionCounter() + 1));
+
     }
-    //TODO aggiungere la scelta con TypeOfFire
+
+    /**
+     * This method sets the weapon unload and increment the action counter
+     * @param weapon This parameter is the weapon that will be unloaded
+     */
+    public void endShoot(Weapon weapon){
+        weapon.getPreviousTarget().clear();
+        weapon.setLoad(false);
+        this.turn.setActionCounter(this.turn.getActionCounter()+1);
+    }
 
     /**
      * This method is the power up use action
@@ -217,12 +244,10 @@ public class Player {
      * @throws InvalidTargetException This exception means that there is no valid target chosen
      */
     public void usePowerUp(PowerUp powerUp, TargetParameter target) throws InvalidTargetException {
-        for (int i = 0; i < this.powerUps.size(); i++)
-            if (this.powerUps.contains(powerUp)) {
-                this.powerUps.get(i).useEffect(target);
-                discard(powerUp);
-                return;
-            }
+        if (this.powerUps.contains(powerUp)) {
+            powerUp.useEffect(target);
+            discard(powerUp);
+        }
     }
 
     /**
@@ -361,21 +386,33 @@ public class Player {
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
      * @throws InvalidTargetException This exception means that there is no valid target chosen
      */
-    public void shootFrenzy(Weapon weaponShoot, Weapon weaponReload, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
+    public void shootFrenzy(Weapon weaponShoot, Weapon weaponReload, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, LoadedException, NoAmmoException, NotThisKindOfWeapon {
         if (this.position.calcDist(destination) <= 1 + onlyFrenzyAction()) {
-            this.position = destination;
-            try {
-                reload(weaponReload);
-            } catch (LoadedException | NoAmmoException e) {
-                e.printStackTrace();
-            }
-            if (weaponShoot.isLoad())
-                weaponShoot.fire(target);
-            else
+            reload(weaponReload);
+            String[] parts = target.get(0).getTypeOfFire().split("-");
+            String part1 = parts[0];
+            String part2 = parts[1];
+            int which = Integer.parseInt(part2);
+            if (weaponShoot.isLoad()) {
+                switch (part1) {
+                    case ("Base"): {
+                        weaponShoot.fire(target);
+                        break;
+                    }
+                    case ("Alternative"): {
+                        weaponShoot.fireAlternative(target);
+                        break;
+                    }
+
+                    case ("Optional"): {
+                        weaponShoot.fireOptional(target, which);
+                        break;
+                    }
+
+                }
+            } else
                 throw new NotLoadedException();
-        } else
-            throw new InvalidDestinationException();
-        this.turn.setActionCounter((this.turn.getActionCounter() + 1));
+        }
     }
 //TODO aggiungere la scelta con TypeOfFire
 
