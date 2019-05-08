@@ -290,41 +290,34 @@ class PlayerTest {
         assertEquals(1,guest.getTurn().getActionCounter());
         assertEquals(1,guest.getWeapons().size());
     }
-/*
+    /*
     @Test
     public void testShoot() {
-        ArrayList<TargetParameter> list = new ArrayList<>();
+        ArrayList<TargetParameter> parameterList = new ArrayList<>();
         guest.setTurn(turn);
-        guest.setDamageCounter(6);
         try {
             guest.setPosition(board.find(2,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        lockRifle.setLoad(true);
         try {
-            targetShoot = new TargetParameter(null,guest,test,null,board.find(4,3),"effect");
+            test.setPosition(board.find(1,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        list.add(targetShoot);
+        targetShoot = new TargetParameter(null,guest,test,null,null,null,null);
+        parameterList.add(targetShoot);
+        ArrayList<Weapon> weaponList = board.getWeaponsListCopy();
+        for(Weapon i : weaponList)
+            if(i.getName().equals("Lock rifle"))
+                lockRifle = i;
         try {
-            guest.shoot(lockRifle,board.find(3,2),list);
+            guest.shoot(lockRifle,board.find(2,2),parameterList);
         } catch (NotLoadedException | InvalidDestinationException | InvalidTargetException | NotFoundException e) {
             e.printStackTrace();
         }
-        try {
-            assertEquals(board.find(3,2),guest.getPosition());
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        assertEquals(2,test.getDamageCounter());
-        assertEquals(1,test.getMark().size());
-        assertEquals(guest,test.getMark().get(0));
-        assertEquals(1,guest.getTurn().getActionCounter());
-
     }
-*/
+    */
     //TESTED THE TELEPORTER POWER UP
     @Test
     public void testUsePowerUp() {

@@ -195,20 +195,45 @@ public class Player {
      * @throws InvalidDestinationException This exception means that the player can't reach the chosen destination
      * @throws InvalidTargetException This exception means that there are is no valid target chosen
      */
-    public void shoot(Weapon weapon, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
+    public void shoot(Weapon weapon, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, NotThisKindOfWeapon, NoAmmoException {
         if (isOnAdrenalineShoot() == 1)
             if (this.position.calcDist(destination) <= 1)
                 this.position = destination;
             else
                 throw new InvalidDestinationException();
+            /*
         if (weapon.isLoad()) {
-            weapon.fire(target);
-            weapon.getPreviousTarget().clear();
+            switch(target.get(0).getTypeOfFire()) {
+                case ("Base") {
+                    weapon.fire(target);
+                    break;
+                }
+                case ("Alternative") {
+                    weapon.fireAlternative(target);
+                    break;
+                }
+
+                case ("Optional") {
+                    weapon.fireOptional(target);
+                    break;
+                }
+
+            }
         } else
             throw new NotLoadedException();
-        this.turn.setActionCounter((this.turn.getActionCounter() + 1));
+            */
     }
     //TODO aggiungere la scelta con TypeOfFire
+
+    /**
+     * This method sets the weapon unload and increment the action counter
+     * @param weapon This parameter is the weapon that will be unloaded
+     */
+    public void endShoot(Weapon weapon){
+        weapon.getPreviousTarget().clear();
+        weapon.setLoad(false);
+        this.turn.setActionCounter(this.turn.getActionCounter()+1);
+    }
 
     /**
      * This method is the power up use action
@@ -359,21 +384,16 @@ public class Player {
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
      * @throws InvalidTargetException This exception means that there is no valid target chosen
      */
-    public void shootFrenzy(Weapon weaponShoot, Weapon weaponReload, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException {
+    public void shootFrenzy(Weapon weaponShoot, Weapon weaponReload, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, LoadedException, NoAmmoException {
         if (this.position.calcDist(destination) <= 1 + onlyFrenzyAction()) {
-            this.position = destination;
-            try {
-                reload(weaponReload);
-            } catch (LoadedException | NoAmmoException e) {
-                e.printStackTrace();
-            }
+            reload(weaponReload);
             if (weaponShoot.isLoad())
                 weaponShoot.fire(target);
             else
                 throw new NotLoadedException();
+            this.position = destination;
         } else
             throw new InvalidDestinationException();
-        this.turn.setActionCounter((this.turn.getActionCounter() + 1));
     }
 //TODO aggiungere la scelta con TypeOfFire
 
