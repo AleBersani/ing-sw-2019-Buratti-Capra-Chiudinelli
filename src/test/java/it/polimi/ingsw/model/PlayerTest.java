@@ -337,7 +337,7 @@ class PlayerTest {
             e.printStackTrace();
         }
         try {
-            targetParameterTeleporter = new TargetParameter(board.find(1,1),guest,null,null,null,null);
+            targetParameterTeleporter = new TargetParameter(board.find(1,1),guest,null,null,null,null,null);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -373,7 +373,7 @@ class PlayerTest {
             e.printStackTrace();
         }
         try {
-            targetParameterNewton = new TargetParameter(board.find(2,2),guest,test,null,null,null);
+            targetParameterNewton = new TargetParameter(board.find(2,2),guest,test,null,null,null,null);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -409,7 +409,7 @@ class PlayerTest {
             e.printStackTrace();
         }
         try {
-            targetParameterNewton = new TargetParameter(board.find(3,1),guest,test,null,null,null);
+            targetParameterNewton = new TargetParameter(board.find(3,1),guest,test,null,null,null,null);
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -439,7 +439,7 @@ class PlayerTest {
         testingPowerUp.clear();
         testingPowerUp.add(targetingScope);
         guest.setPowerUps(testingPowerUp);
-        targetParameterTargetingScope = new TargetParameter(null,guest,test,null,null,null);
+        targetParameterTargetingScope = new TargetParameter(null,guest,test,null,null,null,null);
         try {
             guest.usePowerUp(targetingScope,targetParameterTargetingScope);
         } catch (InvalidTargetException e) {
@@ -448,7 +448,7 @@ class PlayerTest {
         assertEquals(1,test.getDamageCounter());
         assertEquals(guest,test.getDamage().get(0));
         assertEquals(0,guest.getPowerUps().size());
-        targetParameterTargetingScope = new TargetParameter(null,guest,guest,null,null,null);
+        targetParameterTargetingScope = new TargetParameter(null,guest,guest,null,null,null,null);
         try {
             guest.usePowerUp(targetingScope,targetParameterTargetingScope);
         } catch (InvalidTargetException e) {
@@ -464,7 +464,7 @@ class PlayerTest {
         testingPowerUp.clear();
         testingPowerUp.add(tagbackGrenade);
         guest.setPowerUps(testingPowerUp);
-        targetParameterTagbackGrenade = new TargetParameter(null,guest,test,null,null,null);
+        targetParameterTagbackGrenade = new TargetParameter(null,guest,test,null,null,null,null);
         try {
             guest.usePowerUp(tagbackGrenade,targetParameterTagbackGrenade);
         } catch (InvalidTargetException e) {
@@ -472,7 +472,7 @@ class PlayerTest {
         }
         assertEquals(guest,test.getMark().get(0));
         assertEquals(0,guest.getPowerUps().size());
-        targetParameterTagbackGrenade = new TargetParameter(null,guest,guest,null,null,null);
+        targetParameterTagbackGrenade = new TargetParameter(null,guest,guest,null,null,null,null);
         try {
             guest.usePowerUp(tagbackGrenade,targetParameterTagbackGrenade);
         } catch (InvalidTargetException e) {
