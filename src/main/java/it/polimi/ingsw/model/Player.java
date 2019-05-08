@@ -201,29 +201,31 @@ public class Player {
                 this.position = destination;
             else
                 throw new InvalidDestinationException();
-            /*
+        String[] parts = target.get(0).getTypeOfFire().split("-");
+        String part1 = parts[0];
+        String part2 = parts[1];
+        int which= Integer.parseInt(part2);
         if (weapon.isLoad()) {
-            switch(target.get(0).getTypeOfFire()) {
-                case ("Base") {
+            switch(part1) {
+                case ("Base"): {
                     weapon.fire(target);
                     break;
                 }
-                case ("Alternative") {
+                case ("Alternative"): {
                     weapon.fireAlternative(target);
                     break;
                 }
 
-                case ("Optional") {
-                    weapon.fireOptional(target);
+                case ("Optional"): {
+                    weapon.fireOptional(target, which);
                     break;
                 }
 
             }
         } else
             throw new NotLoadedException();
-            */
+
     }
-    //TODO aggiungere la scelta con TypeOfFire
 
     /**
      * This method sets the weapon unload and increment the action counter
@@ -384,16 +386,33 @@ public class Player {
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
      * @throws InvalidTargetException This exception means that there is no valid target chosen
      */
-    public void shootFrenzy(Weapon weaponShoot, Weapon weaponReload, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, LoadedException, NoAmmoException {
+    public void shootFrenzy(Weapon weaponShoot, Weapon weaponReload, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, LoadedException, NoAmmoException, NotThisKindOfWeapon {
         if (this.position.calcDist(destination) <= 1 + onlyFrenzyAction()) {
             reload(weaponReload);
-            if (weaponShoot.isLoad())
-                weaponShoot.fire(target);
-            else
+            String[] parts = target.get(0).getTypeOfFire().split("-");
+            String part1 = parts[0];
+            String part2 = parts[1];
+            int which = Integer.parseInt(part2);
+            if (weaponShoot.isLoad()) {
+                switch (part1) {
+                    case ("Base"): {
+                        weaponShoot.fire(target);
+                        break;
+                    }
+                    case ("Alternative"): {
+                        weaponShoot.fireAlternative(target);
+                        break;
+                    }
+
+                    case ("Optional"): {
+                        weaponShoot.fireOptional(target, which);
+                        break;
+                    }
+
+                }
+            } else
                 throw new NotLoadedException();
-            this.position = destination;
-        } else
-            throw new InvalidDestinationException();
+        }
     }
 //TODO aggiungere la scelta con TypeOfFire
 
