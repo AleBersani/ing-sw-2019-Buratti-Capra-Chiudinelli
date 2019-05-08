@@ -47,7 +47,7 @@ class EffectTest {
         enemy = new Player(false, "green", "Lucio");
         enemy2 = new Player(false, "red", "Fabio");
         enemy3 = new Player(false, "yellow", "Ciccio");
-        target = new TargetParameter(null,owner,null,null,null,null);
+        target = new TargetParameter(null,owner,null,null,null,null, null);
         previousTarget = new ArrayList<ArrayList<Player>>();
         previousTarget.add(new ArrayList<Player>());
         previousTarget.add(new ArrayList<Player>());

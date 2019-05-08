@@ -27,7 +27,7 @@ class AdjacentRoomTest {
         previousTarget = new ArrayList<ArrayList<Player>>();
         previousTarget.add(new ArrayList<Player>());
         previousTarget.add(new ArrayList<Player>());
-        target = new TargetParameter(null,owner,null,null,null,null);
+        target = new TargetParameter(null,owner,null,null,null,null,null);
     }
 
     @Test

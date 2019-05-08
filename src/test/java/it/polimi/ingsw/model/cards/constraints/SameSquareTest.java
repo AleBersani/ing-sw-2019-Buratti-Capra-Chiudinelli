@@ -31,7 +31,7 @@ class SameSquareTest {
         enemy3 = new Player(false,"red", "Fagiolo");
         test = new SameSquare(false,0);
         test2= new SameSquare(true,0);
-        target = new TargetParameter(null,owner,null,null,null,null);
+        target = new TargetParameter(null,owner,null,null,null,null, null);
         previousTarget = new ArrayList<ArrayList<Player>>();
         previousTarget.add(new ArrayList<Player>());
         previousTarget.add(new ArrayList<Player>());
