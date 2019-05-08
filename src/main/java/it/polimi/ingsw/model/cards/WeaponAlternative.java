@@ -1,11 +1,9 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.exception.InvalidTargetException;
-import it.polimi.ingsw.exception.NoAmmoException;
 import it.polimi.ingsw.exception.NotThisKindOfWeapon;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.cards.effects.Effect;
 import it.polimi.ingsw.model.TargetParameter;
+import it.polimi.ingsw.model.cards.effects.Effect;
 
 import java.util.ArrayList;
 
@@ -24,16 +22,18 @@ public class WeaponAlternative extends Weapon {
         throw new NotThisKindOfWeapon();
     }
 
-    public void fireAlternative(ArrayList<TargetParameter> target) throws InvalidTargetException, NoAmmoException {
-        Player owner = target.get(0).getOwner();
-        Effect effect = alternativeEffect.get(0);
-        if((owner.getRedAmmo()<effect.getCostRed())||(owner.getBlueAmmo()<effect.getCostBlue())||(owner.getYellowAmmo()<effect.getCostYellow())){
-            throw new NoAmmoException();
-        }
+    public void fireAlternative(ArrayList<TargetParameter> target) throws InvalidTargetException {
+
         for(int i=0;i<alternativeEffect.size();i++){
             alternativeEffect.get(i).apply(target.get(i), this.getPreviousTarget());
         }
-        this.pay(owner,effect);
+
         return;
+    }
+
+    @Override
+    protected boolean canPay(ArrayList<Integer> payment, int which){
+        return this.alternativeEffect.get(0).getCostBlue()==payment.get(2) && this.alternativeEffect.get(0).getCostRed()==payment.get(0) && this.alternativeEffect.get(0).getCostYellow()==payment.get(1);
+
     }
 }

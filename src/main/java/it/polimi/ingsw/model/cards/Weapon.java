@@ -39,12 +39,41 @@ public abstract class Weapon {
         return;
     }
 
-    protected void pay(Player owner, Effect effect){
-        owner.setRedAmmo(owner.getRedAmmo()-effect.getCostRed());
-        owner.setBlueAmmo(owner.getBlueAmmo()-effect.getCostBlue());
-        owner.setYellowAmmo(owner.getYellowAmmo()-effect.getCostYellow());
-        return;
+    protected void pay(Player owner,int red, int yellow, int blue, ArrayList<PowerUp> powerUps, int which) throws NoAmmoException {
+        ArrayList<Integer> payment;
+        payment=powerUpToPayment(powerUps,red,yellow,blue);
+        if (canPay(payment,which)) {
+            owner.setRedAmmo(owner.getRedAmmo() - red);
+            owner.setBlueAmmo(owner.getBlueAmmo() - blue);
+            owner.setYellowAmmo(owner.getYellowAmmo() - yellow);
+        }
+        else {
+            throw new NoAmmoException();
+        }
     }
+
+    protected ArrayList<Integer> powerUpToPayment(ArrayList<PowerUp> powerUps, int red,int yellow, int blue){
+        ArrayList<Integer> payment=new ArrayList<>();
+        for (PowerUp p : powerUps){
+            switch (p.getColor()) {
+                case "red":
+                    red++;
+                    break;
+                case "yellow":
+                    yellow++;
+                    break;
+                case "blue":
+                    blue++;
+                    break;
+            }
+        }
+        payment.add(red);
+        payment.add(yellow);
+        payment.add(blue);
+        return payment;
+    }
+
+    protected abstract boolean canPay(ArrayList<Integer> payment, int which);
 
     public void reload(){
         this.load=true;
