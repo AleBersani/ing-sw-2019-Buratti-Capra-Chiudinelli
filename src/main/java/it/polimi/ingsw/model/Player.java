@@ -217,12 +217,10 @@ public class Player {
      * @throws InvalidTargetException This exception means that there is no valid target chosen
      */
     public void usePowerUp(PowerUp powerUp, TargetParameter target) throws InvalidTargetException {
-        for (int i = 0; i < this.powerUps.size(); i++)
-            if (this.powerUps.contains(powerUp)) {
-                this.powerUps.get(i).useEffect(target);
-                discard(powerUp);
-                return;
-            }
+        if (this.powerUps.contains(powerUp)) {
+            powerUp.useEffect(target);
+            discard(powerUp);
+        }
     }
 
     /**
