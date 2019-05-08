@@ -196,15 +196,17 @@ public class Player {
      * @throws InvalidTargetException This exception means that there are is no valid target chosen
      */
     public void shoot(Weapon weapon, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, NotThisKindOfWeapon, NoAmmoException {
-        if (isOnAdrenalineShoot() == 1)
-            if (this.position.calcDist(destination) <= 1)
+        int which=0;
+            if (this.position.calcDist(destination) <= isOnAdrenalineShoot())
                 this.position = destination;
             else
                 throw new InvalidDestinationException();
         String[] parts = target.get(0).getTypeOfFire().split("-");
         String part1 = parts[0];
-        String part2 = parts[1];
-        int which= Integer.parseInt(part2);
+        if(target.get(0).getTypeOfFire() != "Base" && target.get(0).getTypeOfFire()!="Alternative") {
+            String part2 = parts[1];
+            which = Integer.parseInt(part2);
+        }
         if (weapon.isLoad()) {
             switch(part1) {
                 case ("Base"): {
@@ -215,16 +217,13 @@ public class Player {
                     weapon.fireAlternative(target);
                     break;
                 }
-
                 case ("Optional"): {
                     weapon.fireOptional(target, which);
                     break;
                 }
-
             }
         } else
             throw new NotLoadedException();
-
     }
 
     /**
@@ -378,21 +377,24 @@ public class Player {
 
     /**
      * This method is the shoot action that can be done in a frenzy turn
-     * @param weaponShoot  This parameter is the weapon that the player wants to fire with
+     * @param weaponShoot This parameter is the weapon that the player wants to fire with
      * @param weaponReload This parameter is the weapon that the player wants to reload
-     * @param destination  This parameter is the final destination where the player wants to move
-     * @param target       This parameter is the target of the shoot action
+     * @param destination This parameter is the final destination where the player wants to move
+     * @param target This parameter is the target of the shoot action
      * @throws NotLoadedException This exception means that the weapon is not load
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
      * @throws InvalidTargetException This exception means that there is no valid target chosen
      */
     public void shootFrenzy(Weapon weaponShoot, Weapon weaponReload, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, LoadedException, NoAmmoException, NotThisKindOfWeapon {
+        int which=0;
         if (this.position.calcDist(destination) <= 1 + onlyFrenzyAction()) {
             reload(weaponReload);
             String[] parts = target.get(0).getTypeOfFire().split("-");
             String part1 = parts[0];
-            String part2 = parts[1];
-            int which = Integer.parseInt(part2);
+            if(target.get(0).getTypeOfFire() != "Base" && target.get(0).getTypeOfFire()!="Alternative") {
+                String part2 = parts[1];
+                which = Integer.parseInt(part2);
+            }
             if (weaponShoot.isLoad()) {
                 switch (part1) {
                     case ("Base"): {
@@ -403,18 +405,15 @@ public class Player {
                         weaponShoot.fireAlternative(target);
                         break;
                     }
-
                     case ("Optional"): {
                         weaponShoot.fireOptional(target, which);
                         break;
                     }
-
                 }
             } else
                 throw new NotLoadedException();
         }
     }
-//TODO aggiungere la scelta con TypeOfFire
 
     /**
      * This method is the grab action that can be done in a frenzy turn

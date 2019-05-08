@@ -60,12 +60,20 @@ class PlayerTest {
         playerList = new ArrayList<>(Arrays.asList(guest,test,loser));
         ammoTileTest = new AmmoTile(2,1,0,0);
         testMatch = new Match(playerList,3,5,true,"normal");
-        lockRifle = new Weapon("blue","Lock rifle",2,0,0,null) {
+        lockRifle = new Weapon("blue", "Lock rifle", 2, 0, 0, null) {
             @Override
-            public void fireOptional(ArrayList<TargetParameter> target, int which) throws NotThisKindOfWeapon, InvalidTargetException {
+            protected boolean canPay(ArrayList<Integer> payment, int which) {
+                return false;
             }
+
             @Override
-            public void fireAlternative(ArrayList<TargetParameter> target) throws NotThisKindOfWeapon, InvalidTargetException {
+            public void fireOptional(ArrayList<TargetParameter> target, int which) throws NotThisKindOfWeapon, InvalidTargetException, NoAmmoException {
+
+            }
+
+            @Override
+            public void fireAlternative(ArrayList<TargetParameter> target) throws NotThisKindOfWeapon, InvalidTargetException, NoAmmoException {
+
             }
         };
     }
@@ -290,7 +298,7 @@ class PlayerTest {
         assertEquals(1,guest.getTurn().getActionCounter());
         assertEquals(1,guest.getWeapons().size());
     }
-    /*
+
     @Test
     public void testShoot() {
         ArrayList<TargetParameter> parameterList = new ArrayList<>();
@@ -305,7 +313,11 @@ class PlayerTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        targetShoot = new TargetParameter(null,guest,test,null,null,null,null);
+        try {
+            targetShoot = new TargetParameter(null,guest,test,null,null,"Base",board.find(1,2));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
         parameterList.add(targetShoot);
         ArrayList<Weapon> weaponList = board.getWeaponsListCopy();
         for(Weapon i : weaponList)
@@ -313,11 +325,22 @@ class PlayerTest {
                 lockRifle = i;
         try {
             guest.shoot(lockRifle,board.find(2,2),parameterList);
-        } catch (NotLoadedException | InvalidDestinationException | InvalidTargetException | NotFoundException e) {
-            e.printStackTrace();
+        } catch (NotLoadedException | InvalidDestinationException | InvalidTargetException | NotThisKindOfWeapon | NoAmmoException | NotFoundException ex) {
+            ex.printStackTrace();
         }
+        assertEquals(2,test.getDamageCounter());
+        assertEquals(1,test.getMark().size());
     }
-    */
+
+    @Test
+    public void testEndShoot(){
+        guest.setTurn(turn);
+        turn.setActionCounter(1);
+        guest.endShoot(lockRifle);
+        assertEquals(0,lockRifle.getPreviousTarget().size());
+        assertFalse(lockRifle.isLoad());
+        assertEquals(2,turn.getActionCounter());
+    }
     //TESTED THE TELEPORTER POWER UP
     @Test
     public void testUsePowerUp() {
