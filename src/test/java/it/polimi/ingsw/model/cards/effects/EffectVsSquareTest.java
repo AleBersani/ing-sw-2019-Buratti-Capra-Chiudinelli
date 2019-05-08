@@ -32,7 +32,7 @@ class EffectVsSquareTest {
         board = new Board(null, "./resources/Board/Board1.json");
         constraints = new ArrayList<Constraint>();
         constrainPositivity = new ArrayList<Boolean>();
-        target = new TargetParameter(null, owner, null, null, null,null);
+        target = new TargetParameter(null, owner, null, null, null,null, null);
         test = new EffectVsSquare(0,0,0,"explosion",constraints,constrainPositivity,1,0);
     }
 

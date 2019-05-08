@@ -13,16 +13,15 @@ public class TargetParameter {
     private Square constraintSquare;
     private String typeOfFire;
 
-    public TargetParameter(Square movement, Player owner, Player enemyPlayer, Room targetRoom, Square targetSquare, String typeOfFire) {
+    public TargetParameter(Square movement, Player owner, Player enemyPlayer, Room targetRoom, Square targetSquare, String typeOfFire, Square constraintSquare) {
         this.movement = movement;
         this.owner = owner;
         this.enemyPlayer = enemyPlayer;
         this.targetRoom = targetRoom;
         this.targetSquare = targetSquare;
         this.typeOfFire = typeOfFire;
+        this.constraintSquare = constraintSquare;
     }
-
-    //TODO aggiungere constraintSquare al constructor
 
     public Square getMovement() {
         return movement;

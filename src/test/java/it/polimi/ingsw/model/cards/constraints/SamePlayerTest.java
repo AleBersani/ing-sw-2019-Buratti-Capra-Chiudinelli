@@ -24,7 +24,7 @@ class SamePlayerTest {
         enemy = new Player(true,"blue", "Fabiano");
         enemy2 = new Player(false,"red", "Fabiolo");
         enemy3 = new Player(false,"red", "Fagiolo");
-        target = new TargetParameter(null,null,enemy,null,null,null);
+        target = new TargetParameter(null,null,enemy,null,null,null,null);
         previousTarget = new ArrayList<ArrayList<Player>>();
         previousTarget.add(new ArrayList<Player>());
         previousTarget.add(new ArrayList<Player>());

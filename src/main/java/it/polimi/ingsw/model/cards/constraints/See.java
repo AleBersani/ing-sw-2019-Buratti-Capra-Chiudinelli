@@ -17,7 +17,7 @@ public class See extends Constraint {
     }
 
     @Override
-    public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<ArrayList<Player>> previousTarget)throws NoOwnerException {
+    public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<ArrayList<Player>> previousTarget) throws NoOwnerException {
 
         if((target.getOwner()==null)||(target.getOwner().getPosition()==null)){
             throw new NoOwnerException();
