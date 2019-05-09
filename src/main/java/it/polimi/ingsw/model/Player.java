@@ -194,16 +194,33 @@ public class Player {
      * @throws NotLoadedException This exception means the weapon is not loaded
      * @throws InvalidDestinationException This exception means that the player can't reach the chosen destination
      * @throws InvalidTargetException This exception means that there are is no valid target chosen
+     * @throws NotThisKindOfWeapon This exception means that the type of fire is not permitted by that weapon
+     * @throws NoAmmoException This exception means that the player doesn't have enough ammo to buy a weapon
+     * @throws NoOwnerException This exception means the weapon is not loaded
      */
     public void shoot(Weapon weapon, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, NotThisKindOfWeapon, NoAmmoException, NoOwnerException {
+        if (this.position.calcDist(destination) <= isOnAdrenalineShoot())
+            shootType(weapon,target);
+        else
+            throw new InvalidDestinationException();
+        this.position = destination;
+    }
+
+    /**
+     * This method calls other methods depends of the type of fire the player choose
+     * @param weapon This parameter is the weapon which the player wants to shoot with
+     * @param target This is the target that the player wants to shoot
+     * @throws InvalidTargetException This exception means that there are is no valid target chosen
+     * @throws NoOwnerException This exception means that the owner not exists
+     * @throws NotThisKindOfWeapon This exception means that the type of fire is not permitted by that weapon
+     * @throws NoAmmoException This exception means that the player doesn't have enough ammo to buy a weapon
+     * @throws NotLoadedException This exception means the weapon is not loaded
+     */
+    private void shootType(Weapon weapon,ArrayList<TargetParameter> target) throws InvalidTargetException, NoOwnerException, NotThisKindOfWeapon, NoAmmoException, NotLoadedException {
         int which=0;
-            if (this.position.calcDist(destination) <= isOnAdrenalineShoot())
-                this.position = destination;
-            else
-                throw new InvalidDestinationException();
         String[] parts = target.get(0).getTypeOfFire().split("-");
         String part1 = parts[0];
-        if(target.get(0).getTypeOfFire() != "Base" && target.get(0).getTypeOfFire()!="Alternative") {
+        if(!target.get(0).getTypeOfFire().equals("Base") && !target.get(0).getTypeOfFire().equals("Alternative")) {
             String part2 = parts[1];
             which = Integer.parseInt(part2);
         }
@@ -384,35 +401,19 @@ public class Player {
      * @throws NotLoadedException This exception means that the weapon is not load
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
      * @throws InvalidTargetException This exception means that there is no valid target chosen
+     * @throws LoadedException This exception means that the weapon is already load
+     * @throws NoAmmoException This exception means that the player doesn't have the ammo to reload
+     * @throws NotThisKindOfWeapon This exception means that the type of fire is not permitted by that weapon
+     * @throws NoOwnerException This exception means that the owner not exists
      */
     public void shootFrenzy(Weapon weaponShoot, Weapon weaponReload, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, LoadedException, NoAmmoException, NotThisKindOfWeapon, NoOwnerException {
-        int which=0;
         if (this.position.calcDist(destination) <= 1 + onlyFrenzyAction()) {
             reload(weaponReload);
-            String[] parts = target.get(0).getTypeOfFire().split("-");
-            String part1 = parts[0];
-            if(target.get(0).getTypeOfFire() != "Base" && target.get(0).getTypeOfFire()!="Alternative") {
-                String part2 = parts[1];
-                which = Integer.parseInt(part2);
-            }
-            if (weaponShoot.isLoad()) {
-                switch (part1) {
-                    case ("Base"): {
-                        weaponShoot.fire(target);
-                        break;
-                    }
-                    case ("Alternative"): {
-                        weaponShoot.fireAlternative(target);
-                        break;
-                    }
-                    case ("Optional"): {
-                        weaponShoot.fireOptional(target, which);
-                        break;
-                    }
-                }
-            } else
-                throw new NotLoadedException();
+            shootType(weaponShoot,target);
         }
+        else
+            throw new InvalidDestinationException();
+        this.position = destination;
     }
 
     /**
