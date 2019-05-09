@@ -656,6 +656,53 @@ class PlayerTest {
     }
 
     @Test
+    public void testGrabFrenzy() {
+        loser.setTurn(turn);
+        test.setLastKill(true);
+        guest.setDamageCounter(6);
+        loser.setTurnedPlank(true);
+        turn.setMatch(testMatch);
+        turn.setFrenzy(true);
+        testMatch.setBoard(board);
+        turn.endTurn();
+        try {
+            loser.setPosition(board.find(1, 1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            loser.grabFrenzy(board.find(3, 2));
+        } catch (InvalidDestinationException | MaxHandSizeException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            assertThrows(InvalidDestinationException.class, () -> loser.grabFrenzy(board.find(3, 2)));
+        }
+        try {
+            assertEquals(board.find(1, 1), loser.getPosition());
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            loser.grabFrenzy(board.find(1, 2));
+        } catch (InvalidDestinationException | MaxHandSizeException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            assertThrows(ElementNotFoundException.class, () -> loser.grabFrenzy(board.find(1, 2)));
+        }
+        try {
+            assertEquals(board.find(1, 1), loser.getPosition());
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            loser.grabFrenzy(board.find(2, 2));
+        } catch (InvalidDestinationException | MaxHandSizeException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            assertEquals(board.find(2, 2), loser.getPosition());
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void testOnlyFrenzyAction(){
         test.setLastKill(true);
         loser.setTurn(turn);

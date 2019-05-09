@@ -408,7 +408,8 @@ public class Player {
      */
     public void shootFrenzy(Weapon weaponShoot, Weapon weaponReload, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, LoadedException, NoAmmoException, NotThisKindOfWeapon, NoOwnerException {
         if (this.position.calcDist(destination) <= 1 + onlyFrenzyAction()) {
-            reload(weaponReload);
+            if(weaponReload!=null)
+                reload(weaponReload);
             shootType(weaponShoot,target);
         }
         else
