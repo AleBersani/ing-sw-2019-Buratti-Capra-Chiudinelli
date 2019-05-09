@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.exception.InvalidTargetException;
 import it.polimi.ingsw.exception.NoAmmoException;
+import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.exception.NotThisKindOfWeapon;
 import it.polimi.ingsw.model.cards.effects.Effect;
 import it.polimi.ingsw.model.Player;
@@ -32,7 +33,7 @@ public abstract class Weapon {
         previousTarget.add(new ArrayList<Player>());
     }
 
-    public void fire(ArrayList<TargetParameter> target) throws InvalidTargetException {
+    public void fire(ArrayList<TargetParameter> target) throws InvalidTargetException, NoOwnerException {
         for(int i=0;i<effect.size();i++){
                 effect.get(i).apply(target.get(i), this.previousTarget);
         }
@@ -124,7 +125,7 @@ public abstract class Weapon {
         this.owner = owner;
     }
 
-    public abstract void fireOptional(ArrayList<TargetParameter> target, int which) throws NotThisKindOfWeapon, InvalidTargetException, NoAmmoException;
+    public abstract void fireOptional(ArrayList<TargetParameter> target, int which) throws NotThisKindOfWeapon, InvalidTargetException, NoAmmoException, NoOwnerException;
 
-    public abstract void fireAlternative(ArrayList<TargetParameter> target) throws NotThisKindOfWeapon, InvalidTargetException, NoAmmoException;
+    public abstract void fireAlternative(ArrayList<TargetParameter> target) throws NotThisKindOfWeapon, InvalidTargetException, NoAmmoException, NoOwnerException;
 }

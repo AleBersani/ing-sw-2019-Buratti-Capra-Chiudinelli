@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards.effects;
 
 import it.polimi.ingsw.exception.InvalidTargetException;
+import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.exception.NotFoundException;
 import it.polimi.ingsw.model.cards.constraints.Constraint;
 import it.polimi.ingsw.model.map.Board;
@@ -51,6 +52,8 @@ class MovementEffectTest {
             test.apply(target,null);
         } catch (InvalidTargetException invalidTargetExcepion) {
             invalidTargetExcepion.printStackTrace();
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
         }
         assertEquals(enemy,target.getMovement().getOnMe().get(0));
     }
@@ -72,6 +75,8 @@ class MovementEffectTest {
             test2.apply(target,null);
         } catch (InvalidTargetException invalidTargetExcepion) {
             invalidTargetExcepion.printStackTrace();
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
         }
         assertEquals(enemy,target.getMovement().getOnMe().get(0));
     }

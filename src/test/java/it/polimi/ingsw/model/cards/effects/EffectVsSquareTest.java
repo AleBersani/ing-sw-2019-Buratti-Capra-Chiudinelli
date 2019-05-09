@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards.effects;
 
 import it.polimi.ingsw.exception.InvalidTargetException;
+import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.exception.NotFoundException;
 import it.polimi.ingsw.model.cards.constraints.Constraint;
 import it.polimi.ingsw.model.map.Board;
@@ -71,6 +72,8 @@ class EffectVsSquareTest {
             test.apply(target,null);
         } catch (InvalidTargetException invalidTargetExcepion) {
             invalidTargetExcepion.printStackTrace();
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
         }
         assertEquals(1, enemy.getDamageCounter());
         assertEquals(target.getOwner(),enemy.getDamage().get(0));

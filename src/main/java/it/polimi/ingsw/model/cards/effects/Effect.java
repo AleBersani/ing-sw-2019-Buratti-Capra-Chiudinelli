@@ -26,20 +26,16 @@ public abstract class Effect {
         this.constraintPositivity=constraintPositivity;
     }
 
-    abstract public void apply(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget) throws InvalidTargetException;
+    abstract public void apply(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget) throws InvalidTargetException, NoOwnerException;
 
-    public boolean constraintsCheck(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget){
+    public boolean constraintsCheck(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget) throws NoOwnerException {
         int i;
         if(constraints.isEmpty()){
             return true;
         }
         for(i=0;i<constraints.size();i++){
-            try {
-                if(!constraints.get(i).canShoot(target,this.constraintPositivity.get(i),previousTarget)){
-                    return false;
-                }
-            } catch (NoOwnerException e) {
-                e.printStackTrace();
+            if(!constraints.get(i).canShoot(target,this.constraintPositivity.get(i),previousTarget)){
+                return false;
             }
         }
         return true;

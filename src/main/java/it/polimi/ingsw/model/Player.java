@@ -195,7 +195,7 @@ public class Player {
      * @throws InvalidDestinationException This exception means that the player can't reach the chosen destination
      * @throws InvalidTargetException This exception means that there are is no valid target chosen
      */
-    public void shoot(Weapon weapon, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, NotThisKindOfWeapon, NoAmmoException {
+    public void shoot(Weapon weapon, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, NotThisKindOfWeapon, NoAmmoException, NoOwnerException {
         int which=0;
             if (this.position.calcDist(destination) <= isOnAdrenalineShoot())
                 this.position = destination;
@@ -242,7 +242,7 @@ public class Player {
      * @param target This parameter is the target of the power up effect
      * @throws InvalidTargetException This exception means that there is no valid target chosen
      */
-    public void usePowerUp(PowerUp powerUp, TargetParameter target) throws InvalidTargetException {
+    public void usePowerUp(PowerUp powerUp, TargetParameter target) throws InvalidTargetException, NoOwnerException {
         if (this.powerUps.contains(powerUp)) {
             powerUp.useEffect(target);
             discard(powerUp);
@@ -385,7 +385,7 @@ public class Player {
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
      * @throws InvalidTargetException This exception means that there is no valid target chosen
      */
-    public void shootFrenzy(Weapon weaponShoot, Weapon weaponReload, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, LoadedException, NoAmmoException, NotThisKindOfWeapon {
+    public void shootFrenzy(Weapon weaponShoot, Weapon weaponReload, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, LoadedException, NoAmmoException, NotThisKindOfWeapon, NoOwnerException {
         int which=0;
         if (this.position.calcDist(destination) <= 1 + onlyFrenzyAction()) {
             reload(weaponReload);

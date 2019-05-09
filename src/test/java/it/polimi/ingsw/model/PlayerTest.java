@@ -327,6 +327,8 @@ class PlayerTest {
             guest.shoot(lockRifle,board.find(2,2),parameterList);
         } catch (NotLoadedException | InvalidDestinationException | InvalidTargetException | NotThisKindOfWeapon | NoAmmoException | NotFoundException ex) {
             ex.printStackTrace();
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
         }
         assertEquals(2,test.getDamageCounter());
         assertEquals(1,test.getMark().size());
@@ -366,6 +368,8 @@ class PlayerTest {
             guest.usePowerUp(teleporter,targetParameterTeleporter);
         } catch (InvalidTargetException invalidTargetException) {
             invalidTargetException.printStackTrace();
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
         }
         try {
             assertEquals(guest.getPosition(),board.find(1,1));
@@ -401,6 +405,8 @@ class PlayerTest {
         try {
             guest.usePowerUp(newton,targetParameterNewton);
         } catch (InvalidTargetException e) {
+            e.printStackTrace();
+        } catch (NoOwnerException e) {
             e.printStackTrace();
         }
         try {
@@ -438,6 +444,8 @@ class PlayerTest {
             guest.usePowerUp(newton,targetParameterNewton);
         } catch (InvalidTargetException e) {
             assertThrows(InvalidTargetException.class,()->guest.usePowerUp(newton,targetParameterNewton));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
         }
         try {
             assertEquals(test.getPosition(),board.find(4,2));
@@ -460,6 +468,8 @@ class PlayerTest {
             guest.usePowerUp(targetingScope,targetParameterTargetingScope);
         } catch (InvalidTargetException e) {
             e.printStackTrace();
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
         }
         assertEquals(1,test.getDamageCounter());
         assertEquals(guest,test.getDamage().get(0));
@@ -469,6 +479,8 @@ class PlayerTest {
             guest.usePowerUp(targetingScope,targetParameterTargetingScope);
         } catch (InvalidTargetException e) {
             assertThrows(InvalidTargetException.class,()->guest.usePowerUp(targetingScope,targetParameterTargetingScope));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
         }
     }
     //TESTED THE TAGBACK GRENADE POWER UP
@@ -485,6 +497,8 @@ class PlayerTest {
             guest.usePowerUp(tagbackGrenade,targetParameterTagbackGrenade);
         } catch (InvalidTargetException e) {
             e.printStackTrace();
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
         }
         assertEquals(guest,test.getMark().get(0));
         assertEquals(0,guest.getPowerUps().size());
@@ -493,6 +507,8 @@ class PlayerTest {
             guest.usePowerUp(tagbackGrenade,targetParameterTagbackGrenade);
         } catch (InvalidTargetException e) {
             assertThrows(InvalidTargetException.class,()->guest.usePowerUp(tagbackGrenade,targetParameterTagbackGrenade));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
         }
     }
 

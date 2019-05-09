@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards.effects;
 
 import it.polimi.ingsw.exception.InvalidTargetException;
+import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.exception.NotFoundException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TargetParameter;
@@ -72,6 +73,8 @@ class AreaEffectTest {
         try {
             testDistance2.apply(target,null);
         } catch (InvalidTargetException e) {
+            e.printStackTrace();
+        } catch (NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1, enemy.getDamageCounter());

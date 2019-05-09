@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.exception.InvalidTargetException;
 import it.polimi.ingsw.exception.NoAmmoException;
+import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.exception.NotThisKindOfWeapon;
 import it.polimi.ingsw.model.TargetParameter;
 import it.polimi.ingsw.model.cards.effects.Effect;
@@ -18,7 +19,7 @@ public class WeaponOptional extends Weapon {
     }
 
     @Override
-    public void fireOptional(ArrayList<TargetParameter> target, int which) throws InvalidTargetException, NoAmmoException {
+    public void fireOptional(ArrayList<TargetParameter> target, int which) throws InvalidTargetException, NoAmmoException, NoOwnerException {
 
         for(int i=0;i<optionalEffect.get(which).size();i++){
             optionalEffect.get(which).get(i).apply(target.get(i),this.getPreviousTarget());

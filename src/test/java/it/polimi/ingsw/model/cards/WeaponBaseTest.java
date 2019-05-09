@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.exception.InvalidTargetException;
+import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.exception.NotFoundException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TargetParameter;
@@ -50,6 +51,8 @@ class WeaponBaseTest {
             weapon.fire(target);
         } catch (InvalidTargetException e) {
             e.printStackTrace();
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
         }
         assertEquals(3,enemy.getDamageCounter());
         for(int i=0;i<3;i++){
@@ -86,6 +89,8 @@ class WeaponBaseTest {
         try {
             weapon.fire(target);
         } catch (InvalidTargetException e) {
+            e.printStackTrace();
+        } catch (NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(3,enemy.getDamageCounter());

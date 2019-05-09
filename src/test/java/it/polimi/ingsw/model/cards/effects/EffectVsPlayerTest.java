@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards.effects;
 
 import it.polimi.ingsw.exception.InvalidTargetException;
+import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.exception.NotFoundException;
 import it.polimi.ingsw.model.cards.constraints.Constraint;
 import it.polimi.ingsw.model.map.Board;
@@ -53,6 +54,8 @@ class EffectVsPlayerTest {
         try {
             test.apply(target,null);
         } catch (InvalidTargetException e) {
+            e.printStackTrace();
+        } catch (NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());

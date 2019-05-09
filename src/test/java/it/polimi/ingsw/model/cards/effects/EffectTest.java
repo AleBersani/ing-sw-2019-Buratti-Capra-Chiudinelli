@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards.effects;
 
 import it.polimi.ingsw.exception.InvalidTargetException;
+import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.exception.NotFoundException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TargetParameter;
@@ -62,7 +63,7 @@ class EffectTest {
     }
 
     @Test
-    void adjacentRoomCheck() {
+    void adjacentRoomCheck(){
         try {
             owner.setPosition(board.find(1,2));
         } catch (NotFoundException e) {
@@ -77,7 +78,11 @@ class EffectTest {
         constraints.add(adjacentRoom);
         constrainPositivity.add(true);
         previousTarget.get(0).add(enemy);
-        assertTrue(effect.constraintsCheck(target,previousTarget));
+        try {
+            assertTrue(effect.constraintsCheck(target,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -98,7 +103,11 @@ class EffectTest {
         constrainPositivity.add(false);
         target.setEnemyPlayer(enemy);
         target.setConstraintSquare(enemy.getPosition());
-        assertTrue(effect.constraintsCheck(target,previousTarget));
+        try {
+            assertTrue(effect.constraintsCheck(target,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -119,7 +128,11 @@ class EffectTest {
         constrainPositivity.add(false);
         target.setEnemyPlayer(enemy);
         target.setConstraintSquare(enemy.getPosition());
-        assertFalse(effect.constraintsCheck(target,previousTarget));
+        try {
+            assertFalse(effect.constraintsCheck(target,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -147,7 +160,11 @@ class EffectTest {
         previousTarget.get(0).add(enemy3);
         target.setEnemyPlayer(enemy);
         target.setConstraintSquare(enemy.getPosition());
-        assertTrue(effect.constraintsCheck(target,previousTarget));
+        try {
+            assertTrue(effect.constraintsCheck(target,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -188,6 +205,10 @@ class EffectTest {
         previousTarget.get(0).add(enemy3);
         target.setEnemyPlayer(enemy);
         target.setConstraintSquare(enemy.getPosition());
-        assertTrue(effect.constraintsCheck(target,previousTarget));
+        try {
+            assertTrue(effect.constraintsCheck(target,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
     }
 }

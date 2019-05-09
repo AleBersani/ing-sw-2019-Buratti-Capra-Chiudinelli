@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.exception.InvalidTargetException;
+import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.model.cards.effects.Effect;
 import it.polimi.ingsw.model.TargetParameter;
 
@@ -13,7 +14,7 @@ public class PowerUp {
         this.name = name;
     }
 
-    public void useEffect(TargetParameter target) throws InvalidTargetException {
+    public void useEffect(TargetParameter target) throws InvalidTargetException, NoOwnerException {
         effect.apply(target,null);
     }
 
