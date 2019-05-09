@@ -20,8 +20,8 @@ public class WeaponOptional extends Weapon {
 
     @Override
     public void fireOptional(ArrayList<TargetParameter> target, int which) throws InvalidTargetException, NoAmmoException, NoOwnerException {
-
-        for(int i=0;i<optionalEffect.get(which).size();i++){
+        int min = calcMinim(target,optionalEffect.get(which).size());
+        for(int i=0;i<min;i++){
             optionalEffect.get(which).get(i).apply(target.get(i),this.getPreviousTarget());
         }
         return;

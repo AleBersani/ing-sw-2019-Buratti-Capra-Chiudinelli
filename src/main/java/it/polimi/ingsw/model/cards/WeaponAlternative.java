@@ -24,8 +24,8 @@ public class WeaponAlternative extends Weapon {
     }
 
     public void fireAlternative(ArrayList<TargetParameter> target) throws InvalidTargetException, NoOwnerException {
-
-        for(int i=0;i<alternativeEffect.size();i++){
+        int min = calcMinim(target,alternativeEffect.size());
+        for(int i=0;i<min;i++){
             alternativeEffect.get(i).apply(target.get(i), this.getPreviousTarget());
         }
 

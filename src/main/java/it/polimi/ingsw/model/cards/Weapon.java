@@ -34,10 +34,22 @@ public abstract class Weapon {
     }
 
     public void fire(ArrayList<TargetParameter> target) throws InvalidTargetException, NoOwnerException {
-        for(int i=0;i<effect.size();i++){
+        int min = calcMinim(target,effect.size());
+        for(int i=0;i<min;i++){
                 effect.get(i).apply(target.get(i), this.previousTarget);
         }
         return;
+    }
+
+    protected int calcMinim(ArrayList<TargetParameter> target, int effectSize) throws InvalidTargetException {
+        int min = effectSize;
+        if(target==null){
+            throw new InvalidTargetException();
+        }
+        if(target.size()<effectSize){
+            min = target.size();
+        }
+        return min;
     }
 
     protected void pay(Player owner,int red, int yellow, int blue, ArrayList<PowerUp> powerUps, int which) throws NoAmmoException {
