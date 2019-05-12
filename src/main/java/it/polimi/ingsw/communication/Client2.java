@@ -1,52 +1,74 @@
 package it.polimi.ingsw.communication;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class Client2 {
-    private String ip;
-    private int port;
+public class Client2 implements Closeable {
+    private final String host;
+    private final int port;
+    private Socket connection;
+    private BufferedReader in;
+    private PrintWriter out;
 
-    public Client2(String ip, int port) {
-        this.ip = ip;
+    public Client2(String host, int port) {
+        this.host = host;
         this.port = port;
     }
 
-    public static void main(String[] args) {
-        Client client = new Client("127.0.0.1", 5000);
-        try {
-            client.startClient();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
+    public void init() throws IOException {
+        connection = new Socket(host, port);
+        in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        // auto-flushing, yeah B)
+        out = new PrintWriter(connection.getOutputStream(), true);
     }
 
+    public String receive() throws IOException {
+        return in.readLine();
+    }
 
-    public void startClient() throws IOException {
-        Socket socket = new Socket(ip, port);
-        System.out.println("Connection established");
-        System.out.println("Enter a nickname, write quit if you want to exit");
-        Scanner socketIn = new Scanner(socket.getInputStream());
-        PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
-        Scanner stdin = new Scanner(System.in);
+    public void send(String message) {
+        out.println(message);
+    }
+
+    public void close() throws IOException {
+        in.close();
+        out.close();
+        connection.close();
+    }
+
+    public static void main(String[] args) throws IOException {
+        if (args.length == 0) {
+            System.out.println("Provide host:port please");
+            return;
+        }
+
+        String[] tokens = args[0].split(":");
+
+        if (tokens.length < 2) {
+            throw new IllegalArgumentException("Bad formatting: " + args[0]);
+        }
+
+        String host = tokens[0];
+        int port = Integer.parseInt(tokens[1]);
+
+        Client client = new Client(host, port);
+        Scanner fromKeyboard = new Scanner(System.in);
+
         try {
-            while (true) {
-                String inputLine = stdin.nextLine();
-                socketOut.println(inputLine);
-                socketOut.flush();
-                String socketLine = socketIn.nextLine();
-                System.out.println(socketLine);
-            }
-        } catch (NoSuchElementException e) {
-            System.out.println("Connection closed");
+            client.init();
+
+            String received = null;
+
+            do {
+                System.out.println(">>> Insert a nickname:");
+                String toSend = fromKeyboard.nextLine();
+                client.send(toSend);
+                received = client.receive();
+                System.out.println(received);
+            } while (received != null);
         } finally {
-            stdin.close();
-            socketIn.close();
-            socketOut.close();
-            socket.close();
+            client.close();
         }
     }
 }
