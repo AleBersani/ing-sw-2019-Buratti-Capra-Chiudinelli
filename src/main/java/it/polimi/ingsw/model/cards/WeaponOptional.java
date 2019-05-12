@@ -12,10 +12,12 @@ import java.util.ArrayList;
 public class WeaponOptional extends Weapon {
 
     private ArrayList<ArrayList<Effect>> optionalEffect= new ArrayList<ArrayList<Effect>>();
+    private ArrayList<String> order;
 
-    public WeaponOptional(String color, String name, int costBlue, int costRed, int costYellow, ArrayList<Effect> effect, ArrayList<ArrayList<Effect>> optionalEffect) {
+    public WeaponOptional(String color, String name, int costBlue, int costRed, int costYellow, ArrayList<Effect> effect, ArrayList<ArrayList<Effect>> optionalEffect, ArrayList<String> order) {
         super(color, name, costBlue, costRed, costYellow, effect);
         this.optionalEffect=optionalEffect;
+        this.order=order;
     }
 
     @Override

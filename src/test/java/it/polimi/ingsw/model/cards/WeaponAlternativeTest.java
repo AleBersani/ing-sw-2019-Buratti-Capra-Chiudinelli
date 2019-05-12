@@ -17,7 +17,6 @@ class WeaponAlternativeTest {
     Player owner;
     Player enemy,enemy2,enemy3;
     Board board;
-    TargetParameter pulito;
     ArrayList<TargetParameter> target;
     ArrayList<Player> prevPlayer;
 

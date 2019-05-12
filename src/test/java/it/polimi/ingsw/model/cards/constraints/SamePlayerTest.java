@@ -31,7 +31,6 @@ class SamePlayerTest {
         test = new SamePlayer(0);
         test1 = new SamePlayer(1);
     }
-    //TODO test con level a 1
 
     @Test
     void samePreviousPlayer() {

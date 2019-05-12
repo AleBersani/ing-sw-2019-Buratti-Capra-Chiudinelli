@@ -44,10 +44,15 @@
             "type": "See",
             "concatenate": true,
             "level": 0
+          },
+          {
+            "type": "SamePlayer",
+            "level": 0
           }
         ],
         "constraintPositivity": [
-          true
+          true,
+          false
         ],
         "damage": 1,
         "mark": 0,
@@ -67,10 +72,15 @@
             "type": "See",
             "concatenate": true,
             "level": 0
+          },
+          {
+            "type": "SamePlayer",
+            "level": 0
           }
         ],
         "constraintPositivity": [
-          true
+          true,
+          false
         ],
         "damage": 2,
         "mark": 0,
@@ -78,5 +88,10 @@
         "removeFromList": false
       }
     ]
+  ],
+  "order":[
+    "0",
+    "0-1",
+    "0-1-2"
   ]
 }

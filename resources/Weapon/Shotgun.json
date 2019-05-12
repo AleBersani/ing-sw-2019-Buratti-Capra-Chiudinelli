@@ -69,10 +69,16 @@
           "concatenate": false,
           "distance": 2,
           "level": 0
+        },
+        {
+          "type": "SameSquare",
+          "controlEnemy": false,
+          "level": 0
         }
       ],
       "constraintPositivity": [
         true,
+        false,
         false
       ],
       "damage": 2,
