@@ -2,7 +2,6 @@
   "weaponPathBase": [
 
     "./resources/Weapon/Whisper.json",
-
     "./resources/Weapon/Heatseeker.json"
   ],
 
@@ -10,11 +9,9 @@
 
     "./resources/Weapon/ElectroScythe.json",
     "./resources/Weapon/TractorBeam.json",
-
     "./resources/Weapon/Furnace.json",
     "./resources/Weapon/Hellion.json",
     "./resources/Weapon/Flamethrower.json",
-
     "./resources/Weapon/Railgun.json",
     "./resources/Weapon/ZX2.json",
     "./resources/Weapon/Shotgun.json",
@@ -29,11 +26,9 @@
     "./resources/Weapon/MachineGun.json",
     "./resources/Weapon/THOR.json",
     "./resources/Weapon/PlasmaGun.json",
-
     "./resources/Weapon/VortexCannon.json",
     "./resources/Weapon/GrenadeLauncher.json",
     "./resources/Weapon/RocketLauncher.json",
-
     "./resources/Weapon/Cyberblade.json"
   ]
 }
