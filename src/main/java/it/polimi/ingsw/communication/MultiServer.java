@@ -2,13 +2,11 @@ package it.polimi.ingsw.communication;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MultiServer extends Server {
 
-    static ArrayList<String> nicknameList = new ArrayList<>();
     private ExecutorService pool;
 
     public MultiServer(int port) {
@@ -19,10 +17,10 @@ public class MultiServer extends Server {
     @Override
     public void lifeCycle() throws IOException {
         init();
+        pool.submit(new Gestor(this));
         while (true) {
             final Socket socket = acceptConnection();
-            pool.submit(new ClientHandler(socket));
-            pool.submit(new Gestor());
+            pool.submit(new ClientHandler(socket,this));
         }
     }
 }
