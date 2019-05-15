@@ -66,7 +66,7 @@ public class Client implements Closeable {
                 client.send(toSend);
                 received = client.receive();
                 System.out.println(received);
-            } while (received != null);
+            } while (received != null && !received.startsWith(">>> logged as"));
         } finally {
             client.close();
         }

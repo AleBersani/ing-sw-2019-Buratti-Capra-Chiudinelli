@@ -27,6 +27,9 @@ public class ClientHandler implements Runnable{
             PrintWriter out = new PrintWriter(os);
 
             String msg;
+            boolean logged;
+
+            logged=false;
 
             do {
                 msg = in.readLine();
@@ -39,12 +42,13 @@ public class ClientHandler implements Runnable{
                         // when you call flush you really send what
                         // you added to the buffer with println.
                         out.flush();
+                        logged=true;
                     }
                     else{
                         out.println(">>> " + msg + " is already use, choose another nickname");
                         out.flush();
                     }
-            } while (msg != null && !msg.startsWith("quit"));
+            } while (msg != null && !msg.startsWith("quit") && !logged);
 
         } finally {
             if (is != null && os != null) {

@@ -22,6 +22,7 @@ public class MultiServer extends Server {
         while (true) {
             final Socket socket = acceptConnection();
             pool.submit(new ClientHandler(socket));
+            pool.submit(new Gestor());
         }
     }
 }

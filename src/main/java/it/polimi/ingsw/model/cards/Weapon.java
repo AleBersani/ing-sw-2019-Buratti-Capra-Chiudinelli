@@ -10,6 +10,9 @@ import it.polimi.ingsw.model.TargetParameter;
 
 import java.util.ArrayList;
 
+/**
+ * this class represent a single weapon
+ */
 public abstract class Weapon {
 
     private String color,name;
@@ -33,6 +36,12 @@ public abstract class Weapon {
         previousTarget.add(new ArrayList<Player>());
     }
 
+    /**
+     * this method uses all the effects in the attribute effect
+     * @param target are the targets of the fire
+     * @throws InvalidTargetException if at least one of the targets is invalid
+     * @throws NoOwnerException when in at least one of the targets there is not the owner or owner position
+     */
     public void fire(ArrayList<TargetParameter> target) throws InvalidTargetException, NoOwnerException {
         int min = calcMinim(target,effect.size());
         for(int i=0;i<min;i++){
