@@ -28,7 +28,7 @@ public class Server implements Closeable {
         init();
         try {
             Socket socket = acceptConnection();
-            ClientHandler clientHandler= new ClientHandler(socket);
+            ClientHandler clientHandler= new ClientHandler(socket,null);
             clientHandler.handleConnection(socket);
         } finally {
             close();
