@@ -11,7 +11,10 @@ import java.util.ArrayList;
  * this class checks if the player shoot at a room
  */
 public class AdjacentRoom extends Constraint {
-
+    /**
+     * constructor class of AdjacentRoom
+     * @param level of the previousTarget control
+     */
     public AdjacentRoom(int level) {
         super(level);
     }
@@ -19,7 +22,10 @@ public class AdjacentRoom extends Constraint {
     /**
      * this method evaluates if the player can shoot at a room through a door
      * @param target contains the room which the player wants to shoot
+     * @param constraintPositivity is not needed in this method
+     * @param previousTarget is the list of targets of the previous effects
      * @return true if the player can shoot at the target room, false if the player can't shoot
+     * @throws NoOwnerException when in target there isn't the owner or the owner position
      */
     @Override
     public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<ArrayList<Player>> previousTarget)throws NoOwnerException {

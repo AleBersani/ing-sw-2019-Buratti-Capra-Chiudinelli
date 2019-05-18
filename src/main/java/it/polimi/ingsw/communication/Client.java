@@ -19,7 +19,6 @@ public class Client implements Closeable {
     public void init() throws IOException {
         connection = new Socket(host, port);
         in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        // auto-flushing, yeah B)
         out = new PrintWriter(connection.getOutputStream(), true);
     }
 
@@ -57,16 +56,14 @@ public class Client implements Closeable {
 
         try {
             client.init();
-
             String received = null;
-
             do {
-                System.out.println(">>> Insert a nickname:");
+                System.out.println(">>> Insert a command:");
                 String toSend = fromKeyboard.nextLine();
                 client.send(toSend);
                 received = client.receive();
                 System.out.println(received);
-            } while (received != null && !received.startsWith(">>> logged as"));
+            } while (received != null);
         } finally {
             client.close();
         }

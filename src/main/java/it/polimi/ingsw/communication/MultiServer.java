@@ -1,5 +1,7 @@
 package it.polimi.ingsw.communication;
 
+import it.polimi.ingsw.controller.Controller;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,17 +12,19 @@ import java.util.concurrent.Executors;
 public class MultiServer implements Closeable {
 
     private final int port;
+    private Controller controller;
     private ServerSocket serverSocket;
     private ExecutorService pool;
 
-    public MultiServer(int port) {
+    public MultiServer(int port, Controller controller) {
         this.port=port;
         pool = Executors.newCachedThreadPool();
+        this.controller=controller;
     }
 
     public void init() throws IOException {
         serverSocket = new ServerSocket(port);
-        System.out.println(">>> Listening on " + port);
+        System.out.println(">>> Listening on port " + port);
     }
 
     public Socket acceptConnection() throws IOException {
@@ -35,7 +39,7 @@ public class MultiServer implements Closeable {
         pool.submit(new Gestor(this));
         while (true) {
             final Socket socket = acceptConnection();
-            pool.submit(new ClientHandler(socket,this));
+            pool.submit(new ClientHandler(socket, controller));
         }
     }
 
