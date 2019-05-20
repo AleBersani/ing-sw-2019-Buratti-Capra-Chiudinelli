@@ -25,7 +25,7 @@ class SeeTest {
 
     @BeforeEach
     public void setup(){
-        board = new Board(null,"./resources/Board/Board1.json");
+        board = new Board(null,"/Board/Board1.json");
         owner = new Player(true,"blue", "Bellocchio");
         enemy = new Player(true, "green", "Lucio");
         enemy2 = new Player(true, "red", "Fabio");

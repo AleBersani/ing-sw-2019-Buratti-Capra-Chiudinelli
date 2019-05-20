@@ -2,15 +2,14 @@ package it.polimi.ingsw.model.map;
 
 import com.google.gson.*;
 import it.polimi.ingsw.exception.NotFoundException;
-import it.polimi.ingsw.model.cards.constraints.*;
-import it.polimi.ingsw.model.cards.effects.*;
-import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.model.cards.constraints.*;
+import it.polimi.ingsw.model.cards.effects.*;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
@@ -44,7 +43,7 @@ public class Board {
         Square temp1,temp2;
 
         try {
-            br = new BufferedReader(new FileReader(type));
+            br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(type)));
             JsonObject jsonObject = gSon.fromJson(br, JsonObject.class);
 
 
@@ -88,8 +87,6 @@ public class Board {
             }
 
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -160,11 +157,7 @@ public class Board {
         int i;
         AmmoTile temp;
 
-        try {
-            br = new BufferedReader(new FileReader("./resources/Ammo.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/Ammo.json")));
         AmmoGson jsonObject = gSon.fromJson(br, AmmoGson.class);
 
         for (i=0; i< jsonObject.get().size();i++) {
@@ -197,11 +190,7 @@ public class Board {
         int i,j;
         PowerUp temp;
         ArrayList<PowerUp>  powerUpListTemp= new ArrayList<>();
-        try {
-            br = new BufferedReader(new FileReader("./resources/PowerUp.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/PowerUp.json")));
         PowerUpGson jsonObject = gSon.fromJson(br, PowerUpGson.class);
 
         for (i=0; i< jsonObject.getPseudo().size();i++) {
@@ -244,11 +233,7 @@ public class Board {
         int i;
         String temp;
         Weapon weapon;
-        try {
-            br = new BufferedReader(new FileReader("./resources/Weapon/WeaponPath.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/Weapon/WeaponPath.json")));
         WeaponPathGson jsonObject = gSon.fromJson(br, WeaponPathGson.class);
 
         gSon = new GsonBuilder()
@@ -258,33 +243,21 @@ public class Board {
 
         for (i=0; i< jsonObject.getBase().size();i++) {
             temp = jsonObject.getBase().get(i);
-            try {
-                br = new BufferedReader(new FileReader(temp));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(temp)));
             weapon= gSon.fromJson(br, WeaponBase.class);
             weaponsList.add(weapon);
         }
 
         for (i=0; i< jsonObject.getAlternative().size();i++) {
             temp = jsonObject.getAlternative().get(i);
-            try {
-                br = new BufferedReader(new FileReader(temp));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(temp)));
             weapon= gSon.fromJson(br, WeaponAlternative.class);
             weaponsList.add(weapon);
         }
 
         for (i=0; i< jsonObject.getOptional().size();i++) {
             temp = jsonObject.getOptional().get(i);
-            try {
-                br = new BufferedReader(new FileReader(temp));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(temp)));
             weapon= gSon.fromJson(br, WeaponOptional.class);
             weaponsList.add(weapon);
         }

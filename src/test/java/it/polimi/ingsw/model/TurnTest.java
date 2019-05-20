@@ -26,7 +26,7 @@ class TurnTest {
         playerList = new ArrayList<>(Arrays.asList(guest,test,loser));
         testMatch = new Match(playerList,3,5,true,"normal");
         turn = new Turn(guest,false,test,testMatch);
-        board = new Board(testMatch, "./resources/Board/Board1.json");
+        board = new Board(testMatch, "/Board/Board1.json");
         damageList = new ArrayList<>(Arrays.asList(test,guest,guest,guest,guest,guest,guest,test,test,test,test));
         damageList2 = new ArrayList<>(Arrays.asList(guest,guest,guest,guest,guest,guest,guest,test,test,test,test));
         damageList3 = new ArrayList<>(Arrays.asList(test,loser,loser,loser,test,test,test,test,test,test,test,test));

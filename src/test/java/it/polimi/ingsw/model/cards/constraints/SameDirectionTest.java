@@ -24,7 +24,7 @@ class SameDirectionTest {
 
     @BeforeEach
     public void setup(){
-        board = new Board(null,"./resources/Board/Board1.json");
+        board = new Board(null,"/Board/Board1.json");
         enemy = new Player(false,"blue", "Fabiano");
         owner = new Player(true,"red", "Fabiolo");
         test = new SameDirection(0);

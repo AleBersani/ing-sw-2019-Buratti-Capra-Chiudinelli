@@ -12,7 +12,6 @@ import it.polimi.ingsw.model.map.Square;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -43,7 +42,7 @@ class PlayerTest {
         guest = new Player(true,"blue", "Franco");
         loser = new Player(false,"yellow", "Paola");
         guest.setMark(testingMarks);
-        board = new Board(testMatch, "./resources/Board/Board1.json");
+        board = new Board(testMatch, "/Board/Board1.json");
         testingDeads = new ArrayList<>();
         turn = new Turn(null,false,guest,null);
         turn.setDeads(testingDeads);

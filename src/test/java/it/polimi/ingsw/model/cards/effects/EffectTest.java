@@ -43,7 +43,7 @@ class EffectTest {
         minimumDistance2 = new MinimumDistance(2,false,0);
         minimumDistance3 = new MinimumDistance(3,false,0);
         adjacentRoom = new AdjacentRoom(0);
-        board = new Board(null,"./resources/Board/Board1.json");
+        board = new Board(null,"/Board/Board1.json");
         owner = new Player(true,"blue", "Bellocchio");
         enemy = new Player(false, "green", "Lucio");
         enemy2 = new Player(false, "red", "Fabio");

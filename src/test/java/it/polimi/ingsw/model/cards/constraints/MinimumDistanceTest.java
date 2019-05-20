@@ -2,16 +2,16 @@ package it.polimi.ingsw.model.cards.constraints;
 
 import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.exception.NotFoundException;
-import it.polimi.ingsw.model.map.Board;
-import it.polimi.ingsw.model.map.Square;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TargetParameter;
+import it.polimi.ingsw.model.map.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MinimumDistanceTest {
 
@@ -27,7 +27,7 @@ class MinimumDistanceTest {
         owner = new Player(true,"blue", "Franco");
         enemy = new Player(false,"red", "Fabiano");
         enemy2 = new Player(false,"green", "Fazzio");
-        board = new Board(null,"./resources/Board/Board1.json");
+        board = new Board(null,"/Board/Board1.json");
         target = new TargetParameter(null,owner,null,null,null,null, null);
         test = new MinimumDistance(2,false,0);
         test1 = new MinimumDistance(3,false,0);

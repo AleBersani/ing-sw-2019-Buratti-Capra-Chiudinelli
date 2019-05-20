@@ -28,7 +28,7 @@ class EffectVsPlayerTest {
     void  setup(){
         owner = new Player(true, "blue", "Franco");
         enemy = new Player(true, "green", "Lucio");
-        board = new Board(null, "./resources/Board/Board1.json");
+        board = new Board(null, "/Board/Board1.json");
         constraints = new ArrayList<Constraint>();
         constrainPositivity = new ArrayList<Boolean>();
         target = new TargetParameter(null, owner, null, null, null,null, null);

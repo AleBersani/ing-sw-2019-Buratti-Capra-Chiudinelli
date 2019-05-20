@@ -20,7 +20,7 @@ class SamePlayerTest {
 
     @BeforeEach
     void setup(){
-        board = new Board(null,"./resources/Board/Board1.json");
+        board = new Board(null,"/Board/Board1.json");
         enemy = new Player(true,"blue", "Fabiano");
         enemy2 = new Player(false,"red", "Fabiolo");
         enemy3 = new Player(false,"red", "Fagiolo");

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.map;
 
-import it.polimi.ingsw.model.Match;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +13,6 @@ class RoomTest {
     ArrayList<Integer> testX;
     ArrayList<Integer> testY;
     ArrayList<String> testColor;
-    Board b;
-    Match m;
 
 
     @BeforeEach

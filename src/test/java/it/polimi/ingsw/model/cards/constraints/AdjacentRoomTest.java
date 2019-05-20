@@ -21,7 +21,7 @@ class AdjacentRoomTest {
 
     @BeforeEach
     public void setup(){
-        board = new Board(null,"./resources/Board/Board1.json");
+        board = new Board(null,"/Board/Board1.json");
         owner = new Player(true,"Yellow","Bruno");
         test = new AdjacentRoom(0);
         previousTarget = new ArrayList<ArrayList<Player>>();

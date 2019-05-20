@@ -1,0 +1,34 @@
+{
+  "weaponPathBase": [
+
+    "/Weapon/Whisper.json",
+    "/Weapon/Heatseeker.json"
+  ],
+
+  "weaponPathAlternative": [
+
+    "/Weapon/Electroscythe.json",
+    "/Weapon/TractorBeam.json",
+    "/Weapon/Furnace.json",
+    "/Weapon/Hellion.json",
+    "/Weapon/Flamethrower.json",
+    "/Weapon/Railgun.json",
+    "/Weapon/ZX2.json",
+    "/Weapon/Shotgun.json",
+    "/Weapon/PowerGlove.json",
+    "/Weapon/Shockwave.json",
+    "/Weapon/Sledgehammer.json"
+  ],
+
+  "weaponPathOptional": [
+
+    "/Weapon/LockRifle.json",
+    "/Weapon/MachineGun.json",
+    "/Weapon/THOR.json",
+    "/Weapon/PlasmaGun.json",
+    "/Weapon/VortexCannon.json",
+    "/Weapon/GrenadeLauncher.json",
+    "/Weapon/RocketLauncher.json",
+    "/Weapon/Cyberblade.json"
+  ]
+}

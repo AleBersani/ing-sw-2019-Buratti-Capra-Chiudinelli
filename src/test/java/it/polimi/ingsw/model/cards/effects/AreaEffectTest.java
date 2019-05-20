@@ -31,7 +31,7 @@ class AreaEffectTest {
         enemy2 = new Player(true, "red", "Fabio");
         enemy3 = new Player(true, "yellow", "Gino");
         enemy4 = new Player(true, "gray", "Lino");
-        board = new Board(null, "./resources/Board/Board1.json");
+        board = new Board(null, "/Board/Board1.json");
         constraints = new ArrayList<Constraint>();
         constrainPositivity = new ArrayList<Boolean>();
         target = new TargetParameter(null, owner, null, null, null,null, null);

@@ -24,7 +24,7 @@ class SameSquareTest {
 
     @BeforeEach
     public void setup(){
-        board = new Board(null,"./resources/Board/Board1.json");
+        board = new Board(null,"/Board/Board1.json");
         owner = new Player(true,"red","Luciano");
         enemy = new Player(false,"blue", "Fabiano");
         enemy2 = new Player(false,"red", "Fabiolo");

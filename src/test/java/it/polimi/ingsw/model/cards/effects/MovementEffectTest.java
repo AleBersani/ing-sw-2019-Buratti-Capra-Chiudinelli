@@ -27,7 +27,7 @@ class MovementEffectTest {
     @BeforeEach
     public void setup() {
         enemy = new Player(true, "green", "Lucio");
-        board = new Board(null, "./resources/Board/Board1.json");
+        board = new Board(null, "/Board/Board1.json");
         constraints = new ArrayList<Constraint>();
         constrainPositivity = new ArrayList<Boolean>();
         target = new TargetParameter(null, owner, enemy, null, null,null, null);

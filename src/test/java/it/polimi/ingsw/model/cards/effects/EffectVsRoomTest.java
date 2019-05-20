@@ -33,7 +33,7 @@ class EffectVsRoomTest {
         enemy = new Player(true, "green", "Lucio");
         enemy2 = new Player(true, "red", "Fabio");
         enemy3 = new Player(true, "yellow", "Gino");
-        board = new Board(null, "./resources/Board/Board1.json");
+        board = new Board(null, "/Board/Board1.json");
         adjacentRoom = new AdjacentRoom(0);
         constraints = new ArrayList<Constraint>(Arrays.asList(adjacentRoom));
         constrainPositivity = new ArrayList<Boolean>(Arrays.asList(true));
