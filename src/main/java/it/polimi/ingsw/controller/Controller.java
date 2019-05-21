@@ -31,6 +31,10 @@ public class Controller {
                 login(command, clientHandler);
                 break;
             }
+            case "quit": {
+                quit(clientHandler);
+                break;
+            }
             case "?": {
                 sendString("help menù", clientHandler);
                 break;
@@ -41,14 +45,37 @@ public class Controller {
         }
     }
 
-    public void login(String[] command, ClientHandler clientHandler){
-        if(!this.getNicknameList().containsKey(command[1])) {
-            this.getNicknameList().put(command[1],clientHandler);
-            System.out.println("<<< " + clientHandler.getSocket().getRemoteSocketAddress() + " is logged as: " + command[1]);
-            sendString(">>> logged as: " + command[1], clientHandler);
+    public void login(String[] command, ClientHandler clientHandler) {
+        if (!clientHandler.isLogged()) {
+            if (!this.getNicknameList().containsKey(command[1])) {
+                this.getNicknameList().put(command[1], clientHandler);
+                System.out.println("<<< " + clientHandler.getSocket().getRemoteSocketAddress() + " is logged as: " + command[1]);
+                sendString(">>> logged as: " + command[1], clientHandler);
+                clientHandler.setLogged(true);
+            } else
+                sendString(">>> " + command[1] + " is already use, choose another nickname", clientHandler);
+
         }
-        else
-            sendString(">>> " + command[1] + " is already use, choose another nickname", clientHandler);
+        else{
+            sendString(">>> You are already logged", clientHandler);
+        }
+    }
+
+    public void quit(ClientHandler clientHandler){
+        String nickName;
+        nickName="gigi";
+        clientHandler.setDisconnect(true);
+        if (nicknameList.containsValue(clientHandler)){
+            for(Map.Entry e : nicknameList.entrySet()){
+                if (e.getValue().equals(clientHandler)){
+                    nickName=(String) e.getKey();
+                    nicknameList.remove(nickName);
+                }
+            }
+            for (ClientHandler c : nicknameList.values()){
+                sendString(nickName+" disconnected", c);
+            }
+        }
     }
 
     public Map<String, ClientHandler> getNicknameList() {
