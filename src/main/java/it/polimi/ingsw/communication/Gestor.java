@@ -5,10 +5,10 @@ import java.util.TimerTask;
 
 public class Gestor implements Runnable {
 
-    Timer timer= new Timer();
-    int timerDuration;
-    boolean timerIsGoing;
-    MultiServer server;
+    private Timer timer= new Timer();
+    private int timerDuration;
+    private boolean timerIsGoing;
+    private MultiServer server;
 
     public Gestor(MultiServer server) {
         this.server=server;

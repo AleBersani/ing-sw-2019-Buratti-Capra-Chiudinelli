@@ -5,11 +5,9 @@ import it.polimi.ingsw.controller.Controller;
 import java.io.*;
 import java.net.Socket;
 
-import static java.lang.System.out;
-
 public class ClientHandler implements Runnable{
 
-    private boolean yourTurn, disconect, logged;
+    private boolean yourTurn, disconnect, logged;
     private Socket socket;
     private Controller controller;
     private InputStream is;
@@ -32,10 +30,10 @@ public class ClientHandler implements Runnable{
         out = new PrintWriter(os,true);
         in = new BufferedReader(new InputStreamReader(is));
         String msg;
-        disconect = false;
+        disconnect = false;
         try {
 
-            while(!disconect){
+            while(!disconnect){
                 msg=read();
                 if(yourTurn) {
                     sendString(msg);
@@ -78,7 +76,17 @@ public class ClientHandler implements Runnable{
         return in.readLine();
     }
 
+    public void setLogged(boolean logged) {
+        this.logged = logged;
+    }
 
+    public void setDisconnect(boolean disconnect) {
+        this.disconnect = disconnect;
+    }
+
+    public boolean isLogged() {
+        return logged;
+    }
 
     public Socket getSocket() {
         return socket;
