@@ -1,20 +1,19 @@
 package it.polimi.ingsw.communication;
 
+import it.polimi.ingsw.view.Form;
+import javafx.application.Application;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class Client implements Closeable {
-    private final String host;
-    private final int port;
+    private static String host;
+    private static int port;
     private Socket connection;
     private BufferedReader in;
     private PrintWriter out;
 
-    public Client(String host, int port) {
-        this.host = host;
-        this.port = port;
-    }
 
     public void init() throws IOException {
         connection = new Socket(host, port);
@@ -36,6 +35,26 @@ public class Client implements Closeable {
         connection.close();
     }
 
+    public void lyfeCycle(Client client){
+        try {
+            String received = null;
+            do {
+                received = client.receive();
+                System.out.println(received);
+            } while (received != null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                client.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    //platform.rundate
+
     public static void main(String[] args) throws IOException {
         if (args.length == 0) {
             System.out.println("Provide host:port please");
@@ -48,24 +67,9 @@ public class Client implements Closeable {
             throw new IllegalArgumentException("Bad formatting: " + args[0]);
         }
 
-        String host = tokens[0];
-        int port = Integer.parseInt(tokens[1]);
+        host = tokens[0];
+        port = Integer.parseInt(tokens[1]);
 
-        Client client = new Client(host, port);
-        Scanner fromKeyboard = new Scanner(System.in);
-
-        try {
-            client.init();
-            String received = null;
-            do {
-                System.out.println(">>> Insert a command:");
-                String toSend = fromKeyboard.nextLine();
-                client.send(toSend);
-                received = client.receive();
-                System.out.println(received);
-            } while (received != null);
-        } finally {
-            client.close();
-        }
+        Application.launch(Form.class,args);
     }
 }
