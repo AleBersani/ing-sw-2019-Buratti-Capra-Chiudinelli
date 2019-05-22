@@ -31,8 +31,9 @@ public class Form extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Client client = new Client();
+        Client client = new Client(this);
         client.init();
+        client.start();
         Stage stage = primaryStage;
         Image image = new Image("/images/loginForm.jpg");
         ImageView mv = new ImageView(image);
