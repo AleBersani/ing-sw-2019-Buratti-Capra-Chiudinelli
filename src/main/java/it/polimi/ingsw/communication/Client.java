@@ -5,7 +5,6 @@ import javafx.application.Application;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class Client extends Thread implements Closeable {
     private static String host;

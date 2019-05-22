@@ -22,21 +22,20 @@ public class MultiServer implements Closeable {
         this.controller=controller;
     }
 
-    public void init() throws IOException {
+    public void init( int timer) throws IOException {
         serverSocket = new ServerSocket(port);
-        System.out.println(">>> Listening on port " + port);
+        print(">>> Listening on port " + port);
+        pool.submit(new Gestor(controller, timer));
     }
 
     public Socket acceptConnection() throws IOException {
         // blocking call
         Socket accepted = serverSocket.accept();
-        System.out.println("Connection accepted: " + accepted.getRemoteSocketAddress());
+        print("Connection accepted: " + accepted.getRemoteSocketAddress());
         return accepted;
     }
 
     public void lifeCycle() throws IOException {
-        init();
-        pool.submit(new Gestor(this));
         while (true) {
             final Socket socket = acceptConnection();
             pool.submit(new ClientHandler(socket, controller));
@@ -46,5 +45,8 @@ public class MultiServer implements Closeable {
     public void close() throws IOException {
         serverSocket.close();
     }
-    
+
+    public void print(String msg){
+        System.out.println(msg);
+    }
 }

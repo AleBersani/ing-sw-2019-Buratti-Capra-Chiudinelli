@@ -717,4 +717,8 @@ public class Player {
     public void setTurn(Turn turn) {
         this.turn = turn;
     }
+
+    public void setFirst(boolean first) {
+        this.first = first;
+    }
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.communication;
 
+import it.polimi.ingsw.controller.Controller;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -8,36 +10,37 @@ public class Gestor implements Runnable {
     private Timer timer= new Timer();
     private int timerDuration;
     private boolean timerIsGoing;
-    private MultiServer server;
+    private Controller controller;
 
-    public Gestor(MultiServer server) {
-        this.server=server;
+    public Gestor(Controller controller, int timer) {
+        this.controller=controller;
+        this.timerDuration=timer;
     }
 
     @Override
     public void run() {
-        /*
+
         timerIsGoing=false;
         while (true){
-            if(server.getNicknameList().size()==3 && !timerIsGoing){
+            if(controller.getNicknameList().size()==3 && !timerIsGoing){
                 startTimer();
                 timerIsGoing=true;
             }
-            if (server.getNicknameList().size()<3){
+            if (controller.getNicknameList().size()<3){
                 resetTimer();
             }
-            if(server.getNicknameList().size()==5){
+            if(controller.getNicknameList().size()==5){
                 timer.cancel();
                 startGame();
                 break;
             }
 
         }
-        */
+
     }
 
     private void startGame() {
-        //TODO
+        controller.startGame();
     }
 
     private void resetTimer() {
