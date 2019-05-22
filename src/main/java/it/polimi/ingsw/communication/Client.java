@@ -2,6 +2,7 @@ package it.polimi.ingsw.communication;
 
 import it.polimi.ingsw.view.Form;
 import javafx.application.Application;
+import javafx.application.Platform;
 
 import java.io.*;
 import java.net.Socket;
@@ -37,6 +38,12 @@ public class Client extends Thread implements Closeable {
         in.close();
         out.close();
         connection.close();
+
+        try {
+            form.stopView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void run(){
@@ -51,7 +58,7 @@ public class Client extends Thread implements Closeable {
         } finally {
             try {
                 this.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
