@@ -9,7 +9,7 @@ public class Gestor implements Runnable {
 
     private Timer timer= new Timer();
     private int timerDuration;
-    private boolean timerIsGoing;
+    private boolean timerIsRunning;
     private Controller controller;
 
     public Gestor(Controller controller, int timer) {
@@ -19,20 +19,20 @@ public class Gestor implements Runnable {
 
     @Override
     public void run() {
-
-        timerIsGoing=false;
-        while (true){
+        this.timerIsRunning = true;
+        boolean timerIsGoing=false;
+        while (timerIsRunning){
             if(controller.getNicknameList().size()==3 && !timerIsGoing){
-                startTimer();
                 timerIsGoing=true;
+                this.startTimer();
             }
             if (controller.getNicknameList().size()<3){
-                resetTimer();
+                timerIsGoing=false;
+                this.resetTimer();
             }
             if(controller.getNicknameList().size()==5){
                 timer.cancel();
-                startGame();
-                break;
+                this.startGame();
             }
 
         }
@@ -40,13 +40,13 @@ public class Gestor implements Runnable {
     }
 
     private void startGame() {
+        this.timerIsRunning = false;
         controller.startGame();
     }
 
     private void resetTimer() {
         //TODO
         timer.cancel();
-        timerIsGoing=false;
     }
 
     private void startTimer() {

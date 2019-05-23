@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Controller {
 
     private Map<String,ClientHandler> nicknameList = new ConcurrentHashMap<>();
+    private Map<String,ClientHandler> disconnected = new ConcurrentHashMap<>();
     private MultiServer server;
     private Match match;
     private int skulls;
@@ -56,6 +57,10 @@ public class Controller {
     }
 
     public void login(String[] command, ClientHandler clientHandler) {
+        if (disconnected.containsKey(command[1])){
+            nicknameList.put(command[1],clientHandler);
+            disconnected.remove(command[1],clientHandler);
+        }
         if(nicknameList.isEmpty()){
             first=true;
         }
@@ -126,6 +131,7 @@ public class Controller {
             for(Map.Entry e : nicknameList.entrySet()){
                 if (e.getValue().equals(clientHandler)){
                     nickName=(String) e.getKey();
+                    disconnected.put((String) e.getKey(),(ClientHandler) e.getValue());
                     nicknameList.remove(nickName);
                 }
             }
@@ -144,11 +150,11 @@ public class Controller {
         //TODO sistemare
         ArrayList<Player> players;
         players=new ArrayList<>();
+        match=new Match(players,nicknameList.size(),skulls, frenzyEn,"",board);
         for(Map.Entry e : nicknameList.entrySet()){
             players.add(new Player(false,"",(String) e.getKey()));
         }
         players.get(0).setFirst(true);
-        match=new Match(players,nicknameList.size(),skulls, frenzyEn,"");
         match.start();
     }
 }

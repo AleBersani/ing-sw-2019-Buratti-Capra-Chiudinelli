@@ -7,10 +7,6 @@ import java.util.ArrayList;
  */
 public class Turn {
     /**
-     * This attribute is the player who plays after the current
-     */
-    private Player next;
-    /**
      * This attribute is the counter of the actions during a turn
      */
     private int actionCounter;
@@ -37,13 +33,11 @@ public class Turn {
 
     /**
      * This constructor instantiates the turn
-     * @param next This parameter is the next player that plays after the current player
      * @param frenzy This parameter is if the turn is frenzy or not
      * @param current This parameter is the current player that is playing
      * @param match This parameter is the match of the turn
      */
-    public Turn(Player next, boolean frenzy, Player current, Match match) {
-        this.next = next;
+    public Turn( boolean frenzy, Player current, Match match) {
         this.frenzy = frenzy;
         this.current = current;
         this.match = match;
@@ -227,5 +221,13 @@ public class Turn {
      */
     public void setFrenzy(boolean frenzy) {
         this.frenzy = frenzy;
+    }
+
+    public void reset( boolean frenzy, Player current) {
+        this.frenzy = frenzy;
+        this.current = current;
+        this.actionCounter=0;
+        this.dead=false;
+        this.deads=new ArrayList<>();
     }
 }
