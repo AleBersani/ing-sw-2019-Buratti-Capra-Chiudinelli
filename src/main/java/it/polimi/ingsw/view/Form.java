@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.communication.Client;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -24,6 +25,7 @@ import javafx.stage.Stage;
 public class Form extends Application {
 
     private Client client;
+    private Stage stage;
 
     public void setClient(Client client) {
         this.client = client;
@@ -34,7 +36,7 @@ public class Form extends Application {
         Client client = new Client(this);
         client.init();
         client.start();
-        Stage stage = primaryStage;
+        this.stage = primaryStage;
         Image image = new Image("/images/loginForm.jpg");
         ImageView mv = new ImageView(image);
         StackPane pane = new StackPane();
@@ -105,5 +107,9 @@ public class Form extends Application {
         stage.setScene(scene);
         stage.setResizable(true);
         stage.show();
+    }
+
+    public void stopView(){
+        Platform.exit();
     }
 }
