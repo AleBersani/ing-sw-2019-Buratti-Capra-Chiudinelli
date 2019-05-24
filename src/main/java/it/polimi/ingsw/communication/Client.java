@@ -23,7 +23,6 @@ public class Client extends Thread implements Closeable {
         connection = new Socket(host, port);
         in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         out = new PrintWriter(connection.getOutputStream(), true);
-
     }
 
     public String receive() throws IOException {

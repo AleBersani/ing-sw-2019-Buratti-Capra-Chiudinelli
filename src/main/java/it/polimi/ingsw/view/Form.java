@@ -2,6 +2,8 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.communication.Client;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,14 +14,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Form extends Application {
@@ -40,15 +41,20 @@ public class Form extends Application {
         Image image = new Image("/images/loginForm.jpg");
         ImageView mv = new ImageView(image);
         StackPane pane = new StackPane();
-        Scene scene = new Scene(pane,1200,800);
+        Scene scene = new Scene(pane,1500,1000);
         Button button = new Button();
+        Button button2 = new Button();
         TextField username = new TextField();
         GridPane grid = new GridPane();
         GridPane.setHalignment(button, HPos.CENTER);
         Rectangle rectangle = new Rectangle(500,400);
         Label text = new Label();
         text.setTextFill(Color.web("#FFD938", 0.8));
-        text.setStyle("-fx-font: 50 helvetica;");
+        text.setStyle("-fx-font: 70 Helvetica;");
+        text.setEffect(new DropShadow());
+        Label infoText = new Label();
+        infoText.setStyle("-fx-font: 15 Helvetica;");
+        infoText.setEffect(new DropShadow());
 
         //stage
         stage.setTitle("Adrenaline");
@@ -60,23 +66,31 @@ public class Form extends Application {
 
         //grid
         ColumnConstraints column1 = new ColumnConstraints();
-        column1.setPercentWidth(15);
+        column1.setPercentWidth(10);
         grid.getColumnConstraints().addAll(column1);
-        RowConstraints row1 = new RowConstraints();
-        row1.setPercentHeight(15);
-        grid.getRowConstraints().addAll(row1);
-        grid.add(text,0,0);
-        grid.add(username,0,1);
-        grid.add(button,0,2);
-        grid.widthProperty().divide(2.4);
-        grid.heightProperty().divide(2);
+        ColumnConstraints column2 = new ColumnConstraints();
+        column2.setPercentWidth(10);
+        grid.getColumnConstraints().addAll(column2);
+        grid.add(text,0,0,2,1);
+        grid.addRow(1, new Text(""));
+        grid.add(username,0,2,2,1);
+        grid.addRow(3, new Text(""));
+        grid.add(button,0,4);
+        grid.add(button2,1,4);
+        grid.add(infoText,0,5,2,1);
         grid.setAlignment(Pos.CENTER);
 
         //text
-        text.setText("Login");
-        text.prefWidthProperty().bind(pane.widthProperty().divide(7));
-        text.prefHeightProperty().bind(pane.heightProperty().divide(7));
+        GridPane.setHalignment(text, HPos.CENTER);
         text.setAlignment(Pos.CENTER);
+        text.setText("Login");
+        text.prefWidthProperty().bind(pane.widthProperty().divide(5));
+
+        //info text
+        GridPane.setHalignment(infoText, HPos.CENTER);
+        infoText.setAlignment(Pos.CENTER);
+        infoText.prefWidthProperty().bind(pane.widthProperty().divide(7));
+        infoText.prefHeightProperty().bind(pane.heightProperty().divide(7));
 
         //username
         username.setPromptText("Username");
@@ -84,21 +98,39 @@ public class Form extends Application {
         username.prefHeightProperty().bind(pane.heightProperty().divide(20));
 
         //button
-        button.setText("Login");
-        button.prefWidthProperty().bind(pane.widthProperty().divide(20));
-        button.prefHeightProperty().bind(pane.heightProperty().divide(20));
+        GridPane.setHalignment(button, HPos.CENTER);
+        button.setAlignment(Pos.CENTER);
+        button.setText("LOGIN");
+        button.prefWidthProperty().bind(pane.widthProperty().divide(15));
+        button.prefHeightProperty().bind(pane.heightProperty().divide(22));
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 client.send("login " + username.getText());
+                if(username.getText().equals("prova")) {
+                    infoText.setTextFill(Color.web("#66ff66", 0.8));
+                    infoText.setText("Successfully logged");
+                }
+                else {
+                    infoText.setTextFill(Color.web("#ff0000", 0.8));
+                    infoText.setText("Username already in use");
+                }
             }
         });
+
+        //button2
+        GridPane.setHalignment(button2, HPos.CENTER);
+        button2.setAlignment(Pos.CENTER);
+        button2.setText("EXIT");
+        button2.prefWidthProperty().bind(pane.widthProperty().divide(15));
+        button2.prefHeightProperty().bind(pane.heightProperty().divide(22));
+
 
         //rectangle
         rectangle.setFill(Color.rgb(0, 0, 0, 0.5));
         rectangle.setEffect(new BoxBlur());
-        rectangle.widthProperty().bind(pane.widthProperty().divide(4));
-        rectangle.heightProperty().bind(pane.heightProperty().divide(3));
+        rectangle.widthProperty().bind(pane.widthProperty());
+        rectangle.heightProperty().bind(pane.heightProperty().divide(2));
 
         pane.getChildren().add(mv);
         pane.getChildren().add(rectangle);
