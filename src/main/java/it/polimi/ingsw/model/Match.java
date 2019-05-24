@@ -71,31 +71,29 @@ public class Match {
      * @param frenzyEn This parameter is the frenzy enable, true if the players want the frenzy turn, false otherwise
      * @param mode This parameter is the mode that the players are playing
      */
-    public Match(ArrayList<Player> players, int numPlayers, int skulls, boolean frenzyEn, String mode) {
+    public Match(ArrayList<Player> players, int numPlayers, int skulls, boolean frenzyEn, String mode, String type) {
         this.players = new CircularArrayList<>(players);
         this.numPlayers = numPlayers;
         this.skulls = skulls;
         this.frenzyEn = frenzyEn;
         this.mode = mode;
-        i=0;
+        this.i=0;
+        this.turn=new Turn(false,null,this);
+        this.board= new Board(this, type);
     }
 
     /**
      * This method starts the game
      */
     public void start() {
-        getTurn().endTurn();
+        this.turn.endTurn();
     }
 
     /**
      * This method starts the turn
      */
     public void startTurn() {
-        this.turn = new Turn(this.players.get(i+1),this.setFrenzy(),this.players.get(i),this);
-        /* TODO PUT IT IN CONTROLLER
-        if(getTurn().getCurrent().getPosition() == null)
-            throw new SpawnNeedException();
-         */
+        this.turn.reset(this.frenzyEn, players.get(i));
         i++;
     }
 

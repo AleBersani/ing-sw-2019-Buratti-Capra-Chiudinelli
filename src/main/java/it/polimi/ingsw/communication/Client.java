@@ -2,23 +2,28 @@ package it.polimi.ingsw.communication;
 
 import it.polimi.ingsw.view.Form;
 import javafx.application.Application;
+import javafx.application.Platform;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
 
-public class Client implements Closeable {
+public class Client extends Thread implements Closeable {
     private static String host;
     private static int port;
     private Socket connection;
     private BufferedReader in;
     private PrintWriter out;
+    private Form form;
 
+    public Client(Form form) {
+        this.form = form;
+    }
 
     public void init() throws IOException {
         connection = new Socket(host, port);
         in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         out = new PrintWriter(connection.getOutputStream(), true);
+
     }
 
     public String receive() throws IOException {
@@ -33,21 +38,27 @@ public class Client implements Closeable {
         in.close();
         out.close();
         connection.close();
+
+        try {
+            form.stopView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void lyfeCycle(Client client){
+    public void run(){
         try {
             String received = null;
             do {
-                received = client.receive();
+                received = this.receive();
                 System.out.println(received);
             } while (received != null);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
-                client.close();
-            } catch (IOException e) {
+                this.close();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

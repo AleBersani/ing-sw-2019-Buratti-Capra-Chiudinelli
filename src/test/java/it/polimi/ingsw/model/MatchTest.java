@@ -23,10 +23,10 @@ class MatchTest {
         nest = new Player(false,"blue", "Matteo");
         best = new Player(false,"blue", "Luca");
         playerList = new ArrayList<>(Arrays.asList(guest,test,loser,nest,best));
-        turn = new Turn(null,false,null,matchTest);
-        turn2 = new Turn(null,false,null,matchTest2);
-        matchTest = new Match(playerList,5,4,false,"normal");
-        matchTest2 = new Match(playerList,3,0,true,"normal");
+        turn = new Turn(false,null,matchTest);
+        turn2 = new Turn(false,null,matchTest2);
+        matchTest = new Match(playerList,5,4,false,"normal", "/Board/Board1.json");
+        matchTest2 = new Match(playerList,3,0,true,"normal", "/Board/Board1.json");
         killShotTrack = new ArrayList<>(Arrays.asList(guest,guest,test,loser,loser,test));
 
     }

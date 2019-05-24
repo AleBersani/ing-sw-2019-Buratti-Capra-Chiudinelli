@@ -44,7 +44,7 @@ class PlayerTest {
         guest.setMark(testingMarks);
         board = new Board(testMatch, "/Board/Board1.json");
         testingDeads = new ArrayList<>();
-        turn = new Turn(null,false,guest,null);
+        turn = new Turn(false,guest,null);
         turn.setDeads(testingDeads);
         teleporter = new PowerUp("red","teleport");
         teleporter.setEffect(new MovementEffect(0,0,0,"teleport",list,list2,2147483647,false,false,false,true));
@@ -58,7 +58,7 @@ class PlayerTest {
         guest.setPowerUps(testingPowerUp);
         playerList = new ArrayList<>(Arrays.asList(guest,test,loser));
         ammoTileTest = new AmmoTile(2,1,0,0);
-        testMatch = new Match(playerList,3,5,true,"normal");
+        testMatch = new Match(playerList,3,5,true,"normal","/Board/Board1.json" );
         lockRifle = new Weapon("blue", "Lock rifle", 2, 0, 0, null) {
             @Override
             protected boolean canPay(ArrayList<Integer> payment, int which) {

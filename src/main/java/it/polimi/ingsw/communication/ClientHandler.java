@@ -14,6 +14,7 @@ public class ClientHandler implements Runnable{
     private OutputStream os;
     private PrintWriter out;
     private BufferedReader in;
+    private String serviceMessage;
 
     public ClientHandler(Socket socket, Controller controller) {
         this.socket=socket;
@@ -22,6 +23,7 @@ public class ClientHandler implements Runnable{
         this.is=null;
         this.os=null;
         this.logged=false;
+        this.serviceMessage="Insert a command:";
     }
 
     public void handleConnection(Socket clientConnection) throws IOException {
@@ -33,13 +35,30 @@ public class ClientHandler implements Runnable{
         disconnect = false;
         try {
 
-            while(!disconnect){
-                msg=read();
-                if(yourTurn) {
-                    sendString(msg);
+            while(!disconnect) {
+                print(serviceMessage);
+                msg = read();
+                switch (serviceMessage){
+                    case "Insert a command:" : {
+                        if (yourTurn) {
+                            controller.understandMessage(msg, this);
+                        } else
+                            print("This is not your turn, please wait for it");
+                        break;
+                    }
+                    case "Select a board":{
+                        controller.selectBoard(msg,this);
+                        break;
+                    }
+                    case "Select the number of skulls":{
+                        controller.setSkulls(msg,this);
+                        break;
+                    }
+                    case "Do you like to play with frenzy? Y/N":{
+                        controller.setFrenzy(msg,this);
+                    }
+
                 }
-                else
-                    print("This is not your turn, please wait for it");
             }
         } finally {
             if ((os != null)&&(is != null)) {
@@ -52,10 +71,6 @@ public class ClientHandler implements Runnable{
 
     public String readString(){
         return null;
-    }
-
-    public void sendString(String msg){
-        controller.understandMessage(msg,this);
     }
 
     @Override
@@ -90,5 +105,9 @@ public class ClientHandler implements Runnable{
 
     public Socket getSocket() {
         return socket;
+    }
+
+    public void setServiceMessage(String serviceMessage) {
+        this.serviceMessage = serviceMessage;
     }
 }

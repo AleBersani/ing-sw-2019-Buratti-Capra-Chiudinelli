@@ -1,6 +1,10 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.communication.Client;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -20,7 +24,19 @@ import javafx.stage.Stage;
 
 public class Form extends Application {
 
-    public void start(Stage stage){
+    private Client client;
+    private Stage stage;
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Client client = new Client(this);
+        client.init();
+        client.start();
+        this.stage = primaryStage;
         Image image = new Image("/images/loginForm.jpg");
         ImageView mv = new ImageView(image);
         StackPane pane = new StackPane();
@@ -71,6 +87,12 @@ public class Form extends Application {
         button.setText("Login");
         button.prefWidthProperty().bind(pane.widthProperty().divide(20));
         button.prefHeightProperty().bind(pane.heightProperty().divide(20));
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                client.send("login " + username.getText());
+            }
+        });
 
         //rectangle
         rectangle.setFill(Color.rgb(0, 0, 0, 0.5));
@@ -86,7 +108,8 @@ public class Form extends Application {
         stage.setResizable(true);
         stage.show();
     }
-    public static void main(String [] args){
-        launch(args);
+
+    public void stopView(){
+        Platform.exit();
     }
 }
