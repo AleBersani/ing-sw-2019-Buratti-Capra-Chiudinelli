@@ -328,7 +328,13 @@ public class LoginGUI {
         title5.setEffect(new DropShadow());
 
         //button
-        Button button = new Button("EXIT");
+        Button buttonExit = new Button("EXIT");
+        buttonExit.setOnAction(e -> {
+            messageHandler.setToSend("quit");
+            synchronized (client){
+                client.notify();
+            }
+        });
 
         //grid
         grid.add(title,0,0);
@@ -339,7 +345,7 @@ public class LoginGUI {
         grid.add(title4,0,5);
         grid.add(title5,0,6);
         grid.addRow(7,new Text (""));
-        grid.add(button,0,8);
+        grid.add(buttonExit,0,8);
         grid.setAlignment(Pos.CENTER);
 
         //title
@@ -384,10 +390,10 @@ public class LoginGUI {
         title5.prefHeightProperty().bind(pane.heightProperty().divide(20));
 
         //button
-        GridPane.setHalignment(button, HPos.CENTER);
-        button.setAlignment(Pos.CENTER);
-        button.prefWidthProperty().bind(pane.widthProperty().divide(10));
-        button.prefHeightProperty().bind(pane.heightProperty().divide(20));
+        GridPane.setHalignment(buttonExit, HPos.CENTER);
+        buttonExit.setAlignment(Pos.CENTER);
+        buttonExit.prefWidthProperty().bind(pane.widthProperty().divide(10));
+        buttonExit.prefHeightProperty().bind(pane.heightProperty().divide(20));
 
         //button full screen
         StackPane.setAlignment(fullScreen, Pos.TOP_RIGHT);
