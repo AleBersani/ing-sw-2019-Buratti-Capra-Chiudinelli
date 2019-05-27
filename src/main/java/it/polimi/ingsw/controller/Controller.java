@@ -5,6 +5,7 @@ import it.polimi.ingsw.communication.server.MultiServer;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -82,6 +83,9 @@ public class Controller {
             setGameRules(clientHandler);
             first=false;
         }
+        else{
+            clientHandler.setServiceMessage("Now you are in the waiting room");
+        }
     }
 
     private void setGameRules( ClientHandler clientHandler) {
@@ -108,18 +112,32 @@ public class Controller {
             case "Y": {
                 frenzyEn = true;
                 sendString("You enabled frenzy",clientHandler);
-                clientHandler.setServiceMessage("Insert a command:");
+                clientHandler.setServiceMessage("Now you are in the waiting room");
                 break;
             }
             case "N": {
                 frenzyEn = false;
                 sendString("You disabled frenzy", clientHandler);
-                clientHandler.setServiceMessage("Insert a command:");
+                clientHandler.setServiceMessage("Now you are in the waiting room");
                 break;
             }
             default:{
                 sendString("Please respond Y or N", clientHandler);
             }
+        }
+    }
+
+    public void waitingRoom(String msg, ClientHandler clientHandler){
+        if(msg.equals("quit")){
+            this.quit(clientHandler);
+        }
+        else{
+            String playersNames = new String();
+            String[] allNames = nicknameList.keySet().toArray(new String[0]);
+            for(String name: allNames){
+                playersNames =  name + "-" + playersNames;
+            }
+            sendString(playersNames,clientHandler);
         }
     }
 

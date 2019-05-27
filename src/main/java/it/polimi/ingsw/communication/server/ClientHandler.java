@@ -56,6 +56,11 @@ public class ClientHandler implements Runnable{
                     }
                     case "Do you like to play with frenzy? Y/N":{
                         controller.setFrenzy(msg,this);
+                        break;
+                    }
+                    case "Now you are in the waiting room":{
+                        controller.waitingRoom(msg,this);
+                        break;
                     }
 
                 }

@@ -24,6 +24,10 @@ public class MessageHandler {
 
     }
 
+    public String getReceive() {
+        return receive;
+    }
+
     public void setReceive(String receive) {
         this.receive = receive;
     }
@@ -60,6 +64,10 @@ public class MessageHandler {
             }
             case "Do you like to play with frenzy? Y/N": {
 
+                break;
+            }
+            case "Now you are in the waiting room": {
+                view.waitingRoomView();
                 break;
             }
             default: {

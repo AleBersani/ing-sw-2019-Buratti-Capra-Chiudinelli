@@ -4,6 +4,8 @@ public interface ViewInterface {
 
     void boardSettingView();
 
+    void waitingRoomView();
+
     void stopView();
 
 }

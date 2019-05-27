@@ -87,9 +87,20 @@ public class GUI extends Application implements ViewInterface {
         loginGUI.menuGridSetting(stage,client,messageHandler);
     }
 
+    private void waitingRoom(){
+        this.clearPane();
+        loginGUI.loginImageSetting(stage);
+        loginGUI.roomGridSetting(stage,client,messageHandler);
+    }
+
     @Override
     public void boardSettingView() {
         Platform.runLater(this::menugrid);
+    }
+
+    @Override
+    public void waitingRoomView() {
+        Platform.runLater(this::waitingRoom);
     }
 
     @Override
