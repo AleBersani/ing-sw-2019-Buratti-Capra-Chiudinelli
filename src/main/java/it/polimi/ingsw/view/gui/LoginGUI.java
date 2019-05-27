@@ -127,8 +127,12 @@ public class LoginGUI {
         fullScreen.prefWidthProperty().bind(pane.widthProperty().divide(25));
         fullScreen.prefHeightProperty().bind(pane.heightProperty().divide(25));
         fullScreen.setOnAction(e -> {
-            stage.setFullScreenExitHint("");
-            stage.setFullScreen(true);
+            if(!stage.isFullScreen()){
+                stage.setFullScreenExitHint("");
+                stage.setFullScreen(true);
+            }
+            else
+                stage.setFullScreen(false);
         });
 
         pane.getChildren().add(grid);
@@ -269,8 +273,12 @@ public class LoginGUI {
         fullScreen.prefWidthProperty().bind(pane.widthProperty().divide(25));
         fullScreen.prefHeightProperty().bind(pane.heightProperty().divide(25));
         fullScreen.setOnAction(e -> {
-            stage.setFullScreenExitHint("");
-            stage.setFullScreen(true);
+            if(!stage.isFullScreen()){
+                stage.setFullScreenExitHint("");
+                stage.setFullScreen(true);
+            }
+            else
+                stage.setFullScreen(false);
         });
 
         pane.getChildren().add(grid);
@@ -387,8 +395,12 @@ public class LoginGUI {
         fullScreen.prefWidthProperty().bind(pane.widthProperty().divide(25));
         fullScreen.prefHeightProperty().bind(pane.heightProperty().divide(25));
         fullScreen.setOnAction(e -> {
-            stage.setFullScreenExitHint("");
-            stage.setFullScreen(true);
+            if(!stage.isFullScreen()){
+                stage.setFullScreenExitHint("");
+                stage.setFullScreen(true);
+            }
+            else
+                stage.setFullScreen(false);
         });
 
         pane.getChildren().add(grid);
