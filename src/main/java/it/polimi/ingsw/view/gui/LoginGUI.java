@@ -51,6 +51,7 @@ public class LoginGUI {
         stage.getScene().setRoot(pane);
         Button button = new Button();
         Button button2 = new Button();
+        Button fullScreen = new Button("FS");
         TextField username = new TextField();
         GridPane grid = new GridPane();
         Label text = new Label();
@@ -105,16 +106,7 @@ public class LoginGUI {
                 synchronized (client){
                  client.notify();
                 }
-                if(username.getText().equals("prova")) {
-                    infoText.setTextFill(Color.web("#66ff66", 0.8));
-                    infoText.setText("Successfully logged");
-                }
-                else {
-                    infoText.setTextFill(Color.web("#ff0000", 0.8));
-                    infoText.setText("Username already in use");
-                }
-            }
-        );
+            });
 
         //exit
         button2.setOnAction(e -> {
@@ -129,7 +121,18 @@ public class LoginGUI {
         button2.prefWidthProperty().bind(pane.widthProperty().divide(15));
         button2.prefHeightProperty().bind(pane.heightProperty().divide(22));
 
+        //button full screen
+        StackPane.setAlignment(fullScreen, Pos.TOP_RIGHT);
+        fullScreen.setAlignment(Pos.CENTER);
+        fullScreen.prefWidthProperty().bind(pane.widthProperty().divide(25));
+        fullScreen.prefHeightProperty().bind(pane.heightProperty().divide(25));
+        fullScreen.setOnAction(e -> {
+            stage.setFullScreenExitHint("");
+            stage.setFullScreen(true);
+        });
+
         pane.getChildren().add(grid);
+        pane.getChildren().add(fullScreen);
     }
 
     public void menuGridSetting(Stage stage, Client client, MessageHandler messageHandler){
@@ -138,6 +141,7 @@ public class LoginGUI {
         GridPane grid = new GridPane();
         Button doneButton = new Button("DONE");
         Button defaultButton = new Button("DEFAULT");
+        Button fullScreen = new Button("FS");
 
         //title label
         Label title = new Label();
@@ -165,13 +169,6 @@ public class LoginGUI {
         infoMenu3.setStyle("-fx-font: 30 Helvetica;");
         infoMenu3.setEffect(new DropShadow());
         GridPane.setHalignment(infoMenu3, HPos.CENTER);
-
-        //info text
-        Label infoText = new Label();
-        infoText.setStyle("-fx-font: 20 Helvetica;");
-        infoText.prefWidthProperty().bind(pane.widthProperty().divide(10));
-        infoText.prefHeightProperty().bind(pane.heightProperty().divide(10));
-        infoText.setEffect(new DropShadow());
 
         //TODO automatizzare le opzioni di getItem
 
@@ -231,7 +228,6 @@ public class LoginGUI {
         grid.add(defaultButton,3,6);
         grid.add(title4,4,4);
         grid.addRow(5,new Text("\n\n"));
-        grid.add(infoText,0,7,5,1);
         grid.setAlignment(Pos.CENTER);
 
         //title
@@ -267,13 +263,25 @@ public class LoginGUI {
         defaultButton.prefWidthProperty().bind(pane.widthProperty().divide(10));
         defaultButton.prefHeightProperty().bind(pane.heightProperty().divide(20));
 
+        //button full screen
+        StackPane.setAlignment(fullScreen, Pos.TOP_RIGHT);
+        fullScreen.setAlignment(Pos.CENTER);
+        fullScreen.prefWidthProperty().bind(pane.widthProperty().divide(25));
+        fullScreen.prefHeightProperty().bind(pane.heightProperty().divide(25));
+        fullScreen.setOnAction(e -> {
+            stage.setFullScreenExitHint("");
+            stage.setFullScreen(true);
+        });
+
         pane.getChildren().add(grid);
+        pane.getChildren().add(fullScreen);
     }
 
     public void roomGridSetting(Stage stage, Client client, MessageHandler messageHandler){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         GridPane grid = new GridPane();
+        Button fullScreen = new Button("FS");
 
         //title label
         Label title = new Label();
@@ -373,6 +381,17 @@ public class LoginGUI {
         button.prefWidthProperty().bind(pane.widthProperty().divide(10));
         button.prefHeightProperty().bind(pane.heightProperty().divide(20));
 
+        //button full screen
+        StackPane.setAlignment(fullScreen, Pos.TOP_RIGHT);
+        fullScreen.setAlignment(Pos.CENTER);
+        fullScreen.prefWidthProperty().bind(pane.widthProperty().divide(25));
+        fullScreen.prefHeightProperty().bind(pane.heightProperty().divide(25));
+        fullScreen.setOnAction(e -> {
+            stage.setFullScreenExitHint("");
+            stage.setFullScreen(true);
+        });
+
         pane.getChildren().add(grid);
+        pane.getChildren().add(fullScreen);
     }
 }
