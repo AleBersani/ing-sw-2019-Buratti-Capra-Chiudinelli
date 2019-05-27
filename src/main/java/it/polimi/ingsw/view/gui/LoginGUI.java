@@ -1,6 +1,7 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.communication.Client;
+import it.polimi.ingsw.communication.client.Client;
+import it.polimi.ingsw.communication.client.MessageHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -45,7 +46,7 @@ public class LoginGUI {
         stage.setScene(stage.getScene());
     }
 
-    public void loginGridSetting(Stage stage, Client client){
+    public void loginGridSetting(Stage stage, Client client, MessageHandler messageHandler){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         Button button = new Button();
@@ -99,10 +100,11 @@ public class LoginGUI {
         button.setText("LOGIN");
         button.prefWidthProperty().bind(pane.widthProperty().divide(15));
         button.prefHeightProperty().bind(pane.heightProperty().divide(22));
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                client.send("login " + username.getText());
+        button.setOnAction(e -> {
+                messageHandler.setToSend("login " + username.getText());
+                synchronized (client){
+                 client.notify();
+                }
                 if(username.getText().equals("prova")) {
                     infoText.setTextFill(Color.web("#66ff66", 0.8));
                     infoText.setText("Successfully logged");
@@ -112,9 +114,15 @@ public class LoginGUI {
                     infoText.setText("Username already in use");
                 }
             }
-        });
+        );
 
-        //button2
+        //exit
+        button2.setOnAction(e -> {
+            messageHandler.setToSend("quit");
+            synchronized (client){
+                client.notify();
+            }
+        });
         GridPane.setHalignment(button2, HPos.CENTER);
         button2.setAlignment(Pos.CENTER);
         button2.setText("EXIT");
@@ -124,12 +132,12 @@ public class LoginGUI {
         pane.getChildren().add(grid);
     }
 
-    public void menuGridSetting(Stage stage){
+    public void menuGridSetting(Stage stage, Client client, MessageHandler messageHandler){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         GridPane grid = new GridPane();
-        Button button = new Button("DONE");
-        Button button2 = new Button("EXIT");
+        Button doneButton = new Button("DONE");
+        Button defaultButton = new Button("DEFAULT");
 
         //title label
         Label title = new Label();
@@ -165,22 +173,50 @@ public class LoginGUI {
         infoText.prefHeightProperty().bind(pane.heightProperty().divide(10));
         infoText.setEffect(new DropShadow());
 
-        //TODO AUTOMATE GETITEMS
+        //TODO automatizzare le opzioni di getItem
 
         //choice box 2
-        ChoiceBox title2 = new ChoiceBox();
+        ChoiceBox<String> title2 = new ChoiceBox<>();
         title2.getItems().addAll("1","2");
+        title2.getSelectionModel().selectFirst();
         title2.setTooltip(new Tooltip("Select a board"));
 
         //choice box 3
-        ChoiceBox title3 = new ChoiceBox();
+        ChoiceBox<String> title3 = new ChoiceBox<>();
         title3.getItems().addAll("5","8");
+        title3.getSelectionModel().selectFirst();
         title3.setTooltip(new Tooltip("Select the number of skulls"));
 
         //choice box 4
-        ChoiceBox title4 = new ChoiceBox();
+        ChoiceBox<String> title4 = new ChoiceBox<>();
         title4.getItems().addAll("Yes","No");
+        title4.getSelectionModel().selectFirst();
         title4.setTooltip(new Tooltip("Select if you want to enable frenzy"));
+
+        //done Button
+        doneButton.setOnAction(e -> {
+            synchronized (client){
+                messageHandler.slowSendAdd(title2.getValue());
+                messageHandler.slowSendAdd(title3.getValue());
+                if(title4.getValue().equals("Yes")){
+                    messageHandler.slowSendAdd("Y");
+                }
+                else{
+                    messageHandler.slowSendAdd("N");
+                }
+                client.notify();
+                client.setGo(true);
+            }
+        });
+        doneButton.setTooltip(new Tooltip("Press if you want to play with this settings"));
+
+        //default Button
+        defaultButton.setOnAction(e -> {
+            title2.getSelectionModel().selectFirst();
+            title3.getSelectionModel().selectFirst();
+            title4.getSelectionModel().selectFirst();
+        });
+        defaultButton.setTooltip(new Tooltip("Press if you want to return to default settings"));
 
         //grid
         grid.add(title,0,0,5,1);
@@ -190,9 +226,9 @@ public class LoginGUI {
         grid.add(infoMenu3,4,2);
         grid.addRow(3,new Text(""));
         grid.add(title2,0,4);
-        grid.add(button,1,6);
+        grid.add(doneButton,1,6);
         grid.add(title3,2,4);
-        grid.add(button2,3,6);
+        grid.add(defaultButton,3,6);
         grid.add(title4,4,4);
         grid.addRow(5,new Text("\n\n"));
         grid.add(infoText,0,7,5,1);
@@ -219,22 +255,22 @@ public class LoginGUI {
         title4.prefWidthProperty().bind(pane.widthProperty().divide(10));
         title4.prefHeightProperty().bind(pane.heightProperty().divide(20));
 
-        //button
-        GridPane.setHalignment(button, HPos.CENTER);
-        button.setAlignment(Pos.CENTER);
-        button.prefWidthProperty().bind(pane.widthProperty().divide(10));
-        button.prefHeightProperty().bind(pane.heightProperty().divide(20));
+        //doneButton
+        GridPane.setHalignment(doneButton, HPos.CENTER);
+        doneButton.setAlignment(Pos.CENTER);
+        doneButton.prefWidthProperty().bind(pane.widthProperty().divide(10));
+        doneButton.prefHeightProperty().bind(pane.heightProperty().divide(20));
 
-        //button2
-        GridPane.setHalignment(button2, HPos.CENTER);
-        button2.setAlignment(Pos.CENTER);
-        button2.prefWidthProperty().bind(pane.widthProperty().divide(10));
-        button2.prefHeightProperty().bind(pane.heightProperty().divide(20));
+        //exitButton
+        GridPane.setHalignment(defaultButton, HPos.CENTER);
+        defaultButton.setAlignment(Pos.CENTER);
+        defaultButton.prefWidthProperty().bind(pane.widthProperty().divide(10));
+        defaultButton.prefHeightProperty().bind(pane.heightProperty().divide(20));
 
         pane.getChildren().add(grid);
     }
 
-    public void roomGridSetting(Stage stage){
+    public void roomGridSetting(Stage stage, Client client, MessageHandler messageHandler){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         GridPane grid = new GridPane();

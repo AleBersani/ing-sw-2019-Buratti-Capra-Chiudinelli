@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.communication.ClientHandler;
-import it.polimi.ingsw.communication.MultiServer;
+import it.polimi.ingsw.communication.server.ClientHandler;
+import it.polimi.ingsw.communication.server.MultiServer;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
 import java.io.IOException;

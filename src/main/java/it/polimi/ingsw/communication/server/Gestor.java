@@ -1,4 +1,4 @@
-package it.polimi.ingsw.communication;
+package it.polimi.ingsw.communication.server;
 
 import it.polimi.ingsw.controller.Controller;
 

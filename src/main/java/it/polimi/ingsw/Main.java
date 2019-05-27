@@ -1,6 +1,5 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.communication.MultiServer;
 import it.polimi.ingsw.controller.Controller;
 
 import java.io.IOException;
