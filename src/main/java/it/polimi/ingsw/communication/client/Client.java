@@ -73,7 +73,7 @@ public class Client extends Thread implements Closeable {
                 }
                 received = this.receive();
                 System.out.println(received); //sarà da togliere
-                messageHandler.setReceive(received);
+                messageHandler.understandReceived(received);
             } while (received != null);
         } catch (IOException e) {
             e.printStackTrace();

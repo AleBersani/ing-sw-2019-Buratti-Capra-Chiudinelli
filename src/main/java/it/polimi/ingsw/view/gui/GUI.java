@@ -16,8 +16,13 @@ public class GUI extends Application implements ViewInterface {
 
     private Client client;
     private Stage stage;
-    private LoginGUI loginGUI = new LoginGUI();
+    private LoginGUI loginGUI = new LoginGUI(this);
     private MessageHandler messageHandler;
+    private boolean messageToShow;
+
+    public boolean isMessageToShow() {
+        return messageToShow;
+    }
 
     public void setClient(Client client) {
         this.client = client;
@@ -91,6 +96,13 @@ public class GUI extends Application implements ViewInterface {
         this.clearPane();
         loginGUI.loginImageSetting(stage);
         loginGUI.roomGridSetting(stage,client,messageHandler);
+    }
+
+    @Override
+    public void showMessage() {
+        this.messageToShow = true;
+        this.stage.show();
+        this.messageToShow = false;
     }
 
     @Override

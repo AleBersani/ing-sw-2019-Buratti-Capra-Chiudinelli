@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.communication.client.Client;
 import it.polimi.ingsw.communication.client.MessageHandler;
+import it.polimi.ingsw.view.ViewInterface;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -18,6 +19,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class LoginGUI {
+    private GUI gui;
+
+    public LoginGUI(GUI gui) {
+        this.gui = gui;
+    }
 
     public void loginImageSetting(Stage stage){
         Image image = new Image("/images/loginForm.jpg");
@@ -87,6 +93,11 @@ public class LoginGUI {
         infoText.setAlignment(Pos.CENTER);
         infoText.prefWidthProperty().bind(pane.widthProperty().divide(7));
         infoText.prefHeightProperty().bind(pane.heightProperty().divide(7));
+        if(this.gui.isMessageToShow()){
+           infoText.setTextFill(Color.web("#ff0000",0.8));
+           infoText.setText(messageHandler.getToShow());
+        }
+
 
         //username
         username.setPromptText("Username");
@@ -107,17 +118,17 @@ public class LoginGUI {
             });
 
         //exit
+        GridPane.setHalignment(button2, HPos.CENTER);
+        button2.setAlignment(Pos.CENTER);
+        button2.setText("EXIT");
+        button2.prefWidthProperty().bind(pane.widthProperty().divide(15));
+        button2.prefHeightProperty().bind(pane.heightProperty().divide(22));
         button2.setOnAction(e -> {
             messageHandler.setToSend("quit");
             synchronized (client){
                 client.notify();
             }
         });
-        GridPane.setHalignment(button2, HPos.CENTER);
-        button2.setAlignment(Pos.CENTER);
-        button2.setText("EXIT");
-        button2.prefWidthProperty().bind(pane.widthProperty().divide(15));
-        button2.prefHeightProperty().bind(pane.heightProperty().divide(22));
 
         //button full screen
         StackPane.setAlignment(fullScreen, Pos.TOP_RIGHT);

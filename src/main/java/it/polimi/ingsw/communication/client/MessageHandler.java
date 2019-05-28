@@ -6,7 +6,7 @@ import it.polimi.ingsw.view.gui.GUI;
 import java.util.ArrayList;
 
 public class MessageHandler {
-    private String toSend, receive;
+    private String toSend, toShow;
     private ArrayList<String> slowSend, bigReceive;
     private ViewInterface view;
     private Client client;
@@ -24,12 +24,12 @@ public class MessageHandler {
 
     }
 
-    public String getReceive() {
-        return receive;
+    public String getToShow() {
+        return toShow;
     }
 
     public void setReceive(String receive) {
-        this.receive = receive;
+        this.toShow = receive;
     }
 
     public void slowSendAdd(String msg){
@@ -73,6 +73,13 @@ public class MessageHandler {
             default: {
 
             }
+        }
+    }
+
+    public void understandReceived(String msg){
+        if(msg.startsWith(">>>")){
+            this.toShow = msg;
+            view.showMessage();
         }
     }
 }
