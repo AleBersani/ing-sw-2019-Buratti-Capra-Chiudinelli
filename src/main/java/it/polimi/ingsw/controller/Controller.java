@@ -1,11 +1,14 @@
 package it.polimi.ingsw.controller;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.communication.server.ClientHandler;
 import it.polimi.ingsw.communication.server.MultiServer;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
+
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,15 +18,27 @@ public class Controller {
     private Map<String,ClientHandler> nicknameList = new ConcurrentHashMap<>();
     private Map<String,ClientHandler> disconnected = new ConcurrentHashMap<>();
     private MultiServer server;
-    private Match match;
     private int skulls;
     private boolean frenzyEn;
     private String board;
-    private boolean first;
+
     private int timer;
+    private String mode;
+    private ArrayList<Integer> availableBoards;
+    private ArrayList<Integer> availableSkulls;
+
 
     public Controller(){
-        //TODO genera game di default da file + timer
+        Gson gSon= new Gson();
+        BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/Configuration.json")));
+        Configuration configuration = gSon.fromJson(br, Configuration.class);
+        this.board=Integer.toString(configuration.board);
+        this.skulls=configuration.skulls;
+        this.frenzyEn=configuration.frenzy;
+        this.timer=configuration.timer;
+        this.mode=configuration.mode;
+        this.availableBoards=configuration.availableBoards;
+        this.availableSkulls=configuration.availableSkulls;
     }
 
     public void sendString(String msg, ClientHandler clientHandler) {
@@ -39,14 +54,6 @@ public class Controller {
     public void understandMessage(String msg, ClientHandler clientHandler){
         String [] command = msg.split(" ");
         switch(command[0]){
-            case "login": {
-                login(command, clientHandler);
-                break;
-            }
-            case "quit": {
-                quit(clientHandler);
-                break;
-            }
             case "?": {
                 sendString("help menù", clientHandler);
                 break;
@@ -57,35 +64,37 @@ public class Controller {
         }
     }
 
-    public void login(String[] command, ClientHandler clientHandler) {
-        if (disconnected.containsKey(command[1])){
-            nicknameList.put(command[1],clientHandler);
-            disconnected.remove(command[1],clientHandler);
+    public void login(String command, ClientHandler clientHandler) {
+        boolean first=false;
+        if (disconnected.containsKey(command)){
+            nicknameList.put(command,clientHandler);
+            disconnected.remove(command,clientHandler);
         }
         if(nicknameList.isEmpty()){
             first=true;
         }
 
         if (!clientHandler.isLogged()) {
-            if (!this.getNicknameList().containsKey(command[1])) {
-                this.getNicknameList().put(command[1], clientHandler);
-                System.out.println("<<< " + clientHandler.getSocket().getRemoteSocketAddress() + " is logged as: " + command[1]);
-                sendString(">>> logged as: " + command[1], clientHandler);
+            if (!this.getNicknameList().containsKey(command)) {
+                this.getNicknameList().put(command, clientHandler);
+                System.out.println("<<< " + clientHandler.getSocket().getRemoteSocketAddress() + " is logged as: " + command);
+                sendString(">>> logged as: " + command, clientHandler);
                 clientHandler.setLogged(true);
-            } else
-                sendString(">>> " + command[1] + " is already use, choose another nickname", clientHandler);
-
+                if (first){
+                    setGameRules(clientHandler);
+                }
+                else {
+                    clientHandler.setServiceMessage("Now you are in the waiting room");
+                }
+            }
+            else {
+                sendString(">>> " + command + " is already use, choose another nickname", clientHandler);
+            }
         }
         else{
             sendString(">>> You are already logged", clientHandler);
         }
-        if (first){
-            setGameRules(clientHandler);
-            first=false;
-        }
-        else{
-            clientHandler.setServiceMessage("Now you are in the waiting room");
-        }
+
     }
 
     private void setGameRules( ClientHandler clientHandler) {
@@ -165,14 +174,23 @@ public class Controller {
     }
 
     public void startGame() {
-        //TODO sistemare
+        //TODO sistemare passare json della boaurd a tutti + gestione colori
         ArrayList<Player> players;
         players=new ArrayList<>();
-        match=new Match(players,nicknameList.size(),skulls, frenzyEn,"",board);
+        Match match = new Match(players, nicknameList.size(), skulls, frenzyEn, mode, board);
         for(Map.Entry e : nicknameList.entrySet()){
             players.add(new Player(false,"",(String) e.getKey()));
         }
         players.get(0).setFirst(true);
         match.start();
+    }
+    private class Configuration{
+        private int board;
+        private int skulls;
+        private boolean frenzy;
+        private int timer;
+        private ArrayList<Integer> availableBoards;
+        private ArrayList<Integer> availableSkulls;
+        private String mode;
     }
 }

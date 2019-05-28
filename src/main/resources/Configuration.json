@@ -1,0 +1,9 @@
+{
+  "board": 1,
+  "skulls": 8,
+  "frenzy": true,
+  "timer": 10,
+  "availableBoards": [1,2,3,4],
+  "availableSkulls": [5,8],
+  "mode": "base"
+}

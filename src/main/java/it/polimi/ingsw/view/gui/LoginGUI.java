@@ -2,8 +2,6 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.communication.client.Client;
 import it.polimi.ingsw.communication.client.MessageHandler;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -102,7 +100,7 @@ public class LoginGUI {
         button.prefWidthProperty().bind(pane.widthProperty().divide(15));
         button.prefHeightProperty().bind(pane.heightProperty().divide(22));
         button.setOnAction(e -> {
-                messageHandler.setToSend("login " + username.getText());
+                messageHandler.setToSend(username.getText());
                 synchronized (client){
                  client.notify();
                 }

@@ -23,7 +23,7 @@ public class ClientHandler implements Runnable{
         this.is=null;
         this.os=null;
         this.logged=false;
-        this.serviceMessage="Insert a command:";
+        this.serviceMessage="login";
     }
 
     public void handleConnection(Socket clientConnection) throws IOException {
@@ -38,31 +38,40 @@ public class ClientHandler implements Runnable{
             while(!disconnect) {
                 print(serviceMessage);
                 msg = read();
-                switch (serviceMessage){
-                    case "Insert a command:" : {
-                        if (yourTurn) {
-                            controller.understandMessage(msg, this);
-                        } else
-                            print("This is not your turn, please wait for it");
-                        break;
-                    }
-                    case "Select a board":{
-                        controller.selectBoard(msg,this);
-                        break;
-                    }
-                    case "Select the number of skulls":{
-                        controller.setSkulls(msg,this);
-                        break;
-                    }
-                    case "Do you like to play with frenzy? Y/N":{
-                        controller.setFrenzy(msg,this);
-                        break;
-                    }
-                    case "Now you are in the waiting room":{
-                        controller.waitingRoom(msg,this);
-                        break;
-                    }
+                if(msg.equals("quit")){
+                    controller.quit(this);
+                }
+                else{
+                    switch (serviceMessage) {
+                        case "Insert a command:": {
+                            if (yourTurn) {
+                                controller.understandMessage(msg, this);
+                            } else
+                                print("This is not your turn, please wait for it");
+                            break;
+                        }
+                        case "login": {
+                            controller.login(msg, this);
+                            break;
+                        }
 
+                        case "Select a board": {
+                            controller.selectBoard(msg, this);
+                            break;
+                        }
+                        case "Select the number of skulls": {
+                            controller.setSkulls(msg, this);
+                            break;
+                       }
+                        case "Do you like to play with frenzy? Y/N": {
+                            controller.setFrenzy(msg, this);
+                            break;
+                        }
+                        case "Now you are in the waiting room": {
+                            controller.waitingRoom(msg, this);
+                            break;
+                        }
+                    }
                 }
             }
         } finally {
