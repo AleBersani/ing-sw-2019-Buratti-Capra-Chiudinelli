@@ -45,11 +45,11 @@ public class Gestor implements Runnable {
     }
 
     private void resetTimer() {
-        //TODO
         timer.cancel();
     }
 
     private void startTimer() {
+        //TODO never ends
         timer.schedule(wrap(this::startGame),timerDuration*(long)1000);
     }
     private static TimerTask wrap(Runnable r){
