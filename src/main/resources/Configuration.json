@@ -5,5 +5,12 @@
   "timer": 10,
   "availableBoards": [1,2,3,4],
   "availableSkulls": [5,8],
-  "mode": "base"
+  "mode": "base",
+  "availableColors": [
+    "red",
+    "green",
+    "blue",
+    "yellow",
+    "grey"
+  ]
 }
