@@ -28,35 +28,35 @@ public class GameGUI extends Application {
 
         GridPane grid = new GridPane();
 
-        Image black = new Image("/images/game/greyCell.png");
-        ImageView blackScreen = new ImageView(black);
-        Image blue = new Image("/images/game/blueCell.png",pane.getWidth()/8,pane.getHeight()/4,false,false);
-        Image red = new Image("/images/game/redCell.png",pane.getWidth()/8,pane.getHeight()/4,false,false);
-        Image yellow = new Image("/images/game/yellowCell.png",pane.getWidth()/8,pane.getHeight()/4,false,false);
-        Image white = new Image("/images/game/whiteCell.png",pane.getWidth()/8,pane.getHeight()/4,false,false);
-        Image black2 = new Image("/images/game/blackCell.png",pane.getWidth()/8,pane.getHeight()/4,false,false);
+        Image screenImage = new Image("/images/game/metallicScreen.png");
+        ImageView screen = new ImageView(screenImage);
+        Image blue = new Image("/images/game/blueCell.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
+        Image red = new Image("/images/game/redCell.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
+        Image yellow = new Image("/images/game/yellowCell.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
+        Image white = new Image("/images/game/whiteCell.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
+        //Image black2 = new Image("/images/game/blackCell.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
 
-        Image wallW = new Image("/images/game/wallW.png",pane.getWidth()/8,pane.getHeight()/4,false,false);
-        Image wallN = new Image("/images/game/wallN.png",pane.getWidth()/8,pane.getHeight()/4,false,false);
-        Image wallS = new Image("/images/game/wallS.png",pane.getWidth()/8,pane.getHeight()/4,false,false);
-        Image wallE = new Image("/images/game/wallE.png",pane.getWidth()/8,pane.getHeight()/4,false,false);
-        Image doorW = new Image("/images/game/doorW.png",pane.getWidth()/8,pane.getHeight()/4,false,false);
-        Image doorE = new Image("/images/game/doorE.png",pane.getWidth()/8,pane.getHeight()/4,false,false);
-        Image doorN = new Image("/images/game/doorN.png",pane.getWidth()/8,pane.getHeight()/4,false,false);
-        Image doorS = new Image("/images/game/doorS.png",pane.getWidth()/8,pane.getHeight()/4,false,false);
+        Image wallW = new Image("/images/game/wallW.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
+        Image wallN = new Image("/images/game/wallN.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
+        Image wallS = new Image("/images/game/wallS.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
+        Image wallE = new Image("/images/game/wallE.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
+        Image doorW = new Image("/images/game/doorW.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
+        Image doorE = new Image("/images/game/doorE.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
+        Image doorN = new Image("/images/game/doorN.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
+        Image doorS = new Image("/images/game/doorS.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
 
-        Image bluePlayer = new Image("/images/game/plance/bluePlayer.png",pane.getWidth()/2,pane.getHeight()/4,false,false);
-        Image yellowPlayer = new Image("/images/game/plance/yellowPlayer.png",pane.getWidth()/2,pane.getHeight()/4,false,false);
-        Image greenPlayer = new Image("/images/game/plance/greenPlayer.png",pane.getWidth()/2,pane.getHeight()/4,false,false);
-        Image greyPlayer = new Image("/images/game/plance/greyPlayer.png",pane.getWidth()/2,pane.getHeight()/4,false,false);
-        Image purplePlayer = new Image("/images/game/plance/purplePlayer.png",pane.getWidth()/2,pane.getHeight()/4,false,false);
+        Image bluePlayer = new Image("/images/game/plance/bluePlayer.png",pane.getWidth()/7*4,pane.getHeight()/5,false,false);
+        Image yellowPlayer = new Image("/images/game/plance/yellowPlayer.png",pane.getWidth()/7*3,pane.getHeight()/5,false,false);
+        Image greenPlayer = new Image("/images/game/plance/greenPlayer.png",pane.getWidth()/7*3,pane.getHeight()/5,false,false);
+        Image greyPlayer = new Image("/images/game/plance/greyPlayer.png",pane.getWidth()/7*3,pane.getHeight()/5,false,false);
+        Image purplePlayer = new Image("/images/game/plance/purplePlayer.png",pane.getWidth()/7*3,pane.getHeight()/5,false,false);
 
         //image
-        blackScreen.fitWidthProperty().bind(pane.widthProperty());
-        blackScreen.fitHeightProperty().bind(pane.heightProperty());
+        screen.fitWidthProperty().bind(pane.widthProperty());
+        screen.fitHeightProperty().bind(pane.heightProperty());
 
         //grid
-
+/*
         //grid column constraint
         for (int j = 0 ; j < 8; j++) {
             ColumnConstraints col = new ColumnConstraints();
@@ -70,7 +70,7 @@ public class GameGUI extends Application {
             row.setVgrow(Priority.ALWAYS);
             grid.getRowConstraints().add(row);
         }
-
+*/
         //grid
         grid.add(new ImageView(blue),0,0);
         grid.add(new ImageView(wallW),0,0);
@@ -86,7 +86,7 @@ public class GameGUI extends Application {
         grid.add(new ImageView(wallE),2,0);
         grid.add(new ImageView(doorS),2,0);
 
-        grid.add(new ImageView(black2),3,0);
+        //grid.add(new ImageView(black2),3,0);
 
         grid.add(new ImageView(red),0,1);
         grid.add(new ImageView(wallW),0,1);
@@ -102,7 +102,7 @@ public class GameGUI extends Application {
         grid.add(new ImageView(doorE),2,1);
         grid.add(new ImageView(doorN),2,1);
 
-        grid.add(new ImageView(black2),0,2);
+        //grid.add(new ImageView(black2),0,2);
 
         grid.add(new ImageView(white),1,2);
         grid.add(new ImageView(wallW),1,2);
@@ -124,17 +124,20 @@ public class GameGUI extends Application {
         grid.add(new ImageView(wallE),3,2);
         grid.add(new ImageView(doorW),3,2);
 
-        grid.add(new ImageView(yellowPlayer),4,0,4,1);
-        grid.add(new ImageView(greenPlayer),4,1,4,1);
-        grid.add(new ImageView(greyPlayer),4,2,4,1);
-        grid.add(new ImageView(purplePlayer),4,3,4,1);
-        grid.add(new ImageView(bluePlayer),0,3,4,1);
+        //grid.add(new ImageView(black2),0,3,4,1);
+
+        grid.add(new ImageView(yellowPlayer),4,0,3,1);
+        grid.add(new ImageView(greenPlayer),4,1,3,1);
+        grid.add(new ImageView(greyPlayer),4,2,3,1);
+        grid.add(new ImageView(purplePlayer),4,3,3,1);
+        grid.add(new ImageView(bluePlayer),0,4,4,1);
 
         //pane
-        pane.getChildren().add(blackScreen);
+        pane.getChildren().add(screen);
         pane.getChildren().add(grid);
 
         //stage
+        stage.setResizable(true);
         stage.show();
     }
 }
