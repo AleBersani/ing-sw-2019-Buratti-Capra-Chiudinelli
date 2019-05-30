@@ -77,9 +77,15 @@ public class MessageHandler {
     }
 
     public void understandReceived(String msg){
-        if(msg.startsWith(">>>")){
-            this.toShow = msg;
-            view.showMessage();
+        if(msg == null){
+            client.setToStop(true);
+            view.stopView();
+        }
+        else{
+            if(msg.startsWith(">>>")){
+                this.toShow = msg;
+                view.showMessage();
+            }
         }
     }
 }

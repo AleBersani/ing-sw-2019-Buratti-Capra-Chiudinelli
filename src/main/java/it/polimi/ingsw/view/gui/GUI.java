@@ -19,6 +19,11 @@ public class GUI extends Application implements ViewInterface {
     private LoginGUI loginGUI = new LoginGUI(this);
     private MessageHandler messageHandler;
     private boolean messageToShow;
+    private State state;
+
+    public enum State{
+        LOGIN, MENU, WAIT, BOARD;
+    }
 
     public boolean isMessageToShow() {
         return messageToShow;
@@ -38,7 +43,6 @@ public class GUI extends Application implements ViewInterface {
         client.start();
         this.stage = primaryStage;
 
-
         StackPane pane = new StackPane();
         Scene scene = new Scene(pane, Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2,Toolkit.getDefaultToolkit().getScreenSize().getHeight()/1.5);
         stage.setFullScreenExitHint("");
@@ -56,29 +60,11 @@ public class GUI extends Application implements ViewInterface {
         stage.getIcons().add(new Image("/images/adrenalineLogo.png"));
         stage.setResizable(true);
 
-        //call methods
-        /*
-        for(int i=0;i<3;i++){
-            StackPane stackPane = new StackPane();
-            stage.getScene().setRoot(stackPane);
-            loginGUI.loginImageSetting(stage);
-            if(i==0){
-                loginGUI.loginGridSetting(stage,client,messageHandler);
-            }
-            if(i==1){
-                loginGUI.menuGridSetting(stage,client,messageHandler);
-            }
-            if(i==2){
-                loginGUI.roomGridSetting(stage,client,messageHandler);
-            }
-            stage.show();
-        }
-        */
-
+        //login
         loginGUI.loginImageSetting(stage);
         loginGUI.loginGridSetting(stage,client,messageHandler);
-
         stage.show();
+        this.state = State.LOGIN;
     }
 
     private void clearPane(){
@@ -87,22 +73,48 @@ public class GUI extends Application implements ViewInterface {
     }
 
     private void menugrid(){
+        this.state = State.MENU;
         this.clearPane();
         loginGUI.loginImageSetting(stage);
         loginGUI.menuGridSetting(stage,client,messageHandler);
     }
 
     private void waitingRoom(){
+        this.state = State.WAIT;
         this.clearPane();
         loginGUI.loginImageSetting(stage);
         loginGUI.roomGridSetting(stage,client,messageHandler);
     }
 
+    private void realShowMessage(){
+        this.messageToShow = true;
+        switch (this.state){
+            case LOGIN: {
+                loginGUI.loginImageSetting(stage);
+                loginGUI.loginGridSetting(stage,client,messageHandler);
+                break;
+            }
+            case MENU: {
+                loginGUI.loginImageSetting(stage);
+                loginGUI.menuGridSetting(stage,client,messageHandler);
+                break;
+            }
+            case WAIT: {
+                loginGUI.loginImageSetting(stage);
+                loginGUI.roomGridSetting(stage,client,messageHandler);
+                break;
+            }
+            case BOARD: {
+
+                break;
+            }
+        }
+        this.messageToShow = false;
+    }
+
     @Override
     public void showMessage() {
-        this.messageToShow = true;
-        this.stage.show();
-        this.messageToShow = false;
+        Platform.runLater(this::realShowMessage);
     }
 
     @Override
