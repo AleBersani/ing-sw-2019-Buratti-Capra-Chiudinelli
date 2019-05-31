@@ -65,7 +65,7 @@ public class Client extends Thread implements Closeable {
         this.toStop = false;
         Scanner writed = new Scanner(System.in);
         try {
-            String received = null;
+            String received;
             do {
                 received = this.receive();
                 System.out.println(received); //sarà da togliere
@@ -111,6 +111,5 @@ public class Client extends Thread implements Closeable {
         Application.launch(GUI.class,args);
     }
 
-    //platform.runlater
 
 }

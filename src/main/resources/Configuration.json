@@ -7,10 +7,10 @@
   "availableSkulls": [5,8],
   "mode": "base",
   "availableColors": [
-    "red",
     "green",
     "blue",
     "yellow",
-    "grey"
+    "grey",
+    "purple"
   ]
 }

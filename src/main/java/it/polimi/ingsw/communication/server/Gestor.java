@@ -41,6 +41,7 @@ public class Gestor implements Runnable {
 
     private void startGame() {
         this.timerIsRunning = false;
+        timer.cancel();
         controller.startGame();
     }
 

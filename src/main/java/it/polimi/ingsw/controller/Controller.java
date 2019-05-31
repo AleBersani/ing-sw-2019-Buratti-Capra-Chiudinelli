@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Controller {
@@ -98,7 +99,7 @@ public class Controller {
                             clientHandler.setServiceMessage("Now you are in the waiting room");
                         }
                     } else {
-                        sendString(">>> " + command + " is already use, choose another nickname", clientHandler);
+                        sendString(">>> This nickname is already use", clientHandler);
                     }
                 } else {
                     sendString(">>> You are already logged", clientHandler);
@@ -158,17 +159,13 @@ public class Controller {
     }
 
     public void waitingRoom(String msg, ClientHandler clientHandler){
-        if(msg.equals("quit")){
-            this.quit(clientHandler);
+
+        String playersNames = "§§§";
+        String[] allNames = nicknameList.keySet().toArray(new String[0]);
+        for(String name: allNames){
+            playersNames =  playersNames + "-" + name;
         }
-        else{
-            String playersNames = new String();
-            String[] allNames = nicknameList.keySet().toArray(new String[0]);
-            for(String name: allNames){
-                playersNames =  name + "-" + playersNames;
-            }
-            sendString(playersNames,clientHandler);
-        }
+        sendString(playersNames,clientHandler);
     }
 
     public void quit(ClientHandler clientHandler){
@@ -196,12 +193,15 @@ public class Controller {
     }
 
     public void startGame() {
+        Random random=new Random();
+        int n;
+        n=random.nextInt(nicknameList.size());
         ArrayList<Player> players;
         players=new ArrayList<>();
         for(Map.Entry e : nicknameList.entrySet()){
             players.add(new Player(false,"",(String) e.getKey()));
         }
-        players.get(0).setFirst(true);
+        players.get(n).setFirst(true);
         for (Player p : players){
             p.setColor(availableColors.get(0));
             availableColors.remove(availableColors.get(0));
@@ -211,8 +211,8 @@ public class Controller {
         Match match = new Match(players, nicknameList.size(), skulls, frenzyEn, mode, board);
         match.start();
         lifeCycle();
-        //TODO sistemare passare json della board a tutti
     }
+    
 
     private void lifeCycle() {
         //TODO
