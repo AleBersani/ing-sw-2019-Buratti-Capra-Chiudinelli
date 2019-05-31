@@ -53,7 +53,7 @@ public class GUI extends Application implements ViewInterface {
             }
         });
         stage.setTitle("Adrenaline");
-        stage.getIcons().add(new Image("/images/adrenalineLogo.png"));
+        stage.getIcons().add(new Image("/images/login/adrenalineLogo.png"));
         stage.setResizable(true);
 
         //call methods
