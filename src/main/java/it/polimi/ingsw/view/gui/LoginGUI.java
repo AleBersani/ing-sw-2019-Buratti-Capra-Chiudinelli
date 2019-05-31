@@ -79,7 +79,7 @@ public class LoginGUI {
         grid.addRow(3, new Text(""));
         grid.add(button,0,4);
         grid.add(button2,1,4);
-        grid.add(infoText,0,5,4,1);
+        grid.add(infoText,0,5,2,1);
         grid.setAlignment(Pos.CENTER);
 
         //text
@@ -91,10 +91,9 @@ public class LoginGUI {
         //info text
         GridPane.setHalignment(infoText, HPos.CENTER);
         infoText.setAlignment(Pos.CENTER);
-        infoText.prefWidthProperty().bind(pane.widthProperty().divide(7));
         infoText.prefHeightProperty().bind(pane.heightProperty().divide(7));
         if(this.gui.isMessageToShow()){
-           infoText.setTextFill(Color.web("#ce1c1c",0.8));
+           infoText.setTextFill(Color.web("#ff0000",0.8));
            infoText.setText(messageHandler.getToShow().substring(4));
         }
 
@@ -111,11 +110,17 @@ public class LoginGUI {
         button.prefWidthProperty().bind(pane.widthProperty().divide(15));
         button.prefHeightProperty().bind(pane.heightProperty().divide(22));
         button.setOnAction(e -> {
+            if(username.getText().equals("quit")){
+                infoText.setTextFill(Color.web("#ff0000",0.8));
+                infoText.setText("Invalid Nickname");
+            }
+            else{
                 messageHandler.setToSend(username.getText());
                 synchronized (client){
-                 client.notify();
+                    client.notify();
                 }
-            });
+            }
+        });
 
         //exit
         GridPane.setHalignment(button2, HPos.CENTER);
@@ -336,7 +341,7 @@ public class LoginGUI {
         title5.setStyle("-fx-font: 20 Helvetica;");
         title5.setEffect(new DropShadow());
 
-        //button
+        //exit button
         Button buttonExit = new Button("EXIT");
         buttonExit.setOnAction(e -> {
             messageHandler.setToSend("quit");
