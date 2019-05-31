@@ -2,11 +2,15 @@ package it.polimi.ingsw.view.gui;
 
 import javafx.application.Application;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import java.awt.*;
@@ -56,11 +60,6 @@ public class GameGUI extends Application {
 
         //ammo
         Image ammoBack = new Image("/images/game/ammo/ammoBack.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
-
-        //button
-        Button button = new Button("Store");
-        Button button1 = new Button("Store");
-        Button button2 = new Button("Store");
 
         //image
         screen.fitWidthProperty().bind(pane.widthProperty());
@@ -142,10 +141,8 @@ public class GameGUI extends Application {
         setTokenPosition(stage,grid,pane,"yellow",0,0);
         setTokenPosition(stage,grid,pane,"grey",0,0);
         setTokenPosition(stage,grid,pane,"purple",0,0);
-        setTokenPosition(stage,grid,pane,"blue",2,0);
-        setTokenPosition(stage,grid,pane,"blue",2,1);
 
-        //ammo
+        //ammo and button
         for(int i = 0;i<4;i++)
             for(int y =0;y<3;y++) {
                 if((i==0 && y==0) ||(i==1 && y==0)||(i==1 && y==1)||(i==1 && y==2)||(i==3 && y==1)||(i==2 && y==1)||(i==2 && y==2)){
@@ -154,20 +151,38 @@ public class GameGUI extends Application {
                     GridPane.setHalignment(ammoBackIV, HPos.CENTER);
                     GridPane.setValignment(ammoBackIV, VPos.CENTER);
                 }
+                else
+                    if((i==2 && y==0)||(i==0 && y==1)||(i==3 && y==2)){
+                    Button button = new Button("Store");
+                    grid.add(button,i,y);
+                    GridPane.setHalignment(button,HPos.CENTER);
+                    GridPane.setValignment(button,VPos.CENTER);
+                    button.setOnAction(e ->{
+                        GridPane grid2 = new GridPane();
+                        Rectangle rectangle = new Rectangle();
+                        Button button2 = new Button("BACK");
+                        rectangle.setFill(Color.rgb(0, 0, 0, 0.5));
+                        rectangle.setEffect(new BoxBlur());
+                        rectangle.widthProperty().bind(pane.widthProperty());
+                        rectangle.heightProperty().bind(pane.heightProperty());
+                        grid2.add(new ImageView(blue),0,0);
+                        grid2.add(new ImageView(red),1,0);
+                        grid2.add(new ImageView(yellow),2,0);
+                        grid2.add(button2,1,1);
+                        pane.getChildren().add(rectangle);
+                        pane.getChildren().add(grid2);
+                        grid2.setHgap(30);
+                        grid2.setVgap(20);
+                        GridPane.setHalignment(button2,HPos.CENTER);
+                        GridPane.setValignment(button2,VPos.CENTER);
+                        grid2.setAlignment(Pos.CENTER);
+                        button2.setOnAction(ev -> {
+                            pane.getChildren().remove(grid2);
+                            pane.getChildren().remove(rectangle);
+                        });
+                        });
+                }
             }
-
-        //button
-        grid.add(button,2,0);
-        GridPane.setHalignment(button,HPos.CENTER);
-        GridPane.setValignment(button,VPos.CENTER);
-
-        grid.add(button1,0,1);
-        GridPane.setHalignment(button1,HPos.CENTER);
-        GridPane.setValignment(button1,VPos.CENTER);
-
-        grid.add(button2,3,2);
-        GridPane.setHalignment(button2,HPos.CENTER);
-        GridPane.setValignment(button2,VPos.CENTER);
 
         //pane
         pane.getChildren().add(screen);
