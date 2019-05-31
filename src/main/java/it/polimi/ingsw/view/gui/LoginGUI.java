@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.communication.client.Client;
 import it.polimi.ingsw.communication.client.MessageHandler;
-import it.polimi.ingsw.view.ViewInterface;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -26,7 +25,7 @@ public class LoginGUI {
     }
 
     public void loginImageSetting(Stage stage){
-        Image image = new Image("/images/loginForm.jpg");
+        Image image = new Image("/images/login/loginForm.jpg");
         ImageView mv = new ImageView(image);
         Rectangle rectangle = new Rectangle(500,400);
         StackPane pane = (StackPane) stage.getScene().getRoot();

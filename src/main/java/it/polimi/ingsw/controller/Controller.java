@@ -27,6 +27,7 @@ public class Controller {
     private ArrayList<Integer> availableBoards;
     private ArrayList<Integer> availableSkulls;
     private ArrayList<String> availableColors;
+    private boolean gameStarted;
 
 
     public Controller(){
@@ -41,6 +42,7 @@ public class Controller {
         this.availableBoards=configuration.availableBoards;
         this.availableSkulls=configuration.availableSkulls;
         this.availableColors=configuration.availableColors;
+        this.gameStarted=false;
     }
 
     public void sendString(String msg, ClientHandler clientHandler) {
@@ -67,34 +69,43 @@ public class Controller {
     }
 
     public void login(String command, ClientHandler clientHandler) {
-        //TODO RICONNESSIONE
-        if(nicknameList.size()<5) {
-            boolean first = false;
-
-            if (nicknameList.isEmpty()) {
-                first = true;
+        if (gameStarted) {
+            if (disconnected.containsKey(command)) {
+                disconnected.remove(command, clientHandler);
+                nicknameList.put(command, clientHandler);
             }
-
-            if (!clientHandler.isLogged()) {
-                if (!this.getNicknameList().containsKey(command)) {
-                    this.getNicknameList().put(command, clientHandler);
-                    System.out.println("<<< " + clientHandler.getSocket().getRemoteSocketAddress() + " is logged as: " + command);
-                    sendString("logged as: " + command, clientHandler);
-                    clientHandler.setLogged(true);
-                    if (first) {
-                        setGameRules(clientHandler);
-                    } else {
-                        clientHandler.setServiceMessage("Now you are in the waiting room");
-                    }
-                } else {
-                    sendString(">>> " + command + " is already use, choose another nickname", clientHandler);
-                }
-            } else {
-                sendString(">>> You are already logged", clientHandler);
+            else {
+                sendString(">>> Game already started",clientHandler);
             }
         }
-        else{
-            sendString(">>> Game full", clientHandler);
+        else {
+            if (nicknameList.size() < 5) {
+                boolean first = false;
+
+                if (nicknameList.isEmpty()) {
+                    first = true;
+                }
+
+                if (!clientHandler.isLogged()) {
+                    if (!this.getNicknameList().containsKey(command)) {
+                        this.getNicknameList().put(command, clientHandler);
+                        System.out.println("<<< " + clientHandler.getSocket().getRemoteSocketAddress() + " is logged as: " + command);
+                        sendString("logged as: " + command, clientHandler);
+                        clientHandler.setLogged(true);
+                        if (first) {
+                            setGameRules(clientHandler);
+                        } else {
+                            clientHandler.setServiceMessage("Now you are in the waiting room");
+                        }
+                    } else {
+                        sendString(">>> " + command + " is already use, choose another nickname", clientHandler);
+                    }
+                } else {
+                    sendString(">>> You are already logged", clientHandler);
+                }
+            } else {
+                sendString(">>> Game full", clientHandler);
+            }
         }
 
     }
@@ -106,7 +117,7 @@ public class Controller {
 
     public void selectBoard(String msg, ClientHandler clientHandler){
         if(availableBoards.contains(Integer.parseInt(msg))) {
-            board = "/Board/Board" + msg;
+            board = "/Board/Board" + msg + ".json";
             sendString("You selected the board number " + msg, clientHandler);
             clientHandler.setServiceMessage("Select the number of skulls");
         }
@@ -161,14 +172,15 @@ public class Controller {
     }
 
     public void quit(ClientHandler clientHandler){
-        String nickName;
-        nickName="gigi";
+        String nickName= new String();
         clientHandler.setDisconnect(true);
         if (nicknameList.containsValue(clientHandler)){
             for(Map.Entry e : nicknameList.entrySet()){
                 if (e.getValue().equals(clientHandler)){
                     nickName=(String) e.getKey();
-                    disconnected.put((String) e.getKey(),(ClientHandler) e.getValue());
+                    if(gameStarted) {
+                        disconnected.put((String) e.getKey(), (ClientHandler) e.getValue());
+                    }
                     nicknameList.remove(nickName);
                 }
             }
@@ -184,10 +196,8 @@ public class Controller {
     }
 
     public void startGame() {
-        //TODO sistemare passare json della board a tutti
         ArrayList<Player> players;
         players=new ArrayList<>();
-        Match match = new Match(players, nicknameList.size(), skulls, frenzyEn, mode, board);
         for(Map.Entry e : nicknameList.entrySet()){
             players.add(new Player(false,"",(String) e.getKey()));
         }
@@ -197,8 +207,17 @@ public class Controller {
             availableColors.remove(availableColors.get(0));
         }
         System.out.println("Match started");
+        gameStarted=true;
+        Match match = new Match(players, nicknameList.size(), skulls, frenzyEn, mode, board);
         match.start();
+        lifeCycle();
+        //TODO sistemare passare json della board a tutti
     }
+
+    private void lifeCycle() {
+        //TODO
+    }
+
     private class Configuration{
         private int board;
         private int skulls;

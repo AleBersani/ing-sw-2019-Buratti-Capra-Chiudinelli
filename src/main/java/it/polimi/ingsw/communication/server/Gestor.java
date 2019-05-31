@@ -18,7 +18,7 @@ public class Gestor implements Runnable {
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         this.timerIsRunning = true;
         boolean timerIsGoing=false;
         while (timerIsRunning){
@@ -49,9 +49,10 @@ public class Gestor implements Runnable {
     }
 
     private void startTimer() {
-        //TODO never ends
+        timer= new Timer();
         timer.schedule(wrap(this::startGame),timerDuration*(long)1000);
     }
+
     private static TimerTask wrap(Runnable r){
         return new TimerTask() {
             @Override
