@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Client extends Thread implements Closeable {
     private static String host;
     private static int port;
-    private boolean go;
+    private boolean go, toStop;
     private Socket connection;
     private BufferedReader in;
     private PrintWriter out;
@@ -25,6 +25,10 @@ public class Client extends Thread implements Closeable {
 
     public void setMessageHandler(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
+    }
+
+    public void setToStop(boolean toStop) {
+        this.toStop = toStop;
     }
 
     public void setGo(boolean go) {
@@ -58,6 +62,7 @@ public class Client extends Thread implements Closeable {
     }
 
     public void run(){
+        this.toStop = false;
         Scanner writed = new Scanner(System.in);
         try {
             String received = null;
@@ -74,7 +79,7 @@ public class Client extends Thread implements Closeable {
                 received = this.receive();
                 System.out.println(received); //sarà da togliere
                 messageHandler.understandReceived(received);
-            } while (received != null);
+            } while (!toStop);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

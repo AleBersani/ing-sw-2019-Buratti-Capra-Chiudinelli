@@ -62,7 +62,7 @@ public class LoginGUI {
         text.setStyle("-fx-font: 70 Helvetica;");
         text.setEffect(new DropShadow());
         Label infoText = new Label();
-        infoText.setStyle("-fx-font: 15 Helvetica;");
+        infoText.setStyle("-fx-font: 25 Helvetica;");
         infoText.setEffect(new DropShadow());
 
         //grid
@@ -78,7 +78,7 @@ public class LoginGUI {
         grid.addRow(3, new Text(""));
         grid.add(button,0,4);
         grid.add(button2,1,4);
-        grid.add(infoText,0,5,2,1);
+        grid.add(infoText,0,5,4,1);
         grid.setAlignment(Pos.CENTER);
 
         //text
@@ -93,8 +93,8 @@ public class LoginGUI {
         infoText.prefWidthProperty().bind(pane.widthProperty().divide(7));
         infoText.prefHeightProperty().bind(pane.heightProperty().divide(7));
         if(this.gui.isMessageToShow()){
-           infoText.setTextFill(Color.web("#ff0000",0.8));
-           infoText.setText(messageHandler.getToShow());
+           infoText.setTextFill(Color.web("#ce1c1c",0.8));
+           infoText.setText(messageHandler.getToShow().substring(4));
         }
 
 
