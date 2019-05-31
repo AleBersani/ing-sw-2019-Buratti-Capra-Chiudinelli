@@ -4,12 +4,17 @@ import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.gui.GUI;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MessageHandler {
     private String toSend, toShow;
-    private ArrayList<String> slowSend, bigReceive;
+    private ArrayList<String> slowSend;
+    private String[] bigReceive;
     private ViewInterface view;
     private Client client;
+    private TimersHandler timerUpdate;
+    private ExecutorService pool;
 
     //TODO aggiungere un modo per capire che una stringa va spezzata
 
@@ -17,6 +22,7 @@ public class MessageHandler {
         this.view = view;
         this.slowSend = new ArrayList<>();
         this.client = client;
+        pool = Executors.newCachedThreadPool();
     }
 
     public void setToSend(String toSend) {
@@ -68,6 +74,8 @@ public class MessageHandler {
             }
             case "Now you are in the waiting room": {
                 view.waitingRoomView();
+                timerUpdate = new TimersHandler(3,client,this);
+                pool.submit(timerUpdate);
                 break;
             }
             default: {
@@ -82,9 +90,21 @@ public class MessageHandler {
             view.stopView();
         }
         else{
-            if(msg.startsWith(">>>")){
-                this.toShow = msg;
-                view.showMessage();
+            String stringo = msg.substring(0,3);
+            switch (stringo){
+                case ">>>":{
+                    this.toShow = msg;
+                    view.showMessage();
+                    break;
+                }
+                case "§§§":{
+                    String befDivid = msg.substring(4);
+                    bigReceive = befDivid.split("-");
+
+                    break;
+                }
+                default:
+
             }
         }
     }
