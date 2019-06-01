@@ -17,6 +17,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class LoginGUI {
     private GUI gui;
 
@@ -361,6 +363,17 @@ public class LoginGUI {
         grid.add(buttonExit,0,8);
         grid.setAlignment(Pos.CENTER);
 
+        //List of player
+        ArrayList<String> playerList = new ArrayList<>();
+        if(messageHandler.getBigReceive()!=null){
+            for(String s: messageHandler.getBigReceive()){
+                playerList.add(s);
+            }
+        }
+        while(playerList.size()<5){
+            playerList.add("");
+        }
+
         //title
         GridPane.setHalignment(title, HPos.CENTER);
         title.setAlignment(Pos.CENTER);
@@ -370,35 +383,35 @@ public class LoginGUI {
         //title1
         GridPane.setHalignment(title1, HPos.CENTER);
         title1.setAlignment(Pos.CENTER);
-        title1.setText("Roberto");
+        title1.setText(playerList.get(0));
         title1.prefWidthProperty().bind(pane.widthProperty().divide(10));
         title1.prefHeightProperty().bind(pane.heightProperty().divide(20));
 
         //title2
         GridPane.setHalignment(title2, HPos.CENTER);
         title2.setAlignment(Pos.CENTER);
-        title2.setText("Paolo");
+        title2.setText(playerList.get(1));
         title2.prefWidthProperty().bind(pane.widthProperty().divide(10));
         title2.prefHeightProperty().bind(pane.heightProperty().divide(20));
 
         //title3
         GridPane.setHalignment(title3, HPos.CENTER);
         title3.setAlignment(Pos.CENTER);
-        title3.setText("Andrea");
+        title3.setText(playerList.get(2));
         title3.prefWidthProperty().bind(pane.widthProperty().divide(10));
         title3.prefHeightProperty().bind(pane.heightProperty().divide(20));
 
         //title4
         GridPane.setHalignment(title4, HPos.CENTER);
         title4.setAlignment(Pos.CENTER);
-        title4.setText("Filippo");
+        title4.setText(playerList.get(3));
         title4.prefWidthProperty().bind(pane.widthProperty().divide(10));
         title4.prefHeightProperty().bind(pane.heightProperty().divide(20));
 
         //title5
         GridPane.setHalignment(title5, HPos.CENTER);
         title5.setAlignment(Pos.CENTER);
-        title5.setText("Elisa");
+        title5.setText(playerList.get(4));
         title5.prefWidthProperty().bind(pane.widthProperty().divide(10));
         title5.prefHeightProperty().bind(pane.heightProperty().divide(20));
 

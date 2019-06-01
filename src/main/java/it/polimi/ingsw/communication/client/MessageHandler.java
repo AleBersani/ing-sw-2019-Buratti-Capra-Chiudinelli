@@ -30,6 +30,10 @@ public class MessageHandler {
 
     }
 
+    public String[] getBigReceive() {
+        return bigReceive;
+    }
+
     public String getToShow() {
         return toShow;
     }
