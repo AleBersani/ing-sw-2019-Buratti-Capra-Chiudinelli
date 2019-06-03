@@ -89,9 +89,6 @@ public class ClientHandler implements Runnable{
         }
     }
 
-    public String readString(){
-        return null;
-    }
 
     @Override
     public void run() {

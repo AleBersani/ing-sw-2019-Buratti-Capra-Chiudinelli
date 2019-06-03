@@ -214,16 +214,12 @@ public class Controller {
         gameStarted=true;
         match = new Match(players, nicknameList.size(), skulls, frenzyEn, mode, board);
         match.start();
-        lifeCycle();
     }
 
-
-    private void lifeCycle() {
-        //TODO
-    }
 
     public void boardDescription( ClientHandler clientHandler) {
-        String boardDescriptor=match.getBoard().getRooms().toString();
+        String boardDescriptor="+++Board";
+        boardDescriptor=boardDescriptor.concat(match.getBoard().getRooms().toString());
         sendString(boardDescriptor,clientHandler);
         clientHandler.setServiceMessage("");//TODO
     }
