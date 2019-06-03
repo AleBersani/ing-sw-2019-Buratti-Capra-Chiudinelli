@@ -29,6 +29,7 @@ public class Controller {
     private ArrayList<Integer> availableSkulls;
     private ArrayList<String> availableColors;
     private boolean gameStarted;
+    private Match match;
 
 
     public Controller(){
@@ -159,13 +160,16 @@ public class Controller {
     }
 
     public void waitingRoom(String msg, ClientHandler clientHandler){
-
+        if (gameStarted){
+            clientHandler.setServiceMessage("Initialize board");
+        }
         String playersNames = "§§§";
         String[] allNames = nicknameList.keySet().toArray(new String[0]);
         for(String name: allNames){
             playersNames =  playersNames + "-" + name;
         }
         sendString(playersNames,clientHandler);
+
     }
 
     public void quit(ClientHandler clientHandler){
@@ -208,14 +212,20 @@ public class Controller {
         }
         System.out.println("Match started");
         gameStarted=true;
-        Match match = new Match(players, nicknameList.size(), skulls, frenzyEn, mode, board);
+        match = new Match(players, nicknameList.size(), skulls, frenzyEn, mode, board);
         match.start();
         lifeCycle();
     }
-    
+
 
     private void lifeCycle() {
         //TODO
+    }
+
+    public void boardDescription( ClientHandler clientHandler) {
+        String boardDescriptor=match.getBoard().getRooms().toString();
+        sendString(boardDescriptor,clientHandler);
+        clientHandler.setServiceMessage("");//TODO
     }
 
     private class Configuration{

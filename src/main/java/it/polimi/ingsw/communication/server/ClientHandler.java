@@ -71,6 +71,12 @@ public class ClientHandler implements Runnable{
                             controller.waitingRoom(msg, this);
                             break;
                         }
+                        case "Initialize board":{
+                            controller.boardDescription(this);
+                        }
+                        default:{
+
+                        }
                     }
                 }
             }
