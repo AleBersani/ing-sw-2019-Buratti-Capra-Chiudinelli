@@ -5,12 +5,15 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import java.awt.*;
@@ -60,6 +63,18 @@ public class GameGUI extends Application {
 
         //ammo
         Image ammoBack = new Image("/images/game/ammo/ammoBack.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
+        Image blueAmmo = new Image("/images/game/ammo/blueAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
+        ImageView blueammoIV = new ImageView(blueAmmo);
+        Image yellowAmmo = new Image("/images/game/ammo/yellowAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
+        ImageView yellowAmmoIV = new ImageView(yellowAmmo);
+        Image redAmmo = new Image("/images/game/ammo/redAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
+        ImageView redAmmoIV = new ImageView(redAmmo);
+
+        //weapon
+        Image weaponBack = new Image("/images/game/weapons/weaponBack.png",pane.getWidth()/7,pane.getHeight()/3,false,false);
+
+        //powerUp
+        Image powerUpBack = new Image("/images/game/powerUps/powerUpBack.png",pane.getWidth()/10,pane.getHeight()/5,false,false);
 
         //image
         screen.fitWidthProperty().bind(pane.widthProperty());
@@ -141,52 +156,138 @@ public class GameGUI extends Application {
         setTokenPosition(stage,grid,pane,"yellow",0,0);
         setTokenPosition(stage,grid,pane,"grey",0,0);
         setTokenPosition(stage,grid,pane,"purple",0,0);
+        //setTokenPosition(stage,grid,pane,"blue",1,0); TODO REMOVE THE PREVIOUS TOKEN
 
-        //ammo and button
-        for(int i = 0;i<4;i++)
-            for(int y =0;y<3;y++) {
-                if((i==0 && y==0) ||(i==1 && y==0)||(i==1 && y==1)||(i==1 && y==2)||(i==3 && y==1)||(i==2 && y==1)||(i==2 && y==2)){
-                    ImageView ammoBackIV = new ImageView(ammoBack);
-                    grid.add(ammoBackIV, i, y);
-                    GridPane.setHalignment(ammoBackIV, HPos.CENTER);
-                    GridPane.setValignment(ammoBackIV, VPos.CENTER);
-                }
-                else
-                    if((i==2 && y==0)||(i==0 && y==1)||(i==3 && y==2)){
-                    Button button = new Button("Store");
-                    grid.add(button,i,y);
-                    GridPane.setHalignment(button,HPos.CENTER);
-                    GridPane.setValignment(button,VPos.CENTER);
-                    button.setOnAction(e ->{
-                        GridPane grid2 = new GridPane();
-                        Rectangle rectangle = new Rectangle();
-                        Button button2 = new Button("BACK");
-                        rectangle.setFill(Color.rgb(0, 0, 0, 0.5));
-                        rectangle.setEffect(new BoxBlur());
-                        rectangle.widthProperty().bind(pane.widthProperty());
-                        rectangle.heightProperty().bind(pane.heightProperty());
-                        grid2.add(new ImageView(blue),0,0);
-                        grid2.add(new ImageView(red),1,0);
-                        grid2.add(new ImageView(yellow),2,0);
-                        grid2.add(button2,1,1);
-                        pane.getChildren().add(rectangle);
-                        pane.getChildren().add(grid2);
-                        grid2.setHgap(30);
-                        grid2.setVgap(20);
-                        GridPane.setHalignment(button2,HPos.CENTER);
-                        GridPane.setValignment(button2,VPos.CENTER);
-                        grid2.setAlignment(Pos.CENTER);
-                        button2.setOnAction(ev -> {
-                            pane.getChildren().remove(grid2);
-                            pane.getChildren().remove(rectangle);
+        //info button,ammo and button
+        GridPane grid2 = new GridPane();
+        for (int i = 0 ; i < 5; i++) {
+            RowConstraints row = new RowConstraints();
+            row.setPercentHeight(20);
+            grid2.getRowConstraints().add(row);
+        }
+        for (int j = 0 ; j < 7; j++) {
+            ColumnConstraints col = new ColumnConstraints();
+            col.setPercentWidth(14.2857);
+            grid2.getColumnConstraints().add(col);
+        }
+        for(int i=0;i<5;i++)
+            for(int j=0;j<7;j++){
+                    if((j==6 && i!=4)||(j==3 && i==4)){
+                        Button button = new Button("INFO");
+                        grid2.add(button, j, i);
+                        button.setOnAction(e ->{
+                            GridPane grid3 = new GridPane();
+                            Rectangle rectangle = new Rectangle();
+                            Button button2 = new Button("BACK");
+                            Label text = new Label("x2");
+                            text.setTextFill(Color.web("#ffffff", 0.8));
+                            text.setStyle("-fx-font: 40 Helvetica;");
+                            text.setEffect(new DropShadow());
+                            Label text1 = new Label("x1");
+                            text1.setTextFill(Color.web("#ffffff", 0.8));
+                            text1.setStyle("-fx-font: 40 Helvetica;");
+                            text1.setEffect(new DropShadow());
+                            Label text2 = new Label("x0");
+                            text2.setTextFill(Color.web("#ffffff", 0.8));
+                            text2.setStyle("-fx-font: 40 Helvetica;");
+                            text2.setEffect(new DropShadow());
+                            Label text3 = new Label("x3");
+                            text3.setTextFill(Color.web("#ffffff", 0.8));
+                            text3.setStyle("-fx-font: 40 Helvetica;");
+                            text3.setEffect(new DropShadow());
+                            rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+                            rectangle.setEffect(new BoxBlur());
+                            rectangle.widthProperty().bind(pane.widthProperty());
+                            rectangle.heightProperty().bind(pane.heightProperty());
+                            grid3.add(new ImageView(weaponBack),0,0);
+                            grid3.add(new ImageView(weaponBack),1,0);
+                            grid3.add(new ImageView(weaponBack),2,0);
+                            grid3.add(new Text("\t"),3,0);
+                            grid3.add(new ImageView(powerUpBack),4,0);
+                            grid3.add(text,4,0);
+                            grid3.add(new Text("\t"),5,0);
+                            grid3.add(blueammoIV,6,0);
+                            grid3.add(text1,7,0);
+                            grid3.add(yellowAmmoIV,6,0);
+                            grid3.add(text2,7,0);
+                            grid3.add(redAmmoIV,6,0);
+                            grid3.add(text3,7,0);
+                            grid3.add(button2,2,1);
+                            pane.getChildren().add(rectangle);
+                            pane.getChildren().add(grid3);
+                            grid3.setHgap(30);
+                            grid3.setVgap(20);
+                            GridPane.setHalignment(button2,HPos.CENTER);
+                            GridPane.setValignment(button2,VPos.CENTER);
+                            GridPane.setHalignment(text,HPos.CENTER);
+                            GridPane.setValignment(text,VPos.BOTTOM);
+                            GridPane.setHalignment(blueammoIV,HPos.CENTER);
+                            GridPane.setValignment(blueammoIV,VPos.TOP);
+                            GridPane.setHalignment(text1,HPos.RIGHT);
+                            GridPane.setValignment(text1,VPos.TOP);
+                            GridPane.setHalignment(yellowAmmoIV,HPos.CENTER);
+                            GridPane.setValignment(yellowAmmoIV,VPos.CENTER);
+                            GridPane.setHalignment(text2,HPos.RIGHT);
+                            GridPane.setValignment(text2,VPos.CENTER);
+                            GridPane.setHalignment(redAmmoIV,HPos.CENTER);
+                            GridPane.setValignment(redAmmoIV,VPos.BOTTOM);
+                            GridPane.setHalignment(text3,HPos.RIGHT);
+                            GridPane.setValignment(text3,VPos.BOTTOM);
+                            grid3.setAlignment(Pos.CENTER);
+                            button2.setOnAction(ev -> {
+                                pane.getChildren().remove(grid3);
+                                pane.getChildren().remove(rectangle);
+                            });
                         });
-                        });
-                }
-            }
+                        GridPane.setHalignment(button, HPos.CENTER);
+                        GridPane.setValignment(button, VPos.BOTTOM);
+                    }
+                    else{
+                        if((i==0 && j==0) ||(i==1 && j==0)||(i==1 && j==1)||(i==1 && j==2)||(i==3 && j==1)||(i==2 && j==1)||(i==2 && j==2)){
+                            ImageView ammoBackIV = new ImageView(ammoBack);
+                            grid2.add(ammoBackIV, i, j);
+                            GridPane.setHalignment(ammoBackIV, HPos.CENTER);
+                            GridPane.setValignment(ammoBackIV, VPos.CENTER);
+                        }
+                        else{
+                            if((i==2 && j==0)||(i==0 && j==1)||(i==3 && j==2)){
+                                Button button = new Button("Store");
+                                grid2.add(button,i,j);
+                                GridPane.setHalignment(button,HPos.CENTER);
+                                GridPane.setValignment(button,VPos.CENTER);
+                                button.setOnAction(e ->{
+                                    GridPane grid4 = new GridPane();
+                                    Rectangle rectangle = new Rectangle();
+                                    Button button2 = new Button("BACK");
+                                    rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+                                    rectangle.setEffect(new BoxBlur());
+                                    rectangle.widthProperty().bind(pane.widthProperty());
+                                    rectangle.heightProperty().bind(pane.heightProperty());
+                                    grid4.add(new ImageView(weaponBack),0,0);
+                                    grid4.add(new ImageView(weaponBack),1,0);
+                                    grid4.add(new ImageView(weaponBack),2,0);
+                                    grid4.add(button2,1,1);
+                                    pane.getChildren().add(rectangle);
+                                    pane.getChildren().add(grid4);
+                                    grid4.setHgap(30);
+                                    grid4.setVgap(20);
+                                    GridPane.setHalignment(button2,HPos.CENTER);
+                                    GridPane.setValignment(button2,VPos.CENTER);
+                                    grid4.setAlignment(Pos.CENTER);
+                                    button2.setOnAction(ev -> {
+                                        pane.getChildren().remove(grid4);
+                                        pane.getChildren().remove(rectangle);
+                                    });
+                                });
+                            }
+                        }
+                    }
+        }
 
         //pane
         pane.getChildren().add(screen);
         pane.getChildren().add(grid);
+        pane.getChildren().add(grid2);
 
         //stage
         stage.setResizable(true);
