@@ -193,7 +193,7 @@ public class LoginGUI {
 
         //choice box 2
         ChoiceBox<String> title2 = new ChoiceBox<>();
-        title2.getItems().addAll("1","2");
+        title2.getItems().addAll("1","2","3","4");
         title2.getSelectionModel().selectFirst();
         title2.setTooltip(new Tooltip("Select a board"));
 
