@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.map;
 
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.Weapon;
+
 import java.util.ArrayList;
 
 /**
@@ -58,5 +61,44 @@ public class Room {
 
     public Board getBoard() {
         return board;
+    }
+
+    @Override
+    public String toString(){
+        String cells="";
+        for(Square s :squares){
+            cells=cells.concat(Integer.toString(s.getX())).concat(",")
+                    .concat(Integer.toString(s.getY())).concat(",")
+                    .concat(s.getColor().concat(","));
+            if (s instanceof SpawnPoint){
+                cells=cells.concat("spawnPoint").concat(",");
+                for(Weapon w:((SpawnPoint) s).getWeapons()) {
+                    cells=cells.concat(w.getName()).concat(",");
+                }
+            }
+            if (s instanceof AmmoPoint){
+                cells=cells.concat("AmmoPoint").concat(",");
+                cells=cells.concat("Y:")
+                        .concat(Integer.toString(((AmmoPoint)s).getAmmo().getYellow())).concat(",")
+                        .concat("R:")
+                        .concat(Integer.toString(((AmmoPoint)s).getAmmo().getRed())).concat(",")
+                        .concat("B:")
+                        .concat(Integer.toString(((AmmoPoint)s).getAmmo().getBlue())).concat(",")
+                        .concat("PU:")
+                        .concat(Integer.toString(((AmmoPoint)s).getAmmo().getPowerUp())).concat(",");
+            }
+            cells= cells.concat("Players:");
+            for(Player p : s.getOnMe()) {
+                cells = cells.concat(p.getNickname()).concat(",");
+            }
+            cells=cells.concat("Doors:");
+            for(Square door : s.getDoors()){
+                cells=cells.concat(Integer.toString(door.getX()))
+                        .concat(",")
+                        .concat(Integer.toString(door.getY())).concat(";");
+            }
+            cells=cells.concat(" - ");
+        }
+        return cells.concat("//");
     }
 }

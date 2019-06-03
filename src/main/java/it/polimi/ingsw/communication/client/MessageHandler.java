@@ -1,7 +1,6 @@
 package it.polimi.ingsw.communication.client;
 
 import it.polimi.ingsw.view.ViewInterface;
-import it.polimi.ingsw.view.gui.GUI;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
@@ -81,6 +80,11 @@ public class MessageHandler {
                 timerUpdate = new TimersHandler(3,client,this);
                 pool.submit(timerUpdate);
                 break;
+            }
+            case "Initialize board":{
+                timerUpdate=new TimersHandler(0,client,this);
+                pool.submit(timerUpdate);
+                //TODO sistemare
             }
             default: {
 
