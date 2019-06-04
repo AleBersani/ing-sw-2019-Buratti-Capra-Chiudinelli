@@ -116,7 +116,7 @@ public class GUI extends Application implements ViewInterface {
     }
 
     private void showGameBoard(){
-        for(String s: this.gameData.substring(1,this.gameData.length()-6).split("//")){
+        for(String s: this.gameData.substring(1,this.gameData.length()-3).split("//")){
             System.out.println(s);
         }
     }

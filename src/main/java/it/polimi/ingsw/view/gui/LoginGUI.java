@@ -103,6 +103,7 @@ public class LoginGUI {
         username.setPromptText("Username");
         username.prefWidthProperty().bind(pane.widthProperty().divide(20));
         username.prefHeightProperty().bind(pane.heightProperty().divide(20));
+        username.setTooltip(new Tooltip("You can't use a Nickname with - or quit"));
 
         //button
         GridPane.setHalignment(button, HPos.CENTER);
@@ -111,7 +112,7 @@ public class LoginGUI {
         button.prefWidthProperty().bind(pane.widthProperty().divide(15));
         button.prefHeightProperty().bind(pane.heightProperty().divide(22));
         button.setOnAction(e -> {
-            if(username.getText().equals("quit")||username.getText().equals("")){
+            if(username.getText().equals("quit")||username.getText().equals("")||username.getText().contains("-")){
                 infoText.setTextFill(Color.web("#ff0000",0.8));
                 infoText.setText("Invalid Nickname");
             }

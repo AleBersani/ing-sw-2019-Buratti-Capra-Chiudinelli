@@ -81,9 +81,8 @@ public class Client extends Thread implements Closeable {
                     while (waiting) {
                         try {
                             Thread.sleep(500);
-                        } catch (InterruptedException e) {
-
-                        }
+                            //TODO sistemare sleep
+                        } catch (InterruptedException e) { }
                     }
                 }
                 this.send(messageHandler.correctToSend());

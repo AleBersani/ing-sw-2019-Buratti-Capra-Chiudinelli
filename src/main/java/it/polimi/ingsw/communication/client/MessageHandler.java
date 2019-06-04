@@ -86,20 +86,20 @@ public class MessageHandler {
                 break;
             }
             case "Initialize board":{
-                timer= new Timer();
-                timer.schedule(wrap(this::update),0);
+                this.toSend = "Ok";
+                client.setWaiting(false);
                 break;
                 //TODO sistemare
             }
             case "Initialize Players":{
-                timer= new Timer();
-                timer.schedule(wrap(this::update),0);
+                this.toSend = "Ok";
+                client.setWaiting(false);
                 break;
                 //TODO sistemare
             }
             case "Initialize you":{
-                timer= new Timer();
-                timer.schedule(wrap(this::update),0);
+                this.toSend = "Ok";
+                client.setWaiting(false);
                 break;
                 //TODO sistemare
             }
