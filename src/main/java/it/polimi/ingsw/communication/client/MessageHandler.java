@@ -16,6 +16,7 @@ public class MessageHandler {
     private Client client;
     private ExecutorService pool;
     private Timer timer;
+
     private static final int startFirstEtiquette = 0, endFirstEtiquette = 3, timerDuration = 2, instantTimerResponse = 1, nameEtiquette = 4;
 
     //TODO aggiungere un modo per capire che una stringa va spezzata
@@ -121,10 +122,7 @@ public class MessageHandler {
                     break;
                 }
                 case "§§§":{
-                    String befDivid = msg.substring(nameEtiquette);
-                    System.out.println(befDivid);
-                    bigReceive = befDivid.split("-");
-
+                    bigReceive = msg.substring(nameEtiquette).split("-");
                     break;
                 }
                 case "+++":{
@@ -139,10 +137,8 @@ public class MessageHandler {
 
     public void update(){
         this.toSend = "Ok";
-        synchronized (client){
-            client.notify();
-        }
-        timer.cancel();
+        client.setWaiting(false);
+        this.timer.cancel();
     }
 
     private static TimerTask wrap(Runnable r){

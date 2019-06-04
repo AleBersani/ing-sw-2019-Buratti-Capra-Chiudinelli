@@ -117,9 +117,7 @@ public class LoginGUI {
             }
             else{
                 messageHandler.setToSend(username.getText());
-                synchronized (client){
-                    client.notify();
-                }
+                client.setWaiting(false);
             }
         });
 
@@ -131,9 +129,7 @@ public class LoginGUI {
         button2.prefHeightProperty().bind(pane.heightProperty().divide(22));
         button2.setOnAction(e -> {
             messageHandler.setToSend("quit");
-            synchronized (client){
-                client.notify();
-            }
+            client.setWaiting(false);
         });
 
         //button full screen
@@ -211,18 +207,16 @@ public class LoginGUI {
 
         //done Button
         doneButton.setOnAction(e -> {
-            synchronized (client){
-                messageHandler.slowSendAdd(title2.getValue());
-                messageHandler.slowSendAdd(title3.getValue());
-                if(title4.getValue().equals("Yes")){
-                    messageHandler.slowSendAdd("Y");
-                }
-                else{
-                    messageHandler.slowSendAdd("N");
-                }
-                client.notify();
-                client.setGo(true);
+            messageHandler.slowSendAdd(title2.getValue());
+            messageHandler.slowSendAdd(title3.getValue());
+            if(title4.getValue().equals("Yes")){
+                messageHandler.slowSendAdd("Y");
             }
+            else{
+                messageHandler.slowSendAdd("N");
+            }
+            client.setWaiting(false);
+            client.setGo(true);
         });
         doneButton.setTooltip(new Tooltip("Press if you want to play with this settings"));
 
@@ -346,9 +340,7 @@ public class LoginGUI {
         Button buttonExit = new Button("EXIT");
         buttonExit.setOnAction(e -> {
             messageHandler.setToSend("quit");
-            synchronized (client){
-                client.notify();
-            }
+            client.setWaiting(false);
         });
 
         //grid

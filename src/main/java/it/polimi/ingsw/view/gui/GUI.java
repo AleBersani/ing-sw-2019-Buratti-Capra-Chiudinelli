@@ -11,6 +11,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GUI extends Application implements ViewInterface {
 
@@ -21,6 +22,8 @@ public class GUI extends Application implements ViewInterface {
     private boolean messageToShow;
     private State state;
     private String gameData;
+    private ArrayList<String> romms, cells;
+
     private static final int startSecondEtiquette = 0, endSecondEtiquette = 5;
 
     public enum State{
@@ -54,9 +57,7 @@ public class GUI extends Application implements ViewInterface {
         //stage
         stage.setOnCloseRequest(e -> {
             messageHandler.setToSend("quit");
-            synchronized (client){
-                client.notify();
-            }
+            client.setWaiting(false);
         });
         stage.setTitle("Adrenaline");
         stage.getIcons().add(new Image("/images/login/adrenalineLogo.png"));
@@ -115,7 +116,9 @@ public class GUI extends Application implements ViewInterface {
     }
 
     private void showGameBoard(){
-
+        for(String s: this.gameData.substring(1,this.gameData.length()-6).split("//")){
+            System.out.println(s);
+        }
     }
 
     @Override
