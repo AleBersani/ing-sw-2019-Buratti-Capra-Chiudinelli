@@ -233,7 +233,7 @@ public class Controller {
     }
 
     private String boardDescriptor() {
-        String boardDescriptor="+++Board";
+        String boardDescriptor="+++Board++";
         boardDescriptor=boardDescriptor.concat(match.getBoard().getRooms().toString());
         return boardDescriptor;
     }
@@ -275,7 +275,7 @@ public class Controller {
                 y=p;
             }
         }
-        String youDescriptor="+++You";
+        String youDescriptor="+++You++++";
         youDescriptor=youDescriptor.concat(y.describe());
         return youDescriptor;
     }

@@ -24,7 +24,7 @@ public class GUI extends Application implements ViewInterface {
     private String gameData;
     private ArrayList<String> romms, cells;
 
-    private static final int startSecondEtiquette = 0, endSecondEtiquette = 5;
+    private static final int startSecondEtiquette = 0, endSecondEtiquette = 7;
 
     public enum State{
         LOGIN, MENU, WAIT, BOARD;
@@ -116,8 +116,8 @@ public class GUI extends Application implements ViewInterface {
     }
 
     private void showGameBoard(){
-        for(String s: this.gameData.substring(1,this.gameData.length()-3).split("//")){
-            System.out.println(s);
+        for(String s: this.gameData.substring(1,this.gameData.length()-1).split(",")){
+            //TODO
         }
     }
 
@@ -128,12 +128,19 @@ public class GUI extends Application implements ViewInterface {
 
     @Override
     public void dataShow(String msg) {
-        System.out.println(msg);
         switch (msg.substring(startSecondEtiquette,endSecondEtiquette)){
-            case "Board":{
+            case "Board++":{
                 this.gameData = msg.substring(endSecondEtiquette);
                 System.out.println(this.gameData);
                 Platform.runLater(this::showGameBoard);
+                break;
+            }
+            case "Players":{
+                //TODO
+                break;
+            }
+            case "You++++":{
+                //TODO
                 break;
             }
         }
