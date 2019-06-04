@@ -86,7 +86,20 @@ public class MessageHandler {
             }
             case "Initialize board":{
                 timer= new Timer();
-                timer.schedule(wrap(this::update),instantTimerResponse*(long)10);
+                timer.schedule(wrap(this::update),0);
+                break;
+                //TODO sistemare
+            }
+            case "Initialize Players":{
+                timer= new Timer();
+                timer.schedule(wrap(this::update),0);
+                break;
+                //TODO sistemare
+            }
+            case "Initialize you":{
+                timer= new Timer();
+                timer.schedule(wrap(this::update),0);
+                break;
                 //TODO sistemare
             }
             default: {
