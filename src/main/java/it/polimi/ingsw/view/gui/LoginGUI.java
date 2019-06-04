@@ -38,7 +38,7 @@ public class LoginGUI {
         mv.fitHeightProperty().bind(pane.heightProperty());
 
         //rectangle
-        rectangle.setFill(Color.rgb(0, 0, 0, 0.5));
+        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
         rectangle.setEffect(new BoxBlur());
         rectangle.widthProperty().bind(pane.widthProperty());
         rectangle.heightProperty().bind(pane.heightProperty().divide(2));
@@ -111,7 +111,7 @@ public class LoginGUI {
         button.prefWidthProperty().bind(pane.widthProperty().divide(15));
         button.prefHeightProperty().bind(pane.heightProperty().divide(22));
         button.setOnAction(e -> {
-            if(username.getText().equals("quit")){
+            if(username.getText().equals("quit")||username.getText().equals("")){
                 infoText.setTextFill(Color.web("#ff0000",0.8));
                 infoText.setText("Invalid Nickname");
             }
