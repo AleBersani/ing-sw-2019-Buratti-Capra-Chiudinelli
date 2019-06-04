@@ -79,21 +79,21 @@ public class GameGUI extends Application {
         //image
         screen.fitWidthProperty().bind(pane.widthProperty());
         screen.fitHeightProperty().bind(pane.heightProperty());
-/*
+
         //grid column constraint
-        for (int j = 0 ; j < 8; j++) {
+        for (int j = 0 ; j < 7; j++) {
             ColumnConstraints col = new ColumnConstraints();
             col.setHgrow(Priority.ALWAYS);
             grid.getColumnConstraints().add(col);
         }
 
         //grid row constraint
-        for (int i = 0 ; i < 4; i++) {
+        for (int i = 0 ; i < 5; i++) {
             RowConstraints row = new RowConstraints();
             row.setVgrow(Priority.ALWAYS);
             grid.getRowConstraints().add(row);
         }
-*/
+
         //grid
         grid.add(new ImageView(blue), 0, 0);
         grid.add(new ImageView(wallW),0,0);

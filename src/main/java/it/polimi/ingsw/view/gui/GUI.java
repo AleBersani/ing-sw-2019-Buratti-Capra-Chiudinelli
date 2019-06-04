@@ -124,11 +124,11 @@ public class GUI extends Application implements ViewInterface {
 
     @Override
     public void dataShow(String msg) {
-        String etiquette = msg.substring(0,5);
-        switch (etiquette){
-            case "board":{
-                System.out.println(msg);
-                this.gameData = msg;
+        System.out.println(msg);
+        switch (msg.substring(0,5)){
+            case "Board":{
+                this.gameData = msg.substring(5);
+                System.out.println(this.gameData);
                 Platform.runLater(this::showGameBoard);
                 break;
             }
