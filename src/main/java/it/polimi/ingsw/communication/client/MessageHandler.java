@@ -111,6 +111,10 @@ public class MessageHandler {
 
                     break;
                 }
+                case "+++":{
+                    view.dataShow(msg);
+                    break;
+                }
                 default:
 
             }

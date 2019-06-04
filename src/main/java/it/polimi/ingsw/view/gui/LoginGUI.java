@@ -199,7 +199,7 @@ public class LoginGUI {
 
         //choice box 3
         ChoiceBox<String> title3 = new ChoiceBox<>();
-        title3.getItems().addAll("5","8");
+        title3.getItems().addAll("8","5");
         title3.getSelectionModel().selectFirst();
         title3.setTooltip(new Tooltip("Select the number of skulls"));
 

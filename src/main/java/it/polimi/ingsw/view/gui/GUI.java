@@ -20,6 +20,7 @@ public class GUI extends Application implements ViewInterface {
     private MessageHandler messageHandler;
     private boolean messageToShow;
     private State state;
+    private String gameData;
 
     public enum State{
         LOGIN, MENU, WAIT, BOARD;
@@ -72,7 +73,7 @@ public class GUI extends Application implements ViewInterface {
         stage.getScene().setRoot(stackPane);
     }
 
-    private void menugrid(){
+    private void menuGrid(){
         this.state = State.MENU;
         this.clearPane();
         loginGUI.loginImageSetting(stage);
@@ -112,14 +113,31 @@ public class GUI extends Application implements ViewInterface {
         this.messageToShow = false;
     }
 
+    private void showGameBoard(){
+
+    }
+
     @Override
     public void showMessage() {
         Platform.runLater(this::realShowMessage);
     }
 
     @Override
+    public void dataShow(String msg) {
+        String etiquette = msg.substring(0,5);
+        switch (etiquette){
+            case "board":{
+                System.out.println(msg);
+                this.gameData = msg;
+                Platform.runLater(this::showGameBoard);
+                break;
+            }
+        }
+    }
+
+    @Override
     public void boardSettingView() {
-        Platform.runLater(this::menugrid);
+        Platform.runLater(this::menuGrid);
     }
 
     @Override
