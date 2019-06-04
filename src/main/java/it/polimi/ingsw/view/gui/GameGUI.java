@@ -70,6 +70,15 @@ public class GameGUI extends Application {
         Image redAmmo = new Image("/images/game/ammo/redAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
         ImageView redAmmoIV = new ImageView(redAmmo);
 
+        //killshot track
+        Image killshotTrack = new Image("/images/game/killshotTrack.png",pane.getWidth()/7*3,pane.getHeight()/7,false,false);
+
+        //points
+        Label points = new Label("YOUR POINTS:"+"\n"+"0");
+        points.setTextFill(Color.web("#ffffff", 0.8));
+        points.setStyle("-fx-font: 30 Helvetica;");
+        points.setEffect(new DropShadow());
+
         //weapon
         Image weaponBack = new Image("/images/game/weapons/weaponBack.png",pane.getWidth()/7,pane.getHeight()/3,false,false);
 
@@ -79,7 +88,7 @@ public class GameGUI extends Application {
         //image
         screen.fitWidthProperty().bind(pane.widthProperty());
         screen.fitHeightProperty().bind(pane.heightProperty());
-
+/*
         //grid column constraint
         for (int j = 0 ; j < 7; j++) {
             ColumnConstraints col = new ColumnConstraints();
@@ -93,7 +102,7 @@ public class GameGUI extends Application {
             row.setVgrow(Priority.ALWAYS);
             grid.getRowConstraints().add(row);
         }
-
+*/
         //grid
         grid.add(new ImageView(blue), 0, 0);
         grid.add(new ImageView(wallW),0,0);
@@ -149,6 +158,13 @@ public class GameGUI extends Application {
         grid.add(new ImageView(greyPlayer),4,2,3,1);
         grid.add(new ImageView(purplePlayer),4,3,3,1);
         grid.add(new ImageView(bluePlayer),0,4,4,1);
+
+        //killshot track and points
+        grid.add(new ImageView(killshotTrack),0,3,3,1);
+        grid.add(points,3,3);
+        GridPane.setHalignment(points,HPos. CENTER);
+        GridPane.setValignment(points,VPos. CENTER);
+
 
         //set token position
         setTokenPosition(stage,grid,pane,"blue",0,0);
@@ -280,6 +296,96 @@ public class GameGUI extends Application {
                                     });
                                 });
                             }
+                            else
+                                if(i==4 && j==4){
+                                    Button actions = new Button("Actions");
+                                    grid2.add(actions,j,i);
+                                    GridPane.setHalignment(actions,HPos.CENTER);
+                                    GridPane.setValignment(actions,VPos.CENTER);
+                                    actions.setOnAction(e ->{
+                                        GridPane grid4 = new GridPane();
+                                        Rectangle rectangle = new Rectangle();
+                                        Button shoot = new Button("SHOOT");
+                                        Button run = new Button("RUN");
+                                        Button grab = new Button("GRAB");
+                                        Button button2 = new Button("BACK");
+                                        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+                                        rectangle.setEffect(new BoxBlur());
+                                        rectangle.widthProperty().bind(pane.widthProperty());
+                                        rectangle.heightProperty().bind(pane.heightProperty());
+                                        grid4.add(shoot,0,0);
+                                        grid4.add(run,1,0);
+                                        grid4.add(grab,2,0);
+                                        grid4.add(button2,1,1);
+                                        pane.getChildren().add(rectangle);
+                                        pane.getChildren().add(grid4);
+                                        grid4.setHgap(70);
+                                        grid4.setVgap(50);
+                                        GridPane.setHalignment(button2,HPos.CENTER);
+                                        GridPane.setValignment(button2,VPos.CENTER);
+                                        grid4.setAlignment(Pos.CENTER);
+                                        button2.setOnAction(ev -> {
+                                            pane.getChildren().remove(grid4);
+                                            pane.getChildren().remove(rectangle);
+                                        });
+                                    });
+                                }
+                                else
+                                    if(i==4 && j==5){
+                                        Button powerUps = new Button("Use PowerUps");
+                                        grid2.add(powerUps,j,i);
+                                        GridPane.setHalignment(powerUps,HPos.CENTER);
+                                        GridPane.setValignment(powerUps,VPos.CENTER);
+                                    }
+                                    else
+                                        if(i==4 && j==6){
+                                            Button quit = new Button("Quit");
+                                            grid2.add(quit,j,i);
+                                            GridPane.setHalignment(quit,HPos.CENTER);
+                                            GridPane.setValignment(quit,VPos.CENTER);
+                                            quit.setOnAction(e ->{
+                                                GridPane grid4 = new GridPane();
+                                                ColumnConstraints col1 = new ColumnConstraints();
+                                                col1.setPercentWidth(20);
+                                                ColumnConstraints col2 = new ColumnConstraints();
+                                                col2.setPercentWidth(20);
+                                                grid4.getColumnConstraints().addAll(col1,col2);
+                                                Rectangle rectangle = new Rectangle();
+                                                Label text = new Label("Are you sure to quit?");
+                                                text.setTextFill(Color.web("#ffffff", 0.8));
+                                                text.setStyle("-fx-font: 60 Helvetica;");
+                                                text.setEffect(new DropShadow());
+                                                Button quit1 = new Button("QUIT");
+                                                Button button2 = new Button("BACK");
+                                                rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+                                                rectangle.setEffect(new BoxBlur());
+                                                rectangle.widthProperty().bind(pane.widthProperty());
+                                                rectangle.heightProperty().bind(pane.heightProperty());
+                                                grid4.add(text,0,0,2,1);
+                                                grid4.add(button2,0,1);
+                                                grid4.add(quit1,1,1);
+                                                pane.getChildren().add(rectangle);
+                                                pane.getChildren().add(grid4);
+                                                grid4.setHgap(70);
+                                                grid4.setVgap(50);
+                                                grid4.setAlignment(Pos.CENTER);
+                                                GridPane.setHalignment(text,HPos.CENTER);
+                                                GridPane.setValignment(text,VPos.CENTER);
+                                                GridPane.setHalignment(button2,HPos.CENTER);
+                                                GridPane.setValignment(button2,VPos.CENTER);
+                                                GridPane.setHalignment(quit1,HPos.CENTER);
+                                                GridPane.setValignment(quit1,VPos.CENTER);
+                                                button2.setOnAction(ev -> {
+                                                    pane.getChildren().remove(grid4);
+                                                    pane.getChildren().remove(rectangle);
+                                                });
+                                                //quit.setOnAction(ev -> {
+                                                // messageHandler.setToSend("quit");
+                                                //            synchronized (client){
+                                                //                client.notify();
+                                                //            });
+                                            });
+                                        }
                         }
                     }
         }
