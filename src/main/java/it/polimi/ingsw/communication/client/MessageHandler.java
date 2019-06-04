@@ -3,6 +3,8 @@ package it.polimi.ingsw.communication.client;
 import it.polimi.ingsw.view.ViewInterface;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -12,8 +14,9 @@ public class MessageHandler {
     private String[] bigReceive;
     private ViewInterface view;
     private Client client;
-    private TimersHandler timerUpdate;
     private ExecutorService pool;
+    private Timer timer;
+    private static final int startFirstEtiquette = 0, endFirstEtiquette = 3, timerDuration = 2, instantTimerResponse = 1, nameEtiquette = 4;
 
     //TODO aggiungere un modo per capire che una stringa va spezzata
 
@@ -77,13 +80,13 @@ public class MessageHandler {
             }
             case "Now you are in the waiting room": {
                 view.waitingRoomView();
-                timerUpdate = new TimersHandler(3,client,this);
-                pool.submit(timerUpdate);
+                timer= new Timer();
+                timer.schedule(wrap(this::update),timerDuration*(long)1000);
                 break;
             }
             case "Initialize board":{
-                timerUpdate=new TimersHandler(0,client,this);
-                pool.submit(timerUpdate);
+                timer= new Timer();
+                timer.schedule(wrap(this::update),instantTimerResponse*(long)10);
                 //TODO sistemare
             }
             default: {
@@ -98,15 +101,15 @@ public class MessageHandler {
             view.stopView();
         }
         else{
-            String stringo = msg.substring(0,3);
-            switch (stringo){
+            switch (msg.substring(startFirstEtiquette,endFirstEtiquette)){
                 case ">>>":{
                     this.toShow = msg;
                     view.showMessage();
                     break;
                 }
                 case "§§§":{
-                    String befDivid = msg.substring(4);
+                    String befDivid = msg.substring(nameEtiquette);
+                    System.out.println(befDivid);
                     bigReceive = befDivid.split("-");
 
                     break;
@@ -119,5 +122,22 @@ public class MessageHandler {
 
             }
         }
+    }
+
+    public void update(){
+        this.toSend = "Ok";
+        synchronized (client){
+            client.notify();
+        }
+        timer.cancel();
+    }
+
+    private static TimerTask wrap(Runnable r){
+        return new TimerTask() {
+            @Override
+            public void run() {
+                r.run();
+            }
+        };
     }
 }

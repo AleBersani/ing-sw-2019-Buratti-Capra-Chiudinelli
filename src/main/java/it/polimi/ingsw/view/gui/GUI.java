@@ -21,6 +21,7 @@ public class GUI extends Application implements ViewInterface {
     private boolean messageToShow;
     private State state;
     private String gameData;
+    private static final int startSecondEtiquette = 0, endSecondEtiquette = 5;
 
     public enum State{
         LOGIN, MENU, WAIT, BOARD;
@@ -125,9 +126,9 @@ public class GUI extends Application implements ViewInterface {
     @Override
     public void dataShow(String msg) {
         System.out.println(msg);
-        switch (msg.substring(0,5)){
+        switch (msg.substring(startSecondEtiquette,endSecondEtiquette)){
             case "Board":{
-                this.gameData = msg.substring(5);
+                this.gameData = msg.substring(endSecondEtiquette);
                 System.out.println(this.gameData);
                 Platform.runLater(this::showGameBoard);
                 break;
