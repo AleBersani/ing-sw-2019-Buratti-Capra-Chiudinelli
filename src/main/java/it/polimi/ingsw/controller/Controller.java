@@ -57,7 +57,7 @@ public class Controller {
         server.lifeCycle();
     }
 
-    public void understandMessage(String msg, ClientHandler clientHandler){
+    public synchronized void understandMessage(String msg, ClientHandler clientHandler){
         String [] command = msg.split(" ");
         switch(command[0]){
             case "?": {
@@ -159,7 +159,7 @@ public class Controller {
         }
     }
 
-    public void waitingRoom(String msg, ClientHandler clientHandler){
+    public  synchronized void waitingRoom(String msg, ClientHandler clientHandler){
         if (gameStarted){
             clientHandler.setServiceMessage("Initialize board");
         }
@@ -172,7 +172,7 @@ public class Controller {
 
     }
 
-    public void quit(ClientHandler clientHandler){
+    public synchronized void quit(ClientHandler clientHandler){
         String nickName= new String();
         clientHandler.setDisconnect(true);
         if (nicknameList.containsValue(clientHandler)){
@@ -217,11 +217,67 @@ public class Controller {
     }
 
 
-    public void boardDescription( ClientHandler clientHandler) {
+    public synchronized void boardDescription( ClientHandler clientHandler) {
+        sendString(boardDescriptor(),clientHandler);
+        clientHandler.setServiceMessage("Initialize Players");
+    }
+
+    public synchronized void playerDescription(ClientHandler clientHandler) {
+        sendString(playersDescriptor(clientHandler),clientHandler);
+        clientHandler.setServiceMessage("Initialize you");
+    }
+
+    public synchronized void youDescription(ClientHandler clientHandler) {
+        sendString(youDescriptor(clientHandler),clientHandler);
+        clientHandler.setServiceMessage("");//TODO
+    }
+
+    private String boardDescriptor() {
         String boardDescriptor="+++Board";
         boardDescriptor=boardDescriptor.concat(match.getBoard().getRooms().toString());
-        sendString(boardDescriptor,clientHandler);
-        clientHandler.setServiceMessage("");//TODO
+        return boardDescriptor;
+    }
+
+    private String playersDescriptor(ClientHandler current){
+        String you= new String();
+        if (nicknameList.containsValue(current)) {
+            for (Map.Entry e : nicknameList.entrySet()) {
+                if (e.getValue().equals(current)) {
+                    you = (String) e.getKey();
+                }
+            }
+        }
+        ArrayList<Player> enemies= (ArrayList<Player>) this.match.getPlayers().clone();
+        Player i=null;
+        for (Player p : enemies){
+            if(p.getNickname().equals(you)){
+                i=p;
+            }
+        }
+        enemies.remove(i);
+        String playersDescriptor="+++Players";
+        playersDescriptor=playersDescriptor.concat(enemies.toString());
+        return playersDescriptor;
+    }
+
+    private String youDescriptor(ClientHandler you){
+        String yo= new String();
+        if (nicknameList.containsValue(you)) {
+            for (Map.Entry e : nicknameList.entrySet()) {
+                if (e.getValue().equals(you)) {
+                    yo = (String) e.getKey();
+                }
+            }
+        }
+        Player y=null;
+        for (Player p: match.getPlayers()){
+            if(p.getNickname().equals(yo)){
+                y=p;
+            }
+        }
+        String youDescriptor="+++You";
+        youDescriptor=youDescriptor.concat(y.describe());
+        return youDescriptor;
     }
 
     private class Configuration{

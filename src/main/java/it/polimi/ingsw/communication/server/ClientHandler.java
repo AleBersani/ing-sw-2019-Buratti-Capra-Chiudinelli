@@ -73,6 +73,15 @@ public class ClientHandler implements Runnable{
                         }
                         case "Initialize board":{
                             controller.boardDescription(this);
+                            break;
+                        }
+                        case "Initialize Players":{
+                            controller.playerDescription(this);
+                            break;
+                        }
+                        case "Initialize you":{
+                            controller.youDescription(this);
+                            break;
                         }
                         default:{
 
