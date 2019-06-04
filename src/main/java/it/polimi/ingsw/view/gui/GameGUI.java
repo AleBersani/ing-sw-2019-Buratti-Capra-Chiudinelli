@@ -16,6 +16,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+
 import java.awt.*;
 
 public class GameGUI extends Application {
@@ -62,7 +63,7 @@ public class GameGUI extends Application {
         Image purplePlayer = new Image("/images/game/plance/purplePlayer.png",pane.getWidth()/7*3,pane.getHeight()/5,false,false);
 
         //ammo
-        Image ammoBack = new Image("/images/game/ammo/ammoBack.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
+        Image ammoBack = new Image("/images/game/ammo/tiles/ammoBack.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
         Image blueAmmo = new Image("/images/game/ammo/blueAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
         ImageView blueammoIV = new ImageView(blueAmmo);
         Image yellowAmmo = new Image("/images/game/ammo/yellowAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
@@ -264,6 +265,7 @@ public class GameGUI extends Application {
                             grid2.add(ammoBackIV, i, j);
                             GridPane.setHalignment(ammoBackIV, HPos.CENTER);
                             GridPane.setValignment(ammoBackIV, VPos.CENTER);
+
                         }
                         else{
                             if((i==2 && j==0)||(i==0 && j==1)||(i==3 && j==2)){
@@ -336,6 +338,27 @@ public class GameGUI extends Application {
                                         grid2.add(powerUps,j,i);
                                         GridPane.setHalignment(powerUps,HPos.CENTER);
                                         GridPane.setValignment(powerUps,VPos.CENTER);
+                                        powerUps.setOnAction(e ->{
+                                            GridPane grid4 = new GridPane();
+                                            Rectangle rectangle = new Rectangle();
+                                            Button button2 = new Button("BACK");
+                                            rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+                                            rectangle.setEffect(new BoxBlur());
+                                            rectangle.widthProperty().bind(pane.widthProperty());
+                                            rectangle.heightProperty().bind(pane.heightProperty());
+                                            grid4.add(button2,0,0);
+                                            pane.getChildren().add(rectangle);
+                                            pane.getChildren().add(grid4);
+                                            grid4.setHgap(30);
+                                            grid4.setVgap(20);
+                                            GridPane.setHalignment(button2,HPos.CENTER);
+                                            GridPane.setValignment(button2,VPos.CENTER);
+                                            grid4.setAlignment(Pos.CENTER);
+                                            button2.setOnAction(ev -> {
+                                                pane.getChildren().remove(grid4);
+                                                pane.getChildren().remove(rectangle);
+                                            });
+                                        });
                                     }
                                     else
                                         if(i==4 && j==6){
@@ -379,11 +402,9 @@ public class GameGUI extends Application {
                                                     pane.getChildren().remove(grid4);
                                                     pane.getChildren().remove(rectangle);
                                                 });
-                                                //quit.setOnAction(ev -> {
-                                                // messageHandler.setToSend("quit");
-                                                //            synchronized (client){
-                                                //                client.notify();
-                                                //            });
+                                                quit1.setOnAction(ev -> {
+                                                    stage.close();
+                                                });
                                             });
                                         }
                         }
