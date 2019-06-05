@@ -766,6 +766,10 @@ public class Player {
         for (Weapon w : weapons){
             descr=descr.concat(w.getName()).concat(",").concat(String.valueOf(w.isLoad())).concat(".");
         }
+        descr=descr.concat(" - ").concat("YourPowerUps:,");
+        for (PowerUp p : powerUps){
+            descr=descr.concat(p.getName()).concat(",").concat(p.getColor()).concat(".");
+        }
         descr=descr.concat("///");
         return descr;
     }
