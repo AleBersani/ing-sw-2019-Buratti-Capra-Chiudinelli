@@ -21,9 +21,13 @@ import java.util.ArrayList;
 
 public class LoginGUI {
     private GUI gui;
+    private MessageHandler messageHandler;
+    private Client client;
 
-    public LoginGUI(GUI gui) {
+    public LoginGUI(GUI gui, MessageHandler messageHandler, Client client) {
         this.gui = gui;
+        this.messageHandler = messageHandler;
+        this.client = client;
     }
 
     public void loginImageSetting(Stage stage){
@@ -51,7 +55,7 @@ public class LoginGUI {
         stage.setScene(stage.getScene());
     }
 
-    public void loginGridSetting(Stage stage, Client client, MessageHandler messageHandler){
+    public void loginGridSetting(Stage stage){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         Button button = new Button();
@@ -151,7 +155,7 @@ public class LoginGUI {
         pane.getChildren().add(fullScreen);
     }
 
-    public void menuGridSetting(Stage stage, Client client, MessageHandler messageHandler){
+    public void menuGridSetting(Stage stage){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         GridPane grid = new GridPane();
@@ -295,7 +299,7 @@ public class LoginGUI {
         pane.getChildren().add(fullScreen);
     }
 
-    public void roomGridSetting(Stage stage, Client client, MessageHandler messageHandler){
+    public void roomGridSetting(Stage stage){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         GridPane grid = new GridPane();

@@ -17,14 +17,15 @@ public class GUI extends Application implements ViewInterface {
 
     private Client client;
     private Stage stage;
-    private LoginGUI loginGUI = new LoginGUI(this);
+    private LoginGUI loginGUI;
+    private GameGUI gameGUI;
     private MessageHandler messageHandler;
     private boolean messageToShow;
     private State state;
     private String gameData;
-    private ArrayList<String> romms, cells;
+    private ArrayList<ArrayList<String>> boardRepresentation;
 
-    private static final int startSecondEtiquette = 0, endSecondEtiquette = 7;
+    private static final int startSecondEtiquette= 0, endSecondEtiquette= 7, squareBracket= 1, cellSeparetore= 3;
 
     public enum State{
         LOGIN, MENU, WAIT, BOARD;
@@ -43,6 +44,9 @@ public class GUI extends Application implements ViewInterface {
         Client client = new Client(this);
         this.client = client;
         messageHandler = new MessageHandler(this,client);
+        this.boardRepresentation = new ArrayList<ArrayList<String>>();
+        this.loginGUI = new LoginGUI(this,messageHandler,client);
+        this.gameGUI = new GameGUI(this,messageHandler,client);
         client.setMessageHandler(messageHandler);
         client.init();
         client.start();
@@ -65,7 +69,7 @@ public class GUI extends Application implements ViewInterface {
 
         //login
         loginGUI.loginImageSetting(stage);
-        loginGUI.loginGridSetting(stage,client,messageHandler);
+        loginGUI.loginGridSetting(stage);
         stage.show();
         this.state = State.LOGIN;
     }
@@ -79,32 +83,33 @@ public class GUI extends Application implements ViewInterface {
         this.state = State.MENU;
         this.clearPane();
         loginGUI.loginImageSetting(stage);
-        loginGUI.menuGridSetting(stage,client,messageHandler);
+        loginGUI.menuGridSetting(stage);
     }
 
     private void waitingRoom(){
         this.state = State.WAIT;
         this.clearPane();
         loginGUI.loginImageSetting(stage);
-        loginGUI.roomGridSetting(stage,client,messageHandler);
+        loginGUI.roomGridSetting(stage);
     }
 
     private void realShowMessage(){
         this.messageToShow = true;
+        this.clearPane();
         switch (this.state){
             case LOGIN: {
                 loginGUI.loginImageSetting(stage);
-                loginGUI.loginGridSetting(stage,client,messageHandler);
+                loginGUI.loginGridSetting(stage);
                 break;
             }
             case MENU: {
                 loginGUI.loginImageSetting(stage);
-                loginGUI.menuGridSetting(stage,client,messageHandler);
+                loginGUI.menuGridSetting(stage);
                 break;
             }
             case WAIT: {
                 loginGUI.loginImageSetting(stage);
-                loginGUI.roomGridSetting(stage,client,messageHandler);
+                loginGUI.roomGridSetting(stage);
                 break;
             }
             case BOARD: {
@@ -116,9 +121,17 @@ public class GUI extends Application implements ViewInterface {
     }
 
     private void showGameBoard(){
-        for(String s: this.gameData.substring(1,this.gameData.length()-1).split(",")){
-            //TODO
+        this.state = State.BOARD;
+        int i=0;
+        boardRepresentation.clear();
+        for(String room: this.gameData.substring(squareBracket,this.gameData.length()-squareBracket).split(",")){
+            this.boardRepresentation.add(new ArrayList<String>());
+            for(String cell: room.split(" - ",room.length()-cellSeparetore)){
+                boardRepresentation.get(i).add(cell);
+            }
+            i++;
         }
+        this.gameGUI.buildMap(stage);
     }
 
     @Override
@@ -131,7 +144,6 @@ public class GUI extends Application implements ViewInterface {
         switch (msg.substring(startSecondEtiquette,endSecondEtiquette)){
             case "Board++":{
                 this.gameData = msg.substring(endSecondEtiquette);
-                System.out.println(this.gameData);
                 Platform.runLater(this::showGameBoard);
                 break;
             }
