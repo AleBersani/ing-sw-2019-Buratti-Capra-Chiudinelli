@@ -166,14 +166,12 @@ public class GameGUI extends Application {
         GridPane.setHalignment(points,HPos. CENTER);
         GridPane.setValignment(points,VPos. CENTER);
 
-
         //set token position
-        setTokenPosition(stage,grid,pane,"blue",0,0);
-        setTokenPosition(stage,grid,pane,"green",0,0);
-        setTokenPosition(stage,grid,pane,"yellow",0,0);
-        setTokenPosition(stage,grid,pane,"grey",0,0);
-        setTokenPosition(stage,grid,pane,"purple",0,0);
-        //setTokenPosition(stage,grid,pane,"blue",1,0); TODO REMOVE THE PREVIOUS TOKEN
+        setTokenPosition(grid,pane,"blue",0,0);
+        setTokenPosition(grid,pane,"green",0,0);
+        setTokenPosition(grid,pane,"yellow",0,0);
+        setTokenPosition(grid,pane,"grey",0,0);
+        setTokenPosition(grid,pane,"purple",0,0);
 
         //info button,ammo and button
         GridPane grid2 = new GridPane();
@@ -411,9 +409,15 @@ public class GameGUI extends Application {
                     }
         }
 
+
+
         //pane
         pane.getChildren().add(screen);
         pane.getChildren().add(grid);
+
+        //skull
+        drawSkullBlood(pane,8,5);
+
         pane.getChildren().add(grid2);
 
         //stage
@@ -421,11 +425,38 @@ public class GameGUI extends Application {
         stage.show();
     }
 
+    public void drawSkullBlood(Pane pane,int tot, int num){
+        //skull
+        Image skull = new Image("/images/game/redSkull.png",pane.getWidth()/30,pane.getHeight()/15,false,false);
+
+
+        //blood
+        Image blueBlood = new Image("/images/game/blood/blueBlood.png",pane.getWidth()/25,pane.getHeight()/15,false,false);
+
+        //pane2
+        Pane pane2 = new Pane();
+        for(int i = 0;i<tot;i++) {
+            if(i<num) {
+                ImageView skullIV = new ImageView(skull);
+                skullIV.setLayoutX(pane.getWidth()/3.047619 - (i * pane.getWidth()/21.818181));
+                skullIV.setLayoutY(pane.getHeight()/1.5);
+                pane2.getChildren().add(skullIV);
+            }
+            else {
+                ImageView blueBloodIV = new ImageView(blueBlood);
+                blueBloodIV.setLayoutX(pane.getWidth()/3.047619 - (i * pane.getWidth()/21.818181));
+                blueBloodIV.setLayoutY(pane.getHeight()/1.5);
+                pane2.getChildren().add(blueBloodIV);
+            }
+        }
+        pane.getChildren().add(pane2);
+    }
+
     public void buildMap(){
 
     }
 
-    public void setTokenPosition(Stage stage,GridPane grid,StackPane pane, String color, int x, int y){
+    public void setTokenPosition(GridPane grid,StackPane pane, String color, int x, int y){
         //token
         Image blueToken = new Image("/images/game/tokens/blueToken.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
         Image yellowToken = new Image("/images/game/tokens/yellowToken.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
