@@ -19,8 +19,10 @@ public class Client extends Thread implements Closeable {
     private PrintWriter out;
     private ViewInterface view;
     private MessageHandler messageHandler;
+    private final Object mutexLock;
 
     public Client(ViewInterface view) {
+        this.mutexLock = new Object();
         this.view = view;
         this.go = false;
     }
@@ -78,11 +80,12 @@ public class Client extends Thread implements Closeable {
                 System.out.println(received); //sarà da togliere
                 messageHandler.understandMessage(received);
                 if(!go) {
-                    while (waiting) {
-                        try {
-                            Thread.sleep(500);
-                            //TODO sistemare sleep
-                        } catch (InterruptedException e) { }
+                    synchronized (mutexLock){
+                        while (waiting){
+                            try {
+                                mutexLock.wait(100);
+                            } catch (InterruptedException e) { }
+                        }
                     }
                 }
                 this.send(messageHandler.correctToSend());
