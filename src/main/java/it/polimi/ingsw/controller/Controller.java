@@ -22,7 +22,6 @@ public class Controller {
     private int skulls;
     private boolean frenzyEn;
     private String board;
-
     private int timer;
     private String mode;
     private ArrayList<Integer> availableBoards;
@@ -30,7 +29,6 @@ public class Controller {
     private ArrayList<String> availableColors;
     private boolean gameStarted;
     private Match match;
-
 
     public Controller(){
         Gson gSon= new Gson();
@@ -230,6 +228,20 @@ public class Controller {
     public synchronized void youDescription(ClientHandler clientHandler) {
         sendString(youDescriptor(clientHandler),clientHandler);
         clientHandler.setServiceMessage("");//TODO
+    }
+
+    public synchronized void killshotTrackDescription(ClientHandler clientHandler) {
+        sendString(killshotTrackDescriptor(),clientHandler);
+        clientHandler.setServiceMessage("");//TODO
+    }
+
+    private String killshotTrackDescriptor() {
+        String killshotTrackDescriptor= "+++Kill+++";
+        for (Player p : match.getKillShotTrack()) {
+            killshotTrackDescriptor = killshotTrackDescriptor.concat(p.getColor()).concat(".");
+        }
+        killshotTrackDescriptor=killshotTrackDescriptor.concat(";").concat(match.getDoubleOnKillShotTrack().toString());
+        return killshotTrackDescriptor;
     }
 
     private String boardDescriptor() {
