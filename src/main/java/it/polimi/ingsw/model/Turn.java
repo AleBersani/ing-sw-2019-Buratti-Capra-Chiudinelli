@@ -103,8 +103,11 @@ public class Turn {
 
             getMatch().getKillShotTrack().add(this.deads.get(i).getDamage().get(10));
             if(this.deads.get(i).getDamage().size()==12 && this.deads.get(i).getDamage().get(10)==this.deads.get(i).getDamage().get(11)) {
-                getMatch().getKillShotTrack().add(this.deads.get(i).getDamage().get(11));
+                match.getDoubleOnKillShotTrack().add(true);
                 this.deads.get(i).getDamage().get(11).marked(1,this.deads.get(i));
+            }
+            else {
+                match.getDoubleOnKillShotTrack().add(false);
             }
 
             for(k=0;!damagePlayer.isEmpty();k++) {// SET POINT FOR ALL DAMAGER

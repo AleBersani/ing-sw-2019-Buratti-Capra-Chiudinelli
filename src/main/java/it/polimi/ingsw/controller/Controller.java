@@ -33,7 +33,6 @@ public class Controller {
     private static final int ETIQUETTE = 4;
     private static final int MAX_PLAYERS_NUMBER = 5;
 
-
     public Controller(){
         Gson gSon= new Gson();
         BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/Configuration.json")));
@@ -284,6 +283,20 @@ public class Controller {
         return killshotTrackDescriptor;
         */
         return null;
+    }
+
+    public synchronized void killshotTrackDescription(ClientHandler clientHandler) {
+        sendString(killshotTrackDescriptor(),clientHandler);
+        clientHandler.setServiceMessage("");//TODO
+    }
+
+    private String killshotTrackDescriptor() {
+        String killshotTrackDescriptor= "+++Kill+++";
+        for (Player p : match.getKillShotTrack()) {
+            killshotTrackDescriptor = killshotTrackDescriptor.concat(p.getColor()).concat(".");
+        }
+        killshotTrackDescriptor=killshotTrackDescriptor.concat(";").concat(match.getDoubleOnKillShotTrack().toString());
+        return killshotTrackDescriptor;
     }
 
     private String boardDescriptor() {

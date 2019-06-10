@@ -14,6 +14,7 @@ class MatchTest {
     Turn turn,turn2;
     ArrayList<Player> playerList,killShotTrack;
     Match matchTest,matchTest2;
+    ArrayList<Boolean> doubleOnKillshotTrack;
 
     @BeforeEach
     public void setup(){
@@ -27,8 +28,8 @@ class MatchTest {
         turn2 = new Turn(false,null,matchTest2);
         matchTest = new Match(playerList,5,4,false,"normal", "/Board/Board1.json");
         matchTest2 = new Match(playerList,3,0,true,"normal", "/Board/Board1.json");
-        killShotTrack = new ArrayList<>(Arrays.asList(guest,guest,test,loser,loser,test));
-
+        killShotTrack = new ArrayList<>(Arrays.asList(guest,test,loser,test));
+        doubleOnKillshotTrack= new ArrayList<Boolean>(Arrays.asList(true,false,true,false));
     }
 
     @Test
@@ -63,6 +64,7 @@ class MatchTest {
         loser.setPoints(12);
         matchTest.setTurn(turn);
         matchTest.setKillShotTrack(killShotTrack);
+        matchTest.setDoubleOnKillShotTrack(doubleOnKillshotTrack);
         matchTest.endGame();
         assertEquals(8,guest.getPoints());
         assertEquals(17,nest.getPoints());
@@ -81,6 +83,7 @@ class MatchTest {
         loser.setPoints(12);
         matchTest.setTurn(turn);
         matchTest.setKillShotTrack(killShotTrack);
+        matchTest.setDoubleOnKillShotTrack(doubleOnKillshotTrack);
         matchTest.endGame();
         assertEquals(8,guest.getPoints());
         assertEquals(16,test.getPoints());
@@ -97,6 +100,7 @@ class MatchTest {
         loser.setPoints(13);
         matchTest.setTurn(turn);
         matchTest.setKillShotTrack(killShotTrack);
+        matchTest.setDoubleOnKillShotTrack(doubleOnKillshotTrack);
         matchTest.endGame();
         assertEquals(8,guest.getPoints());
         assertEquals(15,nest.getPoints());
@@ -115,6 +119,7 @@ class MatchTest {
         loser.setPoints(12);
         matchTest.setTurn(turn);
         matchTest.setKillShotTrack(killShotTrack);
+        matchTest.setDoubleOnKillShotTrack(doubleOnKillshotTrack);
         matchTest.endGame();
         assertEquals(8,guest.getPoints());
         assertEquals(15,nest.getPoints());

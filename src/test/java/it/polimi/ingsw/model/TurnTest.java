@@ -98,7 +98,7 @@ class TurnTest {
     @Test
     public void testSetPoint4(){
         testSetPoint3();
-        assertEquals(4,testMatch.getKillShotTrack().size());
+        assertEquals(3,testMatch.getKillShotTrack().size());
     }
     //TESTED THE RIGHT POINTS CALCULATION WHEN THE PLANK IS TURNED
     @Test
