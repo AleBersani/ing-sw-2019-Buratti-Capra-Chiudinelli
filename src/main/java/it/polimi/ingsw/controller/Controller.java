@@ -274,23 +274,6 @@ public class Controller {
     }
 
     private String killshotTrackDescriptor() {
-        /*
-        String killshotTrackDescriptor= "+++Kill+++";
-        for (Player p : match.getKillShotTrack()) {
-            killshotTrackDescriptor = killshotTrackDescriptor.concat(p.getColor()).concat(".");
-        }
-        killshotTrackDescriptor=killshotTrackDescriptor.concat(";").concat(match.getDoubleOnKillShotTrack().toString());
-        return killshotTrackDescriptor;
-        */
-        return null;
-    }
-
-    public synchronized void killshotTrackDescription(ClientHandler clientHandler) {
-        sendString(killshotTrackDescriptor(),clientHandler);
-        clientHandler.setServiceMessage("");//TODO
-    }
-
-    private String killshotTrackDescriptor() {
         String killshotTrackDescriptor= "+++Kill+++";
         for (Player p : match.getKillShotTrack()) {
             killshotTrackDescriptor = killshotTrackDescriptor.concat(p.getColor()).concat(".");
