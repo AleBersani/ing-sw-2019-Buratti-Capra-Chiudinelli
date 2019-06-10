@@ -18,16 +18,19 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 public class LoginGUI {
     private GUI gui;
     private MessageHandler messageHandler;
     private Client client;
+    private CountDownLatch startSignal;
 
     public LoginGUI(GUI gui, MessageHandler messageHandler, Client client) {
         this.gui = gui;
         this.messageHandler = messageHandler;
         this.client = client;
+        this.startSignal = startSignal;
     }
 
     public void loginImageSetting(Stage stage){
@@ -116,13 +119,17 @@ public class LoginGUI {
         button.prefWidthProperty().bind(pane.widthProperty().divide(15));
         button.prefHeightProperty().bind(pane.heightProperty().divide(22));
         button.setOnAction(e -> {
-            if(username.getText().equals("quit")||username.getText().equals("")||username.getText().contains("-")){
-                infoText.setTextFill(Color.web("#ff0000",0.8));
-                infoText.setText("Invalid Nickname");
+            if(gui.isSendable()){
+                if (username.getText().equals("quit") || username.getText().equals("") || username.getText().contains("-")) {
+                    infoText.setTextFill(Color.web("#ff0000", 0.8));
+                    infoText.setText("Invalid Nickname");
+                } else {
+                    client.send("LOG-".concat(username.getText()));
+                }
             }
-            else{
-                messageHandler.setToSend(username.getText());
-                client.setWaiting(false);
+            else {
+                infoText.setTextFill(Color.web("#ff0000", 0.8));
+                infoText.setText("Wait a moment, please");
             }
         });
 
@@ -133,8 +140,7 @@ public class LoginGUI {
         button2.prefWidthProperty().bind(pane.widthProperty().divide(15));
         button2.prefHeightProperty().bind(pane.heightProperty().divide(22));
         button2.setOnAction(e -> {
-            messageHandler.setToSend("quit");
-            client.setWaiting(false);
+            client.send("quit");
         });
 
         //button full screen
@@ -220,7 +226,7 @@ public class LoginGUI {
             else{
                 messageHandler.slowSendAdd("N");
             }
-            client.setWaiting(false);
+            startSignal.countDown();
             client.setGo(true);
         });
         doneButton.setTooltip(new Tooltip("Press if you want to play with this settings"));
@@ -344,8 +350,7 @@ public class LoginGUI {
         //exit button
         Button buttonExit = new Button("EXIT");
         buttonExit.setOnAction(e -> {
-            messageHandler.setToSend("quit");
-            client.setWaiting(false);
+            client.send("quit");
         });
 
         //grid

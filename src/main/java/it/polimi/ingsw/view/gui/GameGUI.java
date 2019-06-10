@@ -21,7 +21,6 @@ import javafx.scene.control.Button;
 import java.awt.*;
 
 public class GameGUI {
-
     private GUI gui;
     private MessageHandler messageHandler;
     private Client client;
@@ -33,8 +32,8 @@ public class GameGUI {
     }
 
     public void buildMap(Stage stage){
-        StackPane pane = new StackPane();
-        Scene scene = new Scene(pane, Toolkit.getDefaultToolkit().getScreenSize().getWidth(),Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+        StackPane pane = (StackPane)stage.getScene().getRoot();
+        Scene scene = stage.getScene();
         stage.setFullScreenExitHint("");
         stage.setFullScreen(true);
         stage.setScene(scene);
@@ -75,12 +74,12 @@ public class GameGUI {
         ImageView redAmmoIV = new ImageView(redAmmo);
 
         //killshot track
-        Image killshotTrack = new Image("/images/game/killshotTrack.png",pane.getWidth()/7*3,pane.getHeight()/7,false,false);
+        Image killshotTrack = new Image("/images/game/killshotTrack.png",pane.getWidth()/7.1*3,pane.getHeight()/7,false,false);
 
         //points
         Label points = new Label("YOUR POINTS:"+"\n"+"0");
         points.setTextFill(Color.web("#ffffff", 0.8));
-        points.setStyle("-fx-font: 30 Helvetica;");
+        points.setStyle("-fx-font: 20 Helvetica;");
         points.setEffect(new DropShadow());
 
         //weapon

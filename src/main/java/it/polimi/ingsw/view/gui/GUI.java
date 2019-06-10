@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 public class GUI extends Application implements ViewInterface {
 
@@ -20,16 +21,13 @@ public class GUI extends Application implements ViewInterface {
     private LoginGUI loginGUI;
     private GameGUI gameGUI;
     private MessageHandler messageHandler;
-    private boolean messageToShow;
-    private State state;
+    private boolean messageToShow, sendable;
     private String gameData;
     private ArrayList<ArrayList<String>> boardRepresentation;
 
     private static final int startSecondEtiquette= 0, endSecondEtiquette= 7, squareBracket= 1, cellSeparetore= 3;
 
-    public enum State{
-        LOGIN, MENU, WAIT, BOARD;
-    }
+
 
     public boolean isMessageToShow() {
         return messageToShow;
@@ -39,18 +37,22 @@ public class GUI extends Application implements ViewInterface {
         this.client = client;
     }
 
+    public boolean isSendable() {
+        return sendable;
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Client client = new Client(this);
-        this.client = client;
+        this.client = new Client(this);
         messageHandler = new MessageHandler(this,client);
-        this.boardRepresentation = new ArrayList<ArrayList<String>>();
+        this.boardRepresentation = new ArrayList<>();
         this.loginGUI = new LoginGUI(this,messageHandler,client);
         this.gameGUI = new GameGUI(this,messageHandler,client);
         client.setMessageHandler(messageHandler);
         client.init();
         client.start();
         this.stage = primaryStage;
+        this.sendable = false;
 
         StackPane pane = new StackPane();
         Scene scene = new Scene(pane, Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2,Toolkit.getDefaultToolkit().getScreenSize().getHeight()/1.5);
@@ -60,18 +62,15 @@ public class GUI extends Application implements ViewInterface {
 
         //stage
         stage.setOnCloseRequest(e -> {
-            messageHandler.setToSend("quit");
-            client.setWaiting(false);
+            client.send("quit");
         });
         stage.setTitle("Adrenaline");
         stage.getIcons().add(new Image("/images/login/adrenalineLogo.png"));
         stage.setResizable(true);
 
-        //login
         loginGUI.loginImageSetting(stage);
         loginGUI.loginGridSetting(stage);
         stage.show();
-        this.state = State.LOGIN;
     }
 
     private void clearPane(){
@@ -80,14 +79,12 @@ public class GUI extends Application implements ViewInterface {
     }
 
     private void menuGrid(){
-        this.state = State.MENU;
         this.clearPane();
         loginGUI.loginImageSetting(stage);
         loginGUI.menuGridSetting(stage);
     }
 
     private void waitingRoom(){
-        this.state = State.WAIT;
         this.clearPane();
         loginGUI.loginImageSetting(stage);
         loginGUI.roomGridSetting(stage);
@@ -96,7 +93,7 @@ public class GUI extends Application implements ViewInterface {
     private void realShowMessage(){
         this.messageToShow = true;
         this.clearPane();
-        switch (this.state){
+        switch (messageHandler.getState()){
             case LOGIN: {
                 loginGUI.loginImageSetting(stage);
                 loginGUI.loginGridSetting(stage);
@@ -121,7 +118,6 @@ public class GUI extends Application implements ViewInterface {
     }
 
     private void showGameBoard(){
-        this.state = State.BOARD;
         int i=0;
         boardRepresentation.clear();
         for(String room: this.gameData.substring(squareBracket,this.gameData.length()-squareBracket).split(",")){
@@ -131,6 +127,8 @@ public class GUI extends Application implements ViewInterface {
             }
             i++;
         }
+        this.stage.setFullScreen(true);
+        this.clearPane();
         this.gameGUI.buildMap(stage);
     }
 
@@ -159,9 +157,10 @@ public class GUI extends Application implements ViewInterface {
     }
 
     @Override
-    public void boardSettingView() {
-        Platform.runLater(this::menuGrid);
+    public void boardSettingView(ArrayList<String> data, String title) {
+        //TODO
     }
+
 
     @Override
     public void waitingRoomView() {
@@ -169,7 +168,13 @@ public class GUI extends Application implements ViewInterface {
     }
 
     @Override
+    public void loginView() {
+        this.sendable = true;
+    }
+
+    @Override
     public void stopView() {
         Platform.exit();
     }
+
 }
