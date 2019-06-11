@@ -190,10 +190,6 @@ public class Match {
                     }
             }
         }
-        //print for test
-        /*for (i = 0; i < winPlayer.size(); i++)
-            System.out.println(winPlayer.get(i).getNickname());
-        */
     }
 
     /**
@@ -276,10 +272,18 @@ public class Match {
         return frenzyEn;
     }
 
+    /**
+     * This method return the list of the double points of the killshot track
+     * @return
+     */
     public ArrayList<Boolean> getDoubleOnKillShotTrack() {
         return doubleOnKillShotTrack;
     }
 
+    /**
+     * This method sets the list of the double points of the killshot track
+     * @param doubleOnKillShotTrack
+     */
     public void setDoubleOnKillShotTrack(ArrayList<Boolean> doubleOnKillShotTrack) {
         this.doubleOnKillShotTrack = doubleOnKillShotTrack;
     }

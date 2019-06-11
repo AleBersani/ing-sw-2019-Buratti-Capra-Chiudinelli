@@ -15,7 +15,7 @@ public class MessageHandler {
     private static final int NAME_ETIQUETTE = 4;
 
     public enum State{
-        LOGIN, MENU, WAIT, BOARD
+        LOGIN, MENU, WAIT, GAME
     }
 
     public MessageHandler(ViewInterface view, Client client) {
@@ -43,8 +43,9 @@ public class MessageHandler {
                     waitUnderstand(msg);
                     break;
                 }
-                case BOARD: {
-
+                case GAME: {
+                    gameUnderstand(msg);
+                    break;
                 }
             }
         }
@@ -99,7 +100,26 @@ public class MessageHandler {
             view.waitingRoomView();
         }
         if(msg.equals("Match started")){
-            this.state = State.BOARD;
+            this.state = State.GAME;
+        }
+    }
+
+    private void gameUnderstand(String msg){
+        switch (msg.substring(0,NAME_ETIQUETTE)){
+            case "BRD-":{
+
+            }
+            case "PLR-":{
+
+            }
+            case "KLL-":{
+
+            }
+            case "YOU-":{
+                view.gameShow(msg);
+                break;
+            }
+            default:
         }
     }
 

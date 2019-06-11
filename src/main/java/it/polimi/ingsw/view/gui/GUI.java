@@ -111,7 +111,7 @@ public class GUI extends Application implements ViewInterface {
                 loginGUI.roomGridSetting(stage);
                 break;
             }
-            case BOARD: {
+            case GAME: {
 
                 break;
             }
@@ -142,7 +142,7 @@ public class GUI extends Application implements ViewInterface {
     @Override
     public void gameShow(String msg) {
         switch (msg.substring(0,SECOND_ETIQUETTE)){
-            case "KLL-":{
+            case "BRD-":{
                 this.gameData = msg.substring(SECOND_ETIQUETTE);
                 Platform.runLater(this::showGameBoard);
                 break;
@@ -152,6 +152,10 @@ public class GUI extends Application implements ViewInterface {
                 break;
             }
             case "YOU-":{
+                //TODO
+                break;
+            }
+            case "KLL-":{
                 //TODO
                 break;
             }
