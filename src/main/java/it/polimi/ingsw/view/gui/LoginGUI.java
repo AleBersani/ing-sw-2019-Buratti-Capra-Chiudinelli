@@ -161,119 +161,76 @@ public class LoginGUI {
         pane.getChildren().add(fullScreen);
     }
 
-    public void menuGridSetting(Stage stage){
+    public void menuGridSetting(Stage stage,ArrayList<String> array,String msg){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         GridPane grid = new GridPane();
         Button doneButton = new Button("DONE");
-        Button defaultButton = new Button("DEFAULT");
+        Button quitButton = new Button("QUIT");
         Button fullScreen = new Button("FS");
 
         //title label
-        Label title = new Label();
+        Label title = new Label("Settings");
         title.setTextFill(Color.web("#FFD938", 0.8));
         title.setStyle("-fx-font: 40 Helvetica;");
         title.setEffect(new DropShadow());
 
         //label info menu
-        Label infoMenu = new Label("Board");
+        Label infoMenu = new Label(msg);
         infoMenu.setTextFill(Color.web("#FFD938", 0.8));
         infoMenu.setStyle("-fx-font: 30 Helvetica;");
         infoMenu.setEffect(new DropShadow());
         GridPane.setHalignment(infoMenu, HPos.CENTER);
 
-        //label info menu 2
-        Label infoMenu2 = new Label("Skulls");
-        infoMenu2.setTextFill(Color.web("#FFD938", 0.8));
-        infoMenu2.setStyle("-fx-font: 30 Helvetica;");
-        infoMenu2.setEffect(new DropShadow());
-        GridPane.setHalignment(infoMenu2, HPos.CENTER);
-
-        //label info menu 3
-        Label infoMenu3 = new Label("Frenzy");
-        infoMenu3.setTextFill(Color.web("#FFD938", 0.8));
-        infoMenu3.setStyle("-fx-font: 30 Helvetica;");
-        infoMenu3.setEffect(new DropShadow());
-        GridPane.setHalignment(infoMenu3, HPos.CENTER);
-
-        //TODO automatizzare le opzioni di getItem
-
-        //choice box 2
-        ChoiceBox<String> title2 = new ChoiceBox<>();
-        title2.getItems().addAll("1","2","3","4");
-        title2.getSelectionModel().selectFirst();
-        title2.setTooltip(new Tooltip("Select a board"));
-
-        //choice box 3
-        ChoiceBox<String> title3 = new ChoiceBox<>();
-        title3.getItems().addAll("8","5");
-        title3.getSelectionModel().selectFirst();
-        title3.setTooltip(new Tooltip("Select the number of skulls"));
-
-        //choice box 4
-        ChoiceBox<String> title4 = new ChoiceBox<>();
-        title4.getItems().addAll("Yes","No");
-        title4.getSelectionModel().selectFirst();
-        title4.setTooltip(new Tooltip("Select if you want to enable frenzy"));
+        //choice box
+        ChoiceBox<String> choicebox = new ChoiceBox<>();
+        for(int i=0 ;i<array.size();i++)
+            choicebox.getItems().add(array.get(i));
+        choicebox.getSelectionModel().selectFirst();
 
         //done Button
-        doneButton.setOnAction(e -> {
-            messageHandler.slowSendAdd(title2.getValue());
-            messageHandler.slowSendAdd(title3.getValue());
-            if(title4.getValue().equals("Yes")){
-                messageHandler.slowSendAdd("Y");
+        doneButton.setOnAction(e ->{
+            switch (msg){
+                case "Board":{
+                    client.send("SET-BRD-".concat(choicebox.getValue()));
+                    break;
+                }
+                case "Skull":{
+                    client.send("SET-SKL-".concat(choicebox.getValue()));
+                    break;
+                }
+                case "Frenzy":{
+                    client.send("SET-FRZ-".concat(choicebox.getValue()));
+                    break;
+                }
+                default:
             }
-            else{
-                messageHandler.slowSendAdd("N");
-            }
-            startSignal.countDown();
-            client.setGo(true);
-        });
-        doneButton.setTooltip(new Tooltip("Press if you want to play with this settings"));
 
-        //default Button
-        defaultButton.setOnAction(e -> {
-            title2.getSelectionModel().selectFirst();
-            title3.getSelectionModel().selectFirst();
-            title4.getSelectionModel().selectFirst();
         });
-        defaultButton.setTooltip(new Tooltip("Press if you want to return to default settings"));
+
+        //quit Button
+        quitButton.setOnAction(e -> client.send("quit"));
 
         //grid
-        grid.add(title,0,0,5,1);
-        grid.addRow(1,new Text(""));
-        grid.add(infoMenu,0,2);
-        grid.add(infoMenu2,2,2);
-        grid.add(infoMenu3,4,2);
-        grid.addRow(3,new Text(""));
-        grid.add(title2,0,4);
-        grid.add(doneButton,1,6);
-        grid.add(title3,2,4);
-        grid.add(defaultButton,3,6);
-        grid.add(title4,4,4);
-        grid.addRow(5,new Text("\n\n"));
+        grid.add(title,0,0,2,1);
+        grid.add(infoMenu,0,1,2,1);
+        grid.add(choicebox,1,2);
+        grid.add(doneButton,0,3);
+        grid.add(quitButton,1,3);
+
         grid.setAlignment(Pos.CENTER);
+        //grid.setVGap(); //TODO SET A GAP
+        //grid.setHGap();
 
         //title
         GridPane.setHalignment(title, HPos.CENTER);
         title.setAlignment(Pos.CENTER);
-        title.setText("Choose the settings of the game");
         title.prefWidthProperty().bind(pane.widthProperty().divide(2));
 
-        //title2
-        GridPane.setHalignment(title2, HPos.CENTER);
-        title2.prefWidthProperty().bind(pane.widthProperty().divide(10));
-        title2.prefHeightProperty().bind(pane.heightProperty().divide(20));
-
-        //title3
-        GridPane.setHalignment(title3, HPos.CENTER);
-        title3.prefWidthProperty().bind(pane.widthProperty().divide(10));
-        title3.prefHeightProperty().bind(pane.heightProperty().divide(20));
-
-        //title4
-        GridPane.setHalignment(title4, HPos.CENTER);
-        title4.prefWidthProperty().bind(pane.widthProperty().divide(10));
-        title4.prefHeightProperty().bind(pane.heightProperty().divide(20));
+        //choicebox
+        GridPane.setHalignment(choicebox, HPos.CENTER);
+        choicebox.prefWidthProperty().bind(pane.widthProperty().divide(10));
+        choicebox.prefHeightProperty().bind(pane.heightProperty().divide(20));
 
         //doneButton
         GridPane.setHalignment(doneButton, HPos.CENTER);
@@ -281,11 +238,11 @@ public class LoginGUI {
         doneButton.prefWidthProperty().bind(pane.widthProperty().divide(10));
         doneButton.prefHeightProperty().bind(pane.heightProperty().divide(20));
 
-        //exitButton
-        GridPane.setHalignment(defaultButton, HPos.CENTER);
-        defaultButton.setAlignment(Pos.CENTER);
-        defaultButton.prefWidthProperty().bind(pane.widthProperty().divide(10));
-        defaultButton.prefHeightProperty().bind(pane.heightProperty().divide(20));
+        //quitButton
+        GridPane.setHalignment(quitButton, HPos.CENTER);
+        quitButton.setAlignment(Pos.CENTER);
+        quitButton.prefWidthProperty().bind(pane.widthProperty().divide(10));
+        quitButton.prefHeightProperty().bind(pane.heightProperty().divide(20));
 
         //button full screen
         StackPane.setAlignment(fullScreen, Pos.TOP_RIGHT);

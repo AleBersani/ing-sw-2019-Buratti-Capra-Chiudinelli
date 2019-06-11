@@ -29,18 +29,6 @@ public class MessageHandler {
         this.state = State.LOGIN;
     }
 
-    public String correctToSend(){
-        if(this.slowSend.isEmpty()){
-            return toSend;
-        }
-        String sendable = slowSend.get(0);
-        this.slowSend.remove(0);
-        if(this.slowSend.isEmpty()){
-            client.setGo(false);
-        }
-        return sendable;
-    }
-
     protected synchronized void understandMessage(String msg){
 
         if(msg.startsWith(">>>")){
@@ -59,6 +47,7 @@ public class MessageHandler {
                 }
                 case WAIT: {
                     waitUnderstand(msg);
+                    break;
                 }
                 case BOARD: {
 
@@ -68,11 +57,7 @@ public class MessageHandler {
     }
 
     public void understandReceived(String msg){
-        if(msg == null){
-            client.setToStop(true);
-            view.stopView();
-        }
-        else{
+
             switch (msg.substring(startFirstEtiquette,endFirstEtiquette)){
                 case ">>>":{
                     this.toShow = msg;
@@ -90,7 +75,7 @@ public class MessageHandler {
                 default:
 
             }
-        }
+
     }
 
     private void loginUnderstand(String msg){
@@ -117,11 +102,11 @@ public class MessageHandler {
         String[] stringo = msg.split("-");
         switch (stringo[0]){
             case "Select a board":{
-                view.boardSettingView(stringToArrayList(stringo[1]),"Board");
+                view.boardSettingView(stringToArrayList(stringo[1].replaceAll(" ", "")),"Board");
                 break;
             }
             case "Select the number of skulls":{
-                view.boardSettingView(stringToArrayList(stringo[1]),"Skull");
+                view.boardSettingView(stringToArrayList(stringo[1].replaceAll(" ", "")),"Skull");
                 break;
             }
             case "Do you like to play with frenzy? Y/N":{

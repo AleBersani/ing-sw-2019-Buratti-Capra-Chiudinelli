@@ -22,8 +22,9 @@ public class GUI extends Application implements ViewInterface {
     private GameGUI gameGUI;
     private MessageHandler messageHandler;
     private boolean messageToShow, sendable;
-    private String gameData;
+    private String gameData, infoString;
     private ArrayList<ArrayList<String>> boardRepresentation;
+    private ArrayList<String> infoChoiceBox;
 
     private static final int startSecondEtiquette= 0, endSecondEtiquette= 7, squareBracket= 1, cellSeparetore= 3;
 
@@ -81,7 +82,7 @@ public class GUI extends Application implements ViewInterface {
     private void menuGrid(){
         this.clearPane();
         loginGUI.loginImageSetting(stage);
-        loginGUI.menuGridSetting(stage);
+        loginGUI.menuGridSetting(stage,infoChoiceBox,infoString);
     }
 
     private void waitingRoom(){
@@ -101,7 +102,7 @@ public class GUI extends Application implements ViewInterface {
             }
             case MENU: {
                 loginGUI.loginImageSetting(stage);
-                loginGUI.menuGridSetting(stage);
+                loginGUI.menuGridSetting(stage,infoChoiceBox,infoString);
                 break;
             }
             case WAIT: {
@@ -158,7 +159,9 @@ public class GUI extends Application implements ViewInterface {
 
     @Override
     public void boardSettingView(ArrayList<String> data, String title) {
-        //TODO
+        this.infoChoiceBox = data;
+        this.infoString = title;
+        Platform.runLater(this::menuGrid);
     }
 
 
