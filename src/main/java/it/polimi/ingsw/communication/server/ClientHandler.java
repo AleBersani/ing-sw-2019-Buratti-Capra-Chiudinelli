@@ -105,4 +105,12 @@ public class ClientHandler implements Runnable{
     public void setName(String name) {
         this.name = name;
     }
+
+    public boolean isYourTurn() {
+        return yourTurn;
+    }
+
+    public void setYourTurn(boolean yourTurn) {
+        this.yourTurn = yourTurn;
+    }
 }

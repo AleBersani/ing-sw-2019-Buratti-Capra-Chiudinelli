@@ -248,32 +248,29 @@ public class Controller {
         match = new Match(players, getNicknameList().size(), skulls, frenzyEn, mode, board);
         match.start();
         for(ClientInfo clientInfo: getNicknameList().values()){
-            sendString("Initialize board",clientInfo.clientHandler);
+            sendString("Match started",clientInfo.clientHandler);
+            sendString(boardDescriptor(),clientInfo.clientHandler);
+            sendString(playersDescriptor(clientInfo.clientHandler),clientInfo.clientHandler);
+            sendString(youDescriptor(clientInfo.clientHandler),clientInfo.clientHandler);
+            sendString(killshotTrackDescriptor(),clientInfo.clientHandler);
+            clientInfo.nextState();
+            clientInfo.clientHandler.setYourTurn(false);
+            if(match.getTurn().getCurrent().getNickname().equals(clientInfo.clientHandler.getName())){
+                clientInfo.clientHandler.setYourTurn(true);
+                lifeCycle(clientInfo,match.getTurn().getCurrent());
+            }
         }
+
+
     }
 
-    public synchronized void boardDescription( ClientHandler clientHandler) {
-        sendString(boardDescriptor(),clientHandler);
-        sendString("Initialize Players",clientHandler);
-    }
+    private void lifeCycle(ClientInfo actual,Player player ) {
+        
 
-    public synchronized void playerDescription(ClientHandler clientHandler) {
-        sendString(playersDescriptor(clientHandler),clientHandler);
-        sendString("Initialize you",clientHandler);
-    }
-
-    public synchronized void youDescription(ClientHandler clientHandler) {
-        sendString(youDescriptor(clientHandler),clientHandler);
-        sendString("",clientHandler);//TODO
-    }
-
-    public synchronized void killshotTrackDescription(ClientHandler clientHandler) {
-        sendString(killshotTrackDescriptor(),clientHandler);
-        sendString("",clientHandler);//TODO
     }
 
     private String killshotTrackDescriptor() {
-        String killshotTrackDescriptor= "+++Kill+++";
+        String killshotTrackDescriptor= "KLL-";
         for (Player p : match.getKillShotTrack()) {
             killshotTrackDescriptor = killshotTrackDescriptor.concat(p.getColor()).concat(".");
         }
@@ -282,20 +279,13 @@ public class Controller {
     }
 
     private String boardDescriptor() {
-        String boardDescriptor="+++Board++";
+        String boardDescriptor="BRD-";
         boardDescriptor=boardDescriptor.concat(match.getBoard().getRooms().toString());
         return boardDescriptor;
     }
 
     private String playersDescriptor(ClientHandler current){
-        String you= new String();
-        if (getNicknameList().containsValue(current)) {
-            for (Map.Entry e : getNicknameList().entrySet()) {
-                if (e.getValue().equals(current)) {
-                    you = (String) e.getKey();
-                }
-            }
-        }
+        String you= current.getName();
         ArrayList<Player> enemies= (ArrayList<Player>) this.match.getPlayers().clone();
         Player i=null;
         for (Player p : enemies){
@@ -304,27 +294,20 @@ public class Controller {
             }
         }
         enemies.remove(i);
-        String playersDescriptor="+++Players";
+        String playersDescriptor="PLR-";
         playersDescriptor=playersDescriptor.concat(enemies.toString());
         return playersDescriptor;
     }
 
-    private String youDescriptor(ClientHandler you){
-        String yo= new String();
-        if (getNicknameList().containsValue(you)) {
-            for (Map.Entry e : getNicknameList().entrySet()) {
-                if (e.getValue().equals(you)) {
-                    yo = (String) e.getKey();
-                }
-            }
-        }
+    private String youDescriptor(ClientHandler current){
+        String you= current.getName();
         Player y=null;
         for (Player p: match.getPlayers()){
-            if(p.getNickname().equals(yo)){
+            if(p.getNickname().equals(you)){
                 y=p;
             }
         }
-        String youDescriptor="+++You++++";
+        String youDescriptor="YOU-";
         youDescriptor=youDescriptor.concat(y.describe());
         return youDescriptor;
     }
