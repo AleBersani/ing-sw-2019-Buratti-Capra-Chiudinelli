@@ -24,13 +24,12 @@ public class LoginGUI {
     private GUI gui;
     private MessageHandler messageHandler;
     private Client client;
-    private CountDownLatch startSignal;
+
 
     public LoginGUI(GUI gui, MessageHandler messageHandler, Client client) {
         this.gui = gui;
         this.messageHandler = messageHandler;
         this.client = client;
-        this.startSignal = startSignal;
     }
 
     public void loginImageSetting(Stage stage){
