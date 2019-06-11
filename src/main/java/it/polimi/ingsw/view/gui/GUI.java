@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.concurrent.CountDownLatch;
 
 public class GUI extends Application implements ViewInterface {
 
@@ -21,13 +20,15 @@ public class GUI extends Application implements ViewInterface {
     private LoginGUI loginGUI;
     private GameGUI gameGUI;
     private MessageHandler messageHandler;
-    private boolean messageToShow, sendable;
-    private String gameData, infoString;
+    private boolean sendable;
+    private boolean messageToShow;
+    private String gameData;
+    private String infoString;
     private ArrayList<ArrayList<String>> boardRepresentation;
     private ArrayList<String> infoChoiceBox;
-
-    private static final int startSecondEtiquette= 0, endSecondEtiquette= 7, squareBracket= 1, cellSeparetore= 3;
-
+    private static final int SECOND_ETIQUETTE= 4;
+    private static final int CELL_SEPARATOR= 3;
+    private static final int SQUARE_BRACKET= 1;
 
 
     public boolean isMessageToShow() {
@@ -121,9 +122,9 @@ public class GUI extends Application implements ViewInterface {
     private void showGameBoard(){
         int i=0;
         boardRepresentation.clear();
-        for(String room: this.gameData.substring(squareBracket,this.gameData.length()-squareBracket).split(",")){
+        for(String room: this.gameData.substring(SQUARE_BRACKET,this.gameData.length()-SQUARE_BRACKET).split(",")){
             this.boardRepresentation.add(new ArrayList<String>());
-            for(String cell: room.split(" - ",room.length()-cellSeparetore)){
+            for(String cell: room.split(" - ",room.length()-CELL_SEPARATOR)){
                 boardRepresentation.get(i).add(cell);
             }
             i++;
@@ -139,18 +140,18 @@ public class GUI extends Application implements ViewInterface {
     }
 
     @Override
-    public void dataShow(String msg) {
-        switch (msg.substring(startSecondEtiquette,endSecondEtiquette)){
-            case "Board++":{
-                this.gameData = msg.substring(endSecondEtiquette);
+    public void gameShow(String msg) {
+        switch (msg.substring(0,SECOND_ETIQUETTE)){
+            case "KLL-":{
+                this.gameData = msg.substring(SECOND_ETIQUETTE);
                 Platform.runLater(this::showGameBoard);
                 break;
             }
-            case "Players":{
+            case "PLR-":{
                 //TODO
                 break;
             }
-            case "You++++":{
+            case "YOU-":{
                 //TODO
                 break;
             }
@@ -163,7 +164,6 @@ public class GUI extends Application implements ViewInterface {
         this.infoString = title;
         Platform.runLater(this::menuGrid);
     }
-
 
     @Override
     public void waitingRoomView() {
