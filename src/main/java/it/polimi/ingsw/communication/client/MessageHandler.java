@@ -4,33 +4,27 @@ import it.polimi.ingsw.view.ViewInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MessageHandler {
-    private String toSend, toShow;
-    private ArrayList<String> slowSend;
+    private String toShow;
     private String[] bigReceive;
     private ViewInterface view;
     private Client client;
-    private Timer timer;
     private State state;
-
-    private static final int startFirstEtiquette = 0, endFirstEtiquette = 3, timerDuration = 2, instantTimerResponse = 1, nameEtiquette = 4;
+    private static final int TO_SHOW_ETIQUETTE = 3;
+    private static final int NAME_ETIQUETTE = 4;
 
     public enum State{
-        LOGIN, MENU, WAIT, BOARD;
+        LOGIN, MENU, WAIT, BOARD
     }
 
     public MessageHandler(ViewInterface view, Client client) {
         this.view = view;
-        this.slowSend = new ArrayList<>();
         this.client = client;
         this.state = State.LOGIN;
     }
 
     protected synchronized void understandMessage(String msg){
-
         if(msg.startsWith(">>>")){
             this.toShow = msg;
             view.showMessage();
@@ -56,30 +50,7 @@ public class MessageHandler {
         }
     }
 
-    public void understandReceived(String msg){
-
-            switch (msg.substring(startFirstEtiquette,endFirstEtiquette)){
-                case ">>>":{
-                    this.toShow = msg;
-                    view.showMessage();
-                    break;
-                }
-                case "§§§":{
-                    bigReceive = msg.substring(nameEtiquette).split("-");
-                    break;
-                }
-                case "+++":{
-                    view.dataShow(msg.substring(3));
-                    break;
-                }
-                default:
-
-            }
-
-    }
-
     private void loginUnderstand(String msg){
-
         switch (msg){
             case "Login":{
                 view.loginView();
@@ -123,16 +94,13 @@ public class MessageHandler {
     }
 
     private void waitUnderstand(String msg){
-        if(msg.substring(startFirstEtiquette,endFirstEtiquette).equals("§§§")){
-            bigReceive = msg.substring(nameEtiquette).split("-");
+        if(msg.substring(0,TO_SHOW_ETIQUETTE).equals("§§§")){
+            bigReceive = msg.substring(NAME_ETIQUETTE).split("-");
             view.waitingRoomView();
         }
-    }
-
-    public void update(){
-        this.toSend = "Ok";
-
-        this.timer.cancel();
+        if(msg.equals("Match started")){
+            this.state = State.BOARD;
+        }
     }
 
     private ArrayList<String> stringToArrayList(String msg){
@@ -143,21 +111,8 @@ public class MessageHandler {
         return data;
     }
 
-    private static TimerTask wrap(Runnable r){
-        return new TimerTask() {
-            @Override
-            public void run() {
-                r.run();
-            }
-        };
-    }
-
     public State getState() {
         return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
     }
 
     public String[] getBigReceive() {
@@ -166,13 +121,5 @@ public class MessageHandler {
 
     public String getToShow() {
         return toShow;
-    }
-
-    public void setReceive(String receive) {
-        this.toShow = receive;
-    }
-
-    public void slowSendAdd(String msg){
-        this.slowSend.add(msg);
     }
 }
