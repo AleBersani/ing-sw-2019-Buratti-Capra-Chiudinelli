@@ -3,8 +3,13 @@ package it.polimi.ingsw.controller;
 import com.google.gson.Gson;
 import it.polimi.ingsw.communication.server.ClientHandler;
 import it.polimi.ingsw.communication.server.MultiServer;
+import it.polimi.ingsw.exception.MaxHandSizeException;
+import it.polimi.ingsw.exception.NotFoundException;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.PowerUp;
+import it.polimi.ingsw.model.map.Square;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,6 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Controller {
 
+    private static final int MAX_ACTIONS = 2;
     private Map<String,ClientInfo> nicknameList = new ConcurrentHashMap<>();
     private ArrayList<String> disconnected = new ArrayList<>();
     private MultiServer server;
@@ -73,6 +79,11 @@ public class Controller {
                     break;
                 }
                 case GAME: {
+                    if (msg.startsWith("SPW-")){
+                        spawn(clientHandler, match.getTurn().getCurrent(), Integer.parseInt(msg.substring(ETIQUETTE)));
+                    }
+                    //TODO gestire spawn in end
+
                     //TODO
                     break;
                 }
@@ -257,16 +268,43 @@ public class Controller {
             clientInfo.clientHandler.setYourTurn(false);
             if(match.getTurn().getCurrent().getNickname().equals(clientInfo.clientHandler.getName())){
                 clientInfo.clientHandler.setYourTurn(true);
-                lifeCycle(clientInfo,match.getTurn().getCurrent());
+                lifeCycle(clientInfo.clientHandler,match.getTurn().getCurrent());
             }
         }
 
 
     }
 
-    private void lifeCycle(ClientInfo actual,Player player ) {
-        
+    private void lifeCycle(ClientHandler actual,Player player ) {
+        if(player.getPosition()==null){
+            try {
+                player.draw();
+                player.draw();
+            } catch (MaxHandSizeException e) {
+            }
+            sendString("Select a power up"+player.getPowerUps().toString(),actual);
+        }
+        else {
+            if(match.getTurn().getActionCounter()<MAX_ACTIONS) {
+                sendString("Insert a command", actual);
+            }
+            else {
+                //TODO
+            }
+        }
+    }
 
+    private void spawn(ClientHandler actual, Player player,int powerUpPosition) {
+        PowerUp powerUp= player.getPowerUps().get(powerUpPosition);
+        Square spawningPosition;
+        try {
+            spawningPosition = match.getBoard().findSpawnPoint(powerUp.getColor());
+            player.discard(powerUp);
+            player.setPosition(spawningPosition);
+        } catch (NotFoundException e) {
+            sendString("SpawnPoint not found", actual);
+        }
+        lifeCycle(actual,player);
     }
 
     private String killshotTrackDescriptor() {
