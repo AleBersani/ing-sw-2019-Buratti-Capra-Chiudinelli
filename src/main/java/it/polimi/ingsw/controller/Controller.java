@@ -308,7 +308,7 @@ public class Controller {
     }
 
     private String killshotTrackDescriptor() {
-        String killshotTrackDescriptor= "KLL-";
+        String killshotTrackDescriptor= "BGD-KLL-";
         for (Player p : match.getKillShotTrack()) {
             killshotTrackDescriptor = killshotTrackDescriptor.concat(p.getColor()).concat(".");
         }
@@ -317,7 +317,7 @@ public class Controller {
     }
 
     private String boardDescriptor() {
-        String boardDescriptor="BRD-";
+        String boardDescriptor="BGD-BRD-";
         boardDescriptor=boardDescriptor.concat(match.getBoard().getRooms().toString());
         return boardDescriptor;
     }
@@ -332,7 +332,7 @@ public class Controller {
             }
         }
         enemies.remove(i);
-        String playersDescriptor="PLR-";
+        String playersDescriptor="BGD-PLR-";
         playersDescriptor=playersDescriptor.concat(enemies.toString());
         return playersDescriptor;
     }
@@ -345,7 +345,7 @@ public class Controller {
                 y=p;
             }
         }
-        String youDescriptor="YOU-";
+        String youDescriptor="BGD-YOU-";
         youDescriptor=youDescriptor.concat(y.describe());
         return youDescriptor;
     }
