@@ -168,6 +168,13 @@ public class LoginGUI {
         Button quitButton = new Button("QUIT");
         Button fullScreen = new Button("FS");
 
+        //grid column constraint
+        for (int j = 0 ; j < 3; j++) {
+            ColumnConstraints col = new ColumnConstraints();
+            col.setPercentWidth(10);
+            grid.getColumnConstraints().add(col);
+        }
+
         //title label
         Label title = new Label("Settings");
         title.setTextFill(Color.web("#FFD938", 0.8));
@@ -211,15 +218,15 @@ public class LoginGUI {
         quitButton.setOnAction(e -> client.send("quit"));
 
         //grid
-        grid.add(title,0,0,2,1);
-        grid.add(infoMenu,0,1,2,1);
+        grid.add(title,0,0,3,1);
+        grid.add(infoMenu,0,1,3,1);
         grid.add(choicebox,1,2);
         grid.add(doneButton,0,3);
-        grid.add(quitButton,1,3);
+        grid.add(quitButton,2,3);
 
         grid.setAlignment(Pos.CENTER);
-        //grid.setVGap(); //TODO SET A GAP
-        //grid.setHGap();
+        grid.setVgap(50);
+        grid.setHgap(10);
 
         //title
         GridPane.setHalignment(title, HPos.CENTER);
