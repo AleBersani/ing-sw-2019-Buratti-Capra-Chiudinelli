@@ -41,6 +41,8 @@ public class Match {
      */
     private Board board;
 
+    private ArrayList<Boolean> doubleOnKillShotTrack;
+
     int i;
 
     /**
@@ -80,6 +82,7 @@ public class Match {
         this.i=0;
         this.turn=new Turn(false,null,this);
         this.board= new Board(this, type);
+        this.doubleOnKillShotTrack=new ArrayList<>();
     }
 
     /**
@@ -127,10 +130,16 @@ public class Match {
                 if (this.killShotTrack.get(i) == killPlayer.get(k)) {
                     killCounter.set(k, killCounter.get(k) + 1);
                     found = true;
+                    if(doubleOnKillShotTrack.get(k)){
+                        killCounter.set(k, killCounter.get(k) + 1);
+                    }
                 }
             if (!found) {
                 killPlayer.add(this.killShotTrack.get(i));
                 killCounter.add(1);
+                if(doubleOnKillShotTrack.get(k)){
+                    killCounter.set(k, killCounter.get(k) + 1);
+                }
             }
         }
 
@@ -265,5 +274,13 @@ public class Match {
      */
     public boolean isFrenzyEn() {
         return frenzyEn;
+    }
+
+    public ArrayList<Boolean> getDoubleOnKillShotTrack() {
+        return doubleOnKillShotTrack;
+    }
+
+    public void setDoubleOnKillShotTrack(ArrayList<Boolean> doubleOnKillShotTrack) {
+        this.doubleOnKillShotTrack = doubleOnKillShotTrack;
     }
 }

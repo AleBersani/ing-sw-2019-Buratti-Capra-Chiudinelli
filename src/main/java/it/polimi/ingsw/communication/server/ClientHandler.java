@@ -14,7 +14,7 @@ public class ClientHandler implements Runnable{
     private OutputStream os;
     private PrintWriter out;
     private BufferedReader in;
-    private String serviceMessage;
+    private String name;
 
     public ClientHandler(Socket socket, Controller controller) {
         this.socket=socket;
@@ -23,73 +23,39 @@ public class ClientHandler implements Runnable{
         this.is=null;
         this.os=null;
         this.logged=false;
-        this.serviceMessage="login";
+    }
+
+    private void init(){
+        try {
+            is = socket.getInputStream();
+            os = socket.getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        out = new PrintWriter(os,true);
+        in = new BufferedReader(new InputStreamReader(is));
     }
 
     public void handleConnection(Socket clientConnection) throws IOException {
-        is = clientConnection.getInputStream();
-        os = clientConnection.getOutputStream();
-        out = new PrintWriter(os,true);
-        in = new BufferedReader(new InputStreamReader(is));
         String msg;
         disconnect = false;
+        init();
         try {
-
+            this.print("Login");
             while(!disconnect) {
-                print(serviceMessage);
                 msg = read();
                 if(msg.equals("quit")){
                     controller.quit(this);
                 }
+                if(yourTurn){
+                    controller.understandMessage(msg,this);
+                }
                 else{
-                    switch (serviceMessage) {
-                        case "Insert a command:": {
-                            if (yourTurn) {
-                                controller.understandMessage(msg, this);
-                            } else
-                                print("This is not your turn, please wait for it");
-                            break;
-                        }
-                        case "login": {
-                            controller.login(msg, this);
-                            break;
-                        }
-
-                        case "Select a board": {
-                            controller.selectBoard(msg, this);
-                            break;
-                        }
-                        case "Select the number of skulls": {
-                            controller.setSkulls(msg, this);
-                            break;
-                       }
-                        case "Do you like to play with frenzy? Y/N": {
-                            controller.setFrenzy(msg, this);
-                            break;
-                        }
-                        case "Now you are in the waiting room": {
-                            controller.waitingRoom(msg, this);
-                            break;
-                        }
-                        case "Initialize board":{
-                            controller.boardDescription(this);
-                            break;
-                        }
-                        case "Initialize Players":{
-                            controller.playerDescription(this);
-                            break;
-                        }
-                        case "Initialize you":{
-                            controller.youDescription(this);
-                            break;
-                        }
-                        default:{
-
-                        }
-                    }
+                    this.print(">>>This isn't your turn, please wait");
                 }
             }
-        } finally {
+        }
+        finally {
             if ((os != null)&&(is != null)) {
                 os.close();
                 is.close();
@@ -97,7 +63,6 @@ public class ClientHandler implements Runnable{
             clientConnection.close();
         }
     }
-
 
     @Override
     public void run() {
@@ -109,7 +74,7 @@ public class ClientHandler implements Runnable{
         }
     }
 
-    public void print(String msg){
+    public synchronized void print(String msg){
         out.println(msg);
     }
 
@@ -133,7 +98,11 @@ public class ClientHandler implements Runnable{
         return socket;
     }
 
-    public void setServiceMessage(String serviceMessage) {
-        this.serviceMessage = serviceMessage;
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

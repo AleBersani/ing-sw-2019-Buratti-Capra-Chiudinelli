@@ -5,7 +5,6 @@ import it.polimi.ingsw.communication.server.ClientHandler;
 import it.polimi.ingsw.communication.server.MultiServer;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,13 +15,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Controller {
 
-    private Map<String,ClientHandler> nicknameList = new ConcurrentHashMap<>();
-    private Map<String,ClientHandler> disconnected = new ConcurrentHashMap<>();
+    private Map<String,ClientInfo> nicknameList = new ConcurrentHashMap<>();
+    private ArrayList<String> disconnected = new ArrayList<>();
     private MultiServer server;
     private int skulls;
     private boolean frenzyEn;
     private String board;
-
     private int timer;
     private String mode;
     private ArrayList<Integer> availableBoards;
@@ -30,13 +28,15 @@ public class Controller {
     private ArrayList<String> availableColors;
     private boolean gameStarted;
     private Match match;
-
+    private final Object nicknameListLock;
+    private static final int ETIQUETTE = 4;
+    private static final int MAX_PLAYERS_NUMBER = 5;
 
     public Controller(){
         Gson gSon= new Gson();
         BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/Configuration.json")));
         Configuration configuration = gSon.fromJson(br, Configuration.class);
-        this.board=Integer.toString(configuration.board);
+        this.board="/Board/Board" +Integer.toString(configuration.board)+ ".json";
         this.skulls=configuration.skulls;
         this.frenzyEn=configuration.frenzy;
         this.timer=configuration.timer;
@@ -45,6 +45,7 @@ public class Controller {
         this.availableSkulls=configuration.availableSkulls;
         this.availableColors=configuration.availableColors;
         this.gameStarted=false;
+        this.nicknameListLock = new Object();
     }
 
     public void sendString(String msg, ClientHandler clientHandler) {
@@ -57,55 +58,75 @@ public class Controller {
         server.lifeCycle();
     }
 
-    public synchronized void understandMessage(String msg, ClientHandler clientHandler){
-        String [] command = msg.split(" ");
-        switch(command[0]){
-            case "?": {
-                sendString("help menù", clientHandler);
-                break;
-            }
-            default: {
-                sendString("This command doesn't exist, type '?' for the list of all available commands", clientHandler);
+    public void understandMessage(String msg, ClientHandler clientHandler){
+        if(msg.startsWith("LOG-")){
+            this.login(msg.substring(ETIQUETTE),clientHandler);
+        }
+        else {
+            switch (getNicknameList().get(clientHandler.getName()).state) {
+                case LOGIN: {
+                    if (msg.startsWith("SET-")) {
+                        this.understandSettingMessages(msg.substring(ETIQUETTE), clientHandler);
+                    } else {
+                        sendString("Wrong Etiquette", clientHandler);
+                    }
+                    break;
+                }
+                case GAME: {
+                    //TODO
+                    break;
+                }
             }
         }
     }
 
     public void login(String command, ClientHandler clientHandler) {
         if (gameStarted) {
-            if (disconnected.containsKey(command)) {
-                disconnected.remove(command, clientHandler);
-                nicknameList.put(command, clientHandler);
+            if (this.disconnected.contains(command)) {
+                this.disconnected.remove(command);
+                this.nicknameList.put(command, new ClientInfo(clientHandler, ClientInfo.State.GAME));
             }
             else {
                 sendString(">>> Game already started",clientHandler);
             }
         }
         else {
-            if (nicknameList.size() < 5) {
+            if (getNicknameList().size() < MAX_PLAYERS_NUMBER) {
                 boolean first = false;
 
-                if (nicknameList.isEmpty()) {
+                if (getNicknameList().isEmpty()) {
                     first = true;
                 }
 
                 if (!clientHandler.isLogged()) {
-                    if (!this.getNicknameList().containsKey(command)) {
-                        this.getNicknameList().put(command, clientHandler);
+                    if (!getNicknameList().containsKey(command)) {
+                        clientHandler.setName(command);
+                        getNicknameList().put(command, new ClientInfo(clientHandler));
                         System.out.println("<<< " + clientHandler.getSocket().getRemoteSocketAddress() + " is logged as: " + command);
                         sendString("logged as: " + command, clientHandler);
                         clientHandler.setLogged(true);
                         if (first) {
                             setGameRules(clientHandler);
-                        } else {
-                            clientHandler.setServiceMessage("Now you are in the waiting room");
                         }
-                    } else {
+                        else{
+                            sendString("Now you are in the waiting room", clientHandler);
+                            getNicknameList().get(command).nextState();
+                            for(ClientInfo clientInfo: getNicknameList().values()){
+                                if(clientInfo.state.equals(ClientInfo.State.WAIT)){
+                                    this.waitingRoom(clientInfo.clientHandler);
+                                }
+                            }
+                        }
+                    }
+                    else {
                         sendString(">>> This nickname is already use", clientHandler);
                     }
-                } else {
+                }
+                else {
                     sendString(">>> You are already logged", clientHandler);
                 }
-            } else {
+            }
+            else {
                 sendString(">>> Game full", clientHandler);
             }
         }
@@ -113,18 +134,38 @@ public class Controller {
     }
 
     private void setGameRules( ClientHandler clientHandler) {
-        clientHandler.setServiceMessage("Select a board");
+        sendString("setting",clientHandler);
+        sendString("Select a board-".concat(availableBoards.toString()),clientHandler); //Select a board[1,2,3,4]
+    }
 
+    private void understandSettingMessages(String msg, ClientHandler clientHandler){
+        switch (msg.substring(0,ETIQUETTE)){
+            case "BRD-":{ //Board
+                this.selectBoard(msg.substring(ETIQUETTE),clientHandler);
+                break;
+            }
+            case "SKL-":{ //Skull
+                this.setSkulls(msg.substring(ETIQUETTE),clientHandler);
+                break;
+            }
+            case "FRZ-":{ //Frenzy
+                this.setFrenzy(msg.substring(ETIQUETTE),clientHandler);
+                break;
+            }
+            default:{
+                sendString("ERROR",clientHandler);
+            }
+        }
     }
 
     public void selectBoard(String msg, ClientHandler clientHandler){
         if(availableBoards.contains(Integer.parseInt(msg))) {
             board = "/Board/Board" + msg + ".json";
             sendString("You selected the board number " + msg, clientHandler);
-            clientHandler.setServiceMessage("Select the number of skulls");
+            sendString("Select the number of skulls-".concat(availableSkulls.toString()), clientHandler);
         }
         else{
-            sendString("This board doesn't exist, please select another one", clientHandler);
+            sendString(">>>This board doesn't exist, please select another one", clientHandler);
         }
     }
 
@@ -132,10 +173,10 @@ public class Controller {
         if(availableSkulls.contains(Integer.parseInt(msg))) {
             skulls = Integer.parseInt(msg);
             sendString("You selected " + msg + " skulls", clientHandler);
-            clientHandler.setServiceMessage("Do you like to play with frenzy? Y/N");
+            sendString("Do you like to play with frenzy? Y/N", clientHandler);
         }
         else{
-            sendString("Value not valid", clientHandler);
+            sendString(">>>Value not valid", clientHandler);
         }
     }
 
@@ -144,65 +185,57 @@ public class Controller {
             case "Y": {
                 frenzyEn = true;
                 sendString("You enabled frenzy",clientHandler);
-                clientHandler.setServiceMessage("Now you are in the waiting room");
+                getNicknameList().get(clientHandler.getName()).nextState();
+                sendString("Now you are in the waiting room", clientHandler);
+                this.waitingRoom(clientHandler);
                 break;
             }
             case "N": {
                 frenzyEn = false;
                 sendString("You disabled frenzy", clientHandler);
-                clientHandler.setServiceMessage("Now you are in the waiting room");
+                getNicknameList().get(clientHandler.getName()).nextState();
+                sendString("Now you are in the waiting room", clientHandler);
+                this.waitingRoom(clientHandler);
                 break;
             }
             default:{
-                sendString("Please respond Y or N", clientHandler);
+                sendString(">>>Please respond Y or N", clientHandler);
             }
         }
     }
 
-    public  synchronized void waitingRoom(String msg, ClientHandler clientHandler){
-        if (gameStarted){
-            clientHandler.setServiceMessage("Initialize board");
-        }
+    public void waitingRoom(ClientHandler clientHandler){
         String playersNames = "§§§";
-        String[] allNames = nicknameList.keySet().toArray(new String[0]);
+        String[] allNames = getNicknameList().keySet().toArray(new String[0]);
         for(String name: allNames){
-            playersNames =  playersNames + "-" + name;
+            playersNames = playersNames.concat("-" + name);
         }
         sendString(playersNames,clientHandler);
 
     }
 
-    public synchronized void quit(ClientHandler clientHandler){
-        String nickName= new String();
+    public void quit(ClientHandler clientHandler){
         clientHandler.setDisconnect(true);
-        if (nicknameList.containsValue(clientHandler)){
-            for(Map.Entry e : nicknameList.entrySet()){
-                if (e.getValue().equals(clientHandler)){
-                    nickName=(String) e.getKey();
-                    if(gameStarted) {
-                        disconnected.put((String) e.getKey(), (ClientHandler) e.getValue());
-                    }
-                    nicknameList.remove(nickName);
-                }
-            }
-            for (ClientHandler c : nicknameList.values()){
-                sendString(">>>" + nickName + " disconnected", c);
-            }
-            server.print(nickName+ " disconnected");
+        if(gameStarted) {
+            disconnected.add(clientHandler.getName());
         }
-    }
-
-    public Map<String, ClientHandler> getNicknameList() {
-        return nicknameList;
+        getNicknameList().remove(clientHandler.getName());
+        for (ClientInfo clientInfo : getNicknameList().values()){
+            sendString(">>>" + clientHandler.getName() + " disconnected", clientInfo.clientHandler);
+            if(clientInfo.state.equals(ClientInfo.State.WAIT)){
+                this.waitingRoom(clientInfo.clientHandler);
+            }
+        }
+        server.print(clientHandler.getName() + " disconnected");
     }
 
     public void startGame() {
         Random random=new Random();
         int n;
-        n=random.nextInt(nicknameList.size());
+        n=random.nextInt(getNicknameList().size());
         ArrayList<Player> players;
         players=new ArrayList<>();
-        for(Map.Entry e : nicknameList.entrySet()){
+        for(Map.Entry e : getNicknameList().entrySet()){
             players.add(new Player(false,"",(String) e.getKey()));
         }
         players.get(n).setFirst(true);
@@ -212,24 +245,40 @@ public class Controller {
         }
         System.out.println("Match started");
         gameStarted=true;
-        match = new Match(players, nicknameList.size(), skulls, frenzyEn, mode, board);
+        match = new Match(players, getNicknameList().size(), skulls, frenzyEn, mode, board);
         match.start();
+        for(ClientInfo clientInfo: getNicknameList().values()){
+            sendString("Initialize board",clientInfo.clientHandler);
+        }
     }
-
 
     public synchronized void boardDescription( ClientHandler clientHandler) {
         sendString(boardDescriptor(),clientHandler);
-        clientHandler.setServiceMessage("Initialize Players");
+        sendString("Initialize Players",clientHandler);
     }
 
     public synchronized void playerDescription(ClientHandler clientHandler) {
         sendString(playersDescriptor(clientHandler),clientHandler);
-        clientHandler.setServiceMessage("Initialize you");
+        sendString("Initialize you",clientHandler);
     }
 
     public synchronized void youDescription(ClientHandler clientHandler) {
         sendString(youDescriptor(clientHandler),clientHandler);
-        clientHandler.setServiceMessage("");//TODO
+        sendString("",clientHandler);//TODO
+    }
+
+    public synchronized void killshotTrackDescription(ClientHandler clientHandler) {
+        sendString(killshotTrackDescriptor(),clientHandler);
+        sendString("",clientHandler);//TODO
+    }
+
+    private String killshotTrackDescriptor() {
+        String killshotTrackDescriptor= "+++Kill+++";
+        for (Player p : match.getKillShotTrack()) {
+            killshotTrackDescriptor = killshotTrackDescriptor.concat(p.getColor()).concat(".");
+        }
+        killshotTrackDescriptor=killshotTrackDescriptor.concat(";").concat(match.getDoubleOnKillShotTrack().toString());
+        return killshotTrackDescriptor;
     }
 
     private String boardDescriptor() {
@@ -240,8 +289,8 @@ public class Controller {
 
     private String playersDescriptor(ClientHandler current){
         String you= new String();
-        if (nicknameList.containsValue(current)) {
-            for (Map.Entry e : nicknameList.entrySet()) {
+        if (getNicknameList().containsValue(current)) {
+            for (Map.Entry e : getNicknameList().entrySet()) {
                 if (e.getValue().equals(current)) {
                     you = (String) e.getKey();
                 }
@@ -262,8 +311,8 @@ public class Controller {
 
     private String youDescriptor(ClientHandler you){
         String yo= new String();
-        if (nicknameList.containsValue(you)) {
-            for (Map.Entry e : nicknameList.entrySet()) {
+        if (getNicknameList().containsValue(you)) {
+            for (Map.Entry e : getNicknameList().entrySet()) {
                 if (e.getValue().equals(you)) {
                     yo = (String) e.getKey();
                 }
@@ -289,5 +338,11 @@ public class Controller {
         private ArrayList<Integer> availableSkulls;
         private String mode;
         private ArrayList<String> availableColors;
+    }
+
+    public Map<String, ClientInfo> getNicknameList() {
+        synchronized (nicknameListLock){
+            return nicknameList;
+        }
     }
 }
