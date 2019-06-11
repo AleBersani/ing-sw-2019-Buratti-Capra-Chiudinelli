@@ -20,9 +20,8 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
-public class GameGUI extends Application {
+public class GameGUI {
     private Stage stage;
     private GUI gui;
     private MessageHandler messageHandler;
@@ -34,363 +33,11 @@ public class GameGUI extends Application {
         this.client = client;
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    public void buildMap(Stage primaryStage){
-
-    }
-
-    public void drawYellowPlayer(Pane pane){
-        drawBloodOnYellow(pane);
-        drawMarkOnYellow(pane);
-        drawSkullOnYellow(pane);
-    }
-
-    public void drawSkullOnYellow(Pane pane){
-        //skull
-        Image skull = new Image("/images/game/redSkull.png",pane.getWidth()/35,pane.getHeight()/20,false,false);
-
-        //pane
-        Pane pane2 = new Pane();
-
-        for(int i=0;i<6;i++){
-            ImageView skullIV = new ImageView(skull);
-            skullIV.setX(pane.getWidth()/1.5238 + (i * pane.getWidth()/42.6666));
-            skullIV.setY(pane.getHeight()/6.75);
-            pane2.getChildren().add(skullIV);
-        }
-        pane.getChildren().add(pane2);
-    }
-
-    public void drawMarkOnYellow(Pane pane){
-        //blood
-        Image greyMark = new Image("/images/game/blood/greyBlood.png",pane.getWidth()/40,pane.getHeight()/25,false,false);
-
-        //pane
-        Pane pane2 = new Pane();
-
-        for(int i=0;i<12;i++){
-            ImageView greyMarkIV = new ImageView(greyMark);
-            greyMarkIV.setX(pane.getWidth()/1.1428 - (i * pane.getWidth()/106.6666));
-            greyMarkIV.setY(pane.getHeight()/360);
-            pane2.getChildren().add(greyMarkIV);
-        }
-        pane.getChildren().add(pane2);
-    }
-
-    public void drawBloodOnYellow(Pane pane){
-        //blood
-        Image greenBlood = new Image("/images/game/blood/greenBlood.png",pane.getWidth()/25,pane.getHeight()/15,false,false);
-
-        Pane pane2 = new Pane();
-
-        for(int i=0;i<12;i++){
-            ImageView greenBloodIV = new ImageView(greenBlood);
-            greenBloodIV.setX(pane.getWidth()/1.6666 + (i * pane.getWidth()/40.8510));
-            greenBloodIV.setY(pane.getHeight()/14.4);
-            pane2.getChildren().add(greenBloodIV);
-        }
-        pane.getChildren().add(pane2);
-    }
-
-    public void drawBluePlayer(Pane pane){
-        drawBloodOnBlue(pane);
-        drawMarkOnBlue(pane);
-        drawSkullOnBlue(pane);
-    }
-
-    public void drawSkullOnBlue(Pane pane){
-        //skull
-        Image skull = new Image("/images/game/redSkull.png",pane.getWidth()/35,pane.getHeight()/20,false,false);
-
-        //pane
-        Pane pane2 = new Pane();
-
-        for(int i=0;i<6;i++){
-            ImageView skullIV = new ImageView(skull);
-            skullIV.setX(pane.getWidth()/8.3478 + (i * pane.getWidth()/33.6842));
-            skullIV.setY(pane.getHeight()/1.0588);
-            pane2.getChildren().add(skullIV);
-        }
-        pane.getChildren().add(pane2);
-    }
-
-    public void drawMarkOnBlue(Pane pane){
-        //blood
-        Image yellowMark = new Image("/images/game/blood/yellowBlood.png",pane.getWidth()/40,pane.getHeight()/25,false,false);
-
-        //pane
-        Pane pane2 = new Pane();
-
-        for(int i=0;i<12;i++){
-            ImageView yellowMarkIV = new ImageView(yellowMark);
-            yellowMarkIV.setX(pane.getWidth()/2.4303 - (i * pane.getWidth()/76.8));
-            yellowMarkIV.setY(pane.getHeight()/1.2485);
-            pane2.getChildren().add(yellowMarkIV);
-        }
-        pane.getChildren().add(pane2);
-    }
-
-    public void drawBloodOnBlue(Pane pane){
-        //blood
-        Image purpleBlood = new Image("/images/game/blood/purpleBlood.png",pane.getWidth()/25,pane.getHeight()/15,false,false);
-
-        Pane pane2 = new Pane();
-
-        for(int i=0;i<12;i++){
-            ImageView purpleBloodIV = new ImageView(purpleBlood);
-            purpleBloodIV.setX(pane.getWidth()/21.3333 + (i * pane.getWidth()/31.4754));
-            purpleBloodIV.setY(pane.getHeight()/1.1489);
-            pane2.getChildren().add(purpleBloodIV);
-        }
-        pane.getChildren().add(pane2);
-    }
-
-    public void drawKillshotTrack(Pane pane,int tot, int num){
-        //skull
-        Image skull = new Image("/images/game/redSkull.png",pane.getWidth()/30,pane.getHeight()/15,false,false);
-
-
-        //blood
-        Image blueBlood = new Image("/images/game/blood/blueBlood.png",pane.getWidth()/25,pane.getHeight()/15,false,false);
-
-        //pane2
-        Pane pane2 = new Pane();
-
-        for(int i = 0;i<tot;i++) {
-            if(i<num) {
-                ImageView skullIV = new ImageView(skull);
-                skullIV.setX(pane.getWidth()/3.02 - (i * pane.getWidth()/21.5));
-                skullIV.setY(pane.getHeight()/1.5);
-                pane2.getChildren().add(skullIV);
-            }
-            else {
-                ImageView blueBloodIV = new ImageView(blueBlood);
-                blueBloodIV.setX(pane.getWidth()/3.02 - (i * pane.getWidth()/21.5));
-                blueBloodIV.setY(pane.getHeight()/1.5);
-                pane2.getChildren().add(blueBloodIV);
-            }
-        }
-        pane.getChildren().add(pane2);
-    }
-
-    public void setTokenPosition(GridPane grid,StackPane pane, String color, int x, int y){
-        //token
-        Image blueToken = new Image("/images/game/tokens/blueToken.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
-        Image yellowToken = new Image("/images/game/tokens/yellowToken.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
-        Image greenToken = new Image("/images/game/tokens/greenToken.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
-        Image greyToken = new Image("/images/game/tokens/greyToken.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
-        Image purpleToken = new Image("/images/game/tokens/purpleToken.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
-
-        //ImageView token
-        ImageView blueTokenIV = new ImageView(blueToken);
-        ImageView yellowTokenIV = new ImageView(yellowToken);
-        ImageView greenTokenIV = new ImageView(greenToken);
-        ImageView greyTokenIV = new ImageView(greyToken);
-        ImageView purpleTokenIV = new ImageView(purpleToken);
-
-        switch(color) {
-            case("blue"):{
-                grid.getChildren().remove(blueTokenIV);
-                grid.add(blueTokenIV,x,y);
-                GridPane.setHalignment(blueTokenIV,HPos.LEFT);
-                GridPane.setValignment(blueTokenIV,VPos.CENTER);
-                break;
-            }
-            case("yellow"):{
-                grid.getChildren().remove(yellowTokenIV);
-                grid.add(yellowTokenIV,x,y);
-                GridPane.setHalignment(yellowTokenIV,HPos.LEFT);
-                GridPane.setValignment(yellowTokenIV,VPos.BOTTOM);
-                break;
-            }
-            case("green"):{
-                grid.getChildren().remove(greenTokenIV);
-                grid.add(greenTokenIV,x,y);
-                GridPane.setHalignment(greenTokenIV,HPos.CENTER);
-                GridPane.setValignment(greenTokenIV,VPos.BOTTOM);
-                break;
-            }
-            case("grey"):{
-                grid.getChildren().remove(greyTokenIV);
-                grid.add(greyTokenIV,x,y);
-                GridPane.setHalignment(greyTokenIV,HPos.RIGHT);
-                GridPane.setValignment(greyTokenIV,VPos.BOTTOM);
-                break;
-            }
-            case("purple"):{
-                grid.getChildren().remove(purpleTokenIV);
-                grid.add(purpleTokenIV,x,y);
-                GridPane.setHalignment(purpleTokenIV,HPos.RIGHT);
-                GridPane.setValignment(purpleTokenIV,VPos.CENTER);
-                break;
-            }
-            default:{
-                System.out.println("ERROR, Invalid DATA");
-            }
-        }
-    }
-
-    public void informationMessage(Pane pane){
-        StackPane pane2 = new StackPane();
-        GridPane grid2 = new GridPane();
-        Rectangle rectangle = new Rectangle();
-        Label text = new Label("Problems...");
-        text.setTextFill(Color.web("#ffffff", 0.8));
-        text.setStyle("-fx-font: 60 Helvetica;");
-        text.setEffect(new DropShadow());
-        Button ok = new Button("OK");
-        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-        rectangle.setEffect(new BoxBlur());
-        rectangle.widthProperty().bind(pane.widthProperty());
-        rectangle.heightProperty().bind(pane.heightProperty());
-        grid2.add(text,0,0);
-        grid2.add(ok,0,1);
-        ok.setOnAction(e->{
-            pane.getChildren().remove(pane2);
-        });
-        grid2.setAlignment(Pos.CENTER);
-        GridPane.setHalignment(text,HPos. CENTER);
-        GridPane.setValignment(text,VPos. CENTER);
-        GridPane.setHalignment(ok,HPos. CENTER);
-        GridPane.setValignment(ok,VPos. CENTER);
-        pane2.getChildren().add(rectangle);
-        pane2.getChildren().add(grid2);
-        pane.getChildren().add(pane2);
-
-    }
-
-    public void spawn(Pane pane){
-        //powerUps
-        Image blueNewton = new Image("/images/game/powerUps/blueNewton.png",pane.getWidth()/10,pane.getHeight()/5,false,false);
-        ImageView blueNewtonIV = new ImageView(blueNewton);
-        Image redTagBackGrenade = new Image("/images/game/powerUps/redTagBackGrenade.png",pane.getWidth()/10,pane.getHeight()/5,false,false);
-        ImageView redTagBackGrenadeIV = new ImageView(redTagBackGrenade);
-        Image yellowTargetingScope = new Image("images/game/powerUps/yellowTargetingScope.png",pane.getWidth()/10,pane.getHeight()/5,false,false);
-        ImageView yellowTargetingScopeIV = new ImageView(yellowTargetingScope);
-
-        StackPane pane2 = new StackPane();
-        GridPane grid2 = new GridPane();
-        //grid column constraint
-        for (int j = 0 ; j < 3; j++) {
-            ColumnConstraints col = new ColumnConstraints();
-            col.setHgrow(Priority.ALWAYS);
-            col.setPercentWidth(20);
-            grid2.getColumnConstraints().add(col);
-        }
-
-        Rectangle rectangle = new Rectangle();
-        Label text = new Label("Choose a powerUp");
-        text.setTextFill(Color.web("#ffffff", 0.8));
-        text.setStyle("-fx-font: 60 Helvetica;");
-        text.setEffect(new DropShadow());
-        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-        rectangle.setEffect(new BoxBlur());
-        rectangle.widthProperty().bind(pane.widthProperty());
-        rectangle.heightProperty().bind(pane.heightProperty());
-        grid2.add(text,0,0,3,1);
-        grid2.setAlignment(Pos.CENTER);
-        GridPane.setHalignment(text,HPos. CENTER);
-        GridPane.setValignment(text,VPos. CENTER);
-        grid2.add(blueNewtonIV,0,1);
-        blueNewtonIV. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
-            System.out.println("blue");
-            pane.getChildren().remove(pane2);
-        });
-        GridPane.setHalignment(blueNewtonIV,HPos. CENTER);
-        GridPane.setValignment(blueNewtonIV,VPos. CENTER);
-        grid2.add(redTagBackGrenadeIV,1,1);
-        redTagBackGrenadeIV. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
-            System.out.println("red");
-            pane.getChildren().remove(pane2);
-        });
-        GridPane.setHalignment(redTagBackGrenadeIV,HPos. CENTER);
-        GridPane.setValignment(redTagBackGrenadeIV,VPos. CENTER);
-        grid2.add(yellowTargetingScopeIV,2,1);
-        yellowTargetingScopeIV. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
-            System.out.println("yellow");
-            pane.getChildren().remove(pane2);
-        });
-        GridPane.setHalignment(yellowTargetingScopeIV,HPos. CENTER);
-        GridPane.setValignment(yellowTargetingScopeIV,VPos. CENTER);
-        grid2.setHgap(70);
-        grid2.setVgap(50);
-        pane2.getChildren().add(rectangle);
-        pane2.getChildren().add(grid2);
-        pane.getChildren().add(pane2);
-    }
-
-    public void reload(Pane pane){
-        //weapon
-        Image lockRifle = new Image("images/game/weapons/lockRifle.png",pane.getWidth()/7,pane.getHeight()/3,false,false);
-        ImageView lockRifleIV = new ImageView(lockRifle);
-        Image furnace = new Image("images/game/weapons/furnace.png",pane.getWidth()/7,pane.getHeight()/3,false,false);
-        ImageView furnaceIV = new ImageView(furnace);
-        Image zx2 = new Image("images/game/weapons/zx2.png",pane.getWidth()/7,pane.getHeight()/3,false,false);
-        ImageView zx2IV = new ImageView(zx2);
-
-        StackPane pane2 = new StackPane();
-        GridPane grid2 = new GridPane();
-        //grid column constraint
-        for (int j = 0 ; j < 3; j++) {
-            ColumnConstraints col = new ColumnConstraints();
-            col.setHgrow(Priority.ALWAYS);
-            col.setPercentWidth(20);
-            grid2.getColumnConstraints().add(col);
-        }
-
-        Rectangle rectangle = new Rectangle();
-        Label text = new Label("Choose a weapon to reload");
-        text.setTextFill(Color.web("#ffffff", 0.8));
-        text.setStyle("-fx-font: 60 Helvetica;");
-        text.setEffect(new DropShadow());
-        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-        rectangle.setEffect(new BoxBlur());
-        rectangle.widthProperty().bind(pane.widthProperty());
-        rectangle.heightProperty().bind(pane.heightProperty());
-        grid2.add(text,0,0,3,1);
-        grid2.setAlignment(Pos.CENTER);
-        GridPane.setHalignment(text,HPos. CENTER);
-        GridPane.setValignment(text,VPos. CENTER);
-        grid2.add(lockRifleIV,0,1);
-        lockRifleIV. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
-            System.out.println("reloaded blue");
-            pane.getChildren().remove(pane2);
-        });
-        GridPane.setHalignment(lockRifleIV,HPos. CENTER);
-        GridPane.setValignment(lockRifleIV,VPos. CENTER);
-        grid2.add(furnaceIV,1,1);
-        furnaceIV. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
-            System.out.println("reloaded red");
-            pane.getChildren().remove(pane2);
-        });
-        GridPane.setHalignment(furnaceIV,HPos. CENTER);
-        GridPane.setValignment(furnaceIV,VPos. CENTER);
-        grid2.add(zx2IV,2,1);
-        zx2IV. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
-            System.out.println("reloaded yellow");
-            pane.getChildren().remove(pane2);
-        });
-        GridPane.setHalignment(zx2IV,HPos. CENTER);
-        GridPane.setValignment(zx2IV,VPos. CENTER);
-        grid2.setHgap(70);
-        grid2.setVgap(50);
-        pane2.getChildren().add(rectangle);
-        pane2.getChildren().add(grid2);
-        pane.getChildren().add(pane2);
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        StackPane pane = new StackPane();
-        this.stage = primaryStage;
-        Scene scene = new Scene(pane, Toolkit.getDefaultToolkit().getScreenSize().getWidth(),Toolkit.getDefaultToolkit().getScreenSize().getHeight());
-        stage.setFullScreenExitHint("");
-        stage.setFullScreen(true);
-        stage.setScene(scene);
-
+    public void buildMap(Stage stage){
+        StackPane pane = (StackPane)stage.getScene().getRoot();
+        stage.getScene().setRoot(pane);
+        this.stage = stage;
+        stage.setResizable(true);
         GridPane grid = new GridPane();
 
         //cell
@@ -772,8 +419,346 @@ public class GameGUI extends Application {
         //TODO IF THE PLAYER WANTS TO RELOAD WEAPONS
         //reload(pane);
 
-        //stage
-        stage.setResizable(true);
         stage.show();
+    }
+
+    public void drawYellowPlayer(Pane pane){
+        drawBloodOnYellow(pane);
+        drawMarkOnYellow(pane);
+        drawSkullOnYellow(pane);
+    }
+
+    public void drawSkullOnYellow(Pane pane){
+        //skull
+        Image skull = new Image("/images/game/redSkull.png",pane.getWidth()/35,pane.getHeight()/20,false,false);
+
+        //pane
+        Pane pane2 = new Pane();
+
+        for(int i=0;i<6;i++){
+            ImageView skullIV = new ImageView(skull);
+            skullIV.setX(pane.getWidth()/1.5238 + (i * pane.getWidth()/42.6666));
+            skullIV.setY(pane.getHeight()/6.75);
+            pane2.getChildren().add(skullIV);
+        }
+        pane.getChildren().add(pane2);
+    }
+
+    public void drawMarkOnYellow(Pane pane){
+        //blood
+        Image greyMark = new Image("/images/game/blood/greyBlood.png",pane.getWidth()/40,pane.getHeight()/25,false,false);
+
+        //pane
+        Pane pane2 = new Pane();
+
+        for(int i=0;i<12;i++){
+            ImageView greyMarkIV = new ImageView(greyMark);
+            greyMarkIV.setX(pane.getWidth()/1.1428 - (i * pane.getWidth()/106.6666));
+            greyMarkIV.setY(pane.getHeight()/360);
+            pane2.getChildren().add(greyMarkIV);
+        }
+        pane.getChildren().add(pane2);
+    }
+
+    public void drawBloodOnYellow(Pane pane){
+        //blood
+        Image greenBlood = new Image("/images/game/blood/greenBlood.png",pane.getWidth()/25,pane.getHeight()/15,false,false);
+
+        Pane pane2 = new Pane();
+
+        for(int i=0;i<12;i++){
+            ImageView greenBloodIV = new ImageView(greenBlood);
+            greenBloodIV.setX(pane.getWidth()/1.6666 + (i * pane.getWidth()/40.8510));
+            greenBloodIV.setY(pane.getHeight()/14.4);
+            pane2.getChildren().add(greenBloodIV);
+        }
+        pane.getChildren().add(pane2);
+    }
+
+    public void drawBluePlayer(Pane pane){
+        drawBloodOnBlue(pane);
+        drawMarkOnBlue(pane);
+        drawSkullOnBlue(pane);
+    }
+
+    public void drawSkullOnBlue(Pane pane){
+        //skull
+        Image skull = new Image("/images/game/redSkull.png",pane.getWidth()/35,pane.getHeight()/20,false,false);
+
+        //pane
+        Pane pane2 = new Pane();
+
+        for(int i=0;i<6;i++){
+            ImageView skullIV = new ImageView(skull);
+            skullIV.setX(pane.getWidth()/8.3478 + (i * pane.getWidth()/33.6842));
+            skullIV.setY(pane.getHeight()/1.0588);
+            pane2.getChildren().add(skullIV);
+        }
+        pane.getChildren().add(pane2);
+    }
+
+    public void drawMarkOnBlue(Pane pane){
+        //blood
+        Image yellowMark = new Image("/images/game/blood/yellowBlood.png",pane.getWidth()/40,pane.getHeight()/25,false,false);
+
+        //pane
+        Pane pane2 = new Pane();
+
+        for(int i=0;i<12;i++){
+            ImageView yellowMarkIV = new ImageView(yellowMark);
+            yellowMarkIV.setX(pane.getWidth()/2.4303 - (i * pane.getWidth()/76.8));
+            yellowMarkIV.setY(pane.getHeight()/1.2485);
+            pane2.getChildren().add(yellowMarkIV);
+        }
+        pane.getChildren().add(pane2);
+    }
+
+    public void drawBloodOnBlue(Pane pane){
+        //blood
+        Image purpleBlood = new Image("/images/game/blood/purpleBlood.png",pane.getWidth()/25,pane.getHeight()/15,false,false);
+
+        Pane pane2 = new Pane();
+
+        for(int i=0;i<12;i++){
+            ImageView purpleBloodIV = new ImageView(purpleBlood);
+            purpleBloodIV.setX(pane.getWidth()/21.3333 + (i * pane.getWidth()/31.4754));
+            purpleBloodIV.setY(pane.getHeight()/1.1489);
+            pane2.getChildren().add(purpleBloodIV);
+        }
+        pane.getChildren().add(pane2);
+    }
+
+    public void drawKillshotTrack(Pane pane,int tot, int num){
+        //skull
+        Image skull = new Image("/images/game/redSkull.png",pane.getWidth()/30,pane.getHeight()/15,false,false);
+
+
+        //blood
+        Image blueBlood = new Image("/images/game/blood/blueBlood.png",pane.getWidth()/25,pane.getHeight()/15,false,false);
+
+        //pane2
+        Pane pane2 = new Pane();
+
+        for(int i = 0;i<tot;i++) {
+            if(i<num) {
+                ImageView skullIV = new ImageView(skull);
+                skullIV.setX(pane.getWidth()/3.02 - (i * pane.getWidth()/21.5));
+                skullIV.setY(pane.getHeight()/1.5);
+                pane2.getChildren().add(skullIV);
+            }
+            else {
+                ImageView blueBloodIV = new ImageView(blueBlood);
+                blueBloodIV.setX(pane.getWidth()/3.02 - (i * pane.getWidth()/21.5));
+                blueBloodIV.setY(pane.getHeight()/1.5);
+                pane2.getChildren().add(blueBloodIV);
+            }
+        }
+        pane.getChildren().add(pane2);
+    }
+
+    public void setTokenPosition(GridPane grid,StackPane pane, String color, int x, int y){
+        //token
+        Image blueToken = new Image("/images/game/tokens/blueToken.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
+        Image yellowToken = new Image("/images/game/tokens/yellowToken.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
+        Image greenToken = new Image("/images/game/tokens/greenToken.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
+        Image greyToken = new Image("/images/game/tokens/greyToken.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
+        Image purpleToken = new Image("/images/game/tokens/purpleToken.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false);
+
+        //ImageView token
+        ImageView blueTokenIV = new ImageView(blueToken);
+        ImageView yellowTokenIV = new ImageView(yellowToken);
+        ImageView greenTokenIV = new ImageView(greenToken);
+        ImageView greyTokenIV = new ImageView(greyToken);
+        ImageView purpleTokenIV = new ImageView(purpleToken);
+
+        switch(color) {
+            case("blue"):{
+                grid.getChildren().remove(blueTokenIV);
+                grid.add(blueTokenIV,x,y);
+                GridPane.setHalignment(blueTokenIV,HPos.LEFT);
+                GridPane.setValignment(blueTokenIV,VPos.CENTER);
+                break;
+            }
+            case("yellow"):{
+                grid.getChildren().remove(yellowTokenIV);
+                grid.add(yellowTokenIV,x,y);
+                GridPane.setHalignment(yellowTokenIV,HPos.LEFT);
+                GridPane.setValignment(yellowTokenIV,VPos.BOTTOM);
+                break;
+            }
+            case("green"):{
+                grid.getChildren().remove(greenTokenIV);
+                grid.add(greenTokenIV,x,y);
+                GridPane.setHalignment(greenTokenIV,HPos.CENTER);
+                GridPane.setValignment(greenTokenIV,VPos.BOTTOM);
+                break;
+            }
+            case("grey"):{
+                grid.getChildren().remove(greyTokenIV);
+                grid.add(greyTokenIV,x,y);
+                GridPane.setHalignment(greyTokenIV,HPos.RIGHT);
+                GridPane.setValignment(greyTokenIV,VPos.BOTTOM);
+                break;
+            }
+            case("purple"):{
+                grid.getChildren().remove(purpleTokenIV);
+                grid.add(purpleTokenIV,x,y);
+                GridPane.setHalignment(purpleTokenIV,HPos.RIGHT);
+                GridPane.setValignment(purpleTokenIV,VPos.CENTER);
+                break;
+            }
+            default:{
+                System.out.println("ERROR, Invalid DATA");
+            }
+        }
+    }
+
+    public void informationMessage(Pane pane){
+        StackPane pane2 = new StackPane();
+        GridPane grid2 = new GridPane();
+        Rectangle rectangle = new Rectangle();
+        Label text = new Label("Problems...");
+        text.setTextFill(Color.web("#ffffff", 0.8));
+        text.setStyle("-fx-font: 60 Helvetica;");
+        text.setEffect(new DropShadow());
+        Button ok = new Button("OK");
+        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+        rectangle.setEffect(new BoxBlur());
+        rectangle.widthProperty().bind(pane.widthProperty());
+        rectangle.heightProperty().bind(pane.heightProperty());
+        grid2.add(text,0,0);
+        grid2.add(ok,0,1);
+        ok.setOnAction(e->{
+            pane.getChildren().remove(pane2);
+        });
+        grid2.setAlignment(Pos.CENTER);
+        GridPane.setHalignment(text,HPos. CENTER);
+        GridPane.setValignment(text,VPos. CENTER);
+        GridPane.setHalignment(ok,HPos. CENTER);
+        GridPane.setValignment(ok,VPos. CENTER);
+        pane2.getChildren().add(rectangle);
+        pane2.getChildren().add(grid2);
+        pane.getChildren().add(pane2);
+
+    }
+
+    public void spawn(Pane pane){
+        //powerUps
+        Image blueNewton = new Image("/images/game/powerUps/blueNewton.png",pane.getWidth()/10,pane.getHeight()/5,false,false);
+        ImageView blueNewtonIV = new ImageView(blueNewton);
+        Image redTagBackGrenade = new Image("/images/game/powerUps/redTagBackGrenade.png",pane.getWidth()/10,pane.getHeight()/5,false,false);
+        ImageView redTagBackGrenadeIV = new ImageView(redTagBackGrenade);
+        Image yellowTargetingScope = new Image("images/game/powerUps/yellowTargetingScope.png",pane.getWidth()/10,pane.getHeight()/5,false,false);
+        ImageView yellowTargetingScopeIV = new ImageView(yellowTargetingScope);
+
+        StackPane pane2 = new StackPane();
+        GridPane grid2 = new GridPane();
+        //grid column constraint
+        for (int j = 0 ; j < 3; j++) {
+            ColumnConstraints col = new ColumnConstraints();
+            col.setHgrow(Priority.ALWAYS);
+            col.setPercentWidth(20);
+            grid2.getColumnConstraints().add(col);
+        }
+
+        Rectangle rectangle = new Rectangle();
+        Label text = new Label("Choose a powerUp");
+        text.setTextFill(Color.web("#ffffff", 0.8));
+        text.setStyle("-fx-font: 60 Helvetica;");
+        text.setEffect(new DropShadow());
+        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+        rectangle.setEffect(new BoxBlur());
+        rectangle.widthProperty().bind(pane.widthProperty());
+        rectangle.heightProperty().bind(pane.heightProperty());
+        grid2.add(text,0,0,3,1);
+        grid2.setAlignment(Pos.CENTER);
+        GridPane.setHalignment(text,HPos. CENTER);
+        GridPane.setValignment(text,VPos. CENTER);
+        grid2.add(blueNewtonIV,0,1);
+        blueNewtonIV. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+            System.out.println("blue");
+            pane.getChildren().remove(pane2);
+        });
+        GridPane.setHalignment(blueNewtonIV,HPos. CENTER);
+        GridPane.setValignment(blueNewtonIV,VPos. CENTER);
+        grid2.add(redTagBackGrenadeIV,1,1);
+        redTagBackGrenadeIV. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+            System.out.println("red");
+            pane.getChildren().remove(pane2);
+        });
+        GridPane.setHalignment(redTagBackGrenadeIV,HPos. CENTER);
+        GridPane.setValignment(redTagBackGrenadeIV,VPos. CENTER);
+        grid2.add(yellowTargetingScopeIV,2,1);
+        yellowTargetingScopeIV. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+            System.out.println("yellow");
+            pane.getChildren().remove(pane2);
+        });
+        GridPane.setHalignment(yellowTargetingScopeIV,HPos. CENTER);
+        GridPane.setValignment(yellowTargetingScopeIV,VPos. CENTER);
+        grid2.setHgap(70);
+        grid2.setVgap(50);
+        pane2.getChildren().add(rectangle);
+        pane2.getChildren().add(grid2);
+        pane.getChildren().add(pane2);
+    }
+
+    public void reload(Pane pane){
+        //weapon
+        Image lockRifle = new Image("images/game/weapons/lockRifle.png",pane.getWidth()/7,pane.getHeight()/3,false,false);
+        ImageView lockRifleIV = new ImageView(lockRifle);
+        Image furnace = new Image("images/game/weapons/furnace.png",pane.getWidth()/7,pane.getHeight()/3,false,false);
+        ImageView furnaceIV = new ImageView(furnace);
+        Image zx2 = new Image("images/game/weapons/zx2.png",pane.getWidth()/7,pane.getHeight()/3,false,false);
+        ImageView zx2IV = new ImageView(zx2);
+
+        StackPane pane2 = new StackPane();
+        GridPane grid2 = new GridPane();
+        //grid column constraint
+        for (int j = 0 ; j < 3; j++) {
+            ColumnConstraints col = new ColumnConstraints();
+            col.setHgrow(Priority.ALWAYS);
+            col.setPercentWidth(20);
+            grid2.getColumnConstraints().add(col);
+        }
+
+        Rectangle rectangle = new Rectangle();
+        Label text = new Label("Choose a weapon to reload");
+        text.setTextFill(Color.web("#ffffff", 0.8));
+        text.setStyle("-fx-font: 60 Helvetica;");
+        text.setEffect(new DropShadow());
+        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+        rectangle.setEffect(new BoxBlur());
+        rectangle.widthProperty().bind(pane.widthProperty());
+        rectangle.heightProperty().bind(pane.heightProperty());
+        grid2.add(text,0,0,3,1);
+        grid2.setAlignment(Pos.CENTER);
+        GridPane.setHalignment(text,HPos. CENTER);
+        GridPane.setValignment(text,VPos. CENTER);
+        grid2.add(lockRifleIV,0,1);
+        lockRifleIV. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+            System.out.println("reloaded blue");
+            pane.getChildren().remove(pane2);
+        });
+        GridPane.setHalignment(lockRifleIV,HPos. CENTER);
+        GridPane.setValignment(lockRifleIV,VPos. CENTER);
+        grid2.add(furnaceIV,1,1);
+        furnaceIV. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+            System.out.println("reloaded red");
+            pane.getChildren().remove(pane2);
+        });
+        GridPane.setHalignment(furnaceIV,HPos. CENTER);
+        GridPane.setValignment(furnaceIV,VPos. CENTER);
+        grid2.add(zx2IV,2,1);
+        zx2IV. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+            System.out.println("reloaded yellow");
+            pane.getChildren().remove(pane2);
+        });
+        GridPane.setHalignment(zx2IV,HPos. CENTER);
+        GridPane.setValignment(zx2IV,VPos. CENTER);
+        grid2.setHgap(70);
+        grid2.setVgap(50);
+        pane2.getChildren().add(rectangle);
+        pane2.getChildren().add(grid2);
+        pane.getChildren().add(pane2);
     }
 }
