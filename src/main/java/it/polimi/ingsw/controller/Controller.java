@@ -80,12 +80,34 @@ public class Controller {
                 }
                 case GAME: {
                     if (msg.startsWith("SPW-")){
-                        spawn(clientHandler, match.getTurn().getCurrent(), Integer.parseInt(msg.substring(ETIQUETTE)));
+                        try {
+                            spawn(clientHandler, playerFromNickname(clientHandler.getName()), Integer.parseInt(msg.substring(ETIQUETTE)));
+                        } catch (NotFoundException e) {
+                            sendString("Error", clientHandler);
+                        }
                     }
-                    //TODO gestire spawn in end
-
+                    if(msg.startsWith("END-")){
+                        respawn();
+                        match.getTurn().endTurn();
+                    }
+                    //TODO messaggio di respawn
                     //TODO
                     break;
+                }
+            }
+        }
+    }
+
+    private void respawn() {
+        //TODO settare yourTurn a true e poi risettarlo a false
+        for (Player player: match.getTurn().getDeads()){
+            for (ClientInfo clientInfo: getNicknameList().values()){
+                if(clientInfo.clientHandler.getName().equals(player.getNickname())){
+                    try {
+                        player.draw();
+                    } catch (MaxHandSizeException e) {
+                    }
+                    sendString("Select a power up for spawning "+ powerUps(player),clientInfo.clientHandler);
                 }
             }
         }
@@ -263,14 +285,11 @@ public class Controller {
         }
         for(ClientInfo clientInfo: getNicknameList().values()){
             sendString("Match started",clientInfo.clientHandler);
-            sendString(boardDescriptor(),clientInfo.clientHandler);
-            sendString(playersDescriptor(clientInfo.clientHandler),clientInfo.clientHandler);
-            sendString(youDescriptor(clientInfo.clientHandler),clientInfo.clientHandler);
-            sendString(killshotTrackDescriptor(),clientInfo.clientHandler);
             clientInfo.nextState();
             clientInfo.clientHandler.setYourTurn(false);
 
         }
+        updateBackground();
         for (ClientInfo clientInfo: getNicknameList().values()){
             if(match.getTurn().getCurrent().getNickname().equals(clientInfo.clientHandler.getName())){
                 clientInfo.clientHandler.setYourTurn(true);
@@ -288,24 +307,36 @@ public class Controller {
                 player.draw();
             } catch (MaxHandSizeException e) {
             }
-            String powerUps="";
-            for(int i=0; i<player.getPowerUps().size();i++) {
-                powerUps=powerUps.concat(player.getPowerUps().get(i).getName())
-                        .concat(",").concat(player.getPowerUps().get(i).getColor())
-                        .concat(" ");
-            }
-            sendString(youDescriptor(actual),actual);
-            sendString("Select a power up " +powerUps, actual);
 
-
+            updateBackground();
+            sendString("Select a power up for spawning " +powerUps(player), actual);
         }
         else {
             if(match.getTurn().getActionCounter()<MAX_ACTIONS) {
                 sendString("Insert a command", actual);
             }
             else {
-                //TODO
+                sendString("Use a powerUp or end turn", actual);
             }
+        }
+    }
+
+    private String powerUps(Player player){
+        String powerUps="";
+        for(int i=0; i<player.getPowerUps().size();i++) {
+            powerUps=powerUps.concat(player.getPowerUps().get(i).getName())
+                    .concat(",").concat(player.getPowerUps().get(i).getColor())
+                    .concat(" ");
+        }
+        return powerUps;
+    }
+
+    private void updateBackground(){
+        for (ClientInfo clientInfo: getNicknameList().values()){
+            sendString(boardDescriptor(),clientInfo.clientHandler);
+            sendString(playersDescriptor(clientInfo.clientHandler),(clientInfo.clientHandler));
+            sendString(youDescriptor(clientInfo.clientHandler),clientInfo.clientHandler);
+            sendString(killshotTrackDescriptor(),clientInfo.clientHandler);
         }
     }
 
@@ -319,6 +350,7 @@ public class Controller {
         } catch (NotFoundException e) {
             sendString("SpawnPoint not found", actual);
         }
+        updateBackground();
         lifeCycle(actual,player);
     }
 
@@ -363,6 +395,15 @@ public class Controller {
         String youDescriptor="BGD-YOU-";
         youDescriptor=youDescriptor.concat(y.describe());
         return youDescriptor;
+    }
+
+    private Player playerFromNickname(String nickname) throws NotFoundException {
+        for (Player player : match.getPlayers()){
+            if(nickname.equals(player.getNickname())){
+                return player;
+            }
+        }
+        throw (new NotFoundException());
     }
 
     private class Configuration{
