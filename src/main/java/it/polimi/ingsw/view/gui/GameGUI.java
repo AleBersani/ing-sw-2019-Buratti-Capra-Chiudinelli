@@ -33,6 +33,8 @@ public class GameGUI {
     private static final int CELL_Y= 1;
     private static final int CELL_COLOR= 2;
     private static final int CELL_DOORS= 8;
+    private static final int CELL_WALLS= 10;
+
 
     public GameGUI(GUI gui, MessageHandler messageHandler, Client client) {
         this.gui = gui;
@@ -131,7 +133,7 @@ public class GameGUI {
         //Doors
         for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
-                if(cell.size()==CELL_DOORS+1){
+                if(!cell.get(CELL_DOORS).isEmpty()){
                     for(String singleDoor: cell.get(CELL_DOORS).split("°")){
                         int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
                         int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
@@ -158,15 +160,35 @@ public class GameGUI {
                     }
                 }
             }
-
-
-
         }
+        for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
+            for (ArrayList<String> cell : room) {
+                int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
+                int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
+                for(String s: cell.get(CELL_WALLS).split("'")){
+                    switch (s){
+                        case "N":{
+                            grid.add(new ImageView(wallN), xPos, yPos);
+                            break;
+                        }
+                        case "S":{
+                            grid.add(new ImageView(wallS), xPos, yPos);
+                            break;
+                        }
+                        case "W":{
+                            grid.add(new ImageView(wallW), xPos, yPos);
+                            break;
+                        }
+                        case "E":{
+                            grid.add(new ImageView(wallE), xPos, yPos);
+                            break;
+                        }
+                        default:
 
-
-        /*
-
-         */
+                    }
+                }
+            }
+        }
 
 
 
@@ -180,6 +202,7 @@ public class GameGUI {
         pane.getChildren().add(grid);
     }
 
+    /*
     public void buildMap(Stage stage){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
@@ -241,7 +264,7 @@ public class GameGUI {
         //image
         screen.fitWidthProperty().bind(pane.widthProperty());
         screen.fitHeightProperty().bind(pane.heightProperty());
-/*
+
         //grid column constraint
         for (int j = 0 ; j < 7; j++) {
             ColumnConstraints col = new ColumnConstraints();
@@ -255,7 +278,7 @@ public class GameGUI {
             row.setVgrow(Priority.ALWAYS);
             grid.getRowConstraints().add(row);
         }
-*/
+
         //grid
         grid.add(new ImageView(blue), 0, 0);
         grid.add(new ImageView(wallW),0,0);
@@ -567,6 +590,7 @@ public class GameGUI {
 
         stage.show();
     }
+*/
 
     public void drawYellowPlayer(Pane pane){
         drawBloodOnYellow(pane);

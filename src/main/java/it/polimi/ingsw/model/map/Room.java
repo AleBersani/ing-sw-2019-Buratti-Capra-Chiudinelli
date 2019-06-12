@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.map;
 
+import it.polimi.ingsw.exception.NotFoundException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Weapon;
 
@@ -103,6 +104,44 @@ public class Room {
                     cells = cells.concat("°");
                 }
             }
+            cells=cells.concat(";Walls;");
+            try {
+                if(this.board.find(s.getX()-1,s.getY())!= null){
+                    if(s.calcDist(this.board.find(s.getX()-1,s.getY()))!=1){
+                        cells = cells.concat("W'");
+                    }
+                }
+            } catch (NotFoundException e) {
+                cells = cells.concat("W'");
+            }
+            try {
+                if(this.board.find(s.getX()+1,s.getY())!= null){
+                    if(s.calcDist(this.board.find(s.getX()+1,s.getY()))!=1){
+                        cells = cells.concat("E'");
+                    }
+                }
+            } catch (NotFoundException e) {
+                cells = cells.concat("E'");
+            }
+            try {
+                if(this.board.find(s.getX(),s.getY()-1)!= null){
+                    if(s.calcDist(this.board.find(s.getX(),s.getY()-1))!=1){
+                        cells = cells.concat("N'");
+                    }
+                }
+            } catch (NotFoundException e) {
+                cells = cells.concat("N'");
+            }
+            try {
+                if(this.board.find(s.getX(),s.getY()+1)!= null){
+                    if(s.calcDist(this.board.find(s.getX(),s.getY()+1))!=1){
+                        cells = cells.concat("S");
+                    }
+                }
+            } catch (NotFoundException e) {
+                cells = cells.concat("S");
+            }
+            cells=cells.concat(";");
             cells=cells.concat(" - ");
         }
         return cells;
