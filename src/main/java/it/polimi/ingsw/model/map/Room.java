@@ -94,14 +94,14 @@ public class Room {
             for(Player p : s.getOnMe()) {
                 cells = cells.concat(p.getColor()).concat(".");
             }
-            if(!s.getOnMe().isEmpty()){
-                cells=cells.concat(";");
-            }
-            cells=cells.concat("Doors;");
+            cells=cells.concat(";Doors;");
             for(Square door : s.getDoors()){
                 cells=cells.concat(Integer.toString(door.getX()))
                         .concat(".")
-                        .concat(Integer.toString(door.getY())).concat(";");
+                        .concat(Integer.toString(door.getY()));
+                if(!door.equals(s.getDoors().get(s.getDoors().size()-1))){
+                    cells = cells.concat("§");
+                }
             }
             cells=cells.concat(" - ");
         }
