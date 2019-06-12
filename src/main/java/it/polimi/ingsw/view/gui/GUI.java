@@ -132,6 +132,7 @@ public class GUI extends Application implements ViewInterface {
                     boardRepresentation.get(i).add(new ArrayList<>());
                     for (String element : cell.split(";")) {
                         boardRepresentation.get(i).get(j).add(element);
+                        System.out.println(boardRepresentation.get(i).get(j));
                     }
                     j++;
             }

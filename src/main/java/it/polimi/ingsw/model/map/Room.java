@@ -73,7 +73,7 @@ public class Room {
             if (s instanceof SpawnPoint){
                 cells=cells.concat("SpawnPoint").concat(";");
                 for(Weapon w:((SpawnPoint) s).getWeapons()) {
-                    cells=cells.concat(w.getName()).concat(".");
+                    cells=cells.concat(w.getName()).concat("'");
                 }
                 if(!((SpawnPoint) s).getWeapons().isEmpty()){
                     cells=cells.concat(";");
@@ -82,25 +82,25 @@ public class Room {
             if (s instanceof AmmoPoint){
                 cells=cells.concat("AmmoPoint").concat(";");
                 cells=cells.concat("Y:")
-                        .concat(Integer.toString(((AmmoPoint)s).getAmmo().getYellow())).concat(".")
+                        .concat(Integer.toString(((AmmoPoint)s).getAmmo().getYellow())).concat("'")
                         .concat("R:")
-                        .concat(Integer.toString(((AmmoPoint)s).getAmmo().getRed())).concat(".")
+                        .concat(Integer.toString(((AmmoPoint)s).getAmmo().getRed())).concat("'")
                         .concat("B:")
-                        .concat(Integer.toString(((AmmoPoint)s).getAmmo().getBlue())).concat(".")
+                        .concat(Integer.toString(((AmmoPoint)s).getAmmo().getBlue())).concat("'")
                         .concat("PU:")
                         .concat(Integer.toString(((AmmoPoint)s).getAmmo().getPowerUp())).concat(";");
             }
             cells= cells.concat("Players;");
             for(Player p : s.getOnMe()) {
-                cells = cells.concat(p.getColor()).concat(".");
+                cells = cells.concat(p.getColor()).concat("'");
             }
             cells=cells.concat(";Doors;");
             for(Square door : s.getDoors()){
                 cells=cells.concat(Integer.toString(door.getX()))
-                        .concat(".")
+                        .concat("'")
                         .concat(Integer.toString(door.getY()));
                 if(!door.equals(s.getDoors().get(s.getDoors().size()-1))){
-                    cells = cells.concat("§");
+                    cells = cells.concat("°");
                 }
             }
             cells=cells.concat(" - ");

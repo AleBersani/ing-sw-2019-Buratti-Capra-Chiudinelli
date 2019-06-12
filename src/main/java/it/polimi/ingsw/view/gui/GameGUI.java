@@ -32,6 +32,7 @@ public class GameGUI {
     private static final int CELL_X= 0;
     private static final int CELL_Y= 1;
     private static final int CELL_COLOR= 2;
+    private static final int CELL_DOORS= 8;
 
     public GameGUI(GUI gui, MessageHandler messageHandler, Client client) {
         this.gui = gui;
@@ -88,33 +89,36 @@ public class GameGUI {
             grid.getRowConstraints().add(row);
         }
 
+        //Color
 
         for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
                 if(!cell.isEmpty()) {
-                    switch (cell.get(2)) {
+                    int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
+                    int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
+                    switch (cell.get(CELL_COLOR)) {
                         case "blue": {
-                            grid.add(new ImageView(blue), Integer.valueOf(cell.get(CELL_X)) - 1, Integer.valueOf(cell.get(CELL_Y)) - 1);
+                            grid.add(new ImageView(blue), xPos, yPos);
                             break;
                         }
                         case "red": {
-                            grid.add(new ImageView(red), Integer.valueOf(cell.get(CELL_X)) - 1, Integer.valueOf(cell.get(CELL_Y)) - 1);
+                            grid.add(new ImageView(red), xPos, yPos);
                             break;
                         }
                         case "yellow": {
-                            grid.add(new ImageView(yellow), Integer.valueOf(cell.get(CELL_X)) - 1, Integer.valueOf(cell.get(CELL_Y)) - 1);
+                            grid.add(new ImageView(yellow), xPos, yPos);
                             break;
                         }
                         case "white": {
-                            grid.add(new ImageView(white), Integer.valueOf(cell.get(CELL_X)) - 1, Integer.valueOf(cell.get(CELL_Y)) - 1);
+                            grid.add(new ImageView(white), xPos, yPos);
                             break;
                         }
                         case "purple": {
-                            grid.add(new ImageView(purple), Integer.valueOf(cell.get(CELL_X)) - 1, Integer.valueOf(cell.get(CELL_Y)) - 1);
+                            grid.add(new ImageView(purple), xPos, yPos);
                             break;
                         }
                         case "green": {
-                            grid.add(new ImageView(green), Integer.valueOf(cell.get(CELL_X)) - 1, Integer.valueOf(cell.get(CELL_Y)) - 1);
+                            grid.add(new ImageView(green), xPos, yPos);
                             break;
                         }
                         default: {
@@ -124,6 +128,48 @@ public class GameGUI {
                 }
             }
         }
+        //Doors
+        for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
+            for (ArrayList<String> cell : room) {
+                if(cell.size()==CELL_DOORS+1){
+                    for(String singleDoor: cell.get(CELL_DOORS).split("°")){
+                        int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
+                        int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
+                        ArrayList<Integer> doorCoordinate = new ArrayList<>();
+                        for(String s: singleDoor.split("'")){
+                            doorCoordinate.add(Integer.valueOf(s));
+                        }
+                        if(xPos+1 == doorCoordinate.get(CELL_X)){
+                            if(yPos+1 > doorCoordinate.get(CELL_Y)){
+                                grid.add(new ImageView(doorN),xPos,yPos);
+                            }
+                            if(yPos+1 < doorCoordinate.get(CELL_Y)){
+                                grid.add(new ImageView(doorS),xPos,yPos);
+                            }
+                        }
+                        else {
+                            if(xPos+1 > doorCoordinate.get(CELL_X)){
+                                grid.add(new ImageView(doorW),xPos,yPos);
+                            }
+                            if(xPos+1 < doorCoordinate.get(CELL_X)){
+                                grid.add(new ImageView(doorE),xPos,yPos);
+                            }
+                        }
+                    }
+                }
+            }
+
+
+
+        }
+
+
+        /*
+
+         */
+
+
+
 
 
 
