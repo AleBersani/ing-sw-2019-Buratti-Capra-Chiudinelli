@@ -1757,7 +1757,7 @@ class WeaponOptionalTest {
     @Test
     void thor_First_Second_Third(){
         for(Weapon w: board.getWeaponsListCopy()){
-            if(w.getName().equals("T.H.O.R.")){
+            if(w.getName().equals("THOR")){
                 weapon = w;
             }
         }
@@ -1836,7 +1836,7 @@ class WeaponOptionalTest {
     @Test
     void thor_InvalidTarget(){
         for(Weapon w: board.getWeaponsListCopy()){
-            if(w.getName().equals("T.H.O.R.")){
+            if(w.getName().equals("THOR")){
                 weapon = w;
             }
         }
