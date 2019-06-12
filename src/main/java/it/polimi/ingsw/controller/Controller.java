@@ -258,6 +258,9 @@ public class Controller {
         gameStarted=true;
         match = new Match(players, getNicknameList().size(), skulls, frenzyEn, mode, board);
         match.start();
+        for (Player player: match.getPlayers()){
+            player.setTurn(match.getTurn());
+        }
         for(ClientInfo clientInfo: getNicknameList().values()){
             sendString("Match started",clientInfo.clientHandler);
             sendString(boardDescriptor(),clientInfo.clientHandler);
@@ -266,6 +269,9 @@ public class Controller {
             sendString(killshotTrackDescriptor(),clientInfo.clientHandler);
             clientInfo.nextState();
             clientInfo.clientHandler.setYourTurn(false);
+
+        }
+        for (ClientInfo clientInfo: getNicknameList().values()){
             if(match.getTurn().getCurrent().getNickname().equals(clientInfo.clientHandler.getName())){
                 clientInfo.clientHandler.setYourTurn(true);
                 lifeCycle(clientInfo.clientHandler,match.getTurn().getCurrent());
@@ -282,7 +288,16 @@ public class Controller {
                 player.draw();
             } catch (MaxHandSizeException e) {
             }
-            sendString("Select a power up"+player.getPowerUps().toString(),actual);
+            String powerUps="";
+            for(int i=0; i<player.getPowerUps().size();i++) {
+                powerUps=powerUps.concat(player.getPowerUps().get(i).getName())
+                        .concat(",").concat(player.getPowerUps().get(i).getColor())
+                        .concat(" ");
+            }
+            sendString(youDescriptor(actual),actual);
+            sendString("Select a power up " +powerUps, actual);
+
+
         }
         else {
             if(match.getTurn().getActionCounter()<MAX_ACTIONS) {

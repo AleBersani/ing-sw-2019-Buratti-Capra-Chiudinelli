@@ -4,7 +4,7 @@
   "frenzy": true,
   "timer": 10,
   "availableBoards": [1,2,3,4],
-  "availableSkulls": [5,8],
+  "availableSkulls": [8,5],
   "mode": "base",
   "availableColors": [
     "green",
