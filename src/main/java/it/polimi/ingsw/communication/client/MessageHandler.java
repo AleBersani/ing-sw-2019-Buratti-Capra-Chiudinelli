@@ -106,17 +106,8 @@ public class MessageHandler {
 
     private void gameUnderstand(String msg){
         switch (msg.substring(0,NAME_ETIQUETTE)){
-            case "BRD-":{
-
-            }
-            case "PLR-":{
-
-            }
-            case "KLL-":{
-
-            }
-            case "YOU-":{
-                view.gameShow(msg);
+            case "BGD-":{
+                view.gameShow(msg.substring(NAME_ETIQUETTE));
                 break;
             }
             default:
