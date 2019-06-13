@@ -95,7 +95,7 @@ public class MessageHandler {
     }
 
     private void waitUnderstand(String msg){
-        if(msg.substring(0,TO_SHOW_ETIQUETTE).equals("§§§")){
+        if(msg.substring(0,TO_SHOW_ETIQUETTE).equals(":::")){
             bigReceive = msg.substring(NAME_ETIQUETTE).split("-");
             view.waitingRoomView();
         }

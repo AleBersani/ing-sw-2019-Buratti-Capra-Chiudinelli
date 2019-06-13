@@ -15,6 +15,7 @@ public class ClientHandler implements Runnable{
     private PrintWriter out;
     private BufferedReader in;
     private String name;
+    private boolean firstSpawn;
 
     public ClientHandler(Socket socket, Controller controller) {
         this.socket=socket;
@@ -23,6 +24,7 @@ public class ClientHandler implements Runnable{
         this.is=null;
         this.os=null;
         this.logged=false;
+        this.firstSpawn=true;
     }
 
     private void init(){
@@ -112,5 +114,13 @@ public class ClientHandler implements Runnable{
 
     public void setYourTurn(boolean yourTurn) {
         this.yourTurn = yourTurn;
+    }
+
+    public boolean isFirstSpawn() {
+        return firstSpawn;
+    }
+
+    public void setFirstSpawn(boolean firstSpawn) {
+        this.firstSpawn = firstSpawn;
     }
 }

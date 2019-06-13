@@ -129,7 +129,6 @@ public class Turn {
 
         for(i=0;!this.deads.isEmpty();) {
             this.deads.get(i).getDamage().clear();
-            //this.deads.get(i).spawn(); TODO SPAWN TO CONTROLLER
             this.deads.remove(i);
         }
     }
