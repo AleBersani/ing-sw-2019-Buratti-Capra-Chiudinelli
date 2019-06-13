@@ -155,6 +155,7 @@ public class GUI extends Application implements ViewInterface {
         for(String info: this.youData.split(";")){
             youRepresentation.add(info);
         }
+        System.out.println(youRepresentation);
         this.stage.setFullScreen(true);
         this.gameGUI.buildYou(stage);
     }
@@ -195,10 +196,6 @@ public class GUI extends Application implements ViewInterface {
         }
     }
 
-    public ArrayList<ArrayList<ArrayList<String>>> getBoardRepresentation() {
-        return boardRepresentation;
-    }
-
     @Override
     public void boardSettingView(ArrayList<String> data, String title) {
         this.infoChoiceBox = data;
@@ -221,4 +218,11 @@ public class GUI extends Application implements ViewInterface {
         Platform.exit();
     }
 
+    public ArrayList<ArrayList<ArrayList<String>>> getBoardRepresentation() {
+        return boardRepresentation;
+    }
+
+    public ArrayList<String> getYouRepresentation() {
+        return youRepresentation;
+    }
 }

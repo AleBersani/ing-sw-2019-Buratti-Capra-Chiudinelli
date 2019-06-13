@@ -27,15 +27,23 @@ public class GameGUI {
     private GUI gui;
     private MessageHandler messageHandler;
     private Client client;
+    private static final int N_INNER_COLUMN= 3;
     private static final int N_COLUMN= 7;
+    private static final int N_INNER_ROW= 3;
     private static final int N_ROW= 5;
     private static final int CELL_X= 0;
     private static final int CELL_Y= 1;
     private static final int CELL_COLOR= 2;
     private static final int CELL_TYPE= 3;
     private static final int CELL_INSIDE= 4;
+    private static final int CELL_PLAYER_ON_ME= 6;
     private static final int CELL_DOORS= 8;
     private static final int CELL_WALLS= 10;
+    private static final int PLAYER_ROW_SPAN=1;
+    private static final int PLAYER_COLOR= 9;
+    private static final int YOU_XPOS= 0;
+    private static final int YOU_COL_SPAN= 4;
+    private static final int YOU_YPOS= 4;
 
 
     public GameGUI(GUI gui, MessageHandler messageHandler, Client client) {
@@ -247,18 +255,64 @@ public class GameGUI {
                         }
                     }
                     //TODO caso in cui non ci sia l'ammoTile
-                    ImageView ammoTile = new ImageView(new Image("/images/game/ammo/tiles/".concat(ammoName).concat(".png"),pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false));
+                    ImageView ammoTile = new ImageView(new Image("/images/game/ammo/tiles/".concat(ammoName).concat(".png"),pane.getWidth()/N_COLUMN/N_INNER_COLUMN,pane.getHeight()/N_ROW/N_INNER_ROW,false,false));
                     grid.add(ammoTile, xPos, yPos);
                     GridPane.setHalignment(ammoTile,HPos.CENTER);
                     GridPane.setValignment(ammoTile,VPos.CENTER);
                 }
-                else{
+            }
+        }
 
+        for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
+            for (ArrayList<String> cell : room) {
+                int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
+                int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
+                for(String player: cell.get(CELL_PLAYER_ON_ME).split("'")){
+                    switch (player){
+                        case "purple":{
+                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/purpleToken.png",pane.getWidth()/N_COLUMN/N_INNER_COLUMN,pane.getHeight()/N_ROW/N_INNER_ROW,false,false));
+                            grid.add(playerToken,xPos,yPos);
+                            GridPane.setHalignment(playerToken,HPos.RIGHT);
+                            GridPane.setValignment(playerToken,VPos.CENTER);
+                            break;
+                        }
+                        case "blue":{
+                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/blueToken.png",pane.getWidth()/N_COLUMN/N_INNER_COLUMN,pane.getHeight()/N_ROW/N_INNER_ROW,false,false));
+                            grid.add(playerToken,xPos,yPos);
+                            GridPane.setHalignment(playerToken,HPos.LEFT);
+                            GridPane.setValignment(playerToken,VPos.CENTER);
+                            break;
+                        }
+                        case "green":{
+                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/greenToken.png",pane.getWidth()/N_COLUMN/N_INNER_COLUMN,pane.getHeight()/N_ROW/N_INNER_ROW,false,false));
+                            grid.add(playerToken,xPos,yPos);
+                            GridPane.setHalignment(playerToken,HPos.CENTER);
+                            GridPane.setValignment(playerToken,VPos.BOTTOM);
+                            break;
+                        }
+                        case "yellow":{
+                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/yellowToken.png",pane.getWidth()/N_COLUMN/N_INNER_COLUMN,pane.getHeight()/N_ROW/N_INNER_ROW,false,false));
+                            grid.add(playerToken,xPos,yPos);
+                            GridPane.setHalignment(playerToken,HPos.LEFT);
+                            GridPane.setValignment(playerToken,VPos.BOTTOM);
+                            break;
+                        }
+                        case "grey":{
+                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/greyToken.png",pane.getWidth()/N_COLUMN/N_INNER_COLUMN,pane.getHeight()/N_ROW/N_INNER_ROW,false,false));
+                            grid.add(playerToken,xPos,yPos);
+                            GridPane.setHalignment(playerToken,HPos.RIGHT);
+                            GridPane.setValignment(playerToken,VPos.BOTTOM);
+                            break;
+                        }
+                        default:
+                    }
                 }
             }
         }
 
-        //TODO aggiungere sopra i giocatori
+
+
+
 
 
 
@@ -292,13 +346,39 @@ public class GameGUI {
             row.setPercentHeight(100/N_ROW);
             grid.getRowConstraints().add(row);
         }
-
-
-
+        String[] color = gui.getYouRepresentation().get(PLAYER_COLOR).split(":");
+        switch (color[1]){
+            case "purple":{
+                grid.add(new ImageView(new Image("/images/game/plance/purplePlayer.png",pane.getWidth()/N_COLUMN*YOU_COL_SPAN,pane.getHeight()/N_ROW,false,false)),YOU_XPOS,YOU_YPOS,YOU_COL_SPAN,PLAYER_ROW_SPAN);
+                break;
+            }
+            case "blue":{
+                grid.add(new ImageView(new Image("/images/game/plance/bluePlayer.png",pane.getWidth()/N_COLUMN*YOU_COL_SPAN,pane.getHeight()/N_ROW,false,false)),YOU_XPOS,YOU_YPOS,YOU_COL_SPAN,PLAYER_ROW_SPAN);
+                break;
+            }
+            case "green":{
+                grid.add(new ImageView(new Image("/images/game/plance/greenPlayer.png",pane.getWidth()/N_COLUMN*YOU_COL_SPAN,pane.getHeight()/N_ROW,false,false)),YOU_XPOS,YOU_YPOS,YOU_COL_SPAN,PLAYER_ROW_SPAN);
+                break;
+            }
+            case "yellow":{
+                grid.add(new ImageView(new Image("/images/game/plance/yellowPlayer.png",pane.getWidth()/N_COLUMN*YOU_COL_SPAN,pane.getHeight()/N_ROW,false,false)),YOU_XPOS,YOU_YPOS,YOU_COL_SPAN,PLAYER_ROW_SPAN);
+                break;
+            }
+            case "grey":{
+                grid.add(new ImageView(new Image("/images/game/plance/greyPlayer.png",pane.getWidth()/N_COLUMN*YOU_COL_SPAN,pane.getHeight()/N_ROW,false,false)),YOU_XPOS,YOU_YPOS,YOU_COL_SPAN,PLAYER_ROW_SPAN);
+                break;
+            }
+        }
+        //TODO altre plance da fare ancora come immagini
 
 
 
         pane.getChildren().add(grid);
+    }
+
+    public void spawn(Stage stage){
+        StackPane pane = (StackPane)stage.getScene().getRoot();
+        stage.getScene().setRoot(pane);
     }
 
     /*
@@ -909,11 +989,6 @@ public class GameGUI {
         pane2.getChildren().add(grid2);
         pane.getChildren().add(pane2);
 
-    }
-
-    public void spawn(Stage stage){
-        StackPane pane = (StackPane)stage.getScene().getRoot();
-        stage.getScene().setRoot(pane);
     }
 
     /*

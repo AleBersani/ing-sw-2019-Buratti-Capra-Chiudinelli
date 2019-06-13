@@ -750,6 +750,7 @@ public class Player {
         }
         player=player.concat(";Color:").concat(color);
         player=player.concat(";TurnedPlank:").concat(String.valueOf(turnedPlank));
+        player=player.concat(";Frenzy:").concat(String.valueOf(turn.isFrenzy()));
         return player;
     }
 
