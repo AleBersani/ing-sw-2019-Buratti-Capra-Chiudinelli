@@ -72,7 +72,7 @@ public class Room {
                     .concat(Integer.toString(s.getY())).concat(";")
                     .concat(s.getColor().concat(";"));
             if (s instanceof SpawnPoint){
-                cells=cells.concat("SpawnPoint").concat(";");
+                cells=cells.concat("SpawnPoint;");
                 for(Weapon w:((SpawnPoint) s).getWeapons()) {
                     cells=cells.concat(w.getName()).concat("'");
                 }
@@ -81,7 +81,7 @@ public class Room {
                 }
             }
             if (s instanceof AmmoPoint){
-                cells=cells.concat("AmmoPoint").concat(";");
+                cells=cells.concat("AmmoPoint;");
                 cells=cells.concat("Y:")
                         .concat(Integer.toString(((AmmoPoint)s).getAmmo().getYellow())).concat("'")
                         .concat("R:")

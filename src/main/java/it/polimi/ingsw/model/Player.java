@@ -726,10 +726,10 @@ public class Player {
     public String toString(){
         String player="";
         player=player.concat("S:")
-                .concat(Integer.toString(skull)).concat(",")
-                .concat("Y:").concat(Integer.toString(yellowAmmo)).concat(",")
-                .concat("B:").concat(Integer.toString(blueAmmo)).concat(",")
-                .concat("R:").concat(Integer.toString(redAmmo)).concat(",");
+                .concat(Integer.toString(skull)).concat(";")
+                .concat("Y:").concat(Integer.toString(yellowAmmo)).concat(";")
+                .concat("B:").concat(Integer.toString(blueAmmo)).concat(";")
+                .concat("R:").concat(Integer.toString(redAmmo)).concat(";");
         player=player.concat(" - ");
         player = player.concat("damage:,");
         for (Player p : damage) {

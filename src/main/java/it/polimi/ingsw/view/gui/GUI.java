@@ -129,18 +129,28 @@ public class GUI extends Application implements ViewInterface {
             this.boardRepresentation.add(new ArrayList<>());
             room = room.substring(0,room.length()-CELL_SEPARATOR);
             for(String cell: room.split(" - ")){
-                    boardRepresentation.get(i).add(new ArrayList<>());
-                    for (String element : cell.split(";")) {
-                        boardRepresentation.get(i).get(j).add(element);
-                        System.out.println(boardRepresentation.get(i).get(j));
-                    }
-                    j++;
+                boardRepresentation.get(i).add(new ArrayList<>());
+                for (String element : cell.split(";")) {
+                    boardRepresentation.get(i).get(j).add(element);
+                }
+                System.out.println(boardRepresentation.get(i).get(j));
+                j++;
             }
             i++;
         }
         this.stage.setFullScreen(true);
         this.clearPane();
         this.gameGUI.buildBoard(stage);
+    }
+
+    private void spawnView(){
+        gameGUI.spawn(stage);
+    }
+
+    @Override
+    public void spawn(String msg) {
+        this.infoString = msg;
+        Platform.runLater(this::spawnView);
     }
 
     @Override

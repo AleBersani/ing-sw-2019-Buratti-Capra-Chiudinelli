@@ -110,6 +110,9 @@ public class MessageHandler {
                 view.gameShow(msg.substring(NAME_ETIQUETTE));
                 break;
             }
+            case "SPW-":{
+                view.spawn(msg.substring(NAME_ETIQUETTE));
+            }
             default:
         }
     }

@@ -32,6 +32,8 @@ public class GameGUI {
     private static final int CELL_X= 0;
     private static final int CELL_Y= 1;
     private static final int CELL_COLOR= 2;
+    private static final int CELL_TYPE= 3;
+    private static final int CELL_INSIDE= 4;
     private static final int CELL_DOORS= 8;
     private static final int CELL_WALLS= 10;
 
@@ -88,6 +90,8 @@ public class GameGUI {
         Image y2b1 = new Image("/images/game/ammo/tiles/y2b1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
         Image y2pu1 = new Image("/images/game/ammo/tiles/y2pu1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
         Image y2r1 = new Image("/images/game/ammo/tiles/y2r1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
+
+        //TODO costruire le ImageView con dentro new Image con stringa del percorso costruita precisa
 
         //grid column constraint
         for (int j = 0 ; j < N_COLUMN; j++) {
@@ -206,7 +210,56 @@ public class GameGUI {
             }
         }
 
+        //Ammopoint
+        for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
+            for (ArrayList<String> cell : room) {
+                int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
+                int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
+                if(cell.get(CELL_TYPE).equals("AmmoPoint")){
+                    String ammoName = "";
+                    for(String s: cell.get(CELL_INSIDE).split("'")){
+                        String[] difi = s.split(":");
+                        if(s.startsWith("Y:")){
+                            if(!difi[1].equals("0")){
+                                ammoName = ammoName.concat("y").concat(difi[1]);
+                            }
+                        }
+                        else {
+                            if(s.startsWith("R:")){
+                                if(!difi[1].equals("0")){
+                                    ammoName = ammoName.concat("r").concat(difi[1]);
+                                }
+                            }
+                            else {
+                                if (s.startsWith("B:")) {
+                                    if (!difi[1].equals("0")) {
+                                        ammoName = ammoName.concat("b").concat(difi[1]);
+                                    }
+                                }
+                                else {
+                                    if (s.startsWith("PU:")) {
+                                        if (!difi[1].equals("0")) {
+                                            ammoName = ammoName.concat("pu").concat(difi[1]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //TODO caso in cui non ci sia l'ammoTile
+                    ImageView ammoTile = new ImageView(new Image("/images/game/ammo/tiles/".concat(ammoName).concat(".png"),pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false));
+                    grid.add(ammoTile, xPos, yPos);
+                    GridPane.setHalignment(ammoTile,HPos.CENTER);
+                    GridPane.setValignment(ammoTile,VPos.CENTER);
+                    System.out.println(ammoName);
+                }
+                else{
 
+                }
+            }
+        }
+
+        //TODO aggiungere sopra i giocatori
 
 
 
@@ -599,7 +652,7 @@ public class GameGUI {
         //informationMessage(pane);
 
         //TODO IF THE PLAYER NEEDS TO SPAWN
-        //spawn(pane);
+        //spawn(stage);
 
         //TODO IF THE PLAYER WANTS TO RELOAD WEAPONS
         //reload(pane);
@@ -828,7 +881,13 @@ public class GameGUI {
 
     }
 
-    public void spawn(Pane pane){
+    public void spawn(Stage stage){
+        StackPane pane = (StackPane)stage.getScene().getRoot();
+        stage.getScene().setRoot(pane);
+    }
+
+    /*
+        public void spawn(Stage stage){
         //powerUps
         Image blueNewton = new Image("/images/game/powerUps/blueNewton.png",pane.getWidth()/10,pane.getHeight()/5,false,false);
         ImageView blueNewtonIV = new ImageView(blueNewton);
@@ -887,6 +946,8 @@ public class GameGUI {
         pane2.getChildren().add(grid2);
         pane.getChildren().add(pane2);
     }
+
+     */
 
     public void reload(Pane pane){
         //weapon
