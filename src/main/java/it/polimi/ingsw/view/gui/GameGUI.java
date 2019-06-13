@@ -56,24 +56,38 @@ public class GameGUI {
         screen.fitHeightProperty().bind(pane.heightProperty());
 
         //cell
-        Image blue = new Image("/images/game/cell/blueCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/5,false,false);
-        Image red = new Image("/images/game/cell/redCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/5,false,false);
-        Image yellow = new Image("/images/game/cell/yellowCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/5,false,false);
-        Image white = new Image("/images/game/cell/whiteCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/5,false,false);
-        Image purple = new Image("/images/game/cell/purpleCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/5,false,false);
-        Image green = new Image("/images/game/cell/greenCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/5,false,false);
+        Image blue = new Image("/images/game/cell/blueCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
+        Image red = new Image("/images/game/cell/redCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
+        Image yellow = new Image("/images/game/cell/yellowCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
+        Image white = new Image("/images/game/cell/whiteCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
+        Image purple = new Image("/images/game/cell/purpleCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
+        Image green = new Image("/images/game/cell/greenCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
 
         //wall
-        Image wallW = new Image("/images/game/cell/wall/wallW.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
-        Image wallN = new Image("/images/game/cell/wall/wallN.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
-        Image wallS = new Image("/images/game/cell/wall/wallS.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
-        Image wallE = new Image("/images/game/cell/wall/wallE.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
+        Image wallW = new Image("/images/game/cell/wall/wallW.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
+        Image wallN = new Image("/images/game/cell/wall/wallN.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
+        Image wallS = new Image("/images/game/cell/wall/wallS.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
+        Image wallE = new Image("/images/game/cell/wall/wallE.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
 
         //door
-        Image doorW = new Image("/images/game/cell/door/doorW.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
-        Image doorE = new Image("/images/game/cell/door/doorE.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
-        Image doorN = new Image("/images/game/cell/door/doorN.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
-        Image doorS = new Image("/images/game/cell/door/doorS.png",pane.getWidth()/7,pane.getHeight()/5,false,false);
+        Image doorW = new Image("/images/game/cell/door/doorW.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
+        Image doorE = new Image("/images/game/cell/door/doorE.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
+        Image doorN = new Image("/images/game/cell/door/doorN.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
+        Image doorS = new Image("/images/game/cell/door/doorS.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
+
+        //ammo
+        Image b2pu1 = new Image("/images/game/ammo/tiles/b2pu1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
+        Image r1b1pu1 = new Image("/images/game/ammo/tiles/r1b1pu1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
+        Image r1b2 = new Image("/images/game/ammo/tiles/r1b2.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
+        Image r2b1 = new Image("/images/game/ammo/tiles/r2b1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
+        Image r2pu1 = new Image("/images/game/ammo/tiles/r2pu1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
+        Image y1b1pu1 = new Image("/images/game/ammo/tiles/y1b1pu1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
+        Image y1b2 = new Image("/images/game/ammo/tiles/y1b2.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
+        Image y1r1pu1 = new Image("/images/game/ammo/tiles/y1r1pu1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
+        Image y1r2 = new Image("/images/game/ammo/tiles/y1r2.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
+        Image y2b1 = new Image("/images/game/ammo/tiles/y2b1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
+        Image y2pu1 = new Image("/images/game/ammo/tiles/y2pu1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
+        Image y2r1 = new Image("/images/game/ammo/tiles/y2r1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
 
         //grid column constraint
         for (int j = 0 ; j < N_COLUMN; j++) {
@@ -91,8 +105,7 @@ public class GameGUI {
             grid.getRowConstraints().add(row);
         }
 
-        //Color
-
+        //cells
         for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
                 if(!cell.isEmpty()) {
@@ -130,7 +143,8 @@ public class GameGUI {
                 }
             }
         }
-        //Doors
+
+        //doors
         for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
                 if(!cell.get(CELL_DOORS).isEmpty()){
@@ -161,6 +175,8 @@ public class GameGUI {
                 }
             }
         }
+
+        //walls
         for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
                 int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
