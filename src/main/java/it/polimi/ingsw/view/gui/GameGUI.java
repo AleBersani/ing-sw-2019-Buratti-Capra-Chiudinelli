@@ -59,63 +59,17 @@ public class GameGUI {
         stage.setResizable(false);
         GridPane grid = new GridPane();
 
-        //backGround image
-        Image screenImage = new Image("/images/game/metallicScreen.png");
-        ImageView screen = new ImageView(screenImage);
-        screen.fitWidthProperty().bind(pane.widthProperty());
-        screen.fitHeightProperty().bind(pane.heightProperty());
-
-        //cell
-        Image blue = new Image("/images/game/cell/blueCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
-        Image red = new Image("/images/game/cell/redCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
-        Image yellow = new Image("/images/game/cell/yellowCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
-        Image white = new Image("/images/game/cell/whiteCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
-        Image purple = new Image("/images/game/cell/purpleCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
-        Image green = new Image("/images/game/cell/greenCell.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
-
-        //wall
-        Image wallW = new Image("/images/game/cell/wall/wallW.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
-        Image wallN = new Image("/images/game/cell/wall/wallN.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
-        Image wallS = new Image("/images/game/cell/wall/wallS.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
-        Image wallE = new Image("/images/game/cell/wall/wallE.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
-
-        //door
-        Image doorW = new Image("/images/game/cell/door/doorW.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
-        Image doorE = new Image("/images/game/cell/door/doorE.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
-        Image doorN = new Image("/images/game/cell/door/doorN.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
-        Image doorS = new Image("/images/game/cell/door/doorS.png",pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false);
-
-        //ammo
-        Image b2pu1 = new Image("/images/game/ammo/tiles/b2pu1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
-        Image r1b1pu1 = new Image("/images/game/ammo/tiles/r1b1pu1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
-        Image r1b2 = new Image("/images/game/ammo/tiles/r1b2.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
-        Image r2b1 = new Image("/images/game/ammo/tiles/r2b1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
-        Image r2pu1 = new Image("/images/game/ammo/tiles/r2pu1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
-        Image y1b1pu1 = new Image("/images/game/ammo/tiles/y1b1pu1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
-        Image y1b2 = new Image("/images/game/ammo/tiles/y1b2.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
-        Image y1r1pu1 = new Image("/images/game/ammo/tiles/y1r1pu1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
-        Image y1r2 = new Image("/images/game/ammo/tiles/y1r2.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
-        Image y2b1 = new Image("/images/game/ammo/tiles/y2b1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
-        Image y2pu1 = new Image("/images/game/ammo/tiles/y2pu1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
-        Image y2r1 = new Image("/images/game/ammo/tiles/y2r1.png",pane.getWidth()/N_COLUMN/3,pane.getHeight()/N_ROW/3,false,false);
-
-        //TODO costruire le ImageView con dentro new Image con stringa del percorso costruita precisa
-
         //grid column constraint
-        for (int j = 0 ; j < N_COLUMN; j++) {
-            ColumnConstraints col = new ColumnConstraints();
-            col.setHgrow(Priority.ALWAYS);
-            col.setPercentWidth(100/N_COLUMN);
-            grid.getColumnConstraints().add(col);
-        }
+        columnConstraint(grid);
 
         //grid row constraint
-        for (int i = 0 ; i < N_ROW; i++) {
-            RowConstraints row = new RowConstraints();
-            row.setVgrow(Priority.ALWAYS);
-            row.setPercentHeight(100/N_ROW);
-            grid.getRowConstraints().add(row);
-        }
+        rowConstraint(grid);
+
+
+        //backGround image
+        ImageView screen = new ImageView(new Image("/images/game/metallicScreen.png"));
+        screen.fitWidthProperty().bind(pane.widthProperty());
+        screen.fitHeightProperty().bind(pane.heightProperty());
 
         //cells
         for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
@@ -123,34 +77,36 @@ public class GameGUI {
                 if(!cell.isEmpty()) {
                     int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
                     int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
+                    String color = "";
                     switch (cell.get(CELL_COLOR)) {
                         case "blue": {
-                            grid.add(new ImageView(blue), xPos, yPos);
+                            color = "blueCell.png";
                             break;
                         }
                         case "red": {
-                            grid.add(new ImageView(red), xPos, yPos);
+                            color = "redCell.png";
                             break;
                         }
                         case "yellow": {
-                            grid.add(new ImageView(yellow), xPos, yPos);
+                            color = "yellowCell.png";
                             break;
                         }
                         case "white": {
-                            grid.add(new ImageView(white), xPos, yPos);
+                            color = "whiteCell.png";
                             break;
                         }
                         case "purple": {
-                            grid.add(new ImageView(purple), xPos, yPos);
+                            color = "purpleCell.png";
                             break;
                         }
                         case "green": {
-                            grid.add(new ImageView(green), xPos, yPos);
+                            color = "greenCell.png";
                             break;
                         }
-                        default: {
-
-                        }
+                        default:
+                    }
+                    if(!color.equals("")) {
+                        grid.add(new ImageView(new Image("/images/game/cell/".concat(color), pane.getWidth() / N_COLUMN, pane.getHeight() / N_ROW, false, false)), xPos, yPos);
                     }
                 }
             }
@@ -163,26 +119,27 @@ public class GameGUI {
                     for(String singleDoor: cell.get(CELL_DOORS).split(":")){
                         int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
                         int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
-                        ArrayList<Integer> doorCoordinate = new ArrayList<>();
-                        for(String s: singleDoor.split("'")){
-                            doorCoordinate.add(Integer.valueOf(s));
-                        }
-                        if(xPos+1 == doorCoordinate.get(CELL_X)){
-                            if(yPos+1 > doorCoordinate.get(CELL_Y)){
-                                grid.add(new ImageView(doorN),xPos,yPos);
+                        String[] door = singleDoor.split("'");
+                        int xDoor = Integer.parseInt(door[CELL_X]);
+                        int yDoor = Integer.parseInt(door[CELL_Y]);
+                        String doorDirection = "";
+                        if(xPos+1 == xDoor){
+                            if(yPos+1 > yDoor){
+                                doorDirection = "doorN.png";
                             }
-                            if(yPos+1 < doorCoordinate.get(CELL_Y)){
-                                grid.add(new ImageView(doorS),xPos,yPos);
+                            if(yPos+1 < yDoor){
+                                doorDirection = "doorS.png";
                             }
                         }
                         else {
-                            if(xPos+1 > doorCoordinate.get(CELL_X)){
-                                grid.add(new ImageView(doorW),xPos,yPos);
+                            if(xPos+1 > xDoor){
+                                doorDirection = "doorW.png";
                             }
-                            if(xPos+1 < doorCoordinate.get(CELL_X)){
-                                grid.add(new ImageView(doorE),xPos,yPos);
+                            if(xPos+1 < xDoor){
+                                doorDirection = "doorE.png";
                             }
                         }
+                        grid.add(new ImageView(new Image("/images/game/cell/door/".concat(doorDirection),pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false)),xPos,yPos);
                     }
                 }
             }
@@ -194,25 +151,28 @@ public class GameGUI {
                 int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
                 int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
                 for(String s: cell.get(CELL_WALLS).split("'")){
+                    String wall = "";
                     switch (s){
                         case "N":{
-                            grid.add(new ImageView(wallN), xPos, yPos);
+                            wall = "wallN.png";
                             break;
                         }
                         case "S":{
-                            grid.add(new ImageView(wallS), xPos, yPos);
+                            wall = "wallS.png";
                             break;
                         }
                         case "W":{
-                            grid.add(new ImageView(wallW), xPos, yPos);
+                            wall = "wallW.png";
                             break;
                         }
                         case "E":{
-                            grid.add(new ImageView(wallE), xPos, yPos);
+                            wall = "wallE.png";
                             break;
                         }
                         default:
-
+                    }
+                    if(!wall.equals("")){
+                        grid.add(new ImageView(new Image("/images/game/cell/wall/".concat(wall),pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false)), xPos, yPos);
                     }
                 }
             }
@@ -263,6 +223,7 @@ public class GameGUI {
             }
         }
 
+        //plyersToken
         for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
                 int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
@@ -310,15 +271,6 @@ public class GameGUI {
             }
         }
 
-
-
-
-
-
-
-
-
-
         //pane.add
         pane.getChildren().add(screen);
         pane.getChildren().add(grid);
@@ -332,20 +284,11 @@ public class GameGUI {
         GridPane grid = new GridPane();
 
         //grid column constraint
-        for (int j = 0 ; j < N_COLUMN; j++) {
-            ColumnConstraints col = new ColumnConstraints();
-            col.setHgrow(Priority.ALWAYS);
-            col.setPercentWidth(100/N_COLUMN);
-            grid.getColumnConstraints().add(col);
-        }
+        columnConstraint(grid);
 
         //grid row constraint
-        for (int i = 0 ; i < N_ROW; i++) {
-            RowConstraints row = new RowConstraints();
-            row.setVgrow(Priority.ALWAYS);
-            row.setPercentHeight(100/N_ROW);
-            grid.getRowConstraints().add(row);
-        }
+        rowConstraint(grid);
+
         String[] color = gui.getYouRepresentation().get(PLAYER_COLOR).split(":");
         switch (color[1]){
             case "purple":{
@@ -379,6 +322,24 @@ public class GameGUI {
     public void spawn(Stage stage){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
+    }
+
+    private void columnConstraint(GridPane grid){
+        for (int j = 0 ; j < N_COLUMN; j++) {
+            ColumnConstraints col = new ColumnConstraints();
+            col.setHgrow(Priority.ALWAYS);
+            col.setPercentWidth(100/N_COLUMN);
+            grid.getColumnConstraints().add(col);
+        }
+    }
+
+    private void rowConstraint(GridPane grid){
+        for (int i = 0 ; i < N_ROW; i++) {
+            RowConstraints row = new RowConstraints();
+            row.setVgrow(Priority.ALWAYS);
+            row.setPercentHeight(100/N_ROW);
+            grid.getRowConstraints().add(row);
+        }
     }
 
     /*
