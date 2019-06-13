@@ -101,7 +101,7 @@ public class Room {
                         .concat("'")
                         .concat(Integer.toString(door.getY()));
                 if(!door.equals(s.getDoors().get(s.getDoors().size()-1))){
-                    cells = cells.concat("°");
+                    cells = cells.concat(":");
                 }
             }
             cells=cells.concat(";Walls;");

@@ -727,50 +727,44 @@ public class Player {
         String player="";
         player=player.concat("S:")
                 .concat(Integer.toString(skull)).concat(";")
-                .concat("Y:").concat(Integer.toString(yellowAmmo)).concat(";")
-                .concat("B:").concat(Integer.toString(blueAmmo)).concat(";")
-                .concat("R:").concat(Integer.toString(redAmmo)).concat(";");
-        player=player.concat(" - ");
-        player = player.concat("damage:,");
+                .concat("Y:").concat(Integer.toString(yellowAmmo)).concat("'")
+                .concat("B:").concat(Integer.toString(blueAmmo)).concat("'")
+                .concat("R:").concat(Integer.toString(redAmmo)).concat("'");
+        player = player.concat(";damage:;");
         for (Player p : damage) {
-            player=player.concat(p.getColor()).concat(",");
+            player=player.concat(p.getColor()).concat("'");
         }
-        player=player.concat(" - ");
-        player = player.concat("mark:,");
+        player = player.concat(";mark:;");
         for (Player p : mark) {
-            player=player.concat(p.getColor()).concat(",");
+            player=player.concat(p.getColor()).concat("'");
         }
-        player=player.concat(" - ");
-        player=player.concat("PowerUp:").concat(Integer.toString(powerUps.size()));
-        player=player.concat(" - ").concat("Weapons:,");
+        player=player.concat(";PowerUp:").concat(Integer.toString(powerUps.size()));
+        player=player.concat(";Weapons:;");
         for (Weapon w : weapons){
             if (w.isLoad()){
-                player=player.concat("notVisible").concat(",");
+                player=player.concat("notVisible").concat("'");
             }
             else {
-                player=player.concat(w.getName()).concat(",");
+                player=player.concat(w.getName()).concat("'");
             }
         }
-        player=player.concat(" - ");
-        player=player.concat("Color:").concat(color);
-        player=player.concat(" - ");
-        player=player.concat("TurnedPlank").concat(String.valueOf(turnedPlank));
-        player=player.concat("//");
+        player=player.concat(";Color:").concat(color);
+        player=player.concat(";TurnedPlank:").concat(String.valueOf(turnedPlank));
         return player;
     }
 
     public String describe() {
         String descr= toString();
-        descr=descr.concat("Points:").concat(Integer.toString(points));
-        descr=descr.concat(" - ").concat("YourWeapons:,");
+        descr=descr.concat(";Points:").concat(Integer.toString(points));
+        descr=descr.concat(";YourWeapons:;");
         for (Weapon w : weapons){
-            descr=descr.concat(w.getName()).concat(",").concat(String.valueOf(w.isLoad())).concat(".");
+            descr=descr.concat(w.getName()).concat(":").concat(String.valueOf(w.isLoad())).concat("'");
         }
-        descr=descr.concat(" - ").concat("YourPowerUps:,");
+        descr=descr.concat("YourPowerUps:;");
         for (PowerUp p : powerUps){
-            descr=descr.concat(p.getName()).concat(",").concat(p.getColor()).concat(".");
+            descr=descr.concat(p.getName()).concat(":").concat(p.getColor()).concat("'");
         }
-        descr=descr.concat("///");
+        descr=descr.concat(";");
         return descr;
     }
 }

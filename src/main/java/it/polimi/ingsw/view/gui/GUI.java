@@ -22,9 +22,12 @@ public class GUI extends Application implements ViewInterface {
     private MessageHandler messageHandler;
     private boolean sendable;
     private boolean messageToShow;
-    private String gameData;
+    private String boardData;
+    private String playersData;
+    private String youData;
     private String infoString;
     private ArrayList<ArrayList<ArrayList<String>>> boardRepresentation;
+    private ArrayList<String> youRepresentation;
     private ArrayList<String> infoChoiceBox;
     private static final int SECOND_ETIQUETTE= 4;
     private static final int CELL_SEPARATOR= 3;
@@ -49,6 +52,7 @@ public class GUI extends Application implements ViewInterface {
         this.client = new Client(this);
         messageHandler = new MessageHandler(this,client);
         this.boardRepresentation = new ArrayList<>();
+        this.youRepresentation = new ArrayList<>();
         this.loginGUI = new LoginGUI(this,messageHandler,client);
         this.gameGUI = new GameGUI(this,messageHandler,client);
         client.setMessageHandler(messageHandler);
@@ -120,11 +124,15 @@ public class GUI extends Application implements ViewInterface {
         this.messageToShow = false;
     }
 
+    private void spawnView(){
+        gameGUI.spawn(stage);
+    }
+
     private void showGameBoard(){
         int i=0;
         int j;
         boardRepresentation.clear();
-        for(String room: this.gameData.substring(SQUARE_BRACKET,this.gameData.length()-SQUARE_BRACKET).split(", ")){
+        for(String room: this.boardData.substring(SQUARE_BRACKET,this.boardData.length()-SQUARE_BRACKET).split(", ")){
             j=0;
             this.boardRepresentation.add(new ArrayList<>());
             room = room.substring(0,room.length()-CELL_SEPARATOR);
@@ -133,7 +141,6 @@ public class GUI extends Application implements ViewInterface {
                 for (String element : cell.split(";")) {
                     boardRepresentation.get(i).get(j).add(element);
                 }
-                System.out.println(boardRepresentation.get(i).get(j));
                 j++;
             }
             i++;
@@ -143,8 +150,13 @@ public class GUI extends Application implements ViewInterface {
         this.gameGUI.buildBoard(stage);
     }
 
-    private void spawnView(){
-        gameGUI.spawn(stage);
+    private void showYou(){
+        youRepresentation.clear();
+        for(String info: this.youData.split(";")){
+            youRepresentation.add(info);
+        }
+        this.stage.setFullScreen(true);
+        this.gameGUI.buildYou(stage);
     }
 
     @Override
@@ -162,16 +174,18 @@ public class GUI extends Application implements ViewInterface {
     public void gameShow(String msg) {
         switch (msg.substring(0,SECOND_ETIQUETTE)){
             case "BRD-":{
-                this.gameData = msg.substring(SECOND_ETIQUETTE);
+                this.boardData = msg.substring(SECOND_ETIQUETTE);
                 Platform.runLater(this::showGameBoard);
                 break;
             }
             case "PLR-":{
+                this.playersData = msg.substring(SECOND_ETIQUETTE);
                 //TODO
                 break;
             }
             case "YOU-":{
-                //TODO
+                this.youData = msg.substring(SECOND_ETIQUETTE);
+                Platform.runLater(this::showYou);
                 break;
             }
             case "KLL-":{

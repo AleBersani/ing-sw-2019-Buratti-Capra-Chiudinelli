@@ -48,7 +48,7 @@ public class GameGUI {
         StackPane pane = (StackPane)stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         this.stage = stage;
-        stage.setResizable(true);
+        stage.setResizable(false);
         GridPane grid = new GridPane();
 
         //backGround image
@@ -152,7 +152,7 @@ public class GameGUI {
         for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
                 if(!cell.get(CELL_DOORS).isEmpty()){
-                    for(String singleDoor: cell.get(CELL_DOORS).split("°")){
+                    for(String singleDoor: cell.get(CELL_DOORS).split(":")){
                         int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
                         int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
                         ArrayList<Integer> doorCoordinate = new ArrayList<>();
@@ -251,7 +251,6 @@ public class GameGUI {
                     grid.add(ammoTile, xPos, yPos);
                     GridPane.setHalignment(ammoTile,HPos.CENTER);
                     GridPane.setValignment(ammoTile,VPos.CENTER);
-                    System.out.println(ammoName);
                 }
                 else{
 
@@ -268,6 +267,37 @@ public class GameGUI {
 
         //pane.add
         pane.getChildren().add(screen);
+        pane.getChildren().add(grid);
+    }
+
+    public void buildYou(Stage stage){
+        StackPane pane = (StackPane)stage.getScene().getRoot();
+        stage.getScene().setRoot(pane);
+        this.stage = stage;
+        stage.setResizable(false);
+        GridPane grid = new GridPane();
+
+        //grid column constraint
+        for (int j = 0 ; j < N_COLUMN; j++) {
+            ColumnConstraints col = new ColumnConstraints();
+            col.setHgrow(Priority.ALWAYS);
+            col.setPercentWidth(100/N_COLUMN);
+            grid.getColumnConstraints().add(col);
+        }
+
+        //grid row constraint
+        for (int i = 0 ; i < N_ROW; i++) {
+            RowConstraints row = new RowConstraints();
+            row.setVgrow(Priority.ALWAYS);
+            row.setPercentHeight(100/N_ROW);
+            grid.getRowConstraints().add(row);
+        }
+
+
+
+
+
+
         pane.getChildren().add(grid);
     }
 
