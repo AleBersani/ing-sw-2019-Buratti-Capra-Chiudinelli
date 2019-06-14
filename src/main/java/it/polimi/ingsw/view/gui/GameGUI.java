@@ -63,10 +63,10 @@ public class GameGUI {
         GridPane grid = new GridPane();
 
         //grid column constraint
-        columnConstraint(grid);
+        columnConstraint(grid, N_COLUMN);
 
         //grid row constraint
-        rowConstraint(grid);
+        rowConstraint(grid, N_ROW);
 
 
         //backGround image
@@ -287,10 +287,10 @@ public class GameGUI {
         GridPane grid = new GridPane();
 
         //grid column constraint
-        columnConstraint(grid);
+        columnConstraint(grid, N_COLUMN);
 
         //grid row constraint
-        rowConstraint(grid);
+        rowConstraint(grid, N_ROW);
 
         String[] color = gui.getYouRepresentation().get(PLAYER_COLOR).split(":");
         switch (color[1]){
@@ -324,14 +324,14 @@ public class GameGUI {
 
     public void spawn(Stage stage){
         StackPane pane = (StackPane)stage.getScene().getRoot();
-        stage.getScene().setRoot(pane);
 
         StackPane pane2 = new StackPane();
 
         String[] powerupNumber = gui.getYouRepresentation().get(PLAYER_POWER_UP).split(":");
         int numberPowerup = Integer.parseInt(powerupNumber[1]);
         Rectangle rectangle = new Rectangle();
-        Label text = new Label(gui.getInfoString());
+        String[] toShow = gui.getInfoString().split(":");
+        Label text = new Label(toShow[0]);
         text.setTextFill(Color.web("#ffffff", 0.8));
         text.setStyle("-fx-font: 60 Helvetica;");
         text.setEffect(new DropShadow());
@@ -340,61 +340,66 @@ public class GameGUI {
         rectangle.widthProperty().bind(pane.widthProperty());
         rectangle.heightProperty().bind(pane.heightProperty());
 
-        GridPane grid = new GridPane();
-        grid.add(text,0,0, numberPowerup, 1);
+        GridPane grid2 = new GridPane();
+        //columnConstraint(grid2, numberPowerup);
+        //TODO ci pensa andre
+        grid2.add(text,0,0, numberPowerup, 1);
 
         int i=0;
-        for(String powerups: gui.getYouRepresentation().get(YOU_POWERUP).split("'")){
+        for(String powerups: gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
             String[] powerupPlusColor = powerups.split(":");
             String realPowerUp = powerupPlusColor[1];
-            switch (powerupPlusColor[0]){
-                case "tagback grenade":{
+            switch (powerupPlusColor[0]) {
+                case "tagback grenade": {
                     realPowerUp = realPowerUp.concat("TagbackGrenade");
                     break;
                 }
-                case "newton":{
+                case "newton": {
                     realPowerUp = realPowerUp.concat("Newton");
                     break;
                 }
-                case "teleporter":{
+                case "teleporter": {
                     realPowerUp = realPowerUp.concat("Teleporter");
                     break;
                 }
-                case "targeting scope":{
+                case "targeting scope": {
                     realPowerUp = realPowerUp.concat("TargetingScope");
                     break;
                 }
                 default:
             }
-            ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"),pane.getWidth()/10,pane.getHeight()/5,false,false));
-            grid.add(powerUp,i,1);
-            final int pU = i;
-            powerUp. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
-                client.send(Integer.toString(pU));
+            ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
+            grid2.add(powerUp, i, 1);
+            int pU = i;
+            powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+                client.send("SPW-".concat(Integer.toString(pU)));
                 pane.getChildren().remove(pane2);
             });
             i++;
-
-            pane2.getChildren().add(rectangle);
-            pane2.getChildren().add(grid);
-            pane.getChildren().add(pane2);
         }
+        grid2.setAlignment(Pos.CENTER);
+        grid2.setHgap(70);
+        grid2.setVgap(50);
+        pane2.getChildren().add(rectangle);
+        pane2.getChildren().add(grid2);
+        pane.getChildren().add(pane2);
+
     }
 
-    private void columnConstraint(GridPane grid){
-        for (int j = 0 ; j < N_COLUMN; j++) {
+    private void columnConstraint(GridPane grid, int nColumn){
+        for (int j = 0 ; j < nColumn; j++) {
             ColumnConstraints col = new ColumnConstraints();
             col.setHgrow(Priority.ALWAYS);
-            col.setPercentWidth(100/N_COLUMN);
+            col.setPercentWidth(100/nColumn);
             grid.getColumnConstraints().add(col);
         }
     }
 
-    private void rowConstraint(GridPane grid){
-        for (int i = 0 ; i < N_ROW; i++) {
+    private void rowConstraint(GridPane grid, int nRow){
+        for (int i = 0 ; i < nRow; i++) {
             RowConstraints row = new RowConstraints();
             row.setVgrow(Priority.ALWAYS);
-            row.setPercentHeight(100/N_ROW);
+            row.setPercentHeight(100/nRow);
             grid.getRowConstraints().add(row);
         }
     }
