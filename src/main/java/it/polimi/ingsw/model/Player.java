@@ -330,6 +330,7 @@ public class Player {
      */
     public void spawn(PowerUp powerUp) throws NotFoundException {
         this.position = turn.getMatch().getBoard().findSpawnPoint(powerUp.getColor());
+        turn.getMatch().getBoard().findSpawnPoint(powerUp.getColor()).arrives(this);
         discard(powerUp);
     }
 
