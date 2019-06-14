@@ -40,10 +40,13 @@ public class GameGUI {
     private static final int CELL_DOORS= 8;
     private static final int CELL_WALLS= 10;
     private static final int PLAYER_ROW_SPAN=1;
+    private static final int PLAYER_POWER_UP= 6;
     private static final int PLAYER_COLOR= 9;
     private static final int YOU_XPOS= 0;
     private static final int YOU_COL_SPAN= 4;
     private static final int YOU_YPOS= 4;
+    private static final int YOU_POWERUP= 15;
+
 
 
     public GameGUI(GUI gui, MessageHandler messageHandler, Client client) {
@@ -322,6 +325,60 @@ public class GameGUI {
     public void spawn(Stage stage){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
+
+        StackPane pane2 = new StackPane();
+
+        String[] powerupNumber = gui.getYouRepresentation().get(PLAYER_POWER_UP).split(":");
+        int numberPowerup = Integer.parseInt(powerupNumber[1]);
+        Rectangle rectangle = new Rectangle();
+        Label text = new Label(gui.getInfoString());
+        text.setTextFill(Color.web("#ffffff", 0.8));
+        text.setStyle("-fx-font: 60 Helvetica;");
+        text.setEffect(new DropShadow());
+        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+        rectangle.setEffect(new BoxBlur());
+        rectangle.widthProperty().bind(pane.widthProperty());
+        rectangle.heightProperty().bind(pane.heightProperty());
+
+        GridPane grid = new GridPane();
+        grid.add(text,0,0, numberPowerup, 1);
+
+        int i=0;
+        for(String powerups: gui.getYouRepresentation().get(YOU_POWERUP).split("'")){
+            String[] powerupPlusColor = powerups.split(":");
+            String realPowerUp = powerupPlusColor[1];
+            switch (powerupPlusColor[0]){
+                case "tagback grenade":{
+                    realPowerUp = realPowerUp.concat("TagbackGrenade");
+                    break;
+                }
+                case "newton":{
+                    realPowerUp = realPowerUp.concat("Newton");
+                    break;
+                }
+                case "teleporter":{
+                    realPowerUp = realPowerUp.concat("Teleporter");
+                    break;
+                }
+                case "targeting scope":{
+                    realPowerUp = realPowerUp.concat("TargetingScope");
+                    break;
+                }
+                default:
+            }
+            ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"),pane.getWidth()/10,pane.getHeight()/5,false,false));
+            grid.add(powerUp,i,1);
+            final int pU = i;
+            powerUp. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+                client.send(Integer.toString(pU));
+                pane.getChildren().remove(pane2);
+            });
+            i++;
+
+            pane2.getChildren().add(rectangle);
+            pane2.getChildren().add(grid);
+            pane.getChildren().add(pane2);
+        }
     }
 
     private void columnConstraint(GridPane grid){

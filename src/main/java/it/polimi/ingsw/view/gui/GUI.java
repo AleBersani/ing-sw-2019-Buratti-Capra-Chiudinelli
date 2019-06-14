@@ -43,6 +43,10 @@ public class GUI extends Application implements ViewInterface {
         this.client = client;
     }
 
+    public String getInfoString() {
+        return infoString;
+    }
+
     public boolean isSendable() {
         return sendable;
     }
