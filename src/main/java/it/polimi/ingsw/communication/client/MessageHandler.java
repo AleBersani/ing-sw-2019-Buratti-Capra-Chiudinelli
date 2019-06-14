@@ -90,6 +90,9 @@ public class MessageHandler {
                 view.waitingRoomView();
                 break;
             }
+            case "Match started":{
+                this.state = State.GAME;
+            }
             default:
         }
     }
