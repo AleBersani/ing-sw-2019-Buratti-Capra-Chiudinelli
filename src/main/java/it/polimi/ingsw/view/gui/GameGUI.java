@@ -473,20 +473,22 @@ public class GameGUI {
 
     }
 
-    private void columnConstraint(GridPane grid, int nColumn){
+    private void columnConstraint(GridPane grid, double nColumn){
         for (int j = 0 ; j < nColumn; j++) {
             ColumnConstraints col = new ColumnConstraints();
             col.setHgrow(Priority.ALWAYS);
-            col.setPercentWidth(100/nColumn);
+            double dimension = 100/nColumn;
+            col.setPercentWidth(dimension);
             grid.getColumnConstraints().add(col);
         }
     }
 
-    private void rowConstraint(GridPane grid, int nRow){
+    private void rowConstraint(GridPane grid, double nRow){
         for (int i = 0 ; i < nRow; i++) {
             RowConstraints row = new RowConstraints();
             row.setVgrow(Priority.ALWAYS);
-            row.setPercentHeight(100/nRow);
+            double dimension = 100/nRow;
+            row.setPercentHeight(dimension);
             grid.getRowConstraints().add(row);
         }
     }
