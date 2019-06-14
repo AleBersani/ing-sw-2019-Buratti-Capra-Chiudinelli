@@ -9,6 +9,8 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -80,13 +82,13 @@ public class LoginGUI {
         ColumnConstraints column2 = new ColumnConstraints();
         column2.setPercentWidth(10);
         grid.getColumnConstraints().addAll(column2);
+        grid.add(infoText,0,5,2,1);
         grid.add(text,0,0,2,1);
         grid.addRow(1, new Text(""));
         grid.add(username,0,2,2,1);
         grid.addRow(3, new Text(""));
         grid.add(button,0,4);
         grid.add(button2,1,4);
-        grid.add(infoText,0,5,2,1);
         grid.setAlignment(Pos.CENTER);
 
         //text
@@ -98,12 +100,11 @@ public class LoginGUI {
         //info text
         GridPane.setHalignment(infoText, HPos.CENTER);
         infoText.setAlignment(Pos.CENTER);
-        infoText.prefHeightProperty().bind(pane.heightProperty().divide(7));
+        infoText.prefHeightProperty().bind(pane.heightProperty().divide(12));
         if(this.gui.isMessageToShow()){
            infoText.setTextFill(Color.web("#ff0000",0.8));
            infoText.setText(messageHandler.getToShow().substring(4));
         }
-
 
         //username
         username.setPromptText("Username");
@@ -117,18 +118,11 @@ public class LoginGUI {
         button.setText("LOGIN");
         button.prefWidthProperty().bind(pane.widthProperty().divide(15));
         button.prefHeightProperty().bind(pane.heightProperty().divide(22));
-        button.setOnAction(e -> {
-            if(gui.isSendable()){
-                if (username.getText().equals("quit") || username.getText().equals("") || username.getText().contains("-")) {
-                    infoText.setTextFill(Color.web("#ff0000", 0.8));
-                    infoText.setText("Invalid Nickname");
-                } else {
-                    client.send("LOG-".concat(username.getText()));
-                }
-            }
-            else {
-                infoText.setTextFill(Color.web("#ff0000", 0.8));
-                infoText.setText("Wait a moment, please");
+        button.setOnAction(e -> loginButtonAction(username,infoText));
+        pane.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                loginButtonAction(username,infoText);
+                e.consume();
             }
         });
 
@@ -158,6 +152,21 @@ public class LoginGUI {
 
         pane.getChildren().add(grid);
         pane.getChildren().add(fullScreen);
+    }
+
+    private void loginButtonAction(TextField username, Label infoText){
+        if(gui.isSendable()){
+            if (username.getText().equals("quit") || username.getText().equals("") || username.getText().contains("-")) {
+                infoText.setTextFill(Color.web("#ff0000", 0.8));
+                infoText.setText("Invalid Nickname");
+            } else {
+                client.send("LOG-".concat(username.getText()));
+            }
+        }
+        else {
+            infoText.setTextFill(Color.web("#ff0000", 0.8));
+            infoText.setText("Wait a moment, please");
+        }
     }
 
     public void menuGridSetting(Stage stage,ArrayList<String> array,String msg){
@@ -212,6 +221,13 @@ public class LoginGUI {
                 default:
             }
 
+        });
+
+        pane.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                doneButton.fire();
+                e.consume();
+            }
         });
 
         //quit Button
