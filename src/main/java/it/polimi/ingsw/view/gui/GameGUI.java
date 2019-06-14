@@ -2,11 +2,9 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.communication.client.Client;
 import it.polimi.ingsw.communication.client.MessageHandler;
-import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
@@ -15,11 +13,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class GameGUI {
@@ -27,6 +23,8 @@ public class GameGUI {
     private GUI gui;
     private MessageHandler messageHandler;
     private Client client;
+    private static final String PURPLE="purple";
+    private static final String BLUE="blue";
     private static final int N_INNER_COLUMN= 3;
     private static final int N_COLUMN= 7;
     private static final int N_INNER_ROW= 3;
@@ -40,12 +38,19 @@ public class GameGUI {
     private static final int CELL_DOORS= 8;
     private static final int CELL_WALLS= 10;
     private static final int PLAYER_ROW_SPAN=1;
+    private static final int PLAYER_COL_SPAN=3;
+    private static final int PLAYER_XPOS=4;
     private static final int PLAYER_POWER_UP= 6;
     private static final int PLAYER_COLOR= 9;
     private static final int YOU_XPOS= 0;
     private static final int YOU_COL_SPAN= 4;
     private static final int YOU_YPOS= 4;
     private static final int YOU_POWERUP= 15;
+    private static final int KILL_ROW= 3;
+    private static final int KILL_COL= 0;
+    private static final int KILL_TOT_SKULL= 0;
+    private static final int KILL_ROW_SPAN= 1;
+    private static final int KILL_COL_SPAN= 3;
 
 
 
@@ -98,7 +103,7 @@ public class GameGUI {
                             color = "whiteCell.png";
                             break;
                         }
-                        case "purple": {
+                        case PURPLE: {
                             color = "purpleCell.png";
                             break;
                         }
@@ -279,6 +284,50 @@ public class GameGUI {
         pane.getChildren().add(grid);
     }
 
+    public void buildPlayers(Stage stage){
+        StackPane pane = (StackPane)stage.getScene().getRoot();
+        stage.getScene().setRoot(pane);
+        this.stage = stage;
+        GridPane grid = new GridPane();
+
+        //grid column constraint
+        columnConstraint(grid, N_COLUMN);
+
+        //grid row constraint
+        rowConstraint(grid, N_ROW);
+
+        int i=0;
+        for(ArrayList<String> playerColor: gui.getPlayersRepresentation()){
+            String[] color = playerColor.get(PLAYER_COLOR).split(":");
+            switch (color[1]){
+                case PURPLE:{
+                    grid.add(new ImageView(new Image("/images/game/plance/purplePlayer.png",pane.getWidth()/N_COLUMN*PLAYER_COL_SPAN,pane.getHeight()/N_ROW,false,false)),PLAYER_XPOS,i,PLAYER_COL_SPAN,PLAYER_ROW_SPAN);
+                    break;
+                }
+                case BLUE:{
+                    grid.add(new ImageView(new Image("/images/game/plance/bluePlayer.png",pane.getWidth()/N_COLUMN*PLAYER_COL_SPAN,pane.getHeight()/N_ROW,false,false)),PLAYER_XPOS,i,PLAYER_COL_SPAN,PLAYER_ROW_SPAN);
+                    break;
+                }
+                case "green":{
+                    grid.add(new ImageView(new Image("/images/game/plance/greenPlayer.png",pane.getWidth()/N_COLUMN*PLAYER_COL_SPAN,pane.getHeight()/N_ROW,false,false)),PLAYER_XPOS,i,PLAYER_COL_SPAN,PLAYER_ROW_SPAN);
+                    break;
+                }
+                case "yellow":{
+                    grid.add(new ImageView(new Image("/images/game/plance/yellowPlayer.png",pane.getWidth()/N_COLUMN*PLAYER_COL_SPAN,pane.getHeight()/N_ROW,false,false)),PLAYER_XPOS,i,PLAYER_COL_SPAN,PLAYER_ROW_SPAN);
+                    break;
+                }
+                case "grey":{
+                    grid.add(new ImageView(new Image("/images/game/plance/greyPlayer.png",pane.getWidth()/N_COLUMN*PLAYER_COL_SPAN,pane.getHeight()/N_ROW,false,false)),PLAYER_XPOS,i,PLAYER_COL_SPAN,PLAYER_ROW_SPAN);
+                    break;
+                }
+            }
+            i++;
+        }
+
+
+        pane.getChildren().add(grid);
+    }
+
     public void buildYou(Stage stage){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
@@ -294,11 +343,11 @@ public class GameGUI {
 
         String[] color = gui.getYouRepresentation().get(PLAYER_COLOR).split(":");
         switch (color[1]){
-            case "purple":{
+            case PURPLE:{
                 grid.add(new ImageView(new Image("/images/game/plance/purplePlayer.png",pane.getWidth()/N_COLUMN*YOU_COL_SPAN,pane.getHeight()/N_ROW,false,false)),YOU_XPOS,YOU_YPOS,YOU_COL_SPAN,PLAYER_ROW_SPAN);
                 break;
             }
-            case "blue":{
+            case BLUE:{
                 grid.add(new ImageView(new Image("/images/game/plance/bluePlayer.png",pane.getWidth()/N_COLUMN*YOU_COL_SPAN,pane.getHeight()/N_ROW,false,false)),YOU_XPOS,YOU_YPOS,YOU_COL_SPAN,PLAYER_ROW_SPAN);
                 break;
             }
@@ -322,6 +371,45 @@ public class GameGUI {
         pane.getChildren().add(grid);
     }
 
+    public void buildKillShotTrack(Stage stage){
+        StackPane pane = (StackPane)stage.getScene().getRoot();
+        stage.getScene().setRoot(pane);
+        this.stage = stage;
+        stage.setResizable(false);
+        GridPane grid = new GridPane();
+
+        columnConstraint(grid,N_COLUMN);
+
+        rowConstraint(grid,N_ROW);
+
+        grid.add(new ImageView(new Image("/images/game/killshotTrack.png",pane.getWidth()/N_COLUMN*KILL_COL_SPAN,pane.getHeight()/N_COLUMN,false,false)),KILL_COL,KILL_ROW,KILL_COL_SPAN,KILL_ROW_SPAN);
+        pane.getChildren().add(grid);
+
+        Pane pane2 = new Pane();
+        String[] damage = gui.getKillShotRepresentation().get(1).split("'");
+        String[] doubleDamage = gui.getKillShotRepresentation().get(2).split(",");
+        int totalSkull = Integer.valueOf(gui.getKillShotRepresentation().get(KILL_TOT_SKULL));
+        for(int i = 0;i<totalSkull;i++) {
+            String bloodString = "";
+            if((i < damage.length)&&(!damage[i].equals(""))) {
+                bloodString = damage[i].concat("Blood");
+                if (doubleDamage[i].equals("true")) {
+                    bloodString = bloodString.concat("X2");
+                }
+            }
+            else {
+                bloodString = "redSkull";
+            }
+            ImageView blood = new ImageView(new Image("/images/game/blood/".concat(bloodString).concat(".png"),pane.getWidth()/30,pane.getHeight()/15,false,false));
+            blood.setX(pane.getWidth()/3.02 - ((totalSkull-1-i) * pane.getWidth()/21.5));
+            blood.setY(pane.getHeight()/1.5);
+            pane2.getChildren().add(blood);
+        }
+
+
+        pane.getChildren().add(pane2);
+    }
+
     public void spawn(Stage stage){
         StackPane pane = (StackPane)stage.getScene().getRoot();
 
@@ -333,16 +421,15 @@ public class GameGUI {
         String[] toShow = gui.getInfoString().split(":");
         Label text = new Label(toShow[0]);
         text.setTextFill(Color.web("#ffffff", 0.8));
-        text.setStyle("-fx-font: 60 Helvetica;");
+        text.setStyle("-fx-font: 40 Helvetica;");
         text.setEffect(new DropShadow());
+        text.setAlignment(Pos.CENTER);
         rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
         rectangle.setEffect(new BoxBlur());
         rectangle.widthProperty().bind(pane.widthProperty());
         rectangle.heightProperty().bind(pane.heightProperty());
 
         GridPane grid2 = new GridPane();
-        //columnConstraint(grid2, numberPowerup);
-        //TODO ci pensa andre
         grid2.add(text,0,0, numberPowerup, 1);
 
         int i=0;
@@ -404,6 +491,20 @@ public class GameGUI {
         }
     }
 
+    public void drawKillshotTrack(Pane pane,int tot, int num){
+        //skull
+        Image skull = new Image("/images/game/blood/redSkull.png",pane.getWidth()/30,pane.getHeight()/15,false,false);
+
+
+        //blood
+        Image blueBlood = new Image("/images/game/blood/blueBlood.png",pane.getWidth()/25,pane.getHeight()/15,false,false);
+
+        //pane2
+        Pane pane2 = new Pane();
+
+
+        pane.getChildren().add(pane2);
+    }
     /*
     public void buildMap(Stage stage){
         StackPane pane = (StackPane)stage.getScene().getRoot();
@@ -802,7 +903,7 @@ public class GameGUI {
 
     public void drawSkullOnYellow(Pane pane){
         //skull
-        Image skull = new Image("/images/game/redSkull.png",pane.getWidth()/35,pane.getHeight()/20,false,false);
+        Image skull = new Image("/images/game/blood/redSkull.png",pane.getWidth()/35,pane.getHeight()/20,false,false);
 
         //pane
         Pane pane2 = new Pane();
@@ -855,7 +956,7 @@ public class GameGUI {
 
     public void drawSkullOnBlue(Pane pane){
         //skull
-        Image skull = new Image("/images/game/redSkull.png",pane.getWidth()/35,pane.getHeight()/20,false,false);
+        Image skull = new Image("/images/game/blood/redSkull.png",pane.getWidth()/35,pane.getHeight()/20,false,false);
 
         //pane
         Pane pane2 = new Pane();
@@ -900,33 +1001,6 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-    public void drawKillshotTrack(Pane pane,int tot, int num){
-        //skull
-        Image skull = new Image("/images/game/redSkull.png",pane.getWidth()/30,pane.getHeight()/15,false,false);
-
-
-        //blood
-        Image blueBlood = new Image("/images/game/blood/blueBlood.png",pane.getWidth()/25,pane.getHeight()/15,false,false);
-
-        //pane2
-        Pane pane2 = new Pane();
-
-        for(int i = 0;i<tot;i++) {
-            if(i<num) {
-                ImageView skullIV = new ImageView(skull);
-                skullIV.setX(pane.getWidth()/3.02 - (i * pane.getWidth()/21.5));
-                skullIV.setY(pane.getHeight()/1.5);
-                pane2.getChildren().add(skullIV);
-            }
-            else {
-                ImageView blueBloodIV = new ImageView(blueBlood);
-                blueBloodIV.setX(pane.getWidth()/3.02 - (i * pane.getWidth()/21.5));
-                blueBloodIV.setY(pane.getHeight()/1.5);
-                pane2.getChildren().add(blueBloodIV);
-            }
-        }
-        pane.getChildren().add(pane2);
-    }
 
     public void setTokenPosition(GridPane grid,StackPane pane, String color, int x, int y){
         //token

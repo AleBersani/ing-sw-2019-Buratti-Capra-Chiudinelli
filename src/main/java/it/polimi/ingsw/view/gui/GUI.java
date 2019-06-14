@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class GUI extends Application implements ViewInterface {
 
@@ -25,9 +26,12 @@ public class GUI extends Application implements ViewInterface {
     private String boardData;
     private String playersData;
     private String youData;
+    private String killShotTrackData;
     private String infoString;
     private ArrayList<ArrayList<ArrayList<String>>> boardRepresentation;
+    private ArrayList<ArrayList<String>> playersRepresentation;
     private ArrayList<String> youRepresentation;
+    private ArrayList<String> killShotRepresentation;
     private ArrayList<String> infoChoiceBox;
     private static final int SECOND_ETIQUETTE= 4;
     private static final int CELL_SEPARATOR= 3;
@@ -56,7 +60,9 @@ public class GUI extends Application implements ViewInterface {
         this.client = new Client(this);
         messageHandler = new MessageHandler(this,client);
         this.boardRepresentation = new ArrayList<>();
+        this.playersRepresentation = new ArrayList<>();
         this.youRepresentation = new ArrayList<>();
+        this.killShotRepresentation = new ArrayList<>();
         this.loginGUI = new LoginGUI(this,messageHandler,client);
         this.gameGUI = new GameGUI(this,messageHandler,client);
         client.setMessageHandler(messageHandler);
@@ -154,14 +160,36 @@ public class GUI extends Application implements ViewInterface {
         this.gameGUI.buildBoard(stage);
     }
 
+    private void showPlayers(){
+        playersRepresentation.clear();
+        int i=0;
+        for (String player: this.playersData.substring(SQUARE_BRACKET,playersData.length()-SQUARE_BRACKET).split(",")){
+            this.playersRepresentation.add(new ArrayList<>());
+            for (String info: player.split(";")){
+                if(info.startsWith(" ")){
+                    info=info.substring(POSSIBLE_SPACE);
+                }
+                playersRepresentation.get(i).add(info);
+            }
+            i++;
+        }
+        this.gameGUI.buildPlayers(stage);
+    }
+
     private void showYou(){
         youRepresentation.clear();
         for(String info: this.youData.split(";")){
             youRepresentation.add(info);
         }
-        System.out.println(youRepresentation);
-        this.stage.setFullScreen(true);
         this.gameGUI.buildYou(stage);
+    }
+
+    private void showKillShot(){
+        killShotRepresentation.clear();
+        for(String info: this.killShotTrackData.split(";")){
+            killShotRepresentation.add(info);
+        }
+        this.gameGUI.buildKillShotTrack(stage);
     }
 
     @Override
@@ -185,7 +213,7 @@ public class GUI extends Application implements ViewInterface {
             }
             case "PLR-":{
                 this.playersData = msg.substring(SECOND_ETIQUETTE);
-                //TODO
+                Platform.runLater(this::showPlayers);
                 break;
             }
             case "YOU-":{
@@ -194,7 +222,8 @@ public class GUI extends Application implements ViewInterface {
                 break;
             }
             case "KLL-":{
-                //TODO
+                this.killShotTrackData = msg.substring(SECOND_ETIQUETTE);
+                Platform.runLater(this::showKillShot);
                 break;
             }
         }
@@ -226,7 +255,15 @@ public class GUI extends Application implements ViewInterface {
         return boardRepresentation;
     }
 
+    public ArrayList<ArrayList<String>> getPlayersRepresentation() {
+        return playersRepresentation;
+    }
+
     public ArrayList<String> getYouRepresentation() {
         return youRepresentation;
+    }
+
+    public ArrayList<String> getKillShotRepresentation() {
+        return killShotRepresentation;
     }
 }
