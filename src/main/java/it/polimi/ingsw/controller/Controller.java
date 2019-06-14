@@ -7,6 +7,7 @@ import it.polimi.ingsw.exception.MaxHandSizeException;
 import it.polimi.ingsw.exception.NotFoundException;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.TargetParameter;
 import it.polimi.ingsw.model.cards.PowerUp;
 
 import java.io.BufferedReader;
@@ -83,31 +84,66 @@ public class Controller {
                         match.getTurn().endTurn();
                     }
 
+
+                    if(msg.startsWith("GMC-")){
+                        understandGameCommand(clientHandler, msg.substring(ETIQUETTE));
+                    }
+                    break;
+                }
+                case SPAWN:
                     if(msg.startsWith("SPW-")){
                         try {
                             spawn(clientHandler,playerFromNickname(clientHandler.getName()),Integer.parseInt(msg.substring(ETIQUETTE)));
+                            getNicknameList().get(clientHandler.getName()).nextState();
                         } catch (NotFoundException e) {
                             sendString("error", clientHandler);
                         }
                     }
-                    //TODO messaggio di respawn
-                    //TODO accettare solo spawn in fase di spawn
                     break;
-                }
             }
         }
     }
+
+    private void understandGameCommand(ClientHandler clientHandler, String msg) {
+        switch (msg){
+            case "SHT-":
+                ArrayList<TargetParameter> targetParameters=new ArrayList<>();
+                String[] targets=msg.substring(ETIQUETTE).split(";");
+                for (String target : targets) {
+                    targetParameters.add(generateTarget(target, clientHandler));
+                }
+                match.getTurn().getCurrent().getWeapons().get(Character.getNumericValue(msg.charAt(ETIQUETTE+1)));//TODO completare .fire?
+                break;
+        }
+    }
+
+    private TargetParameter generateTarget(String target,ClientHandler clientHandler) {
+        //TODO da sistemare
+        String[] parameters = target.split(":");
+        String[] coordinate = parameters[1].split(",");
+        TargetParameter targetParameter= null;
+        try {
+            targetParameter = new TargetParameter(match.getBoard().find(Integer.parseInt(coordinate[0]),Integer.parseInt(coordinate[1])),
+                   playerFromNickname(clientHandler.getName()),playerFromColor(parameters[2]),null,null,null,null ); //TODO completare
+        } catch (NotFoundException e) {
+            sendString("error", clientHandler);
+        }
+
+        return targetParameter;
+    }
+
 
     private void respawn() {
         for (Player player: match.getTurn().getDeads()){
             for (ClientInfo clientInfo: getNicknameList().values()){
                 if(clientInfo.clientHandler.getName().equals(player.getNickname())){
                     clientInfo.clientHandler.setYourTurn(true);
+                    clientInfo.nextState();
                     try {
                         player.draw();
                     } catch (MaxHandSizeException e) {
                     }
-                    sendString("Select a power up for spawning "+ powerUps(player),clientInfo.clientHandler);
+                    sendString("Select a power up for spawning:"+ powerUps(player),clientInfo.clientHandler);
                 }
             }
         }
@@ -293,6 +329,7 @@ public class Controller {
         for (ClientInfo clientInfo: getNicknameList().values()){
             if(match.getTurn().getCurrent().getNickname().equals(clientInfo.clientHandler.getName())){
                 clientInfo.clientHandler.setYourTurn(true);
+                clientInfo.nextState();
                 startingSpawn(clientInfo.clientHandler,match.getTurn().getCurrent());
             }
         }
@@ -306,11 +343,9 @@ public class Controller {
         } catch (MaxHandSizeException e) {
         }
         updateBackground();
-        sendString("SPW-Discard a power up for spawning" +powerUps(player), actual);
+        sendString("SPW-Discard a power up for spawning:" +powerUps(player), actual);
     }
 
-
-    //TODO capire dove chiamarlo
     private void lifeCycle(ClientHandler actual) {
         if(match.getTurn().getActionCounter()<MAX_ACTIONS) {
             sendString("Insert a command", actual);
@@ -347,7 +382,7 @@ public class Controller {
         else {
             actual.setFirstSpawn(false);
         }
-        if(powerUpPosition<player.getPowerUps().size() && powerUpPosition>0) {
+        if(powerUpPosition<player.getPowerUps().size() && powerUpPosition>=0) {
             PowerUp powerUp = player.getPowerUps().get(powerUpPosition);
 
             try {
@@ -356,6 +391,9 @@ public class Controller {
                 sendString("SpawnPoint not found", actual);
             }
             updateBackground();
+            if(actual.isYourTurn()){
+                lifeCycle(actual);
+            }
         }
         else {
             sendString(">>>Invalid powerUp", actual);
@@ -409,6 +447,15 @@ public class Controller {
     public Player playerFromNickname(String nickname) throws NotFoundException {
         for (Player player : match.getPlayers()){
             if(nickname.equals(player.getNickname())){
+                return player;
+            }
+        }
+        throw (new NotFoundException());
+    }
+
+    private Player playerFromColor(String color) throws NotFoundException {
+        for (Player player : match.getPlayers()){
+            if(color.equals(player.getColor())){
                 return player;
             }
         }

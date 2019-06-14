@@ -17,7 +17,7 @@ public class ClientInfo {
     }
 
     protected enum State{
-        LOGIN, WAIT, GAME;
+        LOGIN, WAIT, GAME, SPAWN
         //TODO molto probabilmente aggiungere uno stato in più
     }
 
@@ -31,6 +31,14 @@ public class ClientInfo {
                 this.state = State.GAME;
                 break;
             }
+            case GAME:{
+                this.state = State.SPAWN;
+                break;
+            }
+            case SPAWN:{
+                this.state = State.GAME;
+            }
+
         }
     }
 
