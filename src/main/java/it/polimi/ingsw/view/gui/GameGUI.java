@@ -397,22 +397,26 @@ public class GameGUI {
             }
         }
 
-        int i=0;
+
 
         //info button enemy
+        int i=0;
         for(ArrayList<String> enemyPlayer: gui.getPlayersRepresentation()){
             Button infoButton = new Button("INFO");
             gridButtons.add(infoButton,6,i);
             GridPane.setHalignment(infoButton,HPos.CENTER);
             GridPane.setValignment(infoButton,VPos.BOTTOM);
- /*           infoButton.setOnAction(ev -> {
+            infoButton.setOnAction(e -> {
                 GridPane gridInfo = new GridPane();
                 Rectangle rectangle = new Rectangle();
                 rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
                 rectangle.setEffect(new BoxBlur());
                 rectangle.widthProperty().bind(pane.widthProperty());
                 rectangle.heightProperty().bind(pane.heightProperty());
+
+                //weapons
                 int j=0;
+                /*
                 for(String weapon: enemyPlayer.get(PLAYER_WEAPON).split("'")){
                     if(weapon.equals("notVisible")){
                         gridInfo.add(new ImageView(new Image("/images/game/weapons/weaponBack.png",pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false)),j,0);
@@ -420,37 +424,94 @@ public class GameGUI {
                     else {
                         String weaponName = weapon.toLowerCase();
                         weaponName = weaponName.replace(" ","").concat(".png");
+
                         gridInfo.add(new ImageView(new Image("/images/game/weapons/".concat(weaponName),pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false)),j,0);
 
                     }
                     j++;
                 }
-
+                */
+                //power ups
                 String[] powerUp = enemyPlayer.get(PLAYER_POWER_UP).split(":");
                 Label numberPowerUp = new Label("x".concat(powerUp[1]));
+                numberPowerUp.setTextFill(Color.web("#ffffff", 0.8));
+                numberPowerUp.setStyle("-fx-font: 40 Helvetica;");
+                numberPowerUp.setEffect(new DropShadow());
+                gridInfo.add(new ImageView(new Image("/images/game/powerUps/powerUpBack.png",pane.getWidth()/10,pane.getHeight()/5,false,false)),j,0);
+                gridInfo.add(numberPowerUp,j,0);
+                GridPane.setHalignment(numberPowerUp,HPos.CENTER);
+                GridPane.setValignment(numberPowerUp,VPos.BOTTOM);
 
+                //ammos
+                j++;
                 for(String ammo: enemyPlayer.get(PLAYER_AMMO).split("'")) {
                     String[] ammoQuantity = ammo.split(":");
                     switch (ammoQuantity[0]) {
                         case "R": {
-                            //IMMAGINE
+                            ImageView redAmmoIV = new ImageView(new Image("/images/game/ammo/redAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false));
+                            gridInfo.add(redAmmoIV,j,0);
+                            GridPane.setHalignment(redAmmoIV,HPos.LEFT);
+                            GridPane.setValignment(redAmmoIV,VPos.TOP);
                             Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
+                            numberAmmo.setTextFill(Color.web("#ffffff", 0.8));
+                            numberAmmo.setStyle("-fx-font: 40 Helvetica;");
+                            numberAmmo.setEffect(new DropShadow());
+                            gridInfo.add(numberAmmo,j+1,0);
+                            GridPane.setHalignment(numberAmmo,HPos.RIGHT);
+                            GridPane.setValignment(numberAmmo,VPos.TOP);
                         }
                         case "Y": {
+                            ImageView yellowAmmoIV = new ImageView(new Image("/images/game/ammo/yellowAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false));
+                            gridInfo.add(yellowAmmoIV,j,0);
+                            GridPane.setHalignment(yellowAmmoIV,HPos.LEFT);
+                            GridPane.setValignment(yellowAmmoIV,VPos.CENTER);
                             Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
+                            numberAmmo.setTextFill(Color.web("#ffffff", 0.8));
+                            numberAmmo.setStyle("-fx-font: 40 Helvetica;");
+                            numberAmmo.setEffect(new DropShadow());
+                            gridInfo.add(numberAmmo,j+1,0);
+                            GridPane.setHalignment(numberAmmo,HPos.RIGHT);
+                            GridPane.setValignment(numberAmmo,VPos.CENTER);
                         }
                         case "B": {
+                            ImageView blueAmmoIV = new ImageView(new Image("/images/game/ammo/blueAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false));
+                            gridInfo.add(blueAmmoIV,j,0);
+                            GridPane.setHalignment(blueAmmoIV,HPos.LEFT);
+                            GridPane.setValignment(blueAmmoIV,VPos.BOTTOM);
                             Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
+                            numberAmmo.setTextFill(Color.web("#ffffff", 0.8));
+                            numberAmmo.setStyle("-fx-font: 40 Helvetica;");
+                            numberAmmo.setEffect(new DropShadow());
+                            gridInfo.add(numberAmmo,j+1,0);
+                            GridPane.setHalignment(numberAmmo,HPos.RIGHT);
+                            GridPane.setValignment(numberAmmo,VPos.BOTTOM);
                         }
                         default:
                     }
                 }
+
+                //back button
+                Button backButton = new Button("BACK");
+                gridInfo.add(backButton,1,1);
+                
+                GridPane.setHalignment(backButton,HPos.CENTER);
+                GridPane.setValignment(backButton,VPos.CENTER);
+                backButton.setOnAction(ev -> {
+                    pane.getChildren().remove(gridInfo);
+                    pane.getChildren().remove(rectangle);
+                });
+
+                //grid
+                gridInfo.setHgap(40);
+                gridInfo.setVgap(50);
+                gridInfo.setAlignment(Pos.CENTER);
+
                 pane.getChildren().add(rectangle);
                 pane.getChildren().add(gridInfo);
             });
- */       i++;
+            i++;
         }
-        
+
         //info button myself
 
         //quit button
@@ -495,8 +556,7 @@ public class GameGUI {
                 pane.getChildren().remove(rectangle);
             });
             quit1.setOnAction(ev -> {
-                //TODO quit message
-                stage.close();
+                client.send("quit");
             });
         });
 
