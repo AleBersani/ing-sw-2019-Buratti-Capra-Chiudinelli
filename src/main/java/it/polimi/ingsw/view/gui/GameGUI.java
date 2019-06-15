@@ -416,20 +416,6 @@ public class GameGUI {
         }
     }
 
-    public void drawKillshotTrack(Pane pane,int tot, int num){
-        //skull
-        Image skull = new Image("/images/game/blood/redSkull.png",pane.getWidth()/30,pane.getHeight()/15,false,false);
-
-
-        //blood
-        Image blueBlood = new Image("/images/game/blood/blueBlood.png",pane.getWidth()/25,pane.getHeight()/15,false,false);
-
-        //pane2
-        Pane pane2 = new Pane();
-
-
-        pane.getChildren().add(pane2);
-    }
     /*
     public void buildMap(Stage stage){
         StackPane pane = (StackPane)stage.getScene().getRoot();
