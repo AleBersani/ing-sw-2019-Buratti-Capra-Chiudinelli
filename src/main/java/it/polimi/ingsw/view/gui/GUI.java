@@ -192,6 +192,7 @@ public class GUI extends Application implements ViewInterface {
             killShotRepresentation.add(info);
         }
         this.gameGUI.buildKillShotTrack(stage);
+        this.gameGUI.buildButtons(stage);
     }
 
     @Override

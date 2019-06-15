@@ -1389,7 +1389,7 @@ class WeaponAlternativeTest {
     @Test
     void ZX2(){
         for(Weapon w: board.getWeaponsListCopy()){
-            if(w.getName().equals("ZX-2")){
+            if(w.getName().equals("ZX2")){
                 weapon = w;
             }
         }
