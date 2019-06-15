@@ -48,12 +48,15 @@ public class GameGUI {
     private static final int YOU_XPOS= 0;
     private static final int YOU_COL_SPAN= 4;
     private static final int YOU_YPOS= 4;
+    private static final int YOU_POINT= 12;
     private static final int YOU_POWERUP= 15;
     private static final int KILL_ROW= 3;
     private static final int KILL_COL= 0;
     private static final int KILL_TOT_SKULL= 0;
     private static final int KILL_ROW_SPAN= 1;
     private static final int KILL_COL_SPAN= 3;
+    private static final int NUMBER_OF_WEAPON= 3;
+
 
 
 
@@ -286,7 +289,12 @@ public class GameGUI {
             grid.add(new ImageView(new Image("/images/game/plance/".concat(playerPlance).concat("Player.png"),pane.getWidth()/N_COLUMN*YOU_COL_SPAN,pane.getHeight()/N_ROW,false,false)),YOU_XPOS,YOU_YPOS,YOU_COL_SPAN,PLAYER_ROW_SPAN);
         }
 
-
+        Label points = new Label(gui.getYouRepresentation().get(YOU_POINT));
+        grid.add(points,3,3);
+        points.setTextFill(Color.web("#ffffff", 0.8));
+        points.setStyle("-fx-font: 30 Helvetica;");
+        points.setEffect(new DropShadow());
+        GridPane.setHalignment(points, HPos.CENTER);
         //TODO altre plance da fare ancora come immagini
 
 
@@ -331,6 +339,66 @@ public class GameGUI {
 
 
         pane.getChildren().add(pane2);
+    }
+
+    public void buildButtons(Stage stage){
+        StackPane pane = (StackPane)stage.getScene().getRoot();
+        GridPane gridButtons = new GridPane();
+        stage.getScene().setRoot(pane);
+        columnConstraint(gridButtons,N_COLUMN);
+        rowConstraint(gridButtons,N_ROW);
+
+        for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
+            for (ArrayList<String> cell : room) {
+                if(cell.get(CELL_TYPE).equals("SpawnPoint")){
+                    int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
+                    int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
+                    Button storeButton = new Button("Store");
+                    gridButtons.add(storeButton,xPos,yPos);
+                    GridPane.setHalignment(storeButton,HPos.CENTER);
+                    GridPane.setValignment(storeButton,VPos.CENTER);
+                    storeButton.setOnAction(e ->{
+                        GridPane grid4 = new GridPane();
+                        Rectangle rectangle = new Rectangle();
+                        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+                        rectangle.setEffect(new BoxBlur());
+                        rectangle.widthProperty().bind(pane.widthProperty());
+                        rectangle.heightProperty().bind(pane.heightProperty());
+                        String[] weapon = cell.get(CELL_INSIDE).split("'");
+                        for(int i=0; i<NUMBER_OF_WEAPON; i++){
+                            if(i<weapon.length){
+                                String weaponName = weapon[i].toLowerCase();
+                                weaponName = weaponName.replace(" ","").concat(".png");
+                                grid4.add(new ImageView(new Image("/images/game/weapons/".concat(weaponName),pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false)),i,0);
+                            }
+                            else{
+                                grid4.add(new ImageView(new Image("/images/game/weapons/weaponBack.png",pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false)),i,0);
+                            }
+                        }
+
+                        Button backButton = new Button("BACK");
+                        grid4.add(backButton,1,1);
+                        pane.getChildren().add(rectangle);
+                        pane.getChildren().add(grid4);
+                        grid4.setHgap(30);
+                        grid4.setVgap(20);
+                        GridPane.setHalignment(backButton,HPos.CENTER);
+                        GridPane.setValignment(backButton,VPos.CENTER);
+                        grid4.setAlignment(Pos.CENTER);
+                        backButton.setOnAction(ev -> {
+                            pane.getChildren().remove(grid4);
+                            pane.getChildren().remove(rectangle);
+                        });
+                    });
+                }
+            }
+        }
+
+
+
+
+        pane.getChildren().add(gridButtons);
+
     }
 
     public void spawn(Stage stage){
