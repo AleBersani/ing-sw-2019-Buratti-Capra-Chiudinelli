@@ -18,7 +18,6 @@ public class ClientInfo {
 
     protected enum State{
         LOGIN, WAIT, GAME, SPAWN
-        //TODO molto probabilmente aggiungere uno stato in più
     }
 
     public void nextState(){

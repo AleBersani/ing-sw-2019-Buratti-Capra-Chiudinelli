@@ -3,8 +3,7 @@ package it.polimi.ingsw.controller;
 import com.google.gson.Gson;
 import it.polimi.ingsw.communication.server.ClientHandler;
 import it.polimi.ingsw.communication.server.MultiServer;
-import it.polimi.ingsw.exception.MaxHandSizeException;
-import it.polimi.ingsw.exception.NotFoundException;
+import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TargetParameter;
@@ -106,14 +105,67 @@ public class Controller {
 
     private void understandGameCommand(ClientHandler clientHandler, String msg) {
         switch (msg){
-            case "SHT-":
-                ArrayList<TargetParameter> targetParameters=new ArrayList<>();
-                String[] targets=msg.substring(ETIQUETTE).split(";");
-                for (String target : targets) {
+            case "SHT-": {
+                ArrayList<TargetParameter> targetParameters = new ArrayList<>();
+                for (String target : msg.substring(ETIQUETTE).split(";")) {
                     targetParameters.add(generateTarget(target, clientHandler));
                 }
-                match.getTurn().getCurrent().getWeapons().get(Character.getNumericValue(msg.charAt(ETIQUETTE+1)));//TODO completare .fire?
+                match.getTurn().getCurrent().getWeapons().get(Character.getNumericValue(msg.charAt(ETIQUETTE + 1)));//TODO completare .fire?
                 break;
+            }
+            case "RUN-": {
+                try {
+                    playerFromNickname(clientHandler.getName()).run(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
+                            Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])));
+                } catch (InvalidDestinationException e) {
+                    sendString(">>>Square not valid", clientHandler);
+                } catch (NotFoundException e) {
+                    sendString("error", clientHandler);
+                }
+                updateBackground();
+                break;
+            }
+            case "GRB-": {
+                try {
+                    playerFromNickname(clientHandler.getName()).grab(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
+                            Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])));
+                } catch (InvalidDestinationException e) {
+                    sendString(">>>Square not valid", clientHandler);
+                } catch (ElementNotFoundException e) {
+                    sendString(">>>Nothing to grab", clientHandler);
+                } catch (NotFoundException e) {
+                    sendString("error", clientHandler);
+                } catch (NullAmmoException e) {
+                    try {
+                        playerFromNickname(clientHandler.getName()).grabWeapon(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
+                                Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])),Integer.parseInt(msg.substring(ETIQUETTE).split(",")[2]));
+                    } catch (ElementNotFoundException e1) {
+                        sendString(">>>Nothing to grab", clientHandler);
+                    } catch (MaxHandWeaponSizeException e1) {
+                        //TODO gestire eccezione
+                    } catch (NoAmmoException e1) {
+                        sendString(">>>You don't have enough ammo", clientHandler);
+                    } catch (NotFoundException e1) {
+                        sendString("error", clientHandler);
+                    }
+                }
+                updateBackground();
+                break;
+            }
+            case "UPU-": {
+                try {
+                    playerFromNickname(clientHandler.getName()).usePowerUp(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.substring(ETIQUETTE).split(";")[1])),
+                            generateTarget(msg.substring(ETIQUETTE).split(";")[0],clientHandler));
+                } catch (InvalidTargetException e) {
+                    sendString(">>>Invalid Target", clientHandler);
+                } catch (NoOwnerException e) {
+                    sendString("error", clientHandler);
+                } catch (NotFoundException e) {
+                    sendString("error", clientHandler);
+                }
+                break;
+            }
+
         }
     }
 
@@ -142,6 +194,7 @@ public class Controller {
                     try {
                         player.draw();
                     } catch (MaxHandSizeException e) {
+                        player.forceDraw();
                     }
                     sendString("Select a power up for spawning:"+ powerUps(player),clientInfo.clientHandler);
                 }
@@ -341,6 +394,7 @@ public class Controller {
             player.draw();
             player.draw();
         } catch (MaxHandSizeException e) {
+            player.forceDraw();
         }
         updateBackground();
         sendString("SPW-Discard a power up for spawning:" +powerUps(player), actual);

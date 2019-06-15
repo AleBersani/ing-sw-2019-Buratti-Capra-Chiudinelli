@@ -125,7 +125,7 @@ class PlayerTest {
         }
         try {
             guest.grab(board.find(3,3));
-        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+        } catch ( InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
             assertThrows(InvalidDestinationException.class,()->guest.grab(board.find(3,3)));
         }
         try {
@@ -135,7 +135,7 @@ class PlayerTest {
         }
         try {
             guest.grab(board.find(3,2));
-        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+        } catch ( InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
             e.printStackTrace();
         }
         try {
@@ -149,7 +149,7 @@ class PlayerTest {
         assertEquals(1,guest.getTurn().getActionCounter());
         try {
             guest.grab(board.find(3,2));
-        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+        } catch ( InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
             assertThrows(NullAmmoException.class,()->guest.grab(board.find(3,2)));
         }
     }
@@ -169,13 +169,13 @@ class PlayerTest {
         }
         try {
             guest.grab(board.find(1,1));
-        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+        } catch ( InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
             assertThrows(InvalidDestinationException.class,()->guest.grab(board.find(1,1)));
         }
         assertEquals(0,guest.getTurn().getActionCounter());
         try {
             guest.grab(board.find(2,1));
-        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+        } catch (InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
             e.printStackTrace();
         }
         try {
@@ -186,7 +186,7 @@ class PlayerTest {
         assertEquals(1,guest.getTurn().getActionCounter());
         try {
             guest.grab(board.find(3,1));
-        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+        } catch (InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
             assertThrows(ElementNotFoundException.class,()->guest.grab(board.find(3,1)));
         }
         assertEquals(1,guest.getTurn().getActionCounter());
@@ -208,7 +208,7 @@ class PlayerTest {
         }
         try {
             guest.grab(board.find(3,2));
-        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+        } catch (InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
             e.printStackTrace();
         }
         test.setTurn(turn);
@@ -220,7 +220,7 @@ class PlayerTest {
         }
         try {
             test.grab(board.find(2,3));
-        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+        } catch (InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
             e.printStackTrace();
         }
         loser.setTurn(turn);
@@ -231,7 +231,7 @@ class PlayerTest {
         }
         try {
             loser.grab(board.find(2,2));
-        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+        } catch (InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -255,7 +255,7 @@ class PlayerTest {
         }
         try {
             guest.grab(board.find(3,1));
-        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+        } catch (InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
             assertThrows(ElementNotFoundException.class,()->guest.grab(board.find(3,1)));
         }
         try {
@@ -286,7 +286,7 @@ class PlayerTest {
         }
         try {
             guest.grab(board.find(3,1));
-        } catch (MaxHandSizeException | InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+        } catch (InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
             assertThrows(ElementNotFoundException.class,()->guest.grab(board.find(3,1)));
         }
         try {

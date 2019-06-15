@@ -122,10 +122,14 @@ public class Player {
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
      */
     public void run(Square destination) throws InvalidDestinationException {
-        if (this.position.calcDist(destination) <= maxRun)
+        if (this.position.calcDist(destination) <= maxRun) {
+            this.position.leaves(this);
             this.position = destination;
-        else
+            destination.arrives(this);
+        }
+        else {
             throw new InvalidDestinationException();
+        }
         this.turn.setActionCounter((this.turn.getActionCounter() + 1));
     }
 
@@ -137,7 +141,7 @@ public class Player {
      * @throws NullAmmoException This exception means that the player didn't grab anything
      * @throws ElementNotFoundException This exception means that there isn't a takeable element
      */
-    public void grab(Square destination) throws MaxHandSizeException, InvalidDestinationException, NullAmmoException, ElementNotFoundException {
+    public void grab(Square destination) throws InvalidDestinationException, NullAmmoException, ElementNotFoundException {
         AmmoTile ammoTile;
         if (this.position.calcDist(destination) <= 1 + isOnAdrenalineGrab() || this.position.calcDist(destination) <= 1 + onFrenzy() + onlyFrenzyAction()) {
             ammoTile = destination.grabAmmo();
@@ -152,10 +156,17 @@ public class Player {
                 if (this.yellowAmmo > 3)
                     this.yellowAmmo = 3;
                 if (ammoTile.getPowerUp() == 1)
-                    draw();
+                    try {
+                        draw();
+                    }
+                    catch (MaxHandSizeException e){
+
+                    }
             } else
                 throw new NullAmmoException();
+            this.position.leaves(this);
             this.position = destination;
+            destination.arrives(this);
         } else
             throw new InvalidDestinationException();
         this.turn.setActionCounter((this.turn.getActionCounter() + 1));
@@ -177,7 +188,9 @@ public class Player {
             this.blueAmmo=this.blueAmmo - (weapon.getCostBlue() - isBlue(weapon));
             this.yellowAmmo=this.yellowAmmo - (weapon.getCostYellow() - isYellow(weapon));
             this.weapons.add(weapon);
+            this.position.leaves(this);
             this.position = destination;
+            destination.arrives(this);
             this.turn.setActionCounter((this.turn.getActionCounter() + 1));
             if (this.weapons.size() == 4)
                 throw new MaxHandWeaponSizeException();
@@ -306,9 +319,17 @@ public class Player {
      * @throws MaxHandSizeException This exception means that the player has more then three cards in hand
      */
     public void draw() throws MaxHandSizeException {
-        this.powerUps.add(getTurn().getMatch().getBoard().nextPowerUp());
-        if (this.powerUps.size() > maxSize)
+        if (this.powerUps.size() >= maxSize)
             throw new MaxHandSizeException();
+        this.powerUps.add(getTurn().getMatch().getBoard().nextPowerUp());
+
+    }
+
+    /**
+     * This method is a draw action but doesn't throw any exception
+     */
+    public void forceDraw() {
+        this.powerUps.add(getTurn().getMatch().getBoard().nextPowerUp());
     }
 
     /**
