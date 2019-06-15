@@ -41,9 +41,11 @@ public class GameGUI {
     private static final int CELL_DOORS= 8;
     private static final int CELL_WALLS= 10;
     private static final int PLAYER_ROW_SPAN=1;
+    private static final int PLAYER_AMMO=1;
     private static final int PLAYER_COL_SPAN=3;
     private static final int PLAYER_XPOS=4;
     private static final int PLAYER_POWER_UP= 6;
+    private static final int PLAYER_WEAPON= 8;
     private static final int PLAYER_COLOR= 9;
     private static final int YOU_XPOS= 0;
     private static final int YOU_COL_SPAN= 4;
@@ -348,6 +350,7 @@ public class GameGUI {
         columnConstraint(gridButtons,N_COLUMN);
         rowConstraint(gridButtons,N_ROW);
 
+        //store button
         for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
                 if(cell.get(CELL_TYPE).equals("SpawnPoint")){
@@ -393,6 +396,54 @@ public class GameGUI {
                 }
             }
         }
+
+        //info button enemy
+        for(ArrayList<String> enemyPlayer: gui.getPlayersRepresentation()){
+            //TODO INIZIO BOTTONE
+            int i=0;
+            GridPane gridInfo = new GridPane();
+            for(String weapon: enemyPlayer.get(PLAYER_WEAPON).split("'")){
+                if(weapon.equals("notVisible")){
+                    gridInfo.add(new ImageView(new Image("/images/game/weapons/weaponBack.png",pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false)),i,0);
+                }
+                else {
+                    String weaponName = weapon.toLowerCase();
+                    weaponName = weaponName.replace(" ","").concat(".png");
+                    gridInfo.add(new ImageView(new Image("/images/game/weapons/".concat(weaponName),pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false)),i,0);
+
+                }
+                i++;
+            }
+
+            String[] powerUp = enemyPlayer.get(PLAYER_POWER_UP).split(":");
+            Label numberPowerUp = new Label("x".concat(powerUp[1]));
+
+            for(String ammo: enemyPlayer.get(PLAYER_AMMO).split("'")){
+                String[] ammoQuantity = ammo.split(":");
+                switch (ammoQuantity[0]){
+                    case "R":{
+                        //IMMAGINE
+                        Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
+                    }
+                    case "Y":{
+                        Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
+                    }
+                    case "B":{
+                        Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
+                    }
+                    default:
+                }
+
+
+            }
+
+
+        }
+
+        //info button myself
+
+        //quit button
+
 
 
 
