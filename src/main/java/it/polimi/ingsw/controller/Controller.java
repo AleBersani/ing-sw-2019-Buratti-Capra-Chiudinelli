@@ -127,7 +127,7 @@ public class Controller {
             }
             case "GRB-": {
                 try {
-                    if(msg.substring(ETIQUETTE).split(",")[4]!=null) {
+                    /*if(msg.substring(ETIQUETTE).split(",")[4]!=null) {
                         for (String powerUp : msg.substring(ETIQUETTE).split(",")[4].split(";")) {
                             //TODO non usare PowerUp di colori che non centrano + togliere se non va a buon fine
                             switch (playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(powerUp)).getColor()) {
@@ -149,16 +149,13 @@ public class Controller {
                             }
                         }
                     }
+                    */
                     String[] stringo =msg.substring(ETIQUETTE).split(",");
                     playerFromNickname(clientHandler.getName()).grab(match.getBoard().find(Integer.parseInt(stringo[0]),
                             Integer.parseInt(stringo[1])));
                 } catch (InvalidDestinationException e) {
                     sendString(">>>Square not valid", clientHandler);
                 } catch (ElementNotFoundException e) {
-                    sendString(">>>Nothing to grab", clientHandler);
-                } catch (NotFoundException e) {
-                    sendString("error", clientHandler);
-                } catch (NullAmmoException e) {
                     try {
                         playerFromNickname(clientHandler.getName()).grabWeapon(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
                                 Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])),Integer.parseInt(msg.substring(ETIQUETTE).split(",")[2]));
@@ -171,6 +168,10 @@ public class Controller {
                     } catch (NotFoundException e1) {
                         sendString("error", clientHandler);
                     }
+                } catch (NotFoundException e) {
+                    sendString("error", clientHandler);
+                } catch (NullAmmoException e) {
+                    sendString(">>>Nothing to grab", clientHandler);
                 }
                 updateBackground();
                 break;
