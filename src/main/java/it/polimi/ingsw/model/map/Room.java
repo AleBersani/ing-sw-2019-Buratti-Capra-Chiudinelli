@@ -82,14 +82,16 @@ public class Room {
             }
             if (s instanceof AmmoPoint){
                 cells=cells.concat("AmmoPoint;");
-                cells=cells.concat("Y:")
-                        .concat(Integer.toString(((AmmoPoint)s).getAmmo().getYellow())).concat("'")
-                        .concat("R:")
-                        .concat(Integer.toString(((AmmoPoint)s).getAmmo().getRed())).concat("'")
-                        .concat("B:")
-                        .concat(Integer.toString(((AmmoPoint)s).getAmmo().getBlue())).concat("'")
-                        .concat("PU:")
-                        .concat(Integer.toString(((AmmoPoint)s).getAmmo().getPowerUp())).concat(";");
+                if((((AmmoPoint) s).getAmmo() != null)) {
+                    cells = cells.concat("Y:")
+                            .concat(Integer.toString(((AmmoPoint) s).getAmmo().getYellow())).concat("'")
+                            .concat("R:")
+                            .concat(Integer.toString(((AmmoPoint) s).getAmmo().getRed())).concat("'")
+                            .concat("B:")
+                            .concat(Integer.toString(((AmmoPoint) s).getAmmo().getBlue())).concat("'")
+                            .concat("PU:")
+                            .concat(Integer.toString(((AmmoPoint) s).getAmmo().getPowerUp())).concat(";");
+                }
             }
             cells= cells.concat("Players;");
             for(Player p : s.getOnMe()) {
