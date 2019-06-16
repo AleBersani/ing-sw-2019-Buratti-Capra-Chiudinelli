@@ -149,8 +149,9 @@ public class Controller {
                             }
                         }
                     }
-                    playerFromNickname(clientHandler.getName()).grab(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
-                            Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])));
+                    String[] stringo =msg.substring(ETIQUETTE).split(",");
+                    playerFromNickname(clientHandler.getName()).grab(match.getBoard().find(Integer.parseInt(stringo[0]),
+                            Integer.parseInt(stringo[1])));
                 } catch (InvalidDestinationException e) {
                     sendString(">>>Square not valid", clientHandler);
                 } catch (ElementNotFoundException e) {
