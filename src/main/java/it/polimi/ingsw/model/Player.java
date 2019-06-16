@@ -4,6 +4,7 @@ import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.map.AmmoTile;
+import it.polimi.ingsw.model.map.SpawnPoint;
 import it.polimi.ingsw.model.map.Square;
 
 import java.util.ArrayList;
@@ -182,11 +183,12 @@ public class Player {
      */
     public void grabWeapon(Square destination,int position) throws ElementNotFoundException, MaxHandWeaponSizeException, NoAmmoException {
         Weapon weapon;
-        weapon=destination.grabWeapon(position);
+        weapon= ((SpawnPoint)destination).grabWeapon(position);
         if (weapon.getCostRed() - isRed(weapon) <= this.redAmmo && weapon.getCostBlue() - isBlue(weapon) <= this.blueAmmo && weapon.getCostYellow() - isYellow(weapon) <= this.yellowAmmo){
             this.redAmmo=this.redAmmo - (weapon.getCostRed() - isRed(weapon));
             this.blueAmmo=this.blueAmmo - (weapon.getCostBlue() - isBlue(weapon));
             this.yellowAmmo=this.yellowAmmo - (weapon.getCostYellow() - isYellow(weapon));
+            weapon=destination.grabWeapon(position);
             this.weapons.add(weapon);
             this.position.leaves(this);
             this.position = destination;
