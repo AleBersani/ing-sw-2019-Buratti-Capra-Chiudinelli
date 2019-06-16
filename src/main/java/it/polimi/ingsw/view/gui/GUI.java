@@ -129,7 +129,11 @@ public class GUI extends Application implements ViewInterface {
                 break;
             }
             case GAME: {
-
+                this.gameGUI.buildBoard(stage);
+                this.gameGUI.buildPlayers(stage);
+                this.gameGUI.buildYou(stage);
+                this.gameGUI.buildKillShotTrack(stage);
+                this.gameGUI.buildButtons(stage);
                 break;
             }
         }

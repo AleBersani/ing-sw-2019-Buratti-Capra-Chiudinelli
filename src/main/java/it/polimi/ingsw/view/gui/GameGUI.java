@@ -416,21 +416,22 @@ public class GameGUI {
 
                 //weapons
                 int j=0;
-                /*
+
                 for(String weapon: enemyPlayer.get(PLAYER_WEAPON).split("'")){
-                    if(weapon.equals("notVisible")){
-                        gridInfo.add(new ImageView(new Image("/images/game/weapons/weaponBack.png",pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false)),j,0);
-                    }
-                    else {
-                        String weaponName = weapon.toLowerCase();
-                        weaponName = weaponName.replace(" ","").concat(".png");
+                    if(!weapon.equals("")) {
+                        if (weapon.equals("notVisible")) {
+                            gridInfo.add(new ImageView(new Image("/images/game/weapons/weaponBack.png", pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false)), j, 0);
+                        } else {
+                            String weaponName = weapon.toLowerCase().replace(" ", "").concat(".png");
 
-                        gridInfo.add(new ImageView(new Image("/images/game/weapons/".concat(weaponName),pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false)),j,0);
 
+                            gridInfo.add(new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false)), j, 0);
+
+                        }
                     }
                     j++;
                 }
-                */
+
                 //power ups
                 String[] powerUp = enemyPlayer.get(PLAYER_POWER_UP).split(":");
                 Label numberPowerUp = new Label("x".concat(powerUp[1]));
