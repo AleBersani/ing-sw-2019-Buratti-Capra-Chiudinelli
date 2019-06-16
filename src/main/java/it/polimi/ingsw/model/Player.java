@@ -183,7 +183,7 @@ public class Player {
      */
     public void grabWeapon(Square destination,int position) throws ElementNotFoundException, MaxHandWeaponSizeException, NoAmmoException {
         Weapon weapon;
-        weapon= ((SpawnPoint)destination).grabWeapon(position);
+        weapon= ((SpawnPoint)destination).getWeapons().get(position);
         if (weapon.getCostRed() - isRed(weapon) <= this.redAmmo && weapon.getCostBlue() - isBlue(weapon) <= this.blueAmmo && weapon.getCostYellow() - isYellow(weapon) <= this.yellowAmmo){
             this.redAmmo=this.redAmmo - (weapon.getCostRed() - isRed(weapon));
             this.blueAmmo=this.blueAmmo - (weapon.getCostBlue() - isBlue(weapon));
