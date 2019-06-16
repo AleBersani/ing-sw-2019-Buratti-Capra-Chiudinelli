@@ -104,7 +104,7 @@ public class Controller {
     }
 
     private void understandGameCommand(ClientHandler clientHandler, String msg) {
-        switch (msg){
+        switch (msg.substring(ETIQUETTE)){
             case "SHT-": {
                 ArrayList<TargetParameter> targetParameters = new ArrayList<>();
                 for (String target : msg.substring(ETIQUETTE).split(";")) {

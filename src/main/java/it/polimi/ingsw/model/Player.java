@@ -122,7 +122,7 @@ public class Player {
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
      */
     public void run(Square destination) throws InvalidDestinationException {
-        if (this.position.calcDist(destination) <= maxRun) {
+        if (this.position.calcDist(destination) <= maxRun && !this.position.equals(destination)) {
             this.position.leaves(this);
             this.position = destination;
             destination.arrives(this);
