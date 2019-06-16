@@ -127,6 +127,26 @@ public class Controller {
             }
             case "GRB-": {
                 try {
+                    for ( String powerUp : msg.substring(ETIQUETTE).split(",")[4].split(";")){
+                        //TODO non usare PowerUp di colori che non centrano + togliere se non va a buon fine
+                        switch (playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(powerUp)).getColor()) {
+                            case "red": {
+                                playerFromNickname(clientHandler.getName()).setRedAmmo(playerFromNickname(clientHandler.getName()).getRedAmmo() + 1);
+                                playerFromNickname(clientHandler.getName()).discard(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(powerUp)));
+                                break;
+                            }
+                            case "yellow": {
+                                playerFromNickname(clientHandler.getName()).setYellowAmmo(playerFromNickname(clientHandler.getName()).getYellowAmmo() + 1);
+                                playerFromNickname(clientHandler.getName()).discard(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(powerUp)));
+                                break;
+                            }
+                            case "blue":{
+                                playerFromNickname(clientHandler.getName()).setBlueAmmo(playerFromNickname(clientHandler.getName()).getBlueAmmo() + 1);
+                                playerFromNickname(clientHandler.getName()).discard(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(powerUp)));
+                                break;
+                            }
+                        }
+                    }
                     playerFromNickname(clientHandler.getName()).grab(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
                             Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])));
                 } catch (InvalidDestinationException e) {
@@ -153,6 +173,7 @@ public class Controller {
                 break;
             }
             case "UPU-": {
+                //TODO no targeting scope e tagback granade
                 try {
                     playerFromNickname(clientHandler.getName()).usePowerUp(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.substring(ETIQUETTE).split(";")[1])),
                             generateTarget(msg.substring(ETIQUETTE).split(";")[0],clientHandler));
