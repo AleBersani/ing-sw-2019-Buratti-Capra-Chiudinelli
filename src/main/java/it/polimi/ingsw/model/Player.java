@@ -181,7 +181,7 @@ public class Player {
      * @throws MaxHandWeaponSizeException This exception means that the player has already reached the maximum number of weapons in a hand
      * @throws NoAmmoException This exception means that the player doesn't have enough ammo to buy a weapon
      */
-    public void grabWeapon(Square destination,int position) throws ElementNotFoundException, MaxHandWeaponSizeException, NoAmmoException {
+    public void grabWeapon(Square destination, int position) throws ElementNotFoundException, MaxHandWeaponSizeException, NoAmmoException {
         Weapon weapon;
         weapon= ((SpawnPoint)destination).getWeapons().get(position);
         if (weapon.getCostRed() - isRed(weapon) <= this.redAmmo && weapon.getCostBlue() - isBlue(weapon) <= this.blueAmmo && weapon.getCostYellow() - isYellow(weapon) <= this.yellowAmmo){
@@ -199,6 +199,38 @@ public class Player {
         }
         else
             throw new NoAmmoException();
+    }
+
+    public void grabWeapon(Square destination, int position,ArrayList<PowerUp> payment) throws ElementNotFoundException, MaxHandWeaponSizeException, NoAmmoException {
+        Weapon weapon;
+        int discountRed=0;
+        int discountBlue=0;
+        int discountYellow=0;
+        weapon= ((SpawnPoint)destination).getWeapons().get(position);
+        for(PowerUp powerUp: payment){
+            switch (powerUp.getColor()){
+                case "red":
+                    discountRed++;
+                    break;
+                case "blue":
+                    discountBlue++;
+                    break;
+                case "yellow":
+                    discountYellow++;
+                    break;
+            }
+        }
+        if(weapon.getCostRed()<=this.redAmmo-discountRed && weapon.getCostBlue()<=this.blueAmmo-discountBlue && weapon.getCostYellow()<= this.yellowAmmo-discountYellow){
+            this.redAmmo=redAmmo+discountRed;
+            this.blueAmmo=blueAmmo+discountBlue;
+            this.yellowAmmo=yellowAmmo+discountYellow;
+            for(PowerUp powerUp: payment){
+                this.discard(powerUp);
+            }
+            grabWeapon(destination,position);
+        }
+        throw new NoAmmoException();
+
     }
 
     /**
@@ -273,13 +305,24 @@ public class Player {
      * @param powerUp This parameter is the selected power up to be used
      * @param target This parameter is the target of the power up effect
      * @throws InvalidTargetException This exception means that there is no valid target chosen
+     * @throws OnResponseException This exception is thrown when you try to use a power up that is usable only on response of another action
      */
-    public void usePowerUp(PowerUp powerUp, TargetParameter target) throws InvalidTargetException, NoOwnerException {
+    public void usePowerUp(PowerUp powerUp, TargetParameter target) throws InvalidTargetException, NoOwnerException, OnResponseException {
+        if (this.powerUps.contains(powerUp) && !powerUp.getOnResponse()) {
+            powerUp.useEffect(target);
+            discard(powerUp);
+        }
+        else throw new OnResponseException();
+    }
+
+    public void usePowerUpOnResponse(PowerUp powerUp, TargetParameter target) throws InvalidTargetException, NoOwnerException{
         if (this.powerUps.contains(powerUp)) {
             powerUp.useEffect(target);
             discard(powerUp);
         }
     }
+
+
 
     /**
      * This method allows to answer if the player can see another target player

@@ -3,24 +3,24 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.communication.server.ClientHandler;
 
 public class ClientInfo {
-    protected ClientHandler clientHandler;
-    protected State state;
+    ClientHandler clientHandler;
+    State state;
 
-    public ClientInfo(ClientHandler clientHandler) {
+    ClientInfo(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
         this.state = State.LOGIN;
     }
 
-    public ClientInfo(ClientHandler clientHandler, State state) {
+    ClientInfo(ClientHandler clientHandler, State state) {
         this.clientHandler = clientHandler;
         this.state = state;
     }
 
     protected enum State{
-        LOGIN, WAIT, GAME, SPAWN
+        LOGIN, WAIT, GAME, SPAWN, LAY_WEAPON
     }
 
-    public void nextState(){
+    void nextState(){
         switch (this.state){
             case LOGIN:{
                 this.state = State.WAIT;
@@ -36,9 +36,19 @@ public class ClientInfo {
             }
             case SPAWN:{
                 this.state = State.GAME;
+                break;
+            }
+            case LAY_WEAPON:{
+                this.state = State.GAME;
+                break;
             }
 
         }
     }
+
+    void setState(State state){
+        this.state=state;
+    }
+
 
 }

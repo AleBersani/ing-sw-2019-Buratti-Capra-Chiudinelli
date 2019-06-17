@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.TargetParameter;
 public class PowerUp {
     private String color, name;
     private Effect effect;
+    private boolean onResponse;
 
     public PowerUp(String color, String name) {
         this.color = color;
@@ -33,4 +34,9 @@ public class PowerUp {
     public void setEffect(Effect effect) {
         this.effect = effect;
     }
+
+    public boolean getOnResponse() {
+        return onResponse;
+    }
+
 }

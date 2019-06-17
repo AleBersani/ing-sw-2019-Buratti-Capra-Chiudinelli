@@ -369,6 +369,8 @@ class PlayerTest {
             invalidTargetException.printStackTrace();
         } catch (NoOwnerException e) {
             e.printStackTrace();
+        } catch (OnResponseException e) {
+            e.printStackTrace();
         }
         try {
             assertEquals(guest.getPosition(),board.find(1,1));
@@ -406,6 +408,8 @@ class PlayerTest {
         } catch (InvalidTargetException e) {
             e.printStackTrace();
         } catch (NoOwnerException e) {
+            e.printStackTrace();
+        } catch (OnResponseException e) {
             e.printStackTrace();
         }
         try {
@@ -445,6 +449,8 @@ class PlayerTest {
             assertThrows(InvalidTargetException.class,()->guest.usePowerUp(newton,targetParameterNewton));
         } catch (NoOwnerException e) {
             e.printStackTrace();
+        } catch (OnResponseException e) {
+            e.printStackTrace();
         }
         try {
             assertEquals(test.getPosition(),board.find(4,2));
@@ -464,7 +470,7 @@ class PlayerTest {
         guest.setPowerUps(testingPowerUp);
         targetParameterTargetingScope = new TargetParameter(null,guest,test,null,null,null,null);
         try {
-            guest.usePowerUp(targetingScope,targetParameterTargetingScope);
+            guest.usePowerUpOnResponse(targetingScope,targetParameterTargetingScope);
         } catch (InvalidTargetException e) {
             e.printStackTrace();
         } catch (NoOwnerException e) {
@@ -475,7 +481,7 @@ class PlayerTest {
         assertEquals(0,guest.getPowerUps().size());
         targetParameterTargetingScope = new TargetParameter(null,guest,guest,null,null,null,null);
         try {
-            guest.usePowerUp(targetingScope,targetParameterTargetingScope);
+            guest.usePowerUpOnResponse(targetingScope,targetParameterTargetingScope);
         } catch (InvalidTargetException e) {
             assertThrows(InvalidTargetException.class,()->guest.usePowerUp(targetingScope,targetParameterTargetingScope));
         } catch (NoOwnerException e) {
@@ -493,7 +499,7 @@ class PlayerTest {
         guest.setPowerUps(testingPowerUp);
         targetParameterTagbackGrenade = new TargetParameter(null,guest,test,null,null,null,null);
         try {
-            guest.usePowerUp(tagbackGrenade,targetParameterTagbackGrenade);
+            guest.usePowerUpOnResponse(tagbackGrenade,targetParameterTagbackGrenade);
         } catch (InvalidTargetException e) {
             e.printStackTrace();
         } catch (NoOwnerException e) {
@@ -503,7 +509,7 @@ class PlayerTest {
         assertEquals(0,guest.getPowerUps().size());
         targetParameterTagbackGrenade = new TargetParameter(null,guest,guest,null,null,null,null);
         try {
-            guest.usePowerUp(tagbackGrenade,targetParameterTagbackGrenade);
+            guest.usePowerUpOnResponse(tagbackGrenade,targetParameterTagbackGrenade);
         } catch (InvalidTargetException e) {
             assertThrows(InvalidTargetException.class,()->guest.usePowerUp(tagbackGrenade,targetParameterTagbackGrenade));
         } catch (NoOwnerException e) {

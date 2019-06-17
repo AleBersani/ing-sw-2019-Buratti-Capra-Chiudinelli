@@ -3,111 +3,135 @@
 
     {
       "color": "red",
-      "name": "teleporter"
+      "name": "teleporter",
+      "onResponse": false
     },
     { "color": "red",
-      "name": "teleporter"
+      "name": "teleporter",
+      "onResponse": false
     },
 
     {
       "color": "yellow",
-      "name": "teleporter"
+      "name": "teleporter",
+      "onResponse": false
     },
     { "color": "yellow",
-      "name": "teleporter"
+      "name": "teleporter",
+      "onResponse": false
     },
 
     {
       "color": "blue",
-      "name": "teleporter"
+      "name": "teleporter",
+      "onResponse": false
     },
     { "color": "blue",
-      "name": "teleporter"
+      "name": "teleporter",
+      "onResponse": false
     },
 
 
 
     {
       "color": "red",
-      "name": "newton"
+      "name": "newton",
+      "onResponse": false
     },
     {
       "color": "red",
-      "name": "newton"
+      "name": "newton",
+      "onResponse": false
     },
 
     {
       "color": "yellow",
-      "name": "newton"
+      "name": "newton",
+      "onResponse": false
     },
     {
       "color": "yellow",
-      "name": "newton"
+      "name": "newton",
+      "onResponse": false
     },
 
     {
       "color": "blue",
-      "name": "newton"
+      "name": "newton",
+      "onResponse": false
     },
     {
       "color": "blue",
-      "name": "newton"
-    },
-
-
-    {
-      "color": "red",
-      "name": "tagback grenade"
-    },
-    {
-      "color": "red",
-      "name": "tagback grenade"
-    },
-
-    {
-      "color": "yellow",
-      "name": "tagback grenade"
-    },
-    {
-      "color": "yellow",
-      "name": "tagback grenade"
-    },
-
-    {
-      "color": "blue",
-      "name": "tagback grenade"
-    },
-    {
-      "color": "blue",
-      "name": "tagback grenade"
+      "name": "newton",
+      "onResponse": false
     },
 
 
     {
       "color": "red",
-      "name": "targeting scope"
+      "name": "tagback grenade",
+      "onResponse": true
     },
     {
       "color": "red",
-      "name": "targeting scope"
+      "name": "tagback grenade",
+      "onResponse": true
     },
 
     {
       "color": "yellow",
-      "name": "targeting scope"
+      "name": "tagback grenade",
+      "onResponse": true
     },
     {
       "color": "yellow",
-      "name": "targeting scope"
+      "name": "tagback grenade",
+      "onResponse": true
     },
 
     {
       "color": "blue",
-      "name": "targeting scope"
+      "name": "tagback grenade",
+      "onResponse": true
     },
     {
       "color": "blue",
-      "name": "targeting scope"
+      "name": "tagback grenade",
+      "onResponse": true
+    },
+
+
+    {
+      "color": "red",
+      "name": "targeting scope",
+      "onResponse": true
+    },
+    {
+      "color": "red",
+      "name": "targeting scope",
+      "onResponse": true
+    },
+
+    {
+      "color": "yellow",
+      "name": "targeting scope",
+      "onResponse": true
+    },
+    {
+      "color": "yellow",
+      "name": "targeting scope",
+      "onResponse": true
+    },
+
+    {
+      "color": "blue",
+      "name": "targeting scope",
+      "onResponse": true
+    },
+    {
+      "color": "blue",
+      "name": "targeting scope",
+      "onResponse": true
     }
   ],
 

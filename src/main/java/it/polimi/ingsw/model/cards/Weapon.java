@@ -149,4 +149,9 @@ public abstract class Weapon {
     public abstract void fireOptional(ArrayList<TargetParameter> target, int which) throws NotThisKindOfWeapon, InvalidTargetException, NoAmmoException, NoOwnerException;
 
     public abstract void fireAlternative(ArrayList<TargetParameter> target) throws NotThisKindOfWeapon, InvalidTargetException, NoAmmoException, NoOwnerException;
+
+    @Override
+    public String toString(){
+        return name;
+    }
 }

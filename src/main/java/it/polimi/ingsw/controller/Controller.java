@@ -8,6 +8,8 @@ import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TargetParameter;
 import it.polimi.ingsw.model.cards.PowerUp;
+import it.polimi.ingsw.model.cards.Weapon;
+import it.polimi.ingsw.model.map.SpawnPoint;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,7 +36,7 @@ public class Controller {
     private boolean gameStarted;
     private Match match;
     private final Object nicknameListLock;
-    public static final int ETIQUETTE = 4;
+    private static final int ETIQUETTE = 4;
     private static final int MAX_PLAYERS_NUMBER = 5;
 
     public Controller(){
@@ -53,7 +55,7 @@ public class Controller {
         this.nicknameListLock = new Object();
     }
 
-    public void sendString(String msg, ClientHandler clientHandler) {
+    private void sendString(String msg, ClientHandler clientHandler) {
         clientHandler.print(msg);
     }
 
@@ -71,7 +73,7 @@ public class Controller {
             switch (getNicknameList().get(clientHandler.getName()).state) {
                 case LOGIN: {
                     if (msg.startsWith("SET-")) {
-                        this.understandSettingMessages(msg.substring(ETIQUETTE), clientHandler);
+                        understandSettingMessages(msg.substring(ETIQUETTE), clientHandler);
                     } else {
                         sendString("Wrong Etiquette", clientHandler);
                     }
@@ -81,116 +83,139 @@ public class Controller {
                     if(msg.startsWith("END-")){
                         respawn();
                         match.getTurn().endTurn();
+                        //TODO
                     }
-
 
                     if(msg.startsWith("GMC-")){
                         understandGameCommand(clientHandler, msg.substring(ETIQUETTE));
                     }
                     break;
                 }
-                case SPAWN:
-                    if(msg.startsWith("SPW-")){
+                case SPAWN: {
+                    if (msg.startsWith("SPW-")) {
                         try {
-                            spawn(clientHandler,playerFromNickname(clientHandler.getName()),Integer.parseInt(msg.substring(ETIQUETTE)));
+                            spawn(clientHandler, playerFromNickname(clientHandler.getName()), Integer.parseInt(msg.substring(ETIQUETTE)));
                             getNicknameList().get(clientHandler.getName()).nextState();
                         } catch (NotFoundException e) {
                             sendString("error", clientHandler);
                         }
+
                     }
                     break;
+                }
+                case LAY_WEAPON: {
+                    if (msg.startsWith("WPN-")){
+                        layWeapon(Integer.parseInt(msg.substring(ETIQUETTE)), clientHandler);
+                        updateBackground();
+                    }
+                    break;
+                }
             }
+        }
+    }
+
+    private void layWeapon(int weaponPos, ClientHandler clientHandler) {
+        try {
+            Player player =playerFromNickname(clientHandler.getName());
+            Weapon weapon= player.getWeapons().get(weaponPos);
+            player.getWeapons().remove(weapon);
+            ((SpawnPoint)player.getPosition()).getWeapons().add(weapon);
+            clientInfoFromClientHandeler(clientHandler).nextState();
+        } catch (NotFoundException e) {
+            sendString("error", clientHandler);
         }
     }
 
     private void understandGameCommand(ClientHandler clientHandler, String msg) {
         switch (msg.substring(0,ETIQUETTE)){
-            case "SHT-": {
-                ArrayList<TargetParameter> targetParameters = new ArrayList<>();
-                for (String target : msg.substring(ETIQUETTE).split(";")) {
-                    targetParameters.add(generateTarget(target, clientHandler));
-                }
-                match.getTurn().getCurrent().getWeapons().get(Character.getNumericValue(msg.charAt(ETIQUETTE + 1)));//TODO completare .fire?
+            case "SHT-":
+                shootingAction(clientHandler, msg);
                 break;
-            }
-            case "RUN-": {
-                try {
-                    playerFromNickname(clientHandler.getName()).run(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
-                            Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])));
-                } catch (InvalidDestinationException e) {
-                    sendString(">>>Square not valid", clientHandler);
-                } catch (NotFoundException e) {
-                    sendString("error", clientHandler);
-                }
-                updateBackground();
+            case "RUN-":
+                runningAction(clientHandler, msg);
                 break;
-            }
-            case "GRB-": {
-                try {
-                    /*if(msg.substring(ETIQUETTE).split(",")[4]!=null) {
-                        for (String powerUp : msg.substring(ETIQUETTE).split(",")[4].split(";")) {
-                            //TODO non usare PowerUp di colori che non centrano + togliere se non va a buon fine
-                            switch (playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(powerUp)).getColor()) {
-                                case "red": {
-                                    playerFromNickname(clientHandler.getName()).setRedAmmo(playerFromNickname(clientHandler.getName()).getRedAmmo() + 1);
-                                    playerFromNickname(clientHandler.getName()).discard(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(powerUp)));
-                                    break;
-                                }
-                                case "yellow": {
-                                    playerFromNickname(clientHandler.getName()).setYellowAmmo(playerFromNickname(clientHandler.getName()).getYellowAmmo() + 1);
-                                    playerFromNickname(clientHandler.getName()).discard(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(powerUp)));
-                                    break;
-                                }
-                                case "blue": {
-                                    playerFromNickname(clientHandler.getName()).setBlueAmmo(playerFromNickname(clientHandler.getName()).getBlueAmmo() + 1);
-                                    playerFromNickname(clientHandler.getName()).discard(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(powerUp)));
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    */
-                    String[] stringo =msg.substring(ETIQUETTE).split(",");
-                    playerFromNickname(clientHandler.getName()).grab(match.getBoard().find(Integer.parseInt(stringo[0]),
-                            Integer.parseInt(stringo[1])));
-                } catch (InvalidDestinationException e) {
-                    sendString(">>>Square not valid", clientHandler);
-                } catch (ElementNotFoundException e) {
-                    try {
-                        playerFromNickname(clientHandler.getName()).grabWeapon(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
-                                Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])),Integer.parseInt(msg.substring(ETIQUETTE).split(",")[2]));
-                    } catch (ElementNotFoundException e1) {
-                        sendString(">>>Nothing to grab", clientHandler);
-                    } catch (MaxHandWeaponSizeException e1) {
-                        //TODO gestire eccezione
-                    } catch (NoAmmoException e1) {
-                        sendString(">>>You don't have enough ammo", clientHandler);
-                    } catch (NotFoundException e1) {
-                        sendString("error", clientHandler);
-                    }
-                } catch (NotFoundException e) {
-                    sendString("error", clientHandler);
-                } catch (NullAmmoException e) {
-                    sendString(">>>Nothing to grab", clientHandler);
-                }
-                updateBackground();
+            case "GRB-":
+                grabbingAction(clientHandler, msg);
                 break;
-            }
-            case "UPU-": {
-                //TODO no targeting scope e tagback granade
-                try {
-                    playerFromNickname(clientHandler.getName()).usePowerUp(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.substring(ETIQUETTE).split(";")[1])),
-                            generateTarget(msg.substring(ETIQUETTE).split(";")[0],clientHandler));
-                } catch (InvalidTargetException e) {
-                    sendString(">>>Invalid Target", clientHandler);
-                } catch (NoOwnerException e) {
-                    sendString("error", clientHandler);
-                } catch (NotFoundException e) {
-                    sendString("error", clientHandler);
-                }
+            case "UPU-":
+                powerUpAction(clientHandler, msg);
                 break;
-            }
+            default:
+                sendString("Invalid command", clientHandler);
 
+        }
+    }
+
+    private void shootingAction(ClientHandler clientHandler, String msg){
+        ArrayList<TargetParameter> targetParameters = new ArrayList<>();
+        for (String target : msg.substring(ETIQUETTE).split(";")) {
+            targetParameters.add(generateTarget(target, clientHandler));
+        }
+        match.getTurn().getCurrent().getWeapons().get(Character.getNumericValue(msg.charAt(ETIQUETTE + 1)));//TODO completare .fire?
+    }
+
+    private void runningAction(ClientHandler clientHandler, String msg){
+        try {
+            playerFromNickname(clientHandler.getName()).run(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
+                    Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])));
+        } catch (InvalidDestinationException e) {
+            sendString(">>>Square not valid", clientHandler);
+        } catch (NotFoundException e) {
+            sendString("error", clientHandler);
+        }
+        updateBackground();
+    }
+
+    private void grabbingAction(ClientHandler clientHandler, String msg){
+        try {
+            //TODO pagare con PU
+            String[] stringo =msg.substring(ETIQUETTE).split(",");
+            playerFromNickname(clientHandler.getName()).grab(match.getBoard().find(Integer.parseInt(stringo[0]),
+                    Integer.parseInt(stringo[1])));
+        } catch (InvalidDestinationException e) {
+            sendString(">>>Square not valid", clientHandler);
+        }catch (NotFoundException e) {
+            sendString("error", clientHandler);
+        } catch (NullAmmoException e) {
+            sendString(">>>Nothing to grab", clientHandler);
+        }
+        catch (ElementNotFoundException e) {
+            try {
+                playerFromNickname(clientHandler.getName()).grabWeapon(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
+                        Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])),Integer.parseInt(msg.substring(ETIQUETTE).split(",")[2]));
+                //TODO richiamare grabWeapon con powerUp
+            } catch (ElementNotFoundException e1) {
+                sendString(">>>Nothing to grab", clientHandler);
+            }catch (NoAmmoException e1) {
+                sendString(">>>You don't have enough ammo", clientHandler);
+            } catch (NotFoundException e1) {
+                sendString("error", clientHandler);
+            }
+            catch (MaxHandWeaponSizeException e1) {
+                try {
+                    clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.LAY_WEAPON);
+                    sendString("WPN-Select the weapon to drop:"+playerFromNickname(clientHandler.getName()).getWeapons(), clientHandler);
+                } catch (NotFoundException e2) {
+                    sendString("error", clientHandler);
+                }
+            }
+        }
+        updateBackground();
+    }
+
+
+    private void powerUpAction(ClientHandler clientHandler, String msg){
+        try {
+            playerFromNickname(clientHandler.getName()).usePowerUp(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.substring(ETIQUETTE).split(";")[1])),
+                    generateTarget(msg.substring(ETIQUETTE).split(";")[0], clientHandler));
+        } catch (InvalidTargetException e) {
+            sendString(">>>Invalid Target", clientHandler);
+        } catch (NoOwnerException e) {
+            sendString("error", clientHandler);
+        } catch (NotFoundException e) {
+            sendString("error", clientHandler);
+        } catch (OnResponseException e) {
+            sendString(">>>This power up can be used only on response of another action", clientHandler);
         }
     }
 
@@ -221,7 +246,7 @@ public class Controller {
                     } catch (MaxHandSizeException e) {
                         player.forceDraw();
                     }
-                    sendString("Select a power up for spawning:"+ powerUps(player),clientInfo.clientHandler);
+                    sendString("SPW-Select a power up for spawning:"+ powerUps(player),clientInfo.clientHandler);
                 }
             }
         }
@@ -287,21 +312,17 @@ public class Controller {
 
     private void understandSettingMessages(String msg, ClientHandler clientHandler){
         switch (msg.substring(0,ETIQUETTE)){
-            case "BRD-":{ //Board
+            case "BRD-": //Board
                 this.selectBoard(msg.substring(ETIQUETTE),clientHandler);
                 break;
-            }
-            case "SKL-":{ //Skull
+            case "SKL-": //Skull
                 this.setSkulls(msg.substring(ETIQUETTE),clientHandler);
                 break;
-            }
-            case "FRZ-":{ //Frenzy
+            case "FRZ-": //Frenzy
                 this.setFrenzy(msg.substring(ETIQUETTE),clientHandler);
                 break;
-            }
-            default:{
+            default:
                 sendString("ERROR",clientHandler);
-            }
         }
     }
 
@@ -417,6 +438,10 @@ public class Controller {
     private void startingSpawn(ClientHandler actual, Player player){
         try {
             player.draw();
+        } catch (MaxHandSizeException e) {
+            player.forceDraw();
+        }
+        try {
             player.draw();
         } catch (MaxHandSizeException e) {
             player.forceDraw();
@@ -539,6 +564,15 @@ public class Controller {
             }
         }
         throw (new NotFoundException());
+    }
+
+    private ClientInfo clientInfoFromClientHandeler(ClientHandler clientHandler) throws NotFoundException {
+        for (ClientInfo clientInfo : getNicknameList().values()){
+            if(clientInfo.clientHandler.equals(clientHandler)){
+                return clientInfo;
+            }
+        }
+        throw new NotFoundException();
     }
 
     private class Configuration{
