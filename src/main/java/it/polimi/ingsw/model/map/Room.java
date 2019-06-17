@@ -77,7 +77,7 @@ public class Room {
                     cells=cells.concat(w.getName()).concat("'");
                 }
                 if(!((SpawnPoint) s).getWeapons().isEmpty()){
-                    cells=cells.concat(";");
+                    cells=cells;
                 }
             }
             if (s instanceof AmmoPoint){
@@ -90,10 +90,10 @@ public class Room {
                             .concat("B:")
                             .concat(Integer.toString(((AmmoPoint) s).getAmmo().getBlue())).concat("'")
                             .concat("PU:")
-                            .concat(Integer.toString(((AmmoPoint) s).getAmmo().getPowerUp())).concat(";");
+                            .concat(Integer.toString(((AmmoPoint) s).getAmmo().getPowerUp()));
                 }
             }
-            cells= cells.concat("Players;");
+            cells= cells.concat(";Players;");
             for(Player p : s.getOnMe()) {
                 cells = cells.concat(p.getColor()).concat("'");
             }

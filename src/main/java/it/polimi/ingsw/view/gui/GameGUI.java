@@ -51,6 +51,7 @@ public class GameGUI {
     private static final int YOU_COL_SPAN= 4;
     private static final int YOU_YPOS= 4;
     private static final int YOU_POINT= 12;
+    private static final int YOU_WEAPON= 14;
     private static final int YOU_POWERUP= 15;
     private static final int KILL_ROW= 3;
     private static final int KILL_COL= 0;
@@ -155,40 +156,39 @@ public class GameGUI {
                 int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
                 if(cell.get(CELL_TYPE).equals("AmmoPoint")){
                     String ammoName = "";
-                    for(String s: cell.get(CELL_INSIDE).split("'")){
-                        String[] difi = s.split(":");
-                        if(s.startsWith("Y:")){
-                            if(!difi[1].equals("0")){
-                                ammoName = ammoName.concat("y").concat(difi[1]);
-                            }
-                        }
-                        else {
-                            if(s.startsWith("R:")){
-                                if(!difi[1].equals("0")){
-                                    ammoName = ammoName.concat("r").concat(difi[1]);
+                    if(!cell.get(CELL_INSIDE).equals("")) {
+                        for (String s : cell.get(CELL_INSIDE).split("'")) {
+                            String[] difi = s.split(":");
+                            if (s.startsWith("Y:")) {
+                                if (!difi[1].equals("0")) {
+                                    ammoName = ammoName.concat("y").concat(difi[1]);
                                 }
-                            }
-                            else {
-                                if (s.startsWith("B:")) {
+                            } else {
+                                if (s.startsWith("R:")) {
                                     if (!difi[1].equals("0")) {
-                                        ammoName = ammoName.concat("b").concat(difi[1]);
+                                        ammoName = ammoName.concat("r").concat(difi[1]);
                                     }
-                                }
-                                else {
-                                    if (s.startsWith("PU:")) {
+                                } else {
+                                    if (s.startsWith("B:")) {
                                         if (!difi[1].equals("0")) {
-                                            ammoName = ammoName.concat("pu").concat(difi[1]);
+                                            ammoName = ammoName.concat("b").concat(difi[1]);
+                                        }
+                                    } else {
+                                        if (s.startsWith("PU:")) {
+                                            if (!difi[1].equals("0")) {
+                                                ammoName = ammoName.concat("pu").concat(difi[1]);
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+
+                        ImageView ammoTile = new ImageView(new Image("/images/game/ammo/tiles/".concat(ammoName).concat(".png"), pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
+                        grid.add(ammoTile, xPos, yPos);
+                        GridPane.setHalignment(ammoTile, HPos.CENTER);
+                        GridPane.setValignment(ammoTile, VPos.CENTER);
                     }
-                    //TODO caso in cui non ci sia l'ammoTile
-                    ImageView ammoTile = new ImageView(new Image("/images/game/ammo/tiles/".concat(ammoName).concat(".png"),pane.getWidth()/N_COLUMN/N_INNER_COLUMN,pane.getHeight()/N_ROW/N_INNER_ROW,false,false));
-                    grid.add(ammoTile, xPos, yPos);
-                    GridPane.setHalignment(ammoTile,HPos.CENTER);
-                    GridPane.setValignment(ammoTile,VPos.CENTER);
                 }
             }
         }
@@ -454,12 +454,11 @@ public class GameGUI {
                             GridPane.setHalignment(redAmmoIV,HPos.LEFT);
                             GridPane.setValignment(redAmmoIV,VPos.TOP);
                             Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
-                            numberAmmo.setTextFill(Color.web("#ffffff", 0.8));
-                            numberAmmo.setStyle("-fx-font: 40 Helvetica;");
-                            numberAmmo.setEffect(new DropShadow());
+                            label40Helvetica(numberAmmo,"#ffffff", 0.8  );
                             gridInfo.add(numberAmmo,j+1,0);
                             GridPane.setHalignment(numberAmmo,HPos.RIGHT);
                             GridPane.setValignment(numberAmmo,VPos.TOP);
+                            break;
                         }
                         case "Y": {
                             ImageView yellowAmmoIV = new ImageView(new Image("/images/game/ammo/yellowAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false));
@@ -467,12 +466,11 @@ public class GameGUI {
                             GridPane.setHalignment(yellowAmmoIV,HPos.LEFT);
                             GridPane.setValignment(yellowAmmoIV,VPos.CENTER);
                             Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
-                            numberAmmo.setTextFill(Color.web("#ffffff", 0.8));
-                            numberAmmo.setStyle("-fx-font: 40 Helvetica;");
-                            numberAmmo.setEffect(new DropShadow());
+                            label40Helvetica(numberAmmo,"#ffffff", 0.8  );
                             gridInfo.add(numberAmmo,j+1,0);
                             GridPane.setHalignment(numberAmmo,HPos.RIGHT);
                             GridPane.setValignment(numberAmmo,VPos.CENTER);
+                            break;
                         }
                         case "B": {
                             ImageView blueAmmoIV = new ImageView(new Image("/images/game/ammo/blueAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false));
@@ -480,12 +478,11 @@ public class GameGUI {
                             GridPane.setHalignment(blueAmmoIV,HPos.LEFT);
                             GridPane.setValignment(blueAmmoIV,VPos.BOTTOM);
                             Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
-                            numberAmmo.setTextFill(Color.web("#ffffff", 0.8));
-                            numberAmmo.setStyle("-fx-font: 40 Helvetica;");
-                            numberAmmo.setEffect(new DropShadow());
+                            label40Helvetica(numberAmmo,"#ffffff", 0.8  );
                             gridInfo.add(numberAmmo,j+1,0);
                             GridPane.setHalignment(numberAmmo,HPos.RIGHT);
                             GridPane.setValignment(numberAmmo,VPos.BOTTOM);
+                            break;
                         }
                         default:
                     }
@@ -514,6 +511,7 @@ public class GameGUI {
         }
 
         //info button myself
+
 
         //quit button
         Button quit = new Button("Quit");
@@ -560,6 +558,12 @@ public class GameGUI {
                 client.send("quit");
             });
         });
+
+        
+
+
+
+
 
         pane.getChildren().add(gridButtons);
     }
@@ -646,6 +650,13 @@ public class GameGUI {
             grid.getRowConstraints().add(row);
         }
     }
+
+    private void label40Helvetica(Label label, String color, double opacity){
+        label.setTextFill(Color.web(color, opacity));
+        label.setStyle("-fx-font: 40 Helvetica;");
+        label.setEffect(new DropShadow());
+    }
+
 
     /*
     public void buildMap(Stage stage){
