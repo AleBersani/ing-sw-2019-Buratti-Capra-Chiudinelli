@@ -52,7 +52,7 @@ public class GameGUI {
     private static final int YOU_YPOS= 4;
     private static final int YOU_POINT= 12;
     private static final int YOU_WEAPON= 14;
-    private static final int YOU_POWERUP= 15;
+    private static final int YOU_POWERUP= 16;
     private static final int KILL_ROW= 3;
     private static final int KILL_COL= 0;
     private static final int KILL_TOT_SKULL= 0;
@@ -559,7 +559,7 @@ public class GameGUI {
             });
         });
 
-        
+
 
 
 
