@@ -96,9 +96,6 @@ public class GameGUI {
         //grid row constraint
         rowConstraint(grid, N_ROW);
 
-
-
-
         //cells
         for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
@@ -362,51 +359,7 @@ public class GameGUI {
         rowConstraint(gridButtons,N_ROW);
 
         //store button
-        for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
-            for (ArrayList<String> cell : room) {
-                if(cell.get(CELL_TYPE).equals("SpawnPoint")){
-                    int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
-                    int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
-                    Button storeButton = new Button("Store");
-                    gridButtons.add(storeButton,xPos,yPos);
-                    GridPane.setHalignment(storeButton,HPos.CENTER);
-                    GridPane.setValignment(storeButton,VPos.CENTER);
-                    storeButton.setOnAction(e ->{
-                        GridPane grid4 = new GridPane();
-                        Rectangle rectangle = new Rectangle();
-                        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-                        rectangle.setEffect(new BoxBlur());
-                        rectangle.widthProperty().bind(pane.widthProperty());
-                        rectangle.heightProperty().bind(pane.heightProperty());
-                        String[] weapon = cell.get(CELL_INSIDE).split("'");
-                        for(int i=0; i<NUMBER_OF_WEAPON; i++){
-                            if(i<weapon.length){
-                                String weaponName = weapon[i].toLowerCase();
-                                weaponName = weaponName.replace(" ","").concat(".png");
-                                grid4.add(new ImageView(new Image("/images/game/weapons/".concat(weaponName),pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false)),i,0);
-                            }
-                            else{
-                                grid4.add(new ImageView(new Image("/images/game/weapons/weaponBack.png",pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false)),i,0);
-                            }
-                        }
-
-                        Button backButton = new Button("BACK");
-                        grid4.add(backButton,1,1);
-                        pane.getChildren().add(rectangle);
-                        pane.getChildren().add(grid4);
-                        grid4.setHgap(40);
-                        grid4.setVgap(50);
-                        GridPane.setHalignment(backButton,HPos.CENTER);
-                        GridPane.setValignment(backButton,VPos.CENTER);
-                        grid4.setAlignment(Pos.CENTER);
-                        backButton.setOnAction(ev -> {
-                            pane.getChildren().remove(grid4);
-                            pane.getChildren().remove(rectangle);
-                        });
-                    });
-                }
-            }
-        }
+        storeButtons(gridButtons, pane);
 
         //info button enemy
         int i=0;
@@ -504,7 +457,7 @@ public class GameGUI {
                 //back button
                 Button backButton = new Button("BACK");
                 gridInfo.add(backButton,1,1);
-                
+
                 GridPane.setHalignment(backButton,HPos.CENTER);
                 GridPane.setValignment(backButton,VPos.CENTER);
                 backButton.setOnAction(ev -> {
@@ -738,6 +691,7 @@ public class GameGUI {
                 GridPane grid5 = new GridPane();
                 columnConstraint(grid5,N_COLUMN);
                 rowConstraint(grid5,N_ROW);
+                storeButtons(grid5, pane);
 
                 Button backRun = new Button("BACK");
                 grid5.add(backRun,4,3);
@@ -745,16 +699,70 @@ public class GameGUI {
                 GridPane.setValignment(backRun,VPos.CENTER);
 
                 EventHandler clickEvent = (EventHandler<MouseEvent>) event1 -> {
-                    int cellX = (int)(event1.getScreenX() / (pane.getWidth() / N_COLUMN));
-                    int cellY = (int)(event1.getScreenY() / (pane.getHeight() / N_ROW));
+                    int cellX = 1 + (int)(event1.getScreenX() / (pane.getWidth() / N_COLUMN));
+                    int cellY = 1 + (int)(event1.getScreenY() / (pane.getHeight() / N_ROW));
 
                     System.out.println(cellX);
                     System.out.println(cellY);
 
-                    if((cellX<4)&&(cellY<3)){
-
+                    if((cellX<5)&&(cellY<4)){
                         client.send("GMC-RUN-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)));
                     }
+                };
+
+                //Click event
+                pane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
+
+                //Back
+
+                backRun.setOnAction(ev ->{
+                    pane.getChildren().remove(grid5);
+                    pane.getChildren().remove(rectangle);
+                    buildButtons(stage);
+                    actions.fire();
+                    pane.removeEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
+                });
+
+                pane.getChildren().add(grid5);
+            });
+
+            //Grab
+            grab.setOnAction(e -> {
+                pane.getChildren().remove(grid4);
+                pane.getChildren().remove(boardGrid);
+                pane.getChildren().add(boardGrid);
+
+                GridPane grid5 = new GridPane();
+                columnConstraint(grid5,N_COLUMN);
+                rowConstraint(grid5,N_ROW);
+                storeButtons(grid5, pane);
+
+                Button backRun = new Button("BACK");
+                grid5.add(backRun,4,3);
+                GridPane.setHalignment(backRun,HPos.CENTER);
+                GridPane.setValignment(backRun,VPos.CENTER);
+
+                EventHandler clickEvent = (EventHandler<MouseEvent>) event1 -> {
+                    int cellX = 1+ (int)(event1.getScreenX() / (pane.getWidth() / N_COLUMN));
+                    int cellY = 1+ (int)(event1.getScreenY() / (pane.getHeight() / N_ROW));
+
+                    System.out.println(cellX);
+                    System.out.println(cellY);
+                    if((cellX<5)&&(cellY<4)) {
+                        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
+                            for (ArrayList<String> cell : room) {
+                                if ((cell.get(CELL_X).equals(Integer.toString(cellX))) && (cell.get(CELL_Y).equals(Integer.toString(cellY)))) {
+                                    if (cell.get(CELL_TYPE).equals("AmmoPoint")) {
+                                        client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)));
+                                    }
+                                    else{
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                 };
 
                 //Click event
@@ -869,6 +877,54 @@ public class GameGUI {
             double dimension = 100/nRow;
             row.setPercentHeight(dimension);
             grid.getRowConstraints().add(row);
+        }
+    }
+
+    private void storeButtons(GridPane gridButtons, StackPane pane){
+        for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
+            for (ArrayList<String> cell : room) {
+                if(cell.get(CELL_TYPE).equals("SpawnPoint")){
+                    int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
+                    int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
+                    Button storeButton = new Button("Store");
+                    gridButtons.add(storeButton,xPos,yPos);
+                    GridPane.setHalignment(storeButton,HPos.CENTER);
+                    GridPane.setValignment(storeButton,VPos.CENTER);
+                    storeButton.setOnAction(e ->{
+                        GridPane grid4 = new GridPane();
+                        Rectangle rectangle = new Rectangle();
+                        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+                        rectangle.setEffect(new BoxBlur());
+                        rectangle.widthProperty().bind(pane.widthProperty());
+                        rectangle.heightProperty().bind(pane.heightProperty());
+                        String[] weapon = cell.get(CELL_INSIDE).split("'");
+                        for(int i=0; i<NUMBER_OF_WEAPON; i++){
+                            if(i<weapon.length){
+                                String weaponName = weapon[i].toLowerCase();
+                                weaponName = weaponName.replace(" ","").concat(".png");
+                                grid4.add(new ImageView(new Image("/images/game/weapons/".concat(weaponName),pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false)),i,0);
+                            }
+                            else{
+                                grid4.add(new ImageView(new Image("/images/game/weapons/weaponBack.png",pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false)),i,0);
+                            }
+                        }
+
+                        Button backButton = new Button("BACK");
+                        grid4.add(backButton,1,1);
+                        pane.getChildren().add(rectangle);
+                        pane.getChildren().add(grid4);
+                        grid4.setHgap(40);
+                        grid4.setVgap(50);
+                        GridPane.setHalignment(backButton,HPos.CENTER);
+                        GridPane.setValignment(backButton,VPos.CENTER);
+                        grid4.setAlignment(Pos.CENTER);
+                        backButton.setOnAction(ev -> {
+                            pane.getChildren().remove(grid4);
+                            pane.getChildren().remove(rectangle);
+                        });
+                    });
+                }
+            }
         }
     }
 
