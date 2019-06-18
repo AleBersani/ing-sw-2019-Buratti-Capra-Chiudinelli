@@ -163,6 +163,7 @@ public class GUI extends Application implements ViewInterface {
         }
         this.stage.setFullScreen(true);
         this.clearPane();
+        this.gameGUI.backGround(stage);
         this.gameGUI.buildBoard(stage);
     }
 
