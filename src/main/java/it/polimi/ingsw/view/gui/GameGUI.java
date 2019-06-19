@@ -822,7 +822,6 @@ public class GameGUI {
             });
         }
         else{
-
             //end turn
             Button endTurnButton = new Button("END TURN");
             gridButtons.add(endTurnButton, 4, 4);
@@ -872,6 +871,31 @@ public class GameGUI {
                 }
                 ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
                 powerUpGrid.add(powerUp, j , 0);
+                powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev ->{
+                    GridPane targetGrid = new GridPane();
+                    columnConstraint(targetGrid,N_COLUMN);
+                    rowConstraint(targetGrid,N_ROW);
+
+                    Button back = new Button("BACK");
+                    targetGrid.add(back,4,3);
+                    GridPane.setHalignment(back,HPos.CENTER);
+                    GridPane.setValignment(back,VPos.CENTER);
+                    back.setOnAction(eve->{
+                        pane.getChildren().remove(rectangle);
+                        pane.getChildren().remove(targetGrid);
+                        pane.getChildren().remove(gridButtons);
+                        pane.getChildren().add(gridButtons);
+                        powerUps.fire();
+                    });
+
+
+
+                    pane.getChildren().remove(powerUpGrid);
+                    pane.getChildren().remove(boardGrid);
+                    pane.getChildren().add(boardGrid);
+                    storeButtons(targetGrid,pane);
+                    pane.getChildren().add(targetGrid);
+                });
                 j++;
             }
 
@@ -889,9 +913,6 @@ public class GameGUI {
                 pane.getChildren().remove(rectangle);
             });
         });
-
-
-
 
         pane.getChildren().add(gridButtons);
     }
