@@ -1,5 +1,6 @@
 package it.polimi.ingsw.communication.client;
 
+import com.sun.xml.internal.bind.v2.runtime.Name;
 import it.polimi.ingsw.view.ViewInterface;
 
 import java.util.ArrayList;
@@ -115,6 +116,21 @@ public class MessageHandler {
             }
             case "SPW-":{
                 view.spawn(msg.substring(NAME_ETIQUETTE));
+                break;
+            }
+            case "END-":{
+                view.endTurnShow();
+                break;
+            }
+            case "RLD-":{
+                if(!msg.substring(NAME_ETIQUETTE).equals("")){
+                    view.reloadShow(msg.substring(NAME_ETIQUETTE));
+                }
+                else {
+                    client.send("RLD-ignore");
+
+                }
+                break;
             }
             default:
         }

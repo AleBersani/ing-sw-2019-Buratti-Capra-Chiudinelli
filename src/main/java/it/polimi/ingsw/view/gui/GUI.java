@@ -206,6 +206,10 @@ public class GUI extends Application implements ViewInterface {
         this.gameGUI.buildButtons(stage);
     }
 
+    private void reload(){
+        this.gameGUI.reload(stage,infoString);
+    }
+
     @Override
     public void spawn(String msg) {
         this.infoString = msg;
@@ -263,6 +267,23 @@ public class GUI extends Application implements ViewInterface {
     @Override
     public void stopView() {
         Platform.exit();
+    }
+
+    @Override
+    public void endTurnShow() {
+        this.gameGUI.endTurn=true;
+        Platform.runLater(this::reShow);
+    }
+
+    @Override
+    public void reloadShow(String msg) {
+        this.infoString = msg;
+        Platform.runLater(this::reload);
+    }
+
+    @Override
+    public void gameReShow() {
+        Platform.runLater(this::reShow);
     }
 
     public ArrayList<ArrayList<ArrayList<String>>> getBoardRepresentation() {

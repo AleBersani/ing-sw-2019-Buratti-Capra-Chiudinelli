@@ -17,4 +17,10 @@ public interface ViewInterface {
     void loginView();
 
     void stopView();
+
+    void endTurnShow();
+
+    void reloadShow(String msg);
+
+    void gameReShow();
 }

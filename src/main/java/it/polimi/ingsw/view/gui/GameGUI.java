@@ -27,6 +27,8 @@ public class GameGUI {
     private MessageHandler messageHandler;
     private Client client;
     private GridPane boardGrid;
+    protected boolean endTurn=false;
+
     private static final String PURPLE="purple";
     private static final String BLUE="blue";
     private static final String GREEN="green";
@@ -351,23 +353,23 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-    public void buildButtons(Stage stage){
-        StackPane pane = (StackPane)stage.getScene().getRoot();
+    public void buildButtons(Stage stage) {
+        StackPane pane = (StackPane) stage.getScene().getRoot();
         GridPane gridButtons = new GridPane();
         stage.getScene().setRoot(pane);
-        columnConstraint(gridButtons,N_COLUMN);
-        rowConstraint(gridButtons,N_ROW);
+        columnConstraint(gridButtons, N_COLUMN);
+        rowConstraint(gridButtons, N_ROW);
 
         //store button
         storeButtons(gridButtons, pane);
 
         //info button enemy
-        int i=0;
-        for(ArrayList<String> enemyPlayer: gui.getPlayersRepresentation()){
+        int i = 0;
+        for (ArrayList<String> enemyPlayer : gui.getPlayersRepresentation()) {
             Button infoButton = new Button("INFO");
-            gridButtons.add(infoButton,6,i);
-            GridPane.setHalignment(infoButton,HPos.CENTER);
-            GridPane.setValignment(infoButton,VPos.BOTTOM);
+            gridButtons.add(infoButton, 6, i);
+            GridPane.setHalignment(infoButton, HPos.CENTER);
+            GridPane.setValignment(infoButton, VPos.BOTTOM);
             infoButton.setOnAction(e -> {
                 GridPane gridInfo = new GridPane();
                 Rectangle rectangle = new Rectangle();
@@ -378,15 +380,15 @@ public class GameGUI {
 
                 RowConstraints row = new RowConstraints();
                 row.setVgrow(Priority.ALWAYS);
-                double dimension = 100/3;
+                double dimension = 100 / 3;
                 row.setPercentHeight(dimension);
                 gridInfo.getRowConstraints().add(row);
 
                 //weapons
-                int j=0;
+                int j = 0;
 
-                for(String weapon: enemyPlayer.get(PLAYER_WEAPON).split("'")){
-                    if(!weapon.equals("")) {
+                for (String weapon : enemyPlayer.get(PLAYER_WEAPON).split("'")) {
+                    if (!weapon.equals("")) {
                         if (weapon.equals("notVisible")) {
                             gridInfo.add(new ImageView(new Image("/images/game/weapons/weaponBack.png", pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false)), j, 0);
                         } else {
@@ -404,50 +406,50 @@ public class GameGUI {
                 numberPowerUp.setTextFill(Color.web("#ffffff", 0.8));
                 numberPowerUp.setStyle("-fx-font: 40 Helvetica;");
                 numberPowerUp.setEffect(new DropShadow());
-                gridInfo.add(new ImageView(new Image("/images/game/powerUps/powerUpBack.png",pane.getWidth()/10,pane.getHeight()/5,false,false)),j,0);
-                gridInfo.add(numberPowerUp,j,0);
-                GridPane.setHalignment(numberPowerUp,HPos.CENTER);
-                GridPane.setValignment(numberPowerUp,VPos.BOTTOM);
+                gridInfo.add(new ImageView(new Image("/images/game/powerUps/powerUpBack.png", pane.getWidth() / 10, pane.getHeight() / 5, false, false)), j, 0);
+                gridInfo.add(numberPowerUp, j, 0);
+                GridPane.setHalignment(numberPowerUp, HPos.CENTER);
+                GridPane.setValignment(numberPowerUp, VPos.BOTTOM);
 
                 //ammos
                 j++;
-                for(String ammo: enemyPlayer.get(PLAYER_AMMO).split("'")) {
+                for (String ammo : enemyPlayer.get(PLAYER_AMMO).split("'")) {
                     String[] ammoQuantity = ammo.split(":");
                     switch (ammoQuantity[0]) {
                         case "R": {
-                            ImageView redAmmoIV = new ImageView(new Image("/images/game/ammo/redAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false));
-                            gridInfo.add(redAmmoIV,j,0);
-                            GridPane.setHalignment(redAmmoIV,HPos.LEFT);
-                            GridPane.setValignment(redAmmoIV,VPos.TOP);
+                            ImageView redAmmoIV = new ImageView(new Image("/images/game/ammo/redAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
+                            gridInfo.add(redAmmoIV, j, 0);
+                            GridPane.setHalignment(redAmmoIV, HPos.LEFT);
+                            GridPane.setValignment(redAmmoIV, VPos.TOP);
                             Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
-                            label40Helvetica(numberAmmo,"#ffffff", 0.8  );
-                            gridInfo.add(numberAmmo,j+1,0);
-                            GridPane.setHalignment(numberAmmo,HPos.RIGHT);
-                            GridPane.setValignment(numberAmmo,VPos.TOP);
+                            label40Helvetica(numberAmmo, "#ffffff", 0.8);
+                            gridInfo.add(numberAmmo, j + 1, 0);
+                            GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                            GridPane.setValignment(numberAmmo, VPos.TOP);
                             break;
                         }
                         case "Y": {
-                            ImageView yellowAmmoIV = new ImageView(new Image("/images/game/ammo/yellowAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false));
-                            gridInfo.add(yellowAmmoIV,j,0);
-                            GridPane.setHalignment(yellowAmmoIV,HPos.LEFT);
-                            GridPane.setValignment(yellowAmmoIV,VPos.CENTER);
+                            ImageView yellowAmmoIV = new ImageView(new Image("/images/game/ammo/yellowAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
+                            gridInfo.add(yellowAmmoIV, j, 0);
+                            GridPane.setHalignment(yellowAmmoIV, HPos.LEFT);
+                            GridPane.setValignment(yellowAmmoIV, VPos.CENTER);
                             Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
-                            label40Helvetica(numberAmmo,"#ffffff", 0.8  );
-                            gridInfo.add(numberAmmo,j+1,0);
-                            GridPane.setHalignment(numberAmmo,HPos.RIGHT);
-                            GridPane.setValignment(numberAmmo,VPos.CENTER);
+                            label40Helvetica(numberAmmo, "#ffffff", 0.8);
+                            gridInfo.add(numberAmmo, j + 1, 0);
+                            GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                            GridPane.setValignment(numberAmmo, VPos.CENTER);
                             break;
                         }
                         case "B": {
-                            ImageView blueAmmoIV = new ImageView(new Image("/images/game/ammo/blueAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false));
-                            gridInfo.add(blueAmmoIV,j,0);
-                            GridPane.setHalignment(blueAmmoIV,HPos.LEFT);
-                            GridPane.setValignment(blueAmmoIV,VPos.BOTTOM);
+                            ImageView blueAmmoIV = new ImageView(new Image("/images/game/ammo/blueAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
+                            gridInfo.add(blueAmmoIV, j, 0);
+                            GridPane.setHalignment(blueAmmoIV, HPos.LEFT);
+                            GridPane.setValignment(blueAmmoIV, VPos.BOTTOM);
                             Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
-                            label40Helvetica(numberAmmo,"#ffffff", 0.8  );
-                            gridInfo.add(numberAmmo,j+1,0);
-                            GridPane.setHalignment(numberAmmo,HPos.RIGHT);
-                            GridPane.setValignment(numberAmmo,VPos.BOTTOM);
+                            label40Helvetica(numberAmmo, "#ffffff", 0.8);
+                            gridInfo.add(numberAmmo, j + 1, 0);
+                            GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                            GridPane.setValignment(numberAmmo, VPos.BOTTOM);
                             break;
                         }
                         default:
@@ -456,10 +458,10 @@ public class GameGUI {
 
                 //back button
                 Button backButton = new Button("BACK");
-                gridInfo.add(backButton,1,1);
+                gridInfo.add(backButton, 1, 1);
 
-                GridPane.setHalignment(backButton,HPos.CENTER);
-                GridPane.setValignment(backButton,VPos.CENTER);
+                GridPane.setHalignment(backButton, HPos.CENTER);
+                GridPane.setValignment(backButton, VPos.CENTER);
                 backButton.setOnAction(ev -> {
                     pane.getChildren().remove(gridInfo);
                     pane.getChildren().remove(rectangle);
@@ -478,10 +480,10 @@ public class GameGUI {
 
         //info button myself
         Button infoButton = new Button("INFO");
-        gridButtons.add(infoButton,3,4);
-        GridPane.setHalignment(infoButton,HPos.CENTER);
-        GridPane.setValignment(infoButton,VPos.BOTTOM);
-        infoButton.setOnAction(e ->{
+        gridButtons.add(infoButton, 3, 4);
+        GridPane.setHalignment(infoButton, HPos.CENTER);
+        GridPane.setValignment(infoButton, VPos.BOTTOM);
+        infoButton.setOnAction(e -> {
             GridPane gridInfo = new GridPane();
             Rectangle rectangle = new Rectangle();
             rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
@@ -491,15 +493,15 @@ public class GameGUI {
 
             RowConstraints row = new RowConstraints();
             row.setVgrow(Priority.ALWAYS);
-            double dimension = 100/3;
+            double dimension = 100 / 3;
             row.setPercentHeight(dimension);
             gridInfo.getRowConstraints().add(row);
 
             //weapons
-            int j=0;
+            int j = 0;
 
-            for(String weapon: gui.getYouRepresentation().get(YOU_WEAPON).split("'")){
-                if(!weapon.equals("")) {
+            for (String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")) {
+                if (!weapon.equals("")) {
                     String[] playerWeapon = weapon.split(":");
 
                     String weaponName = playerWeapon[0].toLowerCase().replace(" ", "").concat(".png");
@@ -509,6 +511,343 @@ public class GameGUI {
                 j++;
             }
 
+            for (String powerups : gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
+                String[] powerupPlusColor = powerups.split(":");
+                String realPowerUp = powerupPlusColor[1];
+                switch (powerupPlusColor[0]) {
+                    case "tagback grenade": {
+                        realPowerUp = realPowerUp.concat("TagbackGrenade");
+                        break;
+                    }
+                    case "newton": {
+                        realPowerUp = realPowerUp.concat("Newton");
+                        break;
+                    }
+                    case "teleporter": {
+                        realPowerUp = realPowerUp.concat("Teleporter");
+                        break;
+                    }
+                    case "targeting scope": {
+                        realPowerUp = realPowerUp.concat("TargetingScope");
+                        break;
+                    }
+                    default:
+                }
+                ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
+                gridInfo.add(powerUp, j, 0);
+                j++;
+            }
+
+            //ammos
+            j++;
+            for (String ammo : gui.getYouRepresentation().get(PLAYER_AMMO).split("'")) {
+                String[] ammoQuantity = ammo.split(":");
+                switch (ammoQuantity[0]) {
+                    case "R": {
+                        ImageView redAmmoIV = new ImageView(new Image("/images/game/ammo/redAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
+                        gridInfo.add(redAmmoIV, j, 0);
+                        GridPane.setHalignment(redAmmoIV, HPos.LEFT);
+                        GridPane.setValignment(redAmmoIV, VPos.TOP);
+                        Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
+                        label40Helvetica(numberAmmo, "#ffffff", 0.8);
+                        gridInfo.add(numberAmmo, j + 1, 0);
+                        GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                        GridPane.setValignment(numberAmmo, VPos.TOP);
+                        break;
+                    }
+                    case "Y": {
+                        ImageView yellowAmmoIV = new ImageView(new Image("/images/game/ammo/yellowAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
+                        gridInfo.add(yellowAmmoIV, j, 0);
+                        GridPane.setHalignment(yellowAmmoIV, HPos.LEFT);
+                        GridPane.setValignment(yellowAmmoIV, VPos.CENTER);
+                        Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
+                        label40Helvetica(numberAmmo, "#ffffff", 0.8);
+                        gridInfo.add(numberAmmo, j + 1, 0);
+                        GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                        GridPane.setValignment(numberAmmo, VPos.CENTER);
+                        break;
+                    }
+                    case "B": {
+                        ImageView blueAmmoIV = new ImageView(new Image("/images/game/ammo/blueAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
+                        gridInfo.add(blueAmmoIV, j, 0);
+                        GridPane.setHalignment(blueAmmoIV, HPos.LEFT);
+                        GridPane.setValignment(blueAmmoIV, VPos.BOTTOM);
+                        Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
+                        label40Helvetica(numberAmmo, "#ffffff", 0.8);
+                        gridInfo.add(numberAmmo, j + 1, 0);
+                        GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                        GridPane.setValignment(numberAmmo, VPos.BOTTOM);
+                        break;
+                    }
+                    default:
+                }
+            }
+
+            //back button
+            Button backButton = new Button("BACK");
+            gridInfo.add(backButton, 1, 1);
+
+            GridPane.setHalignment(backButton, HPos.CENTER);
+            GridPane.setValignment(backButton, VPos.CENTER);
+            backButton.setOnAction(ev -> {
+                pane.getChildren().remove(gridInfo);
+                pane.getChildren().remove(rectangle);
+            });
+
+            //grid
+            gridInfo.setHgap(40);
+            gridInfo.setVgap(50);
+            gridInfo.setAlignment(Pos.CENTER);
+
+            pane.getChildren().add(rectangle);
+            pane.getChildren().add(gridInfo);
+        });
+
+
+        //quit button
+        Button quit = new Button("Quit");
+        gridButtons.add(quit, 6, 4);
+        GridPane.setHalignment(quit, HPos.CENTER);
+        GridPane.setValignment(quit, VPos.CENTER);
+        quit.setOnAction(e -> {
+            GridPane quitGrid = new GridPane();
+            ColumnConstraints col1 = new ColumnConstraints();
+            col1.setPercentWidth(20);
+            ColumnConstraints col2 = new ColumnConstraints();
+            col2.setPercentWidth(20);
+            quitGrid.getColumnConstraints().addAll(col1, col2);
+            Rectangle rectangle = new Rectangle();
+            Label text = new Label("Are you sure to quit?");
+            text.setTextFill(Color.web("#ffffff", 0.8));
+            text.setStyle("-fx-font: 60 Helvetica;");
+            text.setEffect(new DropShadow());
+            Button quit1 = new Button("QUIT");
+            Button back = new Button("BACK");
+            rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+            rectangle.setEffect(new BoxBlur());
+            rectangle.widthProperty().bind(pane.widthProperty());
+            rectangle.heightProperty().bind(pane.heightProperty());
+            quitGrid.add(text, 0, 0, 2, 1);
+            quitGrid.add(back, 1, 1);
+            quitGrid.add(quit1, 0, 1);
+            pane.getChildren().add(rectangle);
+            pane.getChildren().add(quitGrid);
+            quitGrid.setHgap(70);
+            quitGrid.setVgap(50);
+            quitGrid.setAlignment(Pos.CENTER);
+            GridPane.setHalignment(text, HPos.CENTER);
+            GridPane.setValignment(text, VPos.CENTER);
+            GridPane.setHalignment(back, HPos.CENTER);
+            GridPane.setValignment(back, VPos.CENTER);
+            GridPane.setHalignment(quit1, HPos.CENTER);
+            GridPane.setValignment(quit1, VPos.CENTER);
+            back.setOnAction(ev -> {
+                pane.getChildren().remove(quitGrid);
+                pane.getChildren().remove(rectangle);
+            });
+            quit1.setOnAction(ev -> {
+                client.send("quit");
+            });
+        });
+
+        if(!endTurn){
+            //Actions
+            Button actions = new Button("Actions");
+            gridButtons.add(actions, 4, 4);
+            GridPane.setHalignment(actions, HPos.CENTER);
+            GridPane.setValignment(actions, VPos.CENTER);
+            actions.setOnAction(event -> {
+                GridPane grid4 = new GridPane();
+                Rectangle rectangle = new Rectangle();
+                Button shoot = new Button("SHOOT");
+                Button run = new Button("RUN");
+                Button grab = new Button("GRAB");
+                Button back = new Button("BACK");
+                rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+                rectangle.setEffect(new BoxBlur());
+                rectangle.widthProperty().bind(pane.widthProperty());
+                rectangle.heightProperty().bind(pane.heightProperty());
+                grid4.add(shoot, 0, 0);
+                grid4.add(run, 1, 0);
+                grid4.add(grab, 2, 0);
+                grid4.add(back, 1, 1);
+                pane.getChildren().add(rectangle);
+                pane.getChildren().add(grid4);
+                grid4.setHgap(70);
+                grid4.setVgap(50);
+                GridPane.setHalignment(back, HPos.CENTER);
+                GridPane.setValignment(back, VPos.CENTER);
+                grid4.setAlignment(Pos.CENTER);
+
+                //back
+                back.setOnAction(e -> {
+                    pane.getChildren().remove(grid4);
+                    pane.getChildren().remove(rectangle);
+                });
+
+                //run
+                run.setOnAction(e -> {
+                    pane.getChildren().remove(grid4);
+                    pane.getChildren().remove(boardGrid);
+                    pane.getChildren().add(boardGrid);
+
+                    GridPane grid5 = new GridPane();
+                    columnConstraint(grid5, N_COLUMN);
+                    rowConstraint(grid5, N_ROW);
+                    storeButtons(grid5, pane);
+
+                    Button backRun = new Button("BACK");
+                    grid5.add(backRun, 4, 3);
+                    GridPane.setHalignment(backRun, HPos.CENTER);
+                    GridPane.setValignment(backRun, VPos.CENTER);
+
+                    EventHandler clickEvent = (EventHandler<MouseEvent>) event1 -> {
+                        int cellX = 1 + (int) (event1.getScreenX() / (pane.getWidth() / N_COLUMN));
+                        int cellY = 1 + (int) (event1.getScreenY() / (pane.getHeight() / N_ROW));
+
+                        System.out.println(cellX);
+                        System.out.println(cellY);
+
+                        if ((cellX < 5) && (cellY < 4)) {
+                            client.send("GMC-RUN-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)));
+                        }
+                    };
+
+                    //Click event
+                    pane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
+
+                    //Back
+                    backRun.setOnAction(ev -> {
+                        pane.getChildren().remove(grid5);
+                        pane.getChildren().remove(rectangle);
+                        buildButtons(stage);
+                        actions.fire();
+                        pane.removeEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
+                    });
+
+                    pane.getChildren().add(grid5);
+                });
+
+                //Grab
+                grab.setOnAction(e -> {
+                    pane.getChildren().remove(grid4);
+                    pane.getChildren().remove(boardGrid);
+                    pane.getChildren().add(boardGrid);
+
+                    GridPane grid5 = new GridPane();
+                    columnConstraint(grid5, N_COLUMN);
+                    rowConstraint(grid5, N_ROW);
+                    storeButtons(grid5, pane);
+
+                    Button backRun = new Button("BACK");
+                    grid5.add(backRun, 4, 3);
+                    GridPane.setHalignment(backRun, HPos.CENTER);
+                    GridPane.setValignment(backRun, VPos.CENTER);
+
+                    final boolean[] cancelClickEvent = new boolean[1];
+                    cancelClickEvent[0] = true;
+
+                    EventHandler clickEvent = (EventHandler<MouseEvent>) event1 -> {
+                        int cellX = 1 + (int) (event1.getScreenX() / (pane.getWidth() / N_COLUMN));
+                        int cellY = 1 + (int) (event1.getScreenY() / (pane.getHeight() / N_ROW));
+
+                        System.out.println(cellX);
+                        System.out.println(cellY);
+                        if ((cellX < 5) && (cellY < 4) && (cancelClickEvent[0])) {
+                            for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
+                                for (ArrayList<String> cell : room) {
+                                    if ((cell.get(CELL_X).equals(Integer.toString(cellX))) && (cell.get(CELL_Y).equals(Integer.toString(cellY)))) {
+                                        if (cell.get(CELL_TYPE).equals("AmmoPoint")) {
+                                            client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)));
+                                        } else {
+                                            cancelClickEvent[0] = false;
+                                            GridPane grid = new GridPane();
+                                            Rectangle rectangle1 = new Rectangle();
+                                            rectangle1.setFill(Color.rgb(0, 0, 0, 0.8));
+                                            rectangle1.setEffect(new BoxBlur());
+                                            rectangle1.widthProperty().bind(pane.widthProperty());
+                                            rectangle1.heightProperty().bind(pane.heightProperty());
+                                            String[] weapon = cell.get(CELL_INSIDE).split("'");
+                                            for (int j = 0; j < NUMBER_OF_WEAPON; j++) {
+                                                if (j < weapon.length) {
+                                                    String weaponName = weapon[j].toLowerCase();
+                                                    weaponName = weaponName.replace(" ", "").concat(".png");
+                                                    ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
+                                                    grid.add(weaponIV, j, 0);
+                                                    int w = j;
+                                                    weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
+                                                        client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)
+                                                                .concat(",").concat(Integer.toString(w))));
+                                                        pane.getChildren().remove(grid);
+                                                        pane.getChildren().remove(rectangle1);
+                                                    });
+                                                } else {
+                                                    grid.add(new ImageView(new Image("/images/game/weapons/weaponBack.png", pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false)), j, 0);
+                                                }
+                                            }
+
+                                            Button backButton = new Button("BACK");
+                                            grid.add(backButton, 1, 1);
+                                            pane.getChildren().add(rectangle1);
+                                            pane.getChildren().add(grid);
+                                            grid.setHgap(40);
+                                            grid.setVgap(50);
+                                            GridPane.setHalignment(backButton, HPos.CENTER);
+                                            GridPane.setValignment(backButton, VPos.CENTER);
+                                            grid.setAlignment(Pos.CENTER);
+                                            backButton.setOnAction(ev -> {
+                                                gui.reShow();
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    };
+
+                    //Click event
+                    pane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
+
+                    //Back
+                    backRun.setOnAction(ev -> {
+                        pane.getChildren().remove(grid5);
+                        pane.getChildren().remove(rectangle);
+                        buildButtons(stage);
+                        pane.removeEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
+                    });
+
+                    pane.getChildren().add(grid5);
+                });
+            });
+        }
+        else{
+
+            //end turn
+            Button endTurnButton = new Button("END TURN");
+            gridButtons.add(endTurnButton, 4, 4);
+            GridPane.setHalignment(endTurnButton, HPos.CENTER);
+            GridPane.setValignment(endTurnButton, VPos.CENTER);
+            endTurnButton.setOnAction(event -> {
+                this.endTurn=false;
+                client.send("END-");
+            });
+        }
+
+        //Use power Up
+        Button powerUps = new Button("Use PowerUps");
+        gridButtons.add(powerUps,5,4);
+        GridPane.setHalignment(powerUps,HPos.CENTER);
+        GridPane.setValignment(powerUps,VPos.CENTER);
+        powerUps.setOnAction(e->{
+            GridPane powerUpGrid = new GridPane();
+            Rectangle rectangle = new Rectangle();
+            rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+            rectangle.setEffect(new BoxBlur());
+            rectangle.widthProperty().bind(pane.widthProperty());
+            rectangle.heightProperty().bind(pane.heightProperty());
+
+            int j=0;
             for(String powerups: gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
                 String[] powerupPlusColor = powerups.split(":");
                 String realPowerUp = powerupPlusColor[1];
@@ -532,299 +871,24 @@ public class GameGUI {
                     default:
                 }
                 ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
-                gridInfo.add(powerUp, j , 0);
+                powerUpGrid.add(powerUp, j , 0);
                 j++;
             }
 
-            //ammos
-            j++;
-            for(String ammo: gui.getYouRepresentation().get(PLAYER_AMMO).split("'")) {
-                String[] ammoQuantity = ammo.split(":");
-                switch (ammoQuantity[0]) {
-                    case "R": {
-                        ImageView redAmmoIV = new ImageView(new Image("/images/game/ammo/redAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false));
-                        gridInfo.add(redAmmoIV,j,0);
-                        GridPane.setHalignment(redAmmoIV,HPos.LEFT);
-                        GridPane.setValignment(redAmmoIV,VPos.TOP);
-                        Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
-                        label40Helvetica(numberAmmo,"#ffffff", 0.8  );
-                        gridInfo.add(numberAmmo,j+1,0);
-                        GridPane.setHalignment(numberAmmo,HPos.RIGHT);
-                        GridPane.setValignment(numberAmmo,VPos.TOP);
-                        break;
-                    }
-                    case "Y": {
-                        ImageView yellowAmmoIV = new ImageView(new Image("/images/game/ammo/yellowAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false));
-                        gridInfo.add(yellowAmmoIV,j,0);
-                        GridPane.setHalignment(yellowAmmoIV,HPos.LEFT);
-                        GridPane.setValignment(yellowAmmoIV,VPos.CENTER);
-                        Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
-                        label40Helvetica(numberAmmo,"#ffffff", 0.8  );
-                        gridInfo.add(numberAmmo,j+1,0);
-                        GridPane.setHalignment(numberAmmo,HPos.RIGHT);
-                        GridPane.setValignment(numberAmmo,VPos.CENTER);
-                        break;
-                    }
-                    case "B": {
-                        ImageView blueAmmoIV = new ImageView(new Image("/images/game/ammo/blueAmmo.png",pane.getWidth()/7/3,pane.getHeight()/5/3,false,false));
-                        gridInfo.add(blueAmmoIV,j,0);
-                        GridPane.setHalignment(blueAmmoIV,HPos.LEFT);
-                        GridPane.setValignment(blueAmmoIV,VPos.BOTTOM);
-                        Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
-                        label40Helvetica(numberAmmo,"#ffffff", 0.8  );
-                        gridInfo.add(numberAmmo,j+1,0);
-                        GridPane.setHalignment(numberAmmo,HPos.RIGHT);
-                        GridPane.setValignment(numberAmmo,VPos.BOTTOM);
-                        break;
-                    }
-                    default:
-                }
-            }
-
-            //back button
             Button backButton = new Button("BACK");
-            gridInfo.add(backButton,1,1);
-
+            powerUpGrid.add(backButton,1,1);
+            pane.getChildren().add(rectangle);
+            pane.getChildren().add(powerUpGrid);
+            powerUpGrid.setHgap(40);
+            powerUpGrid.setVgap(50);
             GridPane.setHalignment(backButton,HPos.CENTER);
             GridPane.setValignment(backButton,VPos.CENTER);
+            powerUpGrid.setAlignment(Pos.CENTER);
             backButton.setOnAction(ev -> {
-                pane.getChildren().remove(gridInfo);
+                pane.getChildren().remove(powerUpGrid);
                 pane.getChildren().remove(rectangle);
             });
-
-            //grid
-            gridInfo.setHgap(40);
-            gridInfo.setVgap(50);
-            gridInfo.setAlignment(Pos.CENTER);
-
-            pane.getChildren().add(rectangle);
-            pane.getChildren().add(gridInfo);
         });
-
-
-        //quit button
-        Button quit = new Button("Quit");
-        gridButtons.add(quit,6,4);
-        GridPane.setHalignment(quit,HPos.CENTER);
-        GridPane.setValignment(quit,VPos.CENTER);
-        quit.setOnAction(e ->{
-            GridPane quitGrid = new GridPane();
-            ColumnConstraints col1 = new ColumnConstraints();
-            col1.setPercentWidth(20);
-            ColumnConstraints col2 = new ColumnConstraints();
-            col2.setPercentWidth(20);
-            quitGrid.getColumnConstraints().addAll(col1,col2);
-            Rectangle rectangle = new Rectangle();
-            Label text = new Label("Are you sure to quit?");
-            text.setTextFill(Color.web("#ffffff", 0.8));
-            text.setStyle("-fx-font: 60 Helvetica;");
-            text.setEffect(new DropShadow());
-            Button quit1 = new Button("QUIT");
-            Button back = new Button("BACK");
-            rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-            rectangle.setEffect(new BoxBlur());
-            rectangle.widthProperty().bind(pane.widthProperty());
-            rectangle.heightProperty().bind(pane.heightProperty());
-            quitGrid.add(text,0,0,2,1);
-            quitGrid.add(back,1,1);
-            quitGrid.add(quit1,0,1);
-            pane.getChildren().add(rectangle);
-            pane.getChildren().add(quitGrid);
-            quitGrid.setHgap(70);
-            quitGrid.setVgap(50);
-            quitGrid.setAlignment(Pos.CENTER);
-            GridPane.setHalignment(text,HPos.CENTER);
-            GridPane.setValignment(text,VPos.CENTER);
-            GridPane.setHalignment(back,HPos.CENTER);
-            GridPane.setValignment(back,VPos.CENTER);
-            GridPane.setHalignment(quit1,HPos.CENTER);
-            GridPane.setValignment(quit1,VPos.CENTER);
-            back.setOnAction(ev -> {
-                pane.getChildren().remove(quitGrid);
-                pane.getChildren().remove(rectangle);
-            });
-            quit1.setOnAction(ev -> {
-                client.send("quit");
-            });
-        });
-
-        //Actions
-        Button actions = new Button("Actions");
-        gridButtons.add(actions,4,4);
-        GridPane.setHalignment(actions,HPos.CENTER);
-        GridPane.setValignment(actions,VPos.CENTER);
-        actions.setOnAction(event ->{
-            GridPane grid4 = new GridPane();
-            Rectangle rectangle = new Rectangle();
-            Button shoot = new Button("SHOOT");
-            Button run = new Button("RUN");
-            Button grab = new Button("GRAB");
-            Button back = new Button("BACK");
-            rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-            rectangle.setEffect(new BoxBlur());
-            rectangle.widthProperty().bind(pane.widthProperty());
-            rectangle.heightProperty().bind(pane.heightProperty());
-            grid4.add(shoot,0,0);
-            grid4.add(run,1,0);
-            grid4.add(grab,2,0);
-            grid4.add(back,1,1);
-            pane.getChildren().add(rectangle);
-            pane.getChildren().add(grid4);
-            grid4.setHgap(70);
-            grid4.setVgap(50);
-            GridPane.setHalignment(back,HPos.CENTER);
-            GridPane.setValignment(back,VPos.CENTER);
-            grid4.setAlignment(Pos.CENTER);
-
-            //back
-            back.setOnAction(e -> {
-                pane.getChildren().remove(grid4);
-                pane.getChildren().remove(rectangle);
-            });
-
-            //run
-            run.setOnAction(e ->{
-                pane.getChildren().remove(grid4);
-                pane.getChildren().remove(boardGrid);
-                pane.getChildren().add(boardGrid);
-
-                GridPane grid5 = new GridPane();
-                columnConstraint(grid5,N_COLUMN);
-                rowConstraint(grid5,N_ROW);
-                storeButtons(grid5, pane);
-
-                Button backRun = new Button("BACK");
-                grid5.add(backRun,4,3);
-                GridPane.setHalignment(backRun,HPos.CENTER);
-                GridPane.setValignment(backRun,VPos.CENTER);
-
-                EventHandler clickEvent = (EventHandler<MouseEvent>) event1 -> {
-                    int cellX = 1 + (int)(event1.getScreenX() / (pane.getWidth() / N_COLUMN));
-                    int cellY = 1 + (int)(event1.getScreenY() / (pane.getHeight() / N_ROW));
-
-                    System.out.println(cellX);
-                    System.out.println(cellY);
-
-                    if((cellX<5)&&(cellY<4)){
-                        client.send("GMC-RUN-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)));
-                    }
-                };
-
-                //Click event
-                pane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
-
-                //Back
-                backRun.setOnAction(ev ->{
-                    pane.getChildren().remove(grid5);
-                    pane.getChildren().remove(rectangle);
-                    buildButtons(stage);
-                    actions.fire();
-                    pane.removeEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
-                });
-
-                pane.getChildren().add(grid5);
-            });
-
-            //Grab
-            grab.setOnAction(e -> {
-                pane.getChildren().remove(grid4);
-                pane.getChildren().remove(boardGrid);
-                pane.getChildren().add(boardGrid);
-
-                GridPane grid5 = new GridPane();
-                columnConstraint(grid5,N_COLUMN);
-                rowConstraint(grid5,N_ROW);
-                storeButtons(grid5, pane);
-
-                Button backRun = new Button("BACK");
-                grid5.add(backRun,4,3);
-                GridPane.setHalignment(backRun,HPos.CENTER);
-                GridPane.setValignment(backRun,VPos.CENTER);
-
-                final boolean[] cancelClickEvent = new boolean[1];
-                cancelClickEvent[0] = true;
-
-                EventHandler clickEvent = (EventHandler<MouseEvent>) event1 -> {
-                    int cellX = 1+ (int)(event1.getScreenX() / (pane.getWidth() / N_COLUMN));
-                    int cellY = 1+ (int)(event1.getScreenY() / (pane.getHeight() / N_ROW));
-
-                    System.out.println(cellX);
-                    System.out.println(cellY);
-                    if((cellX<5)&&(cellY<4)&&(cancelClickEvent[0])) {
-                        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
-                            for (ArrayList<String> cell : room) {
-                                if ((cell.get(CELL_X).equals(Integer.toString(cellX))) && (cell.get(CELL_Y).equals(Integer.toString(cellY)))) {
-                                    if (cell.get(CELL_TYPE).equals("AmmoPoint")) {
-                                        client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)));
-                                    }
-                                    else{
-                                        cancelClickEvent[0] = false;
-                                        GridPane grid = new GridPane();
-                                        Rectangle rectangle1 = new Rectangle();
-                                        rectangle1.setFill(Color.rgb(0, 0, 0, 0.8));
-                                        rectangle1.setEffect(new BoxBlur());
-                                        rectangle1.widthProperty().bind(pane.widthProperty());
-                                        rectangle1.heightProperty().bind(pane.heightProperty());
-                                        String[] weapon = cell.get(CELL_INSIDE).split("'");
-                                        for(int j=0; j<NUMBER_OF_WEAPON; j++){
-                                            if(j<weapon.length){
-                                                String weaponName = weapon[j].toLowerCase();
-                                                weaponName = weaponName.replace(" ","").concat(".png");
-                                                ImageView weaponIV= new ImageView(new Image("/images/game/weapons/".concat(weaponName),pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false));
-                                                grid.add(weaponIV,j,0);
-                                                int w = j;
-                                                weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
-                                                    client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)
-                                                            .concat(",").concat(Integer.toString(w))));
-                                                    pane.getChildren().remove(grid);
-                                                    pane.getChildren().remove(rectangle1);
-                                                });
-                                            }
-                                            else{
-                                                grid.add(new ImageView(new Image("/images/game/weapons/weaponBack.png",pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false)),j,0);
-                                            }
-                                        }
-
-                                        Button backButton = new Button("BACK");
-                                        grid.add(backButton,1,1);
-                                        pane.getChildren().add(rectangle1);
-                                        pane.getChildren().add(grid);
-                                        grid.setHgap(40);
-                                        grid.setVgap(50);
-                                        GridPane.setHalignment(backButton,HPos.CENTER);
-                                        GridPane.setValignment(backButton,VPos.CENTER);
-                                        grid.setAlignment(Pos.CENTER);
-                                        backButton.setOnAction(ev -> {
-                                            gui.reShow();
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                };
-
-                //Click event
-                pane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
-
-                //Back
-                backRun.setOnAction(ev ->{
-                    pane.getChildren().remove(grid5);
-                    pane.getChildren().remove(rectangle);
-                    buildButtons(stage);
-                    pane.removeEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
-                });
-
-                pane.getChildren().add(grid5);
-            });
-        });
-
-        //Use power Up
-        Button powerUps = new Button("Use PowerUps");
-        gridButtons.add(powerUps,5,4);
-        GridPane.setHalignment(powerUps,HPos.CENTER);
-        GridPane.setValignment(powerUps,VPos.CENTER);
 
 
 
@@ -881,9 +945,6 @@ public class GameGUI {
             grid2.add(powerUp, i, 1);
             int pU = i;
             powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
-                //TODO IMPORTANTE, da controllare le volte che lo spawn non funziona bene
-                System.out.println(pU);
-
                 client.send("SPW-".concat(Integer.toString(pU)));
                 pane.getChildren().remove(pane2);
             });
@@ -898,24 +959,120 @@ public class GameGUI {
 
     }
 
-    private void columnConstraint(GridPane grid, double nColumn){
-        for (int j = 0 ; j < nColumn; j++) {
-            ColumnConstraints col = new ColumnConstraints();
-            col.setHgrow(Priority.ALWAYS);
-            double dimension = 100/nColumn;
-            col.setPercentWidth(dimension);
-            grid.getColumnConstraints().add(col);
-        }
-    }
+    protected void reload(Stage stage,String msg){
+        StackPane pane = (StackPane)stage.getScene().getRoot();
+        StackPane pane2 = new StackPane();
 
-    private void rowConstraint(GridPane grid, double nRow){
-        for (int i = 0 ; i < nRow; i++) {
-            RowConstraints row = new RowConstraints();
-            row.setVgrow(Priority.ALWAYS);
-            double dimension = 100/nRow;
-            row.setPercentHeight(dimension);
-            grid.getRowConstraints().add(row);
+        GridPane reloadGrid = new GridPane();
+        RowConstraints row1 = new RowConstraints();
+        row1.setVgrow(Priority.ALWAYS);
+        double dimension1 = 100 / 10;
+        row1.setPercentHeight(dimension1);
+        reloadGrid.getRowConstraints().add(row1);
+
+        RowConstraints row2 = new RowConstraints();
+        row2.setVgrow(Priority.ALWAYS);
+        double dimension2 = 100 / NUMBER_OF_WEAPON;
+        row2.setPercentHeight(dimension2);
+        reloadGrid.getRowConstraints().add(row2);
+
+        Rectangle rectangle = new Rectangle();
+        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+        rectangle.setEffect(new BoxBlur());
+        rectangle.widthProperty().bind(pane.widthProperty());
+        rectangle.heightProperty().bind(pane.heightProperty());
+        Button ignore = new Button("IGNORE");
+        Button done = new Button("DONE ");
+
+        int i;
+        String toSend = "RLD-";
+        String[] weapons = msg.split("'");
+        boolean[] consumed = new boolean[weapons.length];
+        for(i=0; i< weapons.length; i++){
+            consumed[i]=false;
+            String weaponName = weapons[i].toLowerCase();
+            weaponName = weaponName.replace(" ","").concat(".png");
+            ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName),pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false));
+            reloadGrid.add(weaponIV,i,1);
+            int w = i;
+            weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e->{
+                if(!consumed[w]){
+                    toSend.concat(Integer.toString(w)).concat(",");
+                    consumed[w]=true;
+                    weaponIV.setFitWidth(pane.getWidth()/(N_COLUMN*2));
+                    weaponIV.setFitHeight(pane.getHeight()/(NUMBER_OF_WEAPON*2));
+                }
+            });
         }
+
+        for (String ammo : gui.getYouRepresentation().get(PLAYER_AMMO).split("'")) {
+            String[] ammoQuantity = ammo.split(":");
+            switch (ammoQuantity[0]) {
+                case "R": {
+                    ImageView redAmmoIV = new ImageView(new Image("/images/game/ammo/redAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
+                    reloadGrid.add(redAmmoIV, i, 1);
+                    GridPane.setHalignment(redAmmoIV, HPos.LEFT);
+                    GridPane.setValignment(redAmmoIV, VPos.TOP);
+                    Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
+                    label40Helvetica(numberAmmo, "#ffffff", 0.8);
+                    reloadGrid.add(numberAmmo, i + 1, 1);
+                    GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                    GridPane.setValignment(numberAmmo, VPos.TOP);
+                    break;
+                }
+                case "Y": {
+                    ImageView yellowAmmoIV = new ImageView(new Image("/images/game/ammo/yellowAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
+                    reloadGrid.add(yellowAmmoIV, i, 1);
+                    GridPane.setHalignment(yellowAmmoIV, HPos.LEFT);
+                    GridPane.setValignment(yellowAmmoIV, VPos.CENTER);
+                    Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
+                    label40Helvetica(numberAmmo, "#ffffff", 0.8);
+                    reloadGrid.add(numberAmmo, i + 1, 1);
+                    GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                    GridPane.setValignment(numberAmmo, VPos.CENTER);
+                    break;
+                }
+                case "B": {
+                    ImageView blueAmmoIV = new ImageView(new Image("/images/game/ammo/blueAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
+                    reloadGrid.add(blueAmmoIV, i, 1);
+                    GridPane.setHalignment(blueAmmoIV, HPos.LEFT);
+                    GridPane.setValignment(blueAmmoIV, VPos.BOTTOM);
+                    Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
+                    label40Helvetica(numberAmmo, "#ffffff", 0.8);
+                    reloadGrid.add(numberAmmo, i + 1, 1);
+                    GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                    GridPane.setValignment(numberAmmo, VPos.BOTTOM);
+                    break;
+                }
+                default:
+            }
+        }
+
+        reloadGrid.add(done,0,2);
+        done.setOnAction(e->{
+            client.send(toSend);
+        });
+        GridPane.setHalignment(done,HPos.CENTER);
+        GridPane.setValignment(done,VPos.CENTER);
+
+        reloadGrid.add(ignore,1,2);
+        ignore.setOnAction(e->{
+            client.send("RLD-ignore");
+        });
+        GridPane.setHalignment(ignore,HPos.CENTER);
+        GridPane.setValignment(ignore,VPos.CENTER);
+
+        Label infoText = new Label("You can reload more than one Weapon at time");
+        label40Helvetica(infoText, "#ffffff", 0.8);
+        reloadGrid.add(infoText, 0, 0,weapons.length+2,1);
+        GridPane.setHalignment(infoText,HPos.CENTER);
+        GridPane.setValignment(infoText,VPos.CENTER);
+
+        reloadGrid.setHgap(50);
+        reloadGrid.setVgap(30);
+        pane2.getChildren().add(rectangle);
+        pane2.getChildren().add(reloadGrid);
+        pane.getChildren().add(pane2);
     }
 
     private void storeButtons(GridPane gridButtons, StackPane pane){
@@ -963,6 +1120,26 @@ public class GameGUI {
                     });
                 }
             }
+        }
+    }
+
+    private void columnConstraint(GridPane grid, double nColumn){
+        for (int j = 0 ; j < nColumn; j++) {
+            ColumnConstraints col = new ColumnConstraints();
+            col.setHgrow(Priority.ALWAYS);
+            double dimension = 100/nColumn;
+            col.setPercentWidth(dimension);
+            grid.getColumnConstraints().add(col);
+        }
+    }
+
+    private void rowConstraint(GridPane grid, double nRow){
+        for (int i = 0 ; i < nRow; i++) {
+            RowConstraints row = new RowConstraints();
+            row.setVgrow(Priority.ALWAYS);
+            double dimension = 100/nRow;
+            row.setPercentHeight(dimension);
+            grid.getRowConstraints().add(row);
         }
     }
 
