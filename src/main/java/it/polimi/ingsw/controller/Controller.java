@@ -75,7 +75,7 @@ public class Controller {
                     if (msg.startsWith("SET-")) {
                         understandSettingMessages(msg.substring(ETIQUETTE), clientHandler);
                     } else {
-                        sendString("Wrong Etiquette", clientHandler);
+                        sendString("Wrong Etiquette, this is LOGIN", clientHandler);
                     }
                     break;
                 }
@@ -84,6 +84,9 @@ public class Controller {
                     if(msg.startsWith("GMC-")){
                         understandGameCommand(clientHandler, msg.substring(ETIQUETTE));
                         lifeCycle(clientHandler);
+                    }
+                    else {
+                        sendString("Wrong Etiquette, this is GAME", clientHandler);
                     }
                     break;
                 }
@@ -97,12 +100,18 @@ public class Controller {
                         }
 
                     }
+                    else {
+                        sendString("Wrong Etiquette, this is SPAWN", clientHandler);
+                    }
                     break;
                 }
                 case LAY_WEAPON: {
                     if (msg.startsWith("WPN-")){
                         layWeapon(Integer.parseInt(msg.substring(ETIQUETTE)), clientHandler);
                         updateBackground();
+                    }
+                    else {
+                        sendString("Wrong Etiquette, this is LAY WEAPON", clientHandler);
                     }
                     break;
                 }
@@ -111,12 +120,16 @@ public class Controller {
                         powerUpAction(clientHandler, msg.substring(ETIQUETTE));
                         updateBackground();
                     }
-
-                    if(msg.startsWith("END-")){
-                        reload(clientHandler);
-                        respawn();
-                        match.getTurn().endTurn();
-                        //TODO
+                    else {
+                        if (msg.startsWith("END-")) {
+                            reload(clientHandler);
+                            respawn();
+                            match.getTurn().endTurn();
+                            //TODO
+                        }
+                        else {
+                            sendString("Wrong Etiquette, this is END", clientHandler);
+                        }
                     }
                     break;
                 }
