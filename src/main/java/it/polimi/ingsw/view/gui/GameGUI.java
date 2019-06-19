@@ -813,7 +813,6 @@ public class GameGUI {
                     pane.getChildren().remove(grid5);
                     pane.getChildren().remove(rectangle);
                     buildButtons(stage);
-                    actions.fire();
                     pane.removeEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
                 });
 
