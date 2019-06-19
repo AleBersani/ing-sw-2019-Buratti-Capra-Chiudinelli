@@ -66,8 +66,8 @@ public class Client extends Thread implements Closeable {
     }
 
     public synchronized void send(String message) {
-        System.out.println("+++++++++".concat(message));
         out.println(message);
+        System.out.println("+++++++++".concat(message));
     }
 
     public void close() throws IOException {
