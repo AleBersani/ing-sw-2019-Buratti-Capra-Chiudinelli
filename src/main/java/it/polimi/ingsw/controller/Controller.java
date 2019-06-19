@@ -91,7 +91,7 @@ public class Controller {
                     if (msg.startsWith("SPW-")) {
                         try {
                             spawn(clientHandler, playerFromNickname(clientHandler.getName()), Integer.parseInt(msg.substring(ETIQUETTE)));
-                            getNicknameList().get(clientHandler.getName()).nextState();
+                            getNicknameList().get(clientHandler.getName()).setState(ClientInfo.State.GAME);
                         } catch (NotFoundException e) {
                             sendString("error", clientHandler);
                         }
@@ -145,7 +145,7 @@ public class Controller {
             Weapon weapon= player.getWeapons().get(weaponPos);
             player.getWeapons().remove(weapon);
             ((SpawnPoint)player.getPosition()).getWeapons().add(weapon);
-            clientInfoFromClientHandeler(clientHandler).nextState();
+            clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
         }
@@ -264,7 +264,7 @@ public class Controller {
             for (ClientInfo clientInfo: getNicknameList().values()){
                 if(clientInfo.clientHandler.getName().equals(player.getNickname())){
                     clientInfo.clientHandler.setYourTurn(true);
-                    clientInfo.nextState();
+                    clientInfo.setState(ClientInfo.State.GAME);
                     try {
                         player.draw();
                     } catch (MaxHandSizeException e) {
@@ -306,7 +306,7 @@ public class Controller {
                         }
                         else{
                             sendString("Now you are in the waiting room", clientHandler);
-                            getNicknameList().get(command).nextState();
+                            getNicknameList().get(command).setState(ClientInfo.State.WAIT);
                             for(ClientInfo clientInfo: getNicknameList().values()){
                                 if(clientInfo.state.equals(ClientInfo.State.WAIT)){
                                     this.waitingRoom(clientInfo.clientHandler);
@@ -377,7 +377,7 @@ public class Controller {
             case "Y": {
                 frenzyEn = true;
                 sendString("You enabled frenzy",clientHandler);
-                getNicknameList().get(clientHandler.getName()).nextState();
+                getNicknameList().get(clientHandler.getName()).setState(ClientInfo.State.WAIT);
                 sendString("Now you are in the waiting room", clientHandler);
                 this.waitingRoom(clientHandler);
                 break;
@@ -385,7 +385,7 @@ public class Controller {
             case "N": {
                 frenzyEn = false;
                 sendString("You disabled frenzy", clientHandler);
-                getNicknameList().get(clientHandler.getName()).nextState();
+                getNicknameList().get(clientHandler.getName()).setState(ClientInfo.State.WAIT);
                 sendString("Now you are in the waiting room", clientHandler);
                 this.waitingRoom(clientHandler);
                 break;
@@ -444,16 +444,16 @@ public class Controller {
         }
         for(ClientInfo clientInfo: getNicknameList().values()){
             sendString("Match started",clientInfo.clientHandler);
-            clientInfo.nextState();
+            clientInfo.setState(ClientInfo.State.GAME);
             clientInfo.clientHandler.setYourTurn(false);
 
         }
         updateBackground();
-        for (ClientInfo clientInfo: getNicknameList().values()){
-            if(match.getTurn().getCurrent().getNickname().equals(clientInfo.clientHandler.getName())){
+        for(ClientInfo clientInfo: getNicknameList().values()) {
+            if (match.getTurn().getCurrent().getNickname().equals(clientInfo.clientHandler.getName())) {
                 clientInfo.clientHandler.setYourTurn(true);
                 clientInfo.setState(ClientInfo.State.SPAWN);
-                startingSpawn(clientInfo.clientHandler,match.getTurn().getCurrent());
+                startingSpawn(clientInfo.clientHandler, match.getTurn().getCurrent());
             }
         }
 

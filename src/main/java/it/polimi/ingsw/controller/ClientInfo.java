@@ -20,31 +20,6 @@ public class ClientInfo {
         LOGIN, WAIT, GAME, SPAWN, LAY_WEAPON, END
     }
 
-    void nextState(){
-        switch (this.state){
-            case LOGIN:{
-                this.state = State.WAIT;
-                break;
-            }
-            case WAIT:{
-                this.state = State.GAME;
-                break;
-            }
-            case SPAWN:{
-                this.state = State.GAME;
-                break;
-            }
-            case LAY_WEAPON:{
-                this.state = State.GAME;
-                break;
-            }
-            case END:{
-                this.state = State.GAME;
-                break;
-            }
-
-        }
-    }
 
     void setState(State state){
         this.state=state;
