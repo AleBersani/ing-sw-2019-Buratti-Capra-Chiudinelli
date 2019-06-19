@@ -17,7 +17,7 @@ public class ClientInfo {
     }
 
     protected enum State{
-        LOGIN, WAIT, GAME, SPAWN, LAY_WEAPON
+        LOGIN, WAIT, GAME, SPAWN, LAY_WEAPON, END
     }
 
     void nextState(){
@@ -30,15 +30,15 @@ public class ClientInfo {
                 this.state = State.GAME;
                 break;
             }
-            case GAME:{
-                this.state = State.SPAWN;
-                break;
-            }
             case SPAWN:{
                 this.state = State.GAME;
                 break;
             }
             case LAY_WEAPON:{
+                this.state = State.GAME;
+                break;
+            }
+            case END:{
                 this.state = State.GAME;
                 break;
             }

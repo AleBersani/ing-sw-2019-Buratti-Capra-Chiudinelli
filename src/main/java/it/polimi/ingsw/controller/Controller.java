@@ -80,14 +80,10 @@ public class Controller {
                     break;
                 }
                 case GAME: {
-                    if(msg.startsWith("END-")){
-                        respawn();
-                        match.getTurn().endTurn();
-                        //TODO
-                    }
 
                     if(msg.startsWith("GMC-")){
                         understandGameCommand(clientHandler, msg.substring(ETIQUETTE));
+                        lifeCycle(clientHandler);
                     }
                     break;
                 }
@@ -110,7 +106,36 @@ public class Controller {
                     }
                     break;
                 }
+                case END: {
+                    if(msg.startsWith("GMC-UPU-")){
+                        powerUpAction(clientHandler, msg.substring(ETIQUETTE));
+                        updateBackground();
+                    }
+
+                    if(msg.startsWith("END-")){
+                        reload(clientHandler);
+                        respawn();
+                        match.getTurn().endTurn();
+                        //TODO
+                    }
+                    break;
+                }
             }
+        }
+    }
+
+    private void reload(ClientHandler clientHandler) {
+        //TODO completare
+        try {
+            String toLoad="";
+            for (Weapon weapon : playerFromNickname(clientHandler.getName()).getWeapons()){
+                if(!weapon.isLoad()){
+                    toLoad=toLoad.concat(weapon.getName());
+                }
+                sendString("Reload:"+ toLoad, clientHandler);
+            }
+        } catch (NotFoundException e) {
+            sendString("error", clientHandler);
         }
     }
 
@@ -427,7 +452,7 @@ public class Controller {
         for (ClientInfo clientInfo: getNicknameList().values()){
             if(match.getTurn().getCurrent().getNickname().equals(clientInfo.clientHandler.getName())){
                 clientInfo.clientHandler.setYourTurn(true);
-                clientInfo.nextState();
+                clientInfo.setState(ClientInfo.State.SPAWN);
                 startingSpawn(clientInfo.clientHandler,match.getTurn().getCurrent());
             }
         }
@@ -455,6 +480,9 @@ public class Controller {
         }
         else {
             sendString("Use a powerUp or end turn", actual);
+            for (ClientInfo clientInfo: getNicknameList().values()){
+                clientInfo.setState(ClientInfo.State.END);
+            }
         }
 
     }
