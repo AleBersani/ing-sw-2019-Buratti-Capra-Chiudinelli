@@ -500,7 +500,7 @@ public class Player {
      * @return 1 if the weapons is red, 0 otherwise
      */
     private int isRed(Weapon weapon) {
-        if (weapon.getColor().equals("Red"))
+        if (weapon.getColor().equals("red"))
             return 1;
         return 0;
     }
@@ -511,7 +511,7 @@ public class Player {
      * @return 1 if the weapons is blue, 0 otherwise
      */
     private int isBlue(Weapon weapon) {
-        if (weapon.getColor().equals("Blue"))
+        if (weapon.getColor().equals("blue"))
             return 1;
         return 0;
     }
@@ -522,7 +522,7 @@ public class Player {
      * @return 1 if the weapons is yellow, 0 otherwise
      */
     private int isYellow(Weapon weapon) {
-        if (weapon.getColor().equals("Yellow"))
+        if (weapon.getColor().equals("yellow"))
             return 1;
         return 0;
     }
