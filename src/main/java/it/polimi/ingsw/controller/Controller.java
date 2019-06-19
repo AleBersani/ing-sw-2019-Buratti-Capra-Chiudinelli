@@ -168,7 +168,6 @@ public class Controller {
 
     private void grabbingAction(ClientHandler clientHandler, String msg){
         try {
-            //TODO pagare con PU
             String[] stringo =msg.substring(ETIQUETTE).split(",");
             playerFromNickname(clientHandler.getName()).grab(match.getBoard().find(Integer.parseInt(stringo[0]),
                     Integer.parseInt(stringo[1])));
