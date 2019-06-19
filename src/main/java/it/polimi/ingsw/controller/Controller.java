@@ -143,10 +143,10 @@ public class Controller {
             String toLoad="";
             for (Weapon weapon : playerFromNickname(clientHandler.getName()).getWeapons()){
                 if(!weapon.isLoad()){
-                    toLoad=toLoad.concat(weapon.getName());
+                    toLoad=toLoad.concat(weapon.getName()).concat("'");
                 }
-                sendString("Reload:"+ toLoad, clientHandler);
             }
+            sendString("RLD-"+ toLoad, clientHandler);
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
         }
