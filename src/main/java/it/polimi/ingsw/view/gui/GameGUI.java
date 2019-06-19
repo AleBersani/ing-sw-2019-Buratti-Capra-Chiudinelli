@@ -741,13 +741,16 @@ public class GameGUI {
                 GridPane.setHalignment(backRun,HPos.CENTER);
                 GridPane.setValignment(backRun,VPos.CENTER);
 
+                final boolean[] cancelClickEvent = new boolean[1];
+                cancelClickEvent[0] = true;
+
                 EventHandler clickEvent = (EventHandler<MouseEvent>) event1 -> {
                     int cellX = 1+ (int)(event1.getScreenX() / (pane.getWidth() / N_COLUMN));
                     int cellY = 1+ (int)(event1.getScreenY() / (pane.getHeight() / N_ROW));
 
                     System.out.println(cellX);
                     System.out.println(cellY);
-                    if((cellX<5)&&(cellY<4)) {
+                    if((cellX<5)&&(cellY<4)&&(cancelClickEvent[0])) {
                         for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
                             for (ArrayList<String> cell : room) {
                                 if ((cell.get(CELL_X).equals(Integer.toString(cellX))) && (cell.get(CELL_Y).equals(Integer.toString(cellY)))) {
@@ -755,6 +758,7 @@ public class GameGUI {
                                         client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)));
                                     }
                                     else{
+                                        cancelClickEvent[0] = false;
                                         GridPane grid = new GridPane();
                                         Rectangle rectangle1 = new Rectangle();
                                         rectangle1.setFill(Color.rgb(0, 0, 0, 0.8));
@@ -791,13 +795,7 @@ public class GameGUI {
                                         GridPane.setValignment(backButton,VPos.CENTER);
                                         grid.setAlignment(Pos.CENTER);
                                         backButton.setOnAction(ev -> {
-                                            pane.getChildren().remove(grid);
-                                            pane.getChildren().remove(rectangle1);
-                                            pane.getChildren().remove(grid5);
-                                            pane.getChildren().remove(rectangle);
-                                            pane.getChildren().add(boardGrid);
-                                            buildButtons(stage);
-                                            actions.fire();
+                                            gui.reShow();
                                         });
                                     }
                                 }

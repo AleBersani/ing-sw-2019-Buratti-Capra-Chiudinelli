@@ -92,6 +92,16 @@ public class GUI extends Application implements ViewInterface {
         stage.show();
     }
 
+    protected void reShow(){
+        clearPane();
+        this.gameGUI.backGround(stage);
+        this.gameGUI.buildBoard(stage);
+        this.gameGUI.buildPlayers(stage);
+        this.gameGUI.buildYou(stage);
+        this.gameGUI.buildKillShotTrack(stage);
+        this.gameGUI.buildButtons(stage);
+    }
+
     private void clearPane(){
         StackPane stackPane = new StackPane();
         stage.getScene().setRoot(stackPane);
@@ -129,12 +139,7 @@ public class GUI extends Application implements ViewInterface {
                 break;
             }
             case GAME: {
-                this.gameGUI.backGround(stage);
-                this.gameGUI.buildBoard(stage);
-                this.gameGUI.buildPlayers(stage);
-                this.gameGUI.buildYou(stage);
-                this.gameGUI.buildKillShotTrack(stage);
-                this.gameGUI.buildButtons(stage);
+                reShow();
                 break;
             }
         }
