@@ -96,7 +96,7 @@ public class Match {
      * This method starts the turn
      */
     public void startTurn() {
-        this.turn.reset(this.frenzyEn, players.get(i));
+        this.turn.reset(this.frenzyEn, players.get(i));//TODO cambiare frenzy
         i++;
     }
 

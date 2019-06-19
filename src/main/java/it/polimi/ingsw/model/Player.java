@@ -382,11 +382,9 @@ public class Player {
      * @param powerUp This parameter is the selected power up that the player wants to discard
      */
     public void discard(PowerUp powerUp) {
-        for (int i = 0; i < this.powerUps.size(); i++)
-            if (this.powerUps.contains(powerUp)) {
-                this.powerUps.remove(i);
-                return;
-            }
+        if (this.powerUps.contains(powerUp)) {
+            this.powerUps.remove(powerUp);
+        }
     }
 
     /**
