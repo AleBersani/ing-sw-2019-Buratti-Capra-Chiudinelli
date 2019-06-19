@@ -492,10 +492,13 @@ public class Controller {
             sendString("Insert a command", actual);
         }
         else {
-            sendString("Use a powerUp or end turn", actual);
-            for (ClientInfo clientInfo: getNicknameList().values()){
-                clientInfo.setState(ClientInfo.State.END);
+            sendString("END-Use a powerUp or end turn", actual);
+            try {
+                clientInfoFromClientHandeler(actual).setState(ClientInfo.State.END);
+            } catch (NotFoundException e) {
+                sendString("error", actual);
             }
+
         }
 
     }
