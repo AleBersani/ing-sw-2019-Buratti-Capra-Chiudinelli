@@ -458,8 +458,7 @@ public class GameGUI {
 
                 //back button
                 Button backButton = new Button("BACK");
-                gridInfo.add(backButton, 1, 1);
-
+                gridInfo.add(backButton, 0, 1,j+2,1);
                 GridPane.setHalignment(backButton, HPos.CENTER);
                 GridPane.setValignment(backButton, VPos.CENTER);
                 backButton.setOnAction(ev -> {
@@ -585,8 +584,7 @@ public class GameGUI {
 
             //back button
             Button backButton = new Button("BACK");
-            gridInfo.add(backButton, 1, 1);
-
+            gridInfo.add(backButton, 0, 1,j+2,1);
             GridPane.setHalignment(backButton, HPos.CENTER);
             GridPane.setValignment(backButton, VPos.CENTER);
             backButton.setOnAction(ev -> {
@@ -792,7 +790,14 @@ public class GameGUI {
                                             GridPane.setValignment(backButton, VPos.CENTER);
                                             grid.setAlignment(Pos.CENTER);
                                             backButton.setOnAction(ev -> {
-                                                gui.reShow();
+                                                pane.getChildren().remove(grid);
+                                                pane.getChildren().remove(rectangle);
+                                                pane.getChildren().remove(grid5);
+                                                pane.getChildren().remove(boardGrid);
+                                                pane.getChildren().add(boardGrid);
+                                                pane.getChildren().remove(gridButtons);
+                                                pane.getChildren().add(gridButtons);
+                                                actions.fire();
                                             });
                                         }
                                     }
@@ -897,7 +902,7 @@ public class GameGUI {
             }
 
             Button backButton = new Button("BACK");
-            powerUpGrid.add(backButton,1,1);
+            powerUpGrid.add(backButton,0,1,j,1);
             pane.getChildren().add(rectangle);
             pane.getChildren().add(powerUpGrid);
             powerUpGrid.setHgap(40);
@@ -925,7 +930,7 @@ public class GameGUI {
         String[] toShow = gui.getInfoString().split(":");
         Label text = new Label(toShow[0]);
         text.setTextFill(Color.web("#ffffff", 0.8));
-        text.setStyle("-fx-font: 40 Helvetica;");
+        text.setStyle("-fx-font: 35 Helvetica;");
         text.setEffect(new DropShadow());
         text.setAlignment(Pos.CENTER);
         rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
@@ -935,6 +940,8 @@ public class GameGUI {
 
         GridPane grid2 = new GridPane();
         grid2.add(text,0,0, numberPowerup, 1);
+        GridPane.setHalignment(text,HPos.CENTER);
+        GridPane.setValignment(text,VPos.CENTER);
 
         int i=0;
         for(String powerups: gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
