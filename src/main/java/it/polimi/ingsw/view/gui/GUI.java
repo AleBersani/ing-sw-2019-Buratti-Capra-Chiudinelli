@@ -191,6 +191,7 @@ public class GUI extends Application implements ViewInterface {
 
     private void showYou(){
         youRepresentation.clear();
+        this.youData = this.youData.concat(" ");
         for(String info: this.youData.split(";")){
             youRepresentation.add(info);
         }

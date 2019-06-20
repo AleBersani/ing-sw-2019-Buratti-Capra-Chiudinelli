@@ -510,33 +510,34 @@ public class GameGUI {
                 j++;
             }
 
-            for (String powerups : gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
-                String[] powerupPlusColor = powerups.split(":");
-                String realPowerUp = powerupPlusColor[1];
-                switch (powerupPlusColor[0]) {
-                    case "tagback grenade": {
-                        realPowerUp = realPowerUp.concat("TagbackGrenade");
-                        break;
+            if(!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
+                for (String powerups : gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
+                    String[] powerupPlusColor = powerups.split(":");
+                    String realPowerUp = powerupPlusColor[1];
+                    switch (powerupPlusColor[0]) {
+                        case "tagback grenade": {
+                            realPowerUp = realPowerUp.concat("TagbackGrenade");
+                            break;
+                        }
+                        case "newton": {
+                            realPowerUp = realPowerUp.concat("Newton");
+                            break;
+                        }
+                        case "teleporter": {
+                            realPowerUp = realPowerUp.concat("Teleporter");
+                            break;
+                        }
+                        case "targeting scope": {
+                            realPowerUp = realPowerUp.concat("TargetingScope");
+                            break;
+                        }
+                        default:
                     }
-                    case "newton": {
-                        realPowerUp = realPowerUp.concat("Newton");
-                        break;
-                    }
-                    case "teleporter": {
-                        realPowerUp = realPowerUp.concat("Teleporter");
-                        break;
-                    }
-                    case "targeting scope": {
-                        realPowerUp = realPowerUp.concat("TargetingScope");
-                        break;
-                    }
-                    default:
+                    ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
+                    gridInfo.add(powerUp, j, 0);
+                    j++;
                 }
-                ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
-                gridInfo.add(powerUp, j, 0);
-                j++;
             }
-
             //ammos
             j++;
             for (String ammo : gui.getYouRepresentation().get(PLAYER_AMMO).split("'")) {
@@ -849,59 +850,62 @@ public class GameGUI {
             rectangle.heightProperty().bind(pane.heightProperty());
 
             int j=0;
-            for(String powerups: gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
-                String[] powerupPlusColor = powerups.split(":");
-                String realPowerUp = powerupPlusColor[1];
-                switch (powerupPlusColor[0]) {
-                    case "tagback grenade": {
-                        realPowerUp = realPowerUp.concat("TagbackGrenade");
-                        break;
+            if(!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
+                for (String powerups : gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
+                    String[] powerupPlusColor = powerups.split(":");
+                    String realPowerUp = powerupPlusColor[1];
+                    switch (powerupPlusColor[0]) {
+                        case "tagback grenade": {
+                            realPowerUp = realPowerUp.concat("TagbackGrenade");
+                            break;
+                        }
+                        case "newton": {
+                            realPowerUp = realPowerUp.concat("Newton");
+                            break;
+                        }
+                        case "teleporter": {
+                            realPowerUp = realPowerUp.concat("Teleporter");
+                            break;
+                        }
+                        case "targeting scope": {
+                            realPowerUp = realPowerUp.concat("TargetingScope");
+                            break;
+                        }
+                        default:
                     }
-                    case "newton": {
-                        realPowerUp = realPowerUp.concat("Newton");
-                        break;
-                    }
-                    case "teleporter": {
-                        realPowerUp = realPowerUp.concat("Teleporter");
-                        break;
-                    }
-                    case "targeting scope": {
-                        realPowerUp = realPowerUp.concat("TargetingScope");
-                        break;
-                    }
-                    default:
-                }
-                ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
-                powerUpGrid.add(powerUp, j , 0);
-                powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev ->{
-                    GridPane targetGrid = new GridPane();
-                    columnConstraint(targetGrid,N_COLUMN);
-                    rowConstraint(targetGrid,N_ROW);
+                    ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
+                    powerUpGrid.add(powerUp, j, 0);
+                    powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
+                        GridPane targetGrid = new GridPane();
+                        columnConstraint(targetGrid, N_COLUMN);
+                        rowConstraint(targetGrid, N_ROW);
 
-                    Button back = new Button("BACK");
-                    targetGrid.add(back,4,3);
-                    GridPane.setHalignment(back,HPos.CENTER);
-                    GridPane.setValignment(back,VPos.CENTER);
-                    back.setOnAction(eve->{
-                        pane.getChildren().remove(rectangle);
-                        pane.getChildren().remove(targetGrid);
-                        pane.getChildren().remove(gridButtons);
-                        pane.getChildren().add(gridButtons);
-                        powerUps.fire();
+                        Button back = new Button("BACK");
+                        targetGrid.add(back, 4, 3);
+                        GridPane.setHalignment(back, HPos.CENTER);
+                        GridPane.setValignment(back, VPos.CENTER);
+                        back.setOnAction(eve -> {
+                            pane.getChildren().remove(rectangle);
+                            pane.getChildren().remove(targetGrid);
+                            pane.getChildren().remove(gridButtons);
+                            pane.getChildren().add(gridButtons);
+                            powerUps.fire();
+                        });
+
+
+                        pane.getChildren().remove(powerUpGrid);
+                        pane.getChildren().remove(boardGrid);
+                        pane.getChildren().add(boardGrid);
+                        storeButtons(targetGrid, pane);
+                        pane.getChildren().add(targetGrid);
                     });
-
-
-
-                    pane.getChildren().remove(powerUpGrid);
-                    pane.getChildren().remove(boardGrid);
-                    pane.getChildren().add(boardGrid);
-                    storeButtons(targetGrid,pane);
-                    pane.getChildren().add(targetGrid);
-                });
-                j++;
+                    j++;
+                }
             }
-
             Button backButton = new Button("BACK");
+            if(j==0) {
+                j = 1;
+            }
             powerUpGrid.add(backButton,0,1,j,1);
             pane.getChildren().add(rectangle);
             pane.getChildren().add(powerUpGrid);
