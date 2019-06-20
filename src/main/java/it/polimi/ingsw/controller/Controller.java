@@ -11,9 +11,7 @@ import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.map.SpawnPoint;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
@@ -186,10 +184,24 @@ public class Controller {
 
     private void shootingAction(ClientHandler clientHandler, String msg){
         ArrayList<TargetParameter> targetParameters = new ArrayList<>();
-        for (String target : msg.substring(ETIQUETTE).split(";")) {
-            targetParameters.add(generateTarget(target, clientHandler));
+        Match simulation;
+        try {
+            simulation = deepClone(match);
+            for (String target : msg.substring(ETIQUETTE).split(";")) {
+                targetParameters.add(generateTarget(target, clientHandler));
+            }
+            simulation.getTurn().getCurrent().getWeapons().get(Character.getNumericValue(msg.charAt(ETIQUETTE + 1))).fire(targetParameters);
+            match=simulation;
+        } catch (InvalidTargetException e) {
+            sendString(">>>Invalid target", clientHandler);
+        } catch (NoOwnerException e) {
+            sendString("error", clientHandler);
+        } catch (IOException e) {
+            sendString("error", clientHandler);
+        } catch (ClassNotFoundException e) {
+            sendString("error", clientHandler);
         }
-        match.getTurn().getCurrent().getWeapons().get(Character.getNumericValue(msg.charAt(ETIQUETTE + 1)));//TODO completare .fire?
+
     }
 
     private void runningAction(ClientHandler clientHandler, String msg){
@@ -616,6 +628,15 @@ public class Controller {
             }
         }
         throw new NotFoundException();
+    }
+
+    public static Match deepClone(Match object) throws IOException, ClassNotFoundException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+        objectOutputStream.writeObject(object);
+        ByteArrayInputStream bais = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+        ObjectInputStream objectInputStream = new ObjectInputStream(bais);
+        return (Match) objectInputStream.readObject();
     }
 
     private class Configuration{

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.map;
 
-public class AmmoTile {
+import java.io.Serializable;
+
+public class AmmoTile implements Serializable {
     private int red, blue, yellow;
     private int powerUp;
 

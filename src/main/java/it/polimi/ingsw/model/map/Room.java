@@ -4,12 +4,13 @@ import it.polimi.ingsw.exception.NotFoundException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Weapon;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * This class represent a room
  */
-public class Room {
+public class Room  implements Serializable {
 
     private int size;
     private ArrayList<Square> squares= new ArrayList<Square>();

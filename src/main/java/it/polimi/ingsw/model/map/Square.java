@@ -4,12 +4,13 @@ import it.polimi.ingsw.exception.ElementNotFoundException;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * This class represent a single square on the Board
  */
-public abstract class Square {
+public abstract class Square implements Serializable {
 
     private int x, y;
     private ArrayList<Square> doors =new ArrayList<>();

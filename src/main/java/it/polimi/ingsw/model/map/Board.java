@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.cards.effects.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
@@ -17,15 +18,14 @@ import java.util.Random;
 /**
  * This class represents a board
  */
-public class Board {
+public class Board implements Serializable {
     private ArrayList<Room> rooms= new ArrayList<>();
     private ArrayList<AmmoTile> ammoList= new ArrayList<>();
     private ArrayList<PowerUp> powerUpList= new ArrayList<>();
     private ArrayList<Weapon> weaponsList= new ArrayList<>();
     private Match match;
-    private Gson gSon= new Gson();
     private String type;
-    private BufferedReader br;
+
     private Random random = new Random();
 
     /**
@@ -34,6 +34,8 @@ public class Board {
      * @param type is the path of the json file that describes the board
      */
     public Board(Match match, String type){
+        Gson gSon= new Gson();
+        BufferedReader br;
         this.match=match;
         this.type= type;
         ArrayList<Integer> tempX= new ArrayList<>();
@@ -154,6 +156,8 @@ public class Board {
      * on the board and then reshuffle it
      */
     public void reShuffleAmmo(){
+        Gson gSon= new Gson();
+        BufferedReader br;
         int i;
         AmmoTile temp;
 
@@ -187,6 +191,8 @@ public class Board {
      * in some Player hand and then reshuffle it
      */
     public void reShufflePowerUps(){
+        Gson gSon= new Gson();
+        BufferedReader br;
         int i,j;
         PowerUp temp;
         ArrayList<PowerUp>  powerUpListTemp= new ArrayList<>();
@@ -230,6 +236,8 @@ public class Board {
      * This method generate the deck of Weapon from a json file, and then reshuffle it
      */
     public void reShuffleWeapons(){
+        Gson gSon= new Gson();
+        BufferedReader br;
         int i;
         String temp;
         Weapon weapon;

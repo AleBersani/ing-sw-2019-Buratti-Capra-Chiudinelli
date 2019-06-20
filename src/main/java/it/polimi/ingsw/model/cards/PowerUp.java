@@ -5,7 +5,9 @@ import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.model.cards.effects.Effect;
 import it.polimi.ingsw.model.TargetParameter;
 
-public class PowerUp {
+import java.io.Serializable;
+
+public class PowerUp implements Serializable {
     private String color, name;
     private Effect effect;
     private boolean onResponse;
