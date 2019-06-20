@@ -539,7 +539,6 @@ public class GameGUI {
                 }
             }
             //ammos
-            j++;
             for (String ammo : gui.getYouRepresentation().get(PLAYER_AMMO).split("'")) {
                 String[] ammoQuantity = ammo.split(":");
                 switch (ammoQuantity[0]) {
@@ -822,6 +821,27 @@ public class GameGUI {
 
                     pane.getChildren().add(grid5);
                 });
+
+                //shoot
+                shoot.setOnAction(e->{
+                    GridPane gridWeapons = new GridPane();
+                    Button backShoot = new Button("BACK");
+
+                    gridWeapons.add(backShoot,0,0);
+                    GridPane.setHalignment(backShoot,HPos.CENTER);
+                    GridPane.setValignment(backShoot,VPos.CENTER);
+
+                    backShoot.setOnAction(ev-> {
+                        pane.getChildren().remove(gridWeapons);
+                        pane.getChildren().remove(rectangle);
+                        actions.fire();
+                    });
+
+                    gridWeapons.setAlignment(Pos.CENTER);
+                    pane.getChildren().remove(grid4);
+                    pane.getChildren().add(gridWeapons);
+                });
+
             });
         }
         else{
@@ -891,6 +911,7 @@ public class GameGUI {
                             pane.getChildren().add(gridButtons);
                             powerUps.fire();
                         });
+
 
 
                         pane.getChildren().remove(powerUpGrid);
@@ -1180,15 +1201,8 @@ public class GameGUI {
 
 
     /*
-
-
         //TODO IF THERE ARE ANY THROWED EXCEPTION
         //informationMessage(pane);
-
-        //TODO IF THE PLAYER WANTS TO RELOAD WEAPONS
-        //reload(pane);
-
-
 
     public void drawYellowPlayer(Pane pane){
         drawBloodOnYellow(pane);
@@ -1296,7 +1310,6 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-
     public void informationMessage(Pane pane){
         StackPane pane2 = new StackPane();
         GridPane grid2 = new GridPane();
@@ -1324,67 +1337,6 @@ public class GameGUI {
         pane2.getChildren().add(grid2);
         pane.getChildren().add(pane2);
 
-    }
-
-
-    public void reload(Pane pane){
-        //weapon
-        Image lockRifle = new Image("images/game/weapons/lockRifle.png",pane.getWidth()/7,pane.getHeight()/3,false,false);
-        ImageView lockRifleIV = new ImageView(lockRifle);
-        Image furnace = new Image("images/game/weapons/furnace.png",pane.getWidth()/7,pane.getHeight()/3,false,false);
-        ImageView furnaceIV = new ImageView(furnace);
-        Image zx2 = new Image("images/game/weapons/zx2.png",pane.getWidth()/7,pane.getHeight()/3,false,false);
-        ImageView zx2IV = new ImageView(zx2);
-
-        StackPane pane2 = new StackPane();
-        GridPane grid2 = new GridPane();
-        //grid column constraint
-        for (int j = 0 ; j < 3; j++) {
-            ColumnConstraints col = new ColumnConstraints();
-            col.setHgrow(Priority.ALWAYS);
-            col.setPercentWidth(20);
-            grid2.getColumnConstraints().add(col);
-        }
-
-        Rectangle rectangle = new Rectangle();
-        Label text = new Label("Choose a weapon to reload");
-        text.setTextFill(Color.web("#ffffff", 0.8));
-        text.setStyle("-fx-font: 60 Helvetica;");
-        text.setEffect(new DropShadow());
-        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-        rectangle.setEffect(new BoxBlur());
-        rectangle.widthProperty().bind(pane.widthProperty());
-        rectangle.heightProperty().bind(pane.heightProperty());
-        grid2.add(text,0,0,3,1);
-        grid2.setAlignment(Pos.CENTER);
-        GridPane.setHalignment(text,HPos. CENTER);
-        GridPane.setValignment(text,VPos. CENTER);
-        grid2.add(lockRifleIV,0,1);
-        lockRifleIV. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
-            System.out.println("reloaded blue");
-            pane.getChildren().remove(pane2);
-        });
-        GridPane.setHalignment(lockRifleIV,HPos. CENTER);
-        GridPane.setValignment(lockRifleIV,VPos. CENTER);
-        grid2.add(furnaceIV,1,1);
-        furnaceIV. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
-            System.out.println("reloaded red");
-            pane.getChildren().remove(pane2);
-        });
-        GridPane.setHalignment(furnaceIV,HPos. CENTER);
-        GridPane.setValignment(furnaceIV,VPos. CENTER);
-        grid2.add(zx2IV,2,1);
-        zx2IV. addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
-            System.out.println("reloaded yellow");
-            pane.getChildren().remove(pane2);
-        });
-        GridPane.setHalignment(zx2IV,HPos. CENTER);
-        GridPane.setValignment(zx2IV,VPos. CENTER);
-        grid2.setHgap(70);
-        grid2.setVgap(50);
-        pane2.getChildren().add(rectangle);
-        pane2.getChildren().add(grid2);
-        pane.getChildren().add(pane2);
     }
     */
 }
