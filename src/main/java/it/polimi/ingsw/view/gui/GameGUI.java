@@ -762,11 +762,6 @@ public class GameGUI {
                                         } else {
                                             cancelClickEvent[0] = false;
                                             GridPane grid = new GridPane();
-                                            Rectangle rectangle1 = new Rectangle();
-                                            rectangle1.setFill(Color.rgb(0, 0, 0, 0.8));
-                                            rectangle1.setEffect(new BoxBlur());
-                                            rectangle1.widthProperty().bind(pane.widthProperty());
-                                            rectangle1.heightProperty().bind(pane.heightProperty());
                                             String[] weapon = cell.get(CELL_INSIDE).split("'");
                                             for (int j = 0; j < NUMBER_OF_WEAPON; j++) {
                                                 if (j < weapon.length) {
@@ -779,7 +774,7 @@ public class GameGUI {
                                                         client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)
                                                                 .concat(",").concat(Integer.toString(w))));
                                                         pane.getChildren().remove(grid);
-                                                        pane.getChildren().remove(rectangle1);
+                                                        pane.getChildren().remove(rectangle);
                                                     });
                                                 } else {
                                                     grid.add(new ImageView(new Image("/images/game/weapons/weaponBack.png", pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false)), j, 0);
@@ -788,7 +783,8 @@ public class GameGUI {
 
                                             Button backButton = new Button("BACK");
                                             grid.add(backButton, 1, 1);
-                                            pane.getChildren().add(rectangle1);
+                                            pane.getChildren().remove(rectangle);
+                                            pane.getChildren().add(rectangle);
                                             pane.getChildren().add(grid);
                                             grid.setHgap(40);
                                             grid.setVgap(50);
@@ -814,6 +810,7 @@ public class GameGUI {
                         pane.getChildren().remove(grid5);
                         pane.getChildren().remove(rectangle);
                         buildButtons(stage);
+                        actions.fire();
                         pane.removeEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
                     });
 
