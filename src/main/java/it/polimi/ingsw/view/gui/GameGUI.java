@@ -792,7 +792,14 @@ public class GameGUI {
                                             GridPane.setValignment(backButton, VPos.CENTER);
                                             grid.setAlignment(Pos.CENTER);
                                             backButton.setOnAction(ev -> {
-                                                gui.reShow();
+                                                pane.getChildren().remove(grid);
+                                                pane.getChildren().remove(rectangle);
+                                                pane.getChildren().remove(grid5);
+                                                pane.getChildren().remove(boardGrid);
+                                                pane.getChildren().add(boardGrid);
+                                                pane.getChildren().remove(gridButtons);
+                                                pane.getChildren().add(gridButtons);
+                                                actions.fire();
                                             });
                                         }
                                     }
