@@ -251,7 +251,9 @@ public class Player implements Serializable {
             shootType(weapon,target);
         else
             throw new InvalidDestinationException();
+        this.position.leaves(this);
         this.position = destination;
+        destination.arrives(this);
     }
 
     /**

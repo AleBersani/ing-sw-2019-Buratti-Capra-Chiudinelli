@@ -121,9 +121,22 @@ public class Controller {
                     else {
                         if (msg.startsWith("END-")) {
                             reload(clientHandler);
+
+                        }
+                        else if(msg.startsWith("RLD-")) {
+                            if (!msg.substring(ETIQUETTE).equals("ignore")) {
+                                try {
+                                    for (String weapon : msg.substring(ETIQUETTE).split(",")) {
+                                        playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(weapon)).reload();
+                                    }
+                                } catch (NotFoundException e) {
+                                    sendString("error", clientHandler);
+                                }
+                                updateBackground();
+                            }
                             respawn();
                             match.getTurn().endTurn();
-                            //TODO
+                            //TODO end
                         }
                         else {
                             sendString("Wrong Etiquette, this is END", clientHandler);
@@ -136,7 +149,6 @@ public class Controller {
     }
 
     private void reload(ClientHandler clientHandler) {
-        //TODO completare
         try {
             String toLoad="";
             for (Weapon weapon : playerFromNickname(clientHandler.getName()).getWeapons()){
@@ -183,6 +195,7 @@ public class Controller {
     }
 
     private void shootingAction(ClientHandler clientHandler, String msg){
+        //TODO destination + spezzare bene
         ArrayList<TargetParameter> targetParameters = new ArrayList<>();
         Match simulation;
         try {
@@ -190,7 +203,7 @@ public class Controller {
             for (String target : msg.substring(ETIQUETTE).split(";")) {
                 targetParameters.add(generateTarget(target, clientHandler));
             }
-            simulation.getTurn().getCurrent().getWeapons().get(Character.getNumericValue(msg.charAt(ETIQUETTE + 1))).fire(targetParameters);
+            simulation.getTurn().getCurrent().shoot(simulation.getTurn().getCurrent().getWeapons().get(Character.getNumericValue(msg.charAt(ETIQUETTE + 1))),null,targetParameters);
             match=simulation;
         } catch (InvalidTargetException e) {
             sendString(">>>Invalid target", clientHandler);
@@ -200,6 +213,14 @@ public class Controller {
             sendString("error", clientHandler);
         } catch (ClassNotFoundException e) {
             sendString("error", clientHandler);
+        } catch (NotLoadedException e) {
+            sendString(">>>This weapon is unload", clientHandler);
+        } catch (InvalidDestinationException e) {
+            sendString(">>>Invalid destination", clientHandler);
+        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+            sendString("error", clientHandler);
+        } catch (NoAmmoException e) {
+            sendString(">>>You don't have enough ammo", clientHandler);
         }
 
     }
@@ -254,6 +275,7 @@ public class Controller {
 
 
     private void powerUpAction(ClientHandler clientHandler, String msg){
+        //TODO spezzare bene
         try {
             playerFromNickname(clientHandler.getName()).usePowerUp(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.substring(ETIQUETTE).split(";")[1])),
                     generateTarget(msg.substring(ETIQUETTE).split(";")[0], clientHandler));
@@ -269,13 +291,13 @@ public class Controller {
     }
 
     private TargetParameter generateTarget(String target,ClientHandler clientHandler) {
-        //TODO da sistemare
+        //TODO da sistemare target + spezzare bene
         String[] parameters = target.split(":");
         String[] coordinate = parameters[1].split(",");
         TargetParameter targetParameter= null;
         try {
             targetParameter = new TargetParameter(match.getBoard().find(Integer.parseInt(coordinate[0]),Integer.parseInt(coordinate[1])),
-                   playerFromNickname(clientHandler.getName()),playerFromColor(parameters[2]),null,null,null,null ); //TODO completare
+                   playerFromNickname(clientHandler.getName()),playerFromColor(parameters[2]),null,null,null,null );
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
         }
@@ -289,7 +311,7 @@ public class Controller {
             for (ClientInfo clientInfo: getNicknameList().values()){
                 if(clientInfo.clientHandler.getName().equals(player.getNickname())){
                     clientInfo.clientHandler.setYourTurn(true);
-                    clientInfo.setState(ClientInfo.State.GAME);
+                    clientInfo.setState(ClientInfo.State.SPAWN);
                     try {
                         player.draw();
                     } catch (MaxHandSizeException e) {
