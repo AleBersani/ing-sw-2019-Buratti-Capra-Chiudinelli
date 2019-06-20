@@ -7,12 +7,13 @@ import it.polimi.ingsw.model.map.AmmoTile;
 import it.polimi.ingsw.model.map.SpawnPoint;
 import it.polimi.ingsw.model.map.Square;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * This class represents one single player
  */
-public class Player {
+public class Player implements Serializable {
     /**
      * This attribute is the number of skulls the player owns
      */

@@ -6,9 +6,10 @@ import it.polimi.ingsw.model.cards.constraints.Constraint;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TargetParameter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Effect {
+public abstract class Effect implements Serializable {
 
     private int costBlue;
     private int costRed;

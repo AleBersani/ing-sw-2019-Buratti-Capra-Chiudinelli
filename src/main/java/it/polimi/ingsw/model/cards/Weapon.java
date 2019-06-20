@@ -8,12 +8,13 @@ import it.polimi.ingsw.model.cards.effects.Effect;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TargetParameter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * this class represent a single weapon
  */
-public abstract class Weapon {
+public abstract class Weapon implements Serializable {
 
     private String color,name;
     private int costBlue,costRed,costYellow;

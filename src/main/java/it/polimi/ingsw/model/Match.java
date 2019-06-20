@@ -2,12 +2,13 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.map.Board;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * This class represents the match
  */
-public class Match {
+public class Match implements Serializable {
     /**
      * This attribute is the circular list of the players
      */
@@ -190,6 +191,10 @@ public class Match {
                     }
             }
         }
+    }
+
+    public Match simulate() throws CloneNotSupportedException {
+        return (Match) super.clone();
     }
 
     /**

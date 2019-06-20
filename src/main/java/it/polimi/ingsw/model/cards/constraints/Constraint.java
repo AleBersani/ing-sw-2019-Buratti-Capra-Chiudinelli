@@ -4,9 +4,10 @@ import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TargetParameter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Constraint {
+public abstract class Constraint implements Serializable {
 
     private int level;
 

@@ -1,11 +1,12 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * This class represents a turn
  */
-public class Turn {
+public class Turn implements Serializable {
     /**
      * This attribute is the counter of the actions during a turn
      */
