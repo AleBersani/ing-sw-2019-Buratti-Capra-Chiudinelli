@@ -1,6 +1,5 @@
 package it.polimi.ingsw.communication.client;
 
-import com.sun.xml.internal.bind.v2.runtime.Name;
 import it.polimi.ingsw.view.ViewInterface;
 
 import java.util.ArrayList;

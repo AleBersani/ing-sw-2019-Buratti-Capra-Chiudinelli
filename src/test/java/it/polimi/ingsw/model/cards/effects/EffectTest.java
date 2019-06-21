@@ -48,7 +48,7 @@ class EffectTest {
         enemy = new Player(false, "green", "Lucio");
         enemy2 = new Player(false, "red", "Fabio");
         enemy3 = new Player(false, "yellow", "Ciccio");
-        target = new TargetParameter(null,owner,null,null,null,null, null);
+        target = new TargetParameter(null,owner,null,null,null,null);
         previousTarget = new ArrayList<ArrayList<Player>>();
         previousTarget.add(new ArrayList<Player>());
         previousTarget.add(new ArrayList<Player>());
@@ -57,6 +57,11 @@ class EffectTest {
         effect = new Effect(0,0,0,"elio",constraints,constrainPositivity) {
             @Override
             public void apply(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget) throws InvalidTargetException {
+
+            }
+
+            @Override
+            protected void constraintSquareGenerator(TargetParameter targetParameter) {
 
             }
         };

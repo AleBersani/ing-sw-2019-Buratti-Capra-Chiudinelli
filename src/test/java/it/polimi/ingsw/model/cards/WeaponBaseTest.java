@@ -27,7 +27,7 @@ class WeaponBaseTest {
         enemy = new Player(false,"blue", "Fabiano");
         board = new Board(null,"/Board/Board1.json");
         target = new ArrayList<TargetParameter>();
-        target.add(new TargetParameter(null,owner,enemy,null,null,null,null));
+        target.add(new TargetParameter(null,owner,enemy,null,null,null));
     }
 
     @Test

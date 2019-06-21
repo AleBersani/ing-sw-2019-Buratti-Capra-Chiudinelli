@@ -28,10 +28,10 @@ class WeaponOptionalTest {
         enemy3 = new Player(false,"red", "Fagiolo");
         board = new Board(null,"/Board/Board1.json");
         target = new ArrayList<TargetParameter>();
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
         prevPlayer = new ArrayList<Player>();
     }
 
@@ -1066,7 +1066,7 @@ class WeaponOptionalTest {
         for(int i=0;i<weapon.getPreviousTarget().size();i++){
             weapon.getPreviousTarget().get(i).clear();
         }
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
 
         try {
             enemy3.setPosition(board.find(3,2));
