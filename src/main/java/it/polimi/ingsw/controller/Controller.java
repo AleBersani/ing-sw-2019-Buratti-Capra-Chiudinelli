@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TargetParameter;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
+import it.polimi.ingsw.model.cards.effects.Effect;
 import it.polimi.ingsw.model.map.SpawnPoint;
 
 import java.io.*;
@@ -121,7 +122,6 @@ public class Controller {
                     else {
                         if (msg.startsWith("END-")) {
                             reload(clientHandler);
-
                         }
                         else if(msg.startsWith("RLD-")) {
                             if (!msg.substring(ETIQUETTE).equals("ignore")) {
@@ -140,6 +140,21 @@ public class Controller {
                         }
                         else {
                             sendString("Wrong Etiquette, this is END", clientHandler);
+                        }
+                    }
+                    break;
+                }
+                case TARGETING:{
+                    if(msg.startsWith("TRG-")){
+                        switch (msg.substring(ETIQUETTE)){
+                            case "WPN-":{
+
+                                break;
+                            }
+                            case "POU-":{
+                                powerUpAction(clientHandler, msg.substring(ETIQUETTE*2));
+                                break;
+                            }
                         }
                     }
                     break;
@@ -175,9 +190,10 @@ public class Controller {
     }
 
     private void understandGameCommand(ClientHandler clientHandler, String msg) {
+        //TODO dividere sht con stato in più
         switch (msg.substring(0,ETIQUETTE)){
             case "SHT-":
-                shootingAction(clientHandler, msg);
+                targetRequestWeapon(clientHandler, msg);
                 break;
             case "RUN-":
                 runningAction(clientHandler, msg);
@@ -186,11 +202,34 @@ public class Controller {
                 grabbingAction(clientHandler, msg);
                 break;
             case "UPU-":
-                powerUpAction(clientHandler, msg);
+                targetRequestPU(clientHandler, msg);
                 break;
             default:
                 sendString("Invalid command", clientHandler);
 
+        }
+    }
+
+    private void targetRequestWeapon(ClientHandler clientHandler, String msg) {
+        //TODO typeOfFire
+        String targetRequest="";
+        try {
+            clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.TARGETING);
+            for(Effect effect : playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE))).getEffect/*quale?*/()){
+                targetRequest=targetRequest.concat(effect.getDescription());
+            }
+            sendString(targetRequest, clientHandler);
+        } catch (NotFoundException e) {
+            sendString("error", clientHandler);
+        }
+    }
+
+    private void targetRequestPU(ClientHandler clientHandler, String msg) {
+        try {
+            clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.TARGETING);
+            sendString(playerFromNickname("TRG-"+clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.substring(ETIQUETTE))).getEffect().getDescription(), clientHandler);
+        } catch (NotFoundException e) {
+            sendString("error", clientHandler);
         }
     }
 
@@ -205,6 +244,7 @@ public class Controller {
             }
             simulation.getTurn().getCurrent().shoot(simulation.getTurn().getCurrent().getWeapons().get(Character.getNumericValue(msg.charAt(ETIQUETTE + 1))),null,targetParameters);
             match=simulation;
+            updateBackground();
         } catch (InvalidTargetException e) {
             sendString(">>>Invalid target", clientHandler);
         } catch (NoOwnerException e) {
@@ -275,10 +315,9 @@ public class Controller {
 
 
     private void powerUpAction(ClientHandler clientHandler, String msg){
-        //TODO spezzare bene
         try {
-            playerFromNickname(clientHandler.getName()).usePowerUp(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.substring(ETIQUETTE).split(";")[1])),
-                    generateTarget(msg.substring(ETIQUETTE).split(";")[0], clientHandler));
+            playerFromNickname(clientHandler.getName()).usePowerUp(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.split("'")[0])),
+                    generateTarget(msg, clientHandler));
         } catch (InvalidTargetException e) {
             sendString(">>>Invalid Target", clientHandler);
         } catch (NoOwnerException e) {
@@ -288,16 +327,30 @@ public class Controller {
         } catch (OnResponseException e) {
             sendString(">>>This power up can be used only on response of another action", clientHandler);
         }
+
+        try {
+            clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+        } catch (NotFoundException e) {
+            sendString("error", clientHandler);
+        }
+        updateBackground();
     }
 
     private TargetParameter generateTarget(String target,ClientHandler clientHandler) {
-        //TODO da sistemare target + spezzare bene
-        String[] parameters = target.split(":");
-        String[] coordinate = parameters[1].split(",");
+        //TODO gestire spazi vuoti
+        String[] data =target.split("'");
+        String[] parameters = data[1].split(",");
         TargetParameter targetParameter= null;
         try {
-            targetParameter = new TargetParameter(match.getBoard().find(Integer.parseInt(coordinate[0]),Integer.parseInt(coordinate[1])),
-                   playerFromNickname(clientHandler.getName()),playerFromColor(parameters[2]),null,null,null,null );
+            targetParameter = new TargetParameter(
+                    match.getBoard().find(Integer.parseInt(parameters[0].split(":")[0]),Integer.parseInt(parameters[0].split(":")[1])),
+                    playerFromNickname(clientHandler.getName()),
+                    playerFromColor(parameters[1]),
+                    match.getBoard().find(Integer.parseInt(parameters[2].split(":")[0]),Integer.parseInt(parameters[2].split(":")[1])).getRoom(),
+                    match.getBoard().find(Integer.parseInt(parameters[3].split(":")[0]),Integer.parseInt(parameters[3].split(":")[1])),
+                    parameters[4],
+                    null
+            );
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
         }

@@ -17,6 +17,7 @@ public abstract class Effect implements Serializable {
     private String name;
     private ArrayList<Constraint> constraints= new ArrayList<Constraint>();
     private ArrayList<Boolean> constraintPositivity= new ArrayList<Boolean>();
+    private String description;
 
     public Effect(int costBlue, int costRed, int costYellow, String name, ArrayList<Constraint> constraints, ArrayList<Boolean> constraintPositivity ) {
         this.costBlue = costBlue;
@@ -81,4 +82,7 @@ public abstract class Effect implements Serializable {
         return constraints;
     }
 
+    public String getDescription() {
+        return description;
+    }
 }
