@@ -25,7 +25,8 @@
       "damage": 1,
       "mark": 2,
       "addToList": false,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     }
   ],
   "previousTarget": [[],[]],
@@ -50,7 +51,8 @@
       "damage": 0,
       "mark": 1,
       "addToList": true,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     },
     {
       "type": "EffectVsPlayer",
@@ -76,7 +78,8 @@
       "damage": 0,
       "mark": 1,
       "addToList": true,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     },
     {
       "type": "EffectVsPlayer",
@@ -102,7 +105,8 @@
       "damage": 0,
       "mark": 1,
       "addToList": true,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     }
   ]
 }

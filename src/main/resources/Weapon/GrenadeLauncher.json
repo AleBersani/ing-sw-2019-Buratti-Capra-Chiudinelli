@@ -25,7 +25,8 @@
       "damage": 1,
       "mark": 0,
       "addToList": true,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     }
   ],
   "previousTarget": [[],[]],
@@ -48,7 +49,8 @@
           true
         ],
         "damage": 1,
-        "mark": 0
+        "mark": 0,
+        "description": "Square"
       }
 
     ],
@@ -71,7 +73,8 @@
         "distance": 1,
         "self": false,
         "addToList": false,
-        "removeFromList": false
+        "removeFromList": false,
+        "description": "Player,Movement:enemy"
       }
     ]
   ],

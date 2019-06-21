@@ -25,7 +25,8 @@
       "damage": 3,
       "mark": 0,
       "addToList": false,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     }
   ],
   "previousTarget": [[],[]],

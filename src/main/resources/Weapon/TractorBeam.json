@@ -18,7 +18,8 @@
       "linear": false,
       "self": false,
       "addToList": true,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player,Movement:enemy"
     },
     {
       "type": "EffectVsPlayer",
@@ -40,7 +41,8 @@
       "damage": 1,
       "mark": 0,
       "addToList": false,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     }
   ],
   "previousTarget": [[],[]],
@@ -58,7 +60,8 @@
       "linear": false,
       "self": false,
       "addToList": true,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player.Movement:enemy"
     },
     {
       "type": "EffectVsPlayer",
@@ -84,7 +87,8 @@
       "damage": 3,
       "mark": 0,
       "addToList": false,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     }
 
   ]

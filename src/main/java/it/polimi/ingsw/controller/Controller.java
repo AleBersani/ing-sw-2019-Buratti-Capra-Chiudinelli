@@ -233,7 +233,7 @@ public class Controller {
     }
 
     private void shootingAction(ClientHandler clientHandler, String msg){
-        //TODO destination + spezzare bene
+        //TODO destination + spezzare bene + endShoot + ordine opzionali
         ArrayList<TargetParameter> targetParameters = new ArrayList<>();
         Match simulation;
         try {

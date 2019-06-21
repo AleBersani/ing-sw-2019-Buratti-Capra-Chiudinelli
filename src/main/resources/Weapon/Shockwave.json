@@ -32,7 +32,8 @@
       "damage": 1,
       "mark": 0,
       "addToList": true,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     },
     {
       "type": "EffectVsPlayer",
@@ -65,7 +66,8 @@
       "damage": 1,
       "mark": 0,
       "addToList": true,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     },
     {
       "type": "EffectVsPlayer",
@@ -98,7 +100,8 @@
       "damage": 1,
       "mark": 0,
       "addToList": true,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     }
   ],
   "previousTarget": [[],[]],
@@ -114,7 +117,8 @@
       "constraintPositivity": [],
       "damage": 1,
       "mark": 0,
-      "distance": 1
+      "distance": 1,
+      "description": "Area"
     }
   ]
 }

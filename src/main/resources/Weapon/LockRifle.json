@@ -25,7 +25,8 @@
       "damage": 2,
       "mark": 1,
       "addToList": true,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     }
 
 
@@ -58,7 +59,8 @@
         "damage": 0,
         "mark": 1,
         "addToList": false,
-        "removeFromList": false
+        "removeFromList": false,
+        "description": "Player"
       }
     ]
   ],

@@ -146,7 +146,8 @@
       "linear": false,
       "self": true,
       "addToList": false,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Movement:self"
     },
     { "costBlue": 0,
       "costRed": 0,
@@ -158,32 +159,8 @@
       "linear": false,
       "self": true,
       "addToList": false,
-      "removeFromList": false
-    },
-
-    { "costBlue": 0,
-      "costRed": 0,
-      "costYellow": 0,
-      "name": "teleport",
-      "constraints": [],
-      "constraintPositivity": [],
-      "distance": 2147483647,
-      "linear": false,
-      "self": true,
-      "addToList": false,
-      "removeFromList": false
-    },
-    { "costBlue": 0,
-      "costRed": 0,
-      "costYellow": 0,
-      "name": "teleport",
-      "constraints": [],
-      "constraintPositivity": [],
-      "distance": 2147483647,
-      "linear": false,
-      "self": true,
-      "addToList": false,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Movement:self"
     },
 
     { "costBlue": 0,
@@ -196,7 +173,8 @@
       "linear": false,
       "self": true,
       "addToList": false,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Movement:self"
     },
     { "costBlue": 0,
       "costRed": 0,
@@ -208,7 +186,35 @@
       "linear": false,
       "self": true,
       "addToList": false,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Movement:self"
+    },
+
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "teleport",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2147483647,
+      "linear": false,
+      "self": true,
+      "addToList": false,
+      "removeFromList": false,
+      "description": "Movement:self"
+    },
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "teleport",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2147483647,
+      "linear": false,
+      "self": true,
+      "addToList": false,
+      "removeFromList": false,
+      "description": "Movement:self"
     },
 
 
@@ -222,7 +228,8 @@
       "linear": true,
       "self": false,
       "addToList": false,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player,Movement:enemy"
     },
     { "costBlue": 0,
       "costRed": 0,
@@ -234,32 +241,8 @@
       "linear": true,
       "self": false,
       "addToList": false,
-      "removeFromList": false
-    },
-
-    { "costBlue": 0,
-      "costRed": 0,
-      "costYellow": 0,
-      "name": "newton",
-      "constraints": [],
-      "constraintPositivity": [],
-      "distance": 2,
-      "linear": true,
-      "self": false,
-      "addToList": false,
-      "removeFromList": false
-    },
-    { "costBlue": 0,
-      "costRed": 0,
-      "costYellow": 0,
-      "name": "newton",
-      "constraints": [],
-      "constraintPositivity": [],
-      "distance": 2,
-      "linear": true,
-      "self": false,
-      "addToList": false,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player,Movement:enemy"
     },
 
     { "costBlue": 0,
@@ -272,7 +255,8 @@
       "linear": true,
       "self": false,
       "addToList": false,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player,Movement:enemy"
     },
     { "costBlue": 0,
       "costRed": 0,
@@ -284,7 +268,35 @@
       "linear": true,
       "self": false,
       "addToList": false,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player,Movement:enemy"
+    },
+
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "newton",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2,
+      "linear": true,
+      "self": false,
+      "addToList": false,
+      "removeFromList": false,
+      "description": "Player,Movement:enemy"
+    },
+    { "costBlue": 0,
+      "costRed": 0,
+      "costYellow": 0,
+      "name": "newton",
+      "constraints": [],
+      "constraintPositivity": [],
+      "distance": 2,
+      "linear": true,
+      "self": false,
+      "addToList": false,
+      "removeFromList": false,
+      "description": "Player,Movement:enemy"
     }
 
   ],
