@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.map;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.exception.NotFoundException;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
@@ -191,32 +192,15 @@ public class Board implements Serializable {
      * in some Player hand and then reshuffle it
      */
     public void reShufflePowerUps(){
-        Gson gSon= new Gson();
+        Gson gSon;
         BufferedReader br;
-        int i,j;
-        PowerUp temp;
-        ArrayList<PowerUp>  powerUpListTemp= new ArrayList<>();
         br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/PowerUp.json")));
-        PowerUpGson jsonObject = gSon.fromJson(br, PowerUpGson.class);
+        gSon = new GsonBuilder()
+                .registerTypeAdapter(Effect.class, new EffectDeserializer())
+                .registerTypeAdapter(Constraint.class, new ConstraintDeserializer())
+                .create();
+        powerUpList = gSon.fromJson(br, new TypeToken<ArrayList<PowerUp>>(){}.getType());
 
-        for (i=0; i< jsonObject.getPseudo().size();i++) {
-            temp = new PowerUp(jsonObject.getPseudo().get(i).color,jsonObject.getPseudo().get(i).name);
-            powerUpListTemp.add(temp);
-        }
-        for (i=0; i< jsonObject.getMovementEffects().size();i++) {
-            powerUpListTemp.get(i).setEffect(jsonObject.getMovementEffects().get(i));
-        }
-        for (j=0; i< jsonObject.getEffectsVsPlayer().size()+jsonObject.getMovementEffects().size();i++, j++) {
-            powerUpListTemp.get(i).setEffect(jsonObject.getMovementEffects().get(j));
-        }
-        for (j=0; i<jsonObject.getEffectsVsRoom().size()+ jsonObject.getEffectsVsPlayer().size()+jsonObject.getMovementEffects().size();i++, j++) {
-            powerUpListTemp.get(i).setEffect(jsonObject.getMovementEffects().get(j));
-        }
-        for (j=0; i<jsonObject.getEffectsVsSquare().size()+ jsonObject.getEffectsVsPlayer().size()+jsonObject.getMovementEffects().size();i++, j++) {
-            powerUpListTemp.get(i).setEffect(jsonObject.getMovementEffects().get(j));
-        }
-
-        powerUpList=powerUpListTemp;
         if (match!= null) {
             for (Player p : this.match.getPlayers()) {
                 for (PowerUp up : p.getPowerUps()) {
