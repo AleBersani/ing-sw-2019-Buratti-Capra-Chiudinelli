@@ -146,7 +146,7 @@ public class Controller {
                 }
                 case TARGETING:{
                     if(msg.startsWith("TRG-")){
-                        switch (msg.substring(0,ETIQUETTE)){
+                        switch (msg.substring(ETIQUETTE).substring(0,ETIQUETTE)){
                             case "WPN-":{
                                 shootingAction(clientHandler, msg.substring(ETIQUETTE*2));
                                 break;
