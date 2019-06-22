@@ -1138,13 +1138,13 @@ public class GameGUI {
         GridPane.setValignment(text,VPos.CENTER);
 
         //TODO controllare questo for per avere un event e poi uno dopo che l'altro si è consumato
-        String[] typeOfTarget= msg.split(";");
+        String[] typeOfTarget= msg.split(",");
 
 
 
         EventHandler clickEvent = (EventHandler<MouseEvent>) event -> {
             String targetString = "";
-            final String[] target = {"","","",""};
+            final String[] target = {" "," "," "," "};
             boolean eggsecute = true;
 
             for(int i=0; i<typeOfTarget.length;){
@@ -1226,8 +1226,11 @@ public class GameGUI {
                                 increase = true;
                                 break;
                             }
-
                         }
+                    }
+                    else{
+                        eggsecute = true;
+                        System.out.println("FUCK");
                     }
                 }
                 if(increase){
@@ -1237,7 +1240,7 @@ public class GameGUI {
             }
             targetString= target[0].concat(",").concat(target[1]).concat(",").concat(target[2]).concat(",").concat(target[3]).concat(",");
             if(typeOfFire.equals("none")){
-                targetString = ("TRG-POU-")+(handPosition)+("'")+targetString;
+                targetString = ("TRG-POU-")+(handPosition)+("'")+targetString.concat(" ,");
             }
             else
             {
@@ -1246,6 +1249,8 @@ public class GameGUI {
             }
             client.send(targetString);
             pane.getChildren().remove(targetPane);
+            pane.getChildren().remove(rectangle);
+            pane.getChildren().add(boardGrid);
         };
 
         targetPane.getChildren().add(boardGrid);
