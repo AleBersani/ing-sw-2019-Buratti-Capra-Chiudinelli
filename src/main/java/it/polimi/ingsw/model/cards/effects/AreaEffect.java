@@ -40,4 +40,9 @@ public class AreaEffect extends Effect {
             }
         }
     }
+
+    @Override
+    protected void constraintSquareGenerator(TargetParameter targetParameter) {
+        return;
+    }
 }

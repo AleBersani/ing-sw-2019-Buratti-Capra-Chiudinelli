@@ -29,4 +29,9 @@ public class EffectVsSquare extends Effect {
             }
         }
     }
+
+    @Override
+    protected void constraintSquareGenerator(TargetParameter targetParameter) {
+        targetParameter.setConstraintSquare(targetParameter.getTargetSquare());
+    }
 }

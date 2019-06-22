@@ -31,7 +31,8 @@
       "damage": 2,
       "mark": 0,
       "addToList": true,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     }
   ],
   "previousTarget": [[],[]],
@@ -50,7 +51,8 @@
         "linear": false,
         "self": true,
         "addToList": false,
-        "removeFromList": false
+        "removeFromList": false,
+        "description": "Movement:self"
       }
     ],
     [
@@ -77,7 +79,8 @@
           true
         ],
         "damage": 1,
-        "mark": 0
+        "mark": 0,
+        "description": "Square"
       }
     ],
     [
@@ -100,7 +103,8 @@
         "linear": false,
         "self": false,
         "addToList": false,
-        "removeFromList": false
+        "removeFromList": false,
+        "description": "Player,Movement:enemy"
       }
     ]
   ],

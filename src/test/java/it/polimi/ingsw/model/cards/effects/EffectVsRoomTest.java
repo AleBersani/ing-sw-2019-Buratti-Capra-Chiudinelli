@@ -37,7 +37,7 @@ class EffectVsRoomTest {
         adjacentRoom = new AdjacentRoom(0);
         constraints = new ArrayList<Constraint>(Arrays.asList(adjacentRoom));
         constrainPositivity = new ArrayList<Boolean>(Arrays.asList(true));
-        target = new TargetParameter(null, owner, null, null, null,null, null);
+        target = new TargetParameter(null, owner, null, null, null,null);
         test = new EffectVsRoom(0,0,0,"Vulcanizzatore",constraints,constrainPositivity,1,0);
 
     }

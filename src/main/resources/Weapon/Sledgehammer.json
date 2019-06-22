@@ -25,7 +25,8 @@
       "damage": 2,
       "mark": 0,
       "addToList": false,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     }
 
   ],
@@ -51,7 +52,8 @@
       "damage": 3,
       "mark": 0,
       "addToList": true,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     },
     {
       "type": "MovementEffect",
@@ -70,7 +72,10 @@
       ],
       "distance": 2,
       "linear": true,
-      "self": false
+      "self": false,
+      "addToList": false,
+      "removeFromList": false,
+      "description": "Player,Movement:enemy"
     }
   ]
 }

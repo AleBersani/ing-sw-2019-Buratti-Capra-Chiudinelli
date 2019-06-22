@@ -30,11 +30,14 @@ public abstract class Effect implements Serializable {
 
     abstract public void apply(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget) throws InvalidTargetException, NoOwnerException;
 
+    abstract protected void constraintSquareGenerator(TargetParameter targetParameter);
+
     public boolean constraintsCheck(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget) throws NoOwnerException {
         int i;
         if(constraints.isEmpty()){
             return true;
         }
+        constraintSquareGenerator(target);
         for(i=0;i<constraints.size();i++){
             if(!constraints.get(i).canShoot(target,this.constraintPositivity.get(i),previousTarget)){
                 return false;

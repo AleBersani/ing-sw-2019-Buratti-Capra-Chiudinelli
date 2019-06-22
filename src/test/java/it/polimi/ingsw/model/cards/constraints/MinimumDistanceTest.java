@@ -28,7 +28,7 @@ class MinimumDistanceTest {
         enemy = new Player(false,"red", "Fabiano");
         enemy2 = new Player(false,"green", "Fazzio");
         board = new Board(null,"/Board/Board1.json");
-        target = new TargetParameter(null,owner,null,null,null,null, null);
+        target = new TargetParameter(null,owner,null,null,null, null);
         test = new MinimumDistance(2,false,0);
         test1 = new MinimumDistance(3,false,0);
         test2 = new MinimumDistance(2,true,0);

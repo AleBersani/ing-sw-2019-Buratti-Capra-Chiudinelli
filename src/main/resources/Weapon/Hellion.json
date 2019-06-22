@@ -29,7 +29,8 @@
       "damage": 1,
       "mark": 0,
       "addToList": true,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     },
     {
       "type": "EffectVsSquare",
@@ -52,7 +53,8 @@
         false
       ],
       "damage": 0,
-      "mark": 1
+      "mark": 1,
+      "description": "Square"
     }
 
   ],
@@ -84,7 +86,8 @@
       "damage": 1,
       "mark": 0,
       "addToList": true,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     },
     {
       "type": "EffectVsSquare",
@@ -109,7 +112,8 @@
         false
       ],
       "damage": 0,
-      "mark": 2
+      "mark": 2,
+      "description": "Square"
     }
   ]
 }

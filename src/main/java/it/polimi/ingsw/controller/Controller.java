@@ -190,7 +190,6 @@ public class Controller {
     }
 
     private void understandGameCommand(ClientHandler clientHandler, String msg) {
-        //TODO dividere sht con stato in più
         switch (msg.substring(0,ETIQUETTE)){
             case "SHT-":
                 targetRequestWeapon(clientHandler, msg);
@@ -234,7 +233,7 @@ public class Controller {
     }
 
     private void shootingAction(ClientHandler clientHandler, String msg){
-        //TODO destination + spezzare bene
+        //TODO destination + spezzare bene + endShoot + ordine opzionali
         ArrayList<TargetParameter> targetParameters = new ArrayList<>();
         Match simulation;
         try {
@@ -337,19 +336,17 @@ public class Controller {
     }
 
     private TargetParameter generateTarget(String target,ClientHandler clientHandler) {
-        //TODO gestire spazi vuoti
         String[] data =target.split("'");
         String[] parameters = data[1].split(",");
         TargetParameter targetParameter= null;
         try {
             targetParameter = new TargetParameter(
-                    match.getBoard().find(Integer.parseInt(parameters[0].split(":")[0]),Integer.parseInt(parameters[0].split(":")[1])),
+                    parameters[0].equals("")? null : match.getBoard().find(Integer.parseInt(parameters[0].split(":")[0]),Integer.parseInt(parameters[0].split(":")[1])),
                     playerFromNickname(clientHandler.getName()),
-                    playerFromColor(parameters[1]),
-                    match.getBoard().find(Integer.parseInt(parameters[2].split(":")[0]),Integer.parseInt(parameters[2].split(":")[1])).getRoom(),
-                    match.getBoard().find(Integer.parseInt(parameters[3].split(":")[0]),Integer.parseInt(parameters[3].split(":")[1])),
-                    parameters[4],
-                    null
+                    parameters[1].equals("")? null : playerFromColor(parameters[1]),
+                    parameters[2].equals("")? null : match.getBoard().find(Integer.parseInt(parameters[2].split(":")[0]),Integer.parseInt(parameters[2].split(":")[1])).getRoom(),
+                    parameters[3].equals("")? null :match.getBoard().find(Integer.parseInt(parameters[3].split(":")[0]),Integer.parseInt(parameters[3].split(":")[1])),
+                    parameters[4].equals("")? null : parameters[4]
             );
         } catch (NotFoundException e) {
             sendString("error", clientHandler);

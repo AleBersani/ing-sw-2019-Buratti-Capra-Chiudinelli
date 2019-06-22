@@ -43,4 +43,9 @@ public class EffectVsPlayer extends Effect {
             previousMan(previousTarget,target.getEnemyPlayer(),this.addToList,this.removeFromList);
         }
     }
+
+    @Override
+    protected void constraintSquareGenerator(TargetParameter targetParameter) {
+        targetParameter.setConstraintSquare(targetParameter.getEnemyPlayer().getPosition());
+    }
 }

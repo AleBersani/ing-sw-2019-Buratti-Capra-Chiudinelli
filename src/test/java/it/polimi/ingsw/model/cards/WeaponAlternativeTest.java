@@ -28,10 +28,10 @@ class WeaponAlternativeTest {
         enemy3 = new Player(false,"red", "Fagiolo");
         board = new Board(null,"/Board/Board1.json");
         target = new ArrayList<TargetParameter>();
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
         prevPlayer = new ArrayList<Player>();
     }
 
@@ -1022,8 +1022,8 @@ class WeaponAlternativeTest {
         owner.setBlueAmmo(3);
         owner.setRedAmmo(3);
 
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
 
         try {
             enemy.setPosition(board.find(2,3));
@@ -1074,8 +1074,8 @@ class WeaponAlternativeTest {
         owner.setBlueAmmo(3);
         owner.setRedAmmo(3);
 
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
 
         try {
             enemy.setPosition(board.find(2,3));
@@ -1497,8 +1497,8 @@ class WeaponAlternativeTest {
         owner.setBlueAmmo(3);
         owner.setRedAmmo(3);
 
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
 
         try {
             enemy.setPosition(board.find(1,1));
@@ -1547,7 +1547,7 @@ class WeaponAlternativeTest {
         owner.setBlueAmmo(3);
         owner.setRedAmmo(3);
 
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
 
         try {
             enemy.setPosition(board.find(1,1));
@@ -1580,7 +1580,7 @@ class WeaponAlternativeTest {
             weapon.getPreviousTarget().get(i).clear();
         }
 
-        target.add(new TargetParameter(null,owner,null,null,null,null,null));
+        target.add(new TargetParameter(null,owner,null,null,null,null));
 
         try {
             enemy.setPosition(board.find(4,2));

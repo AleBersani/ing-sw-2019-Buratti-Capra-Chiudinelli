@@ -31,7 +31,7 @@ class EffectVsPlayerTest {
         board = new Board(null, "/Board/Board1.json");
         constraints = new ArrayList<Constraint>();
         constrainPositivity = new ArrayList<Boolean>();
-        target = new TargetParameter(null, owner, null, null, null,null, null);
+        target = new TargetParameter(null, owner, null, null, null,null);
         test = new EffectVsPlayer(0,0,0,"lumbro",constraints,constrainPositivity,1,0,false,false);
     }
 

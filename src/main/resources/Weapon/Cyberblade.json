@@ -25,7 +25,8 @@
       "damage": 2,
       "mark": 0,
       "addToList": true,
-      "removeFromList": false
+      "removeFromList": false,
+      "description": "Player"
     }
   ],
   "previousTarget": [[],[]],
@@ -44,7 +45,8 @@
         "linear": false,
         "addToList": false,
         "removeFromList": false,
-        "self": true
+        "self": true,
+        "description": "Movement:self"
       }
 
     ],
@@ -73,7 +75,8 @@
         "damage": 2,
         "mark": 0,
         "addToList": false,
-        "removeFromList": false
+        "removeFromList": false,
+        "description": "Player"
       }
     ]
   ],
