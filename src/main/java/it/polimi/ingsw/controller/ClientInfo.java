@@ -17,7 +17,7 @@ public class ClientInfo {
     }
 
     protected enum State{
-        LOGIN, WAIT, GAME, SPAWN, LAY_WEAPON, END, TARGETING
+        LOGIN, WAIT, GAME, SPAWN, LAY_WEAPON, END, TARGETING, OPTIONAL_WEAPON_SHOOTING
     }
 
 
