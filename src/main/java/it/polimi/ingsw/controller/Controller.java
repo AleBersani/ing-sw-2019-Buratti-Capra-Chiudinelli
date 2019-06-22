@@ -82,7 +82,7 @@ public class Controller {
 
                     if(msg.startsWith("GMC-")){
                         understandGameCommand(clientHandler, msg.substring(ETIQUETTE));
-                        lifeCycle(clientHandler);
+                        lifeCycle(clientHandler); //TODO spostare
                     }
                     else {
                         sendString("Wrong Etiquette, this is GAME", clientHandler);
@@ -233,7 +233,6 @@ public class Controller {
     }
 
     private void shootingAction(ClientHandler clientHandler, String msg){
-        //TODO destination + spezzare bene
         ArrayList<TargetParameter> targetParameters = new ArrayList<>();
         Match simulation;
         String[] data = msg.split("'");
@@ -243,7 +242,7 @@ public class Controller {
                 targetParameters.add(generateTarget(target, clientHandler));
             }
             simulation.getTurn().getCurrent().shoot(simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])),
-                    simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]),Integer.parseInt(data[1].split(":")[1])),
+                    data[1].equals("") ? null : simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]),Integer.parseInt(data[1].split(":")[1])),
                     targetParameters);
             if(!simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])).isOptional()) {
                 simulation.getTurn().getCurrent().endShoot(simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])));
