@@ -74,6 +74,11 @@ class PlayerTest {
             public void fireAlternative(ArrayList<TargetParameter> target) throws NotThisKindOfWeapon, InvalidTargetException, NoAmmoException {
 
             }
+
+            @Override
+            public boolean isOptional() {
+                return false;
+            }
         };
     }
 
