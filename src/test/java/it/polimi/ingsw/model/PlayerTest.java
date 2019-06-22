@@ -257,14 +257,16 @@ class PlayerTest {
             guest.grab(board.find(3,1));
         } catch (InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
             assertThrows(ElementNotFoundException.class,()->guest.grab(board.find(3,1)));
+            assertEquals(0,guest.getTurn().getActionCounter());
         }
         try {
             guest.grabWeapon(board.find(3,1),1);
         } catch (ElementNotFoundException | MaxHandWeaponSizeException | NoAmmoException | NotFoundException e) {
             assertThrows(NoAmmoException.class,()->guest.grabWeapon(board.find(3,1),1));
+            assertEquals(0,guest.getTurn().getActionCounter());
+            assertEquals(0,guest.getWeapons().size());
         }
-        assertEquals(0,guest.getTurn().getActionCounter());
-        assertEquals(0,guest.getWeapons().size());
+
     }
     //TESTED THE WEAPON GRAB WITH AMMO
     @Test
@@ -297,8 +299,7 @@ class PlayerTest {
         assertEquals(1,guest.getTurn().getActionCounter());
         assertEquals(1,guest.getWeapons().size());
     }
-//TODO controllare poi dopo aver sistemato constraint square
-    /*
+
     @Test
     public void testShoot() {
         ArrayList<TargetParameter> parameterList = new ArrayList<>();
@@ -331,7 +332,7 @@ class PlayerTest {
         assertEquals(2,test.getDamageCounter());
         assertEquals(1,test.getMark().size());
     }
-*/
+
     @Test
     public void testEndShoot(){
         guest.setTurn(turn);
