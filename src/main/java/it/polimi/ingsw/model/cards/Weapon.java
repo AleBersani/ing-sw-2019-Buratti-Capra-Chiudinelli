@@ -155,4 +155,6 @@ public abstract class Weapon implements Serializable {
     public String toString(){
         return name;
     }
+
+    public abstract boolean isOptional();
 }

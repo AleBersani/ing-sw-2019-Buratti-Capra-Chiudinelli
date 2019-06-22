@@ -148,7 +148,7 @@ public class Controller {
                     if(msg.startsWith("TRG-")){
                         switch (msg.substring(ETIQUETTE)){
                             case "WPN-":{
-
+                                shootingAction(clientHandler, msg.substring(ETIQUETTE*2));
                                 break;
                             }
                             case "POU-":{
@@ -226,24 +226,34 @@ public class Controller {
     private void targetRequestPU(ClientHandler clientHandler, String msg) {
         try {
             clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.TARGETING);
-            sendString(playerFromNickname("TRG-"+clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.substring(ETIQUETTE))).getEffect().getDescription(), clientHandler);
+            sendString("TRG-"+playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.substring(ETIQUETTE))).getEffect().getDescription(), clientHandler);
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
         }
     }
 
     private void shootingAction(ClientHandler clientHandler, String msg){
-        //TODO destination + spezzare bene + endShoot + ordine opzionali
+        //TODO destination + spezzare bene
         ArrayList<TargetParameter> targetParameters = new ArrayList<>();
         Match simulation;
+        String[] data = msg.split("'");
         try {
             simulation = deepClone(match);
-            for (String target : msg.substring(ETIQUETTE).split(";")) {
+            for (String target : data[2].split(";")) {
                 targetParameters.add(generateTarget(target, clientHandler));
             }
-            simulation.getTurn().getCurrent().shoot(simulation.getTurn().getCurrent().getWeapons().get(Character.getNumericValue(msg.charAt(ETIQUETTE + 1))),null,targetParameters);
-            match=simulation;
-            updateBackground();
+            simulation.getTurn().getCurrent().shoot(simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])),
+                    simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]),Integer.parseInt(data[1].split(":")[1])),
+                    targetParameters);
+            if(!simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])).isOptional()) {
+                simulation.getTurn().getCurrent().endShoot(simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])));
+                match = simulation;
+                updateBackground();
+            }
+            else{
+                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.OPTIONAL_WEAPON_SHOOTING);
+                //TODO opzionali + ordine
+            }
         } catch (InvalidTargetException e) {
             sendString(">>>Invalid target", clientHandler);
         } catch (NoOwnerException e) {
@@ -260,6 +270,8 @@ public class Controller {
             sendString("error", clientHandler);
         } catch (NoAmmoException e) {
             sendString(">>>You don't have enough ammo", clientHandler);
+        } catch (NotFoundException e) {
+            sendString("error", clientHandler);
         }
 
     }

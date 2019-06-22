@@ -26,5 +26,10 @@ public class WeaponBase extends Weapon {
         throw new NotThisKindOfWeapon();
     }
 
+    @Override
+    public boolean isOptional() {
+        return false;
+    }
+
 
 }
