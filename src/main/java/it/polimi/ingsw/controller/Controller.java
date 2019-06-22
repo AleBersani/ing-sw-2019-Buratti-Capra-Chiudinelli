@@ -116,7 +116,7 @@ public class Controller {
                 }
                 case END: {
                     if(msg.startsWith("GMC-UPU-")){
-                        powerUpAction(clientHandler, msg.substring(ETIQUETTE));
+                        targetRequestPU(clientHandler,msg.substring(ETIQUETTE));
                         updateBackground();
                     }
                     else {
@@ -352,12 +352,12 @@ public class Controller {
         TargetParameter targetParameter= null;
         try {
             targetParameter = new TargetParameter(
-                    parameters[0].equals("")? null : match.getBoard().find(Integer.parseInt(parameters[0].split(":")[0]),Integer.parseInt(parameters[0].split(":")[1])),
+                    parameters[0].equals(" ")? null : match.getBoard().find(Integer.parseInt(parameters[0].split(":")[0]),Integer.parseInt(parameters[0].split(":")[1])),
                     playerFromNickname(clientHandler.getName()),
-                    parameters[1].equals("")? null : playerFromColor(parameters[1]),
-                    parameters[2].equals("")? null : match.getBoard().find(Integer.parseInt(parameters[2].split(":")[0]),Integer.parseInt(parameters[2].split(":")[1])).getRoom(),
-                    parameters[3].equals("")? null :match.getBoard().find(Integer.parseInt(parameters[3].split(":")[0]),Integer.parseInt(parameters[3].split(":")[1])),
-                    parameters[4].equals("")? null : parameters[4]
+                    parameters[1].equals(" ")? null : playerFromColor(parameters[1]),
+                    parameters[2].equals(" ")? null : match.getBoard().find(Integer.parseInt(parameters[2].split(":")[0]),Integer.parseInt(parameters[2].split(":")[1])).getRoom(),
+                    parameters[3].equals(" ")? null :match.getBoard().find(Integer.parseInt(parameters[3].split(":")[0]),Integer.parseInt(parameters[3].split(":")[1])),
+                    parameters[4].equals(" ")? null : parameters[4]
             );
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
