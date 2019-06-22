@@ -28,6 +28,8 @@ public class GameGUI {
     private Client client;
     private GridPane boardGrid;
     protected boolean endTurn=false;
+    private String handPosition;
+    private String typeOfFire;
 
     private static final String PURPLE="purple";
     private static final String BLUE="blue";
@@ -895,30 +897,11 @@ public class GameGUI {
                     }
                     ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
                     powerUpGrid.add(powerUp, j, 0);
+                    final int pu=j;
                     powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
-                        GridPane targetGrid = new GridPane();
-                        columnConstraint(targetGrid, N_COLUMN);
-                        rowConstraint(targetGrid, N_ROW);
-
-                        Button back = new Button("BACK");
-                        targetGrid.add(back, 4, 3);
-                        GridPane.setHalignment(back, HPos.CENTER);
-                        GridPane.setValignment(back, VPos.CENTER);
-                        back.setOnAction(eve -> {
-                            pane.getChildren().remove(rectangle);
-                            pane.getChildren().remove(targetGrid);
-                            pane.getChildren().remove(gridButtons);
-                            pane.getChildren().add(gridButtons);
-                            powerUps.fire();
-                        });
-
-
-
-                        pane.getChildren().remove(powerUpGrid);
-                        pane.getChildren().remove(boardGrid);
-                        pane.getChildren().add(boardGrid);
-                        storeButtons(targetGrid, pane);
-                        pane.getChildren().add(targetGrid);
+                        client.send(("GMC-UPU-")+(pu));
+                        typeOfFire = "none";
+                        handPosition = Integer.toString(pu);
                     });
                     j++;
                 }
@@ -968,6 +951,12 @@ public class GameGUI {
         GridPane.setHalignment(text,HPos.CENTER);
         GridPane.setValignment(text,VPos.CENTER);
 
+        for(int i=0;i<numberPowerup;i++) {
+            ColumnConstraints col = new ColumnConstraints();
+            col.setHgrow(Priority.ALWAYS);
+            col.setPercentWidth(20);
+            grid2.getColumnConstraints().add(col);
+        }
         int i=0;
         for(String powerups: gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
             String[] powerupPlusColor = powerups.split(":");
@@ -993,6 +982,8 @@ public class GameGUI {
             }
             ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
             grid2.add(powerUp, i, 1);
+            GridPane.setHalignment(powerUp,HPos.CENTER);
+            GridPane.setValignment(powerUp,VPos.CENTER);
             int pU = i;
             powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
                 client.send("SPW-".concat(Integer.toString(pU)));
@@ -1125,6 +1116,141 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
+    protected void buildTarget(Stage stage, String msg){
+        //TODO collegare
+        StackPane pane = (StackPane)stage.getScene().getRoot();
+        StackPane targetPane = new StackPane();
+        GridPane targetGrid = new GridPane();
+
+        Rectangle rectangle = new Rectangle();
+        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+        rectangle.setEffect(new BoxBlur());
+        rectangle.widthProperty().bind(pane.widthProperty());
+        rectangle.heightProperty().bind(pane.heightProperty());
+
+        Label text = new Label(""); //TODO initialize the label with the first value
+        label40Helvetica(text, "#ffffff", 0.8);
+        targetGrid.add(text,0,3,4,1);
+        GridPane.setHalignment(text,HPos.CENTER);
+        GridPane.setValignment(text,VPos.CENTER);
+
+        //TODO controllare questo for per avere un event e poi uno dopo che l'altro si è consumato
+        String[] typeOfTarget= msg.split(";");
+
+
+
+        EventHandler clickEvent = (EventHandler<MouseEvent>) event -> {
+            String targetString = "";
+            final String[] target = {"","","",""};
+            boolean eggsecute = true;
+
+            for(int i=0; i<typeOfTarget.length;){
+                boolean increase = false;
+                String[] type = typeOfTarget[i].split(":");
+                if(eggsecute) {
+                    eggsecute = false;
+
+                    double pixelX = event.getScreenX();
+                    double pixelY = event.getScreenY();
+
+                    String cellX = Integer.toString(1 + (int) (pixelX / (pane.getWidth() / N_COLUMN)));
+                    String cellY = Integer.toString(1 + (int) (pixelY / (pane.getHeight() / N_ROW)));
+
+                    //TODO Controllare i nomi di questi if
+                    switch (type[0]) {
+                        case "movement": {
+                            target[0] = cellX.concat(":").concat(cellY);
+                            eggsecute = true;
+                            increase = true;
+                            break;
+                        }
+                        case "enemy": {
+                            String innerCellX = Integer.toString((int) (pixelX / (pane.getWidth() / (N_COLUMN * N_INNER_COLUMN))) % N_INNER_COLUMN);
+                            String innerCellY = Integer.toString((int) (pixelY / (pane.getHeight() / (N_ROW * N_INNER_ROW))) % N_INNER_ROW);
+                            String pos = innerCellX.concat(innerCellY);
+                            String color = "";
+                            switch (pos) {
+                                case "01": {
+                                    color = "blue";
+                                    break;
+                                }
+                                case "02": {
+                                    color = "yellow";
+                                    break;
+                                }
+                                case "12": {
+                                    color = "green";
+                                    break;
+                                }
+                                case "22": {
+                                    color = "grey";
+                                    break;
+                                }
+                                case "21": {
+                                    color = "purple";
+                                    break;
+                                }
+                                default: {
+                                    System.out.println("invalid Player");
+                                }
+                            }
+                            if (!color.equals("")) {
+                                for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
+                                    for (ArrayList<String> cell : room) {
+                                        if ((cell.get(CELL_X).equals(cellX)) && (cell.get(CELL_Y).equals(cellY))) {
+                                            for (String player : cell.get(CELL_PLAYER_ON_ME).split("'")) {
+                                                if (player.equals(color)) {
+                                                    target[1] = color;
+                                                    eggsecute = true;
+                                                    increase = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                        case "room": {
+                            target[2] = cellX.concat(":").concat(cellY);
+                            eggsecute = true;
+                            increase = true;
+                            break;
+                        }
+                        case "target square": {
+                            target[3] = cellX.concat(":").concat(cellY);
+                            eggsecute = true;
+                            increase = true;
+                            break;
+                        }
+
+                    }
+                }
+                if(increase){
+                    i++;
+                    text.setText(type[1]); //TODO update the label text with the next one
+                }
+            }
+            targetString= target[0].concat(",").concat(target[1]).concat(",").concat(target[2]).concat(",").concat(target[3]).concat(",");
+            if(typeOfFire.equals("none")){
+                targetString = ("TRG-POU-")+(handPosition)+("'")+targetString;
+            }
+            else
+            {
+                //TODO aggiungere il type of fire
+                targetString = ("TRG-WPN-")+(handPosition)+("'")+targetString;
+            }
+            client.send(targetString);
+            pane.getChildren().remove(targetPane);
+        };
+
+        targetPane.getChildren().add(boardGrid);
+        storeButtons(targetGrid,targetPane);
+        targetPane.getChildren().add(targetGrid);
+        targetPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
+        pane.getChildren().add(targetPane);
+    }
+
     private void storeButtons(GridPane gridButtons, StackPane pane){
         for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
@@ -1198,7 +1324,6 @@ public class GameGUI {
         label.setStyle("-fx-font: 40 Helvetica;");
         label.setEffect(new DropShadow());
     }
-
 
     /*
         //TODO IF THERE ARE ANY THROWED EXCEPTION
