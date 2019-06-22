@@ -1983,9 +1983,7 @@ class WeaponOptionalTest {
             enemy3.getPosition().arrives(enemy3);
             target.get(0).setEnemyPlayer(enemy);
             target.get(0).setMovement(board.find(2,2));
-            target.get(0).setConstraintSquare(board.find(2,2));
             target.get(1).setEnemyPlayer(enemy);
-            target.get(1).setConstraintSquare(enemy.getPosition());
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -2014,14 +2012,10 @@ class WeaponOptionalTest {
         try {
             target.get(0).setEnemyPlayer(enemy2);
             target.get(0).setMovement(board.find(2,2));
-            target.get(0).setConstraintSquare(board.find(2,2));
             target.get(1).setEnemyPlayer(enemy2);
-            target.get(1).setConstraintSquare(board.find(2,2));
             target.get(2).setEnemyPlayer(enemy3);
             target.get(2).setMovement(board.find(2,2));
-            target.get(2).setConstraintSquare(board.find(2,2));
             target.get(3).setEnemyPlayer(enemy3);
-            target.get(3).setConstraintSquare(board.find(2,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -2063,9 +2057,7 @@ class WeaponOptionalTest {
             enemy.getPosition().arrives(enemy);
             target.get(0).setEnemyPlayer(enemy);
             target.get(0).setMovement(board.find(2,1));
-            target.get(0).setConstraintSquare(board.find(2,1));
             target.get(1).setEnemyPlayer(enemy);
-            target.get(1).setConstraintSquare(enemy.getPosition());
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
