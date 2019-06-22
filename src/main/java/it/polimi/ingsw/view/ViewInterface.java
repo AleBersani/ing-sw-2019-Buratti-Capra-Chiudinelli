@@ -22,5 +22,7 @@ public interface ViewInterface {
 
     void reloadShow(String msg);
 
+    void targetShow(String msg);
+
     void gameReShow();
 }

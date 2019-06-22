@@ -131,6 +131,10 @@ public class MessageHandler {
                 }
                 break;
             }
+            case "TRG-":{
+                view.targetShow(msg.substring(NAME_ETIQUETTE));
+                break;
+            }
             default:
         }
     }

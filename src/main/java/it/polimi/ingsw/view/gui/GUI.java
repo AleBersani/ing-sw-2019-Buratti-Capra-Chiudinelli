@@ -211,6 +211,10 @@ public class GUI extends Application implements ViewInterface {
         this.gameGUI.reload(stage,infoString);
     }
 
+    private void showTarget(){
+        this.gameGUI.buildTarget(stage,infoString);
+    }
+
     @Override
     public void spawn(String msg) {
         this.infoString = msg;
@@ -280,6 +284,12 @@ public class GUI extends Application implements ViewInterface {
     public void reloadShow(String msg) {
         this.infoString = msg;
         Platform.runLater(this::reload);
+    }
+
+    @Override
+    public void targetShow(String msg) {
+        this.infoString = msg;
+        Platform.runLater(this::showTarget);
     }
 
     @Override
