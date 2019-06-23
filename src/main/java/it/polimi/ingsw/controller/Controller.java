@@ -82,7 +82,6 @@ public class Controller {
 
                     if(msg.startsWith("GMC-")){
                         understandGameCommand(clientHandler, msg.substring(ETIQUETTE));
-                        lifeCycle(clientHandler); //TODO spostare
                     }
                     else {
                         sendString("Wrong Etiquette, this is GAME", clientHandler);
@@ -136,7 +135,22 @@ public class Controller {
                             }
                             respawn();
                             match.getTurn().endTurn();
-                            //TODO end
+                            clientHandler.setYourTurn(false);
+                            for (ClientInfo clientInfo : nicknameList.values()) {
+                                if(clientInfo.clientHandler.getName().equals(match.getTurn().getCurrent().getNickname())){
+                                    clientInfo.clientHandler.setYourTurn(true);
+                                    if(clientInfo.clientHandler.isFirstSpawn()){
+                                        clientInfo.setState(ClientInfo.State.SPAWN);
+                                        startingSpawn(clientInfo.clientHandler,match.getTurn().getCurrent());
+                                    }
+                                    else {
+                                        clientInfo.setState(ClientInfo.State.GAME);
+                                        lifeCycle(clientInfo.clientHandler);
+                                        updateBackground();
+                                        sendString(">>>Now is your turn", clientInfo.clientHandler);
+                                    }
+                                }
+                            }
                         }
                         else {
                             sendString("Wrong Etiquette, this is END", clientHandler);
@@ -285,6 +299,7 @@ public class Controller {
             sendString("error", clientHandler);
         }
         updateBackground();
+        lifeCycle(clientHandler);
     }
 
     private void grabbingAction(ClientHandler clientHandler, String msg){
@@ -292,6 +307,8 @@ public class Controller {
             String[] stringo =msg.substring(ETIQUETTE).split(",");
             playerFromNickname(clientHandler.getName()).grab(match.getBoard().find(Integer.parseInt(stringo[0]),
                     Integer.parseInt(stringo[1])));
+            updateBackground();
+            lifeCycle(clientHandler);
         } catch (InvalidDestinationException e) {
             sendString(">>>Square not valid", clientHandler);
         }catch (NotFoundException e) {
@@ -303,6 +320,8 @@ public class Controller {
             try {
                 playerFromNickname(clientHandler.getName()).grabWeapon(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
                         Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])),Integer.parseInt(msg.substring(ETIQUETTE).split(",")[2]));
+                updateBackground();
+                lifeCycle(clientHandler);
                 //TODO richiamare grabWeapon con powerUp
             } catch (ElementNotFoundException e1) {
                 sendString(">>>Nothing to grab", clientHandler);
@@ -320,7 +339,6 @@ public class Controller {
                 }
             }
         }
-        updateBackground();
     }
 
 
@@ -328,6 +346,7 @@ public class Controller {
         try {
             playerFromNickname(clientHandler.getName()).usePowerUp(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.split("'")[0])),
                     generateTarget(msg, clientHandler));
+            updateBackground();
         } catch (InvalidTargetException e) {
             sendString(">>>Invalid Target", clientHandler);
         } catch (NoOwnerException e) {
@@ -340,10 +359,11 @@ public class Controller {
 
         try {
             clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+            lifeCycle(clientHandler);
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
         }
-        updateBackground();
+
     }
 
     private TargetParameter generateTarget(String target,ClientHandler clientHandler) {
