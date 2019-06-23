@@ -53,7 +53,6 @@ class WeaponAlternativeTest {
             enemy3.setPosition(board.find(2,1));
             enemy3.getPosition().arrives(enemy3);
             target.get(0).setTargetSquare(board.find(2,1));
-            target.get(0).setConstraintSquare(board.find(2,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -135,7 +134,6 @@ class WeaponAlternativeTest {
             enemy3.setPosition(board.find(2,1));
             enemy3.getPosition().arrives(enemy3);
             target.get(0).setTargetSquare(board.find(2,1));
-            target.get(0).setConstraintSquare(board.find(2,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -166,7 +164,6 @@ class WeaponAlternativeTest {
 
         try {
             target.get(0).setTargetSquare(board.find(2,2));
-            target.get(0).setConstraintSquare(board.find(2,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -194,9 +191,7 @@ class WeaponAlternativeTest {
             enemy2.setPosition(board.find(2,2));
             enemy2.getPosition().arrives(enemy2);
             target.get(0).setEnemyPlayer(enemy);
-            target.get(0).setConstraintSquare(enemy.getPosition());
             target.get(1).setEnemyPlayer(enemy2);
-            target.get(1).setConstraintSquare(enemy2.getPosition());
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -239,9 +234,7 @@ class WeaponAlternativeTest {
             enemy3.setPosition(board.find(2,2));
             enemy3.getPosition().arrives(enemy3);
             target.get(0).setTargetSquare(board.find(3,2));
-            target.get(0).setConstraintSquare(board.find(3,2));
             target.get(1).setTargetSquare(board.find(2,2));
-            target.get(1).setConstraintSquare(board.find(2,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -293,9 +286,7 @@ class WeaponAlternativeTest {
             enemy2.setPosition(board.find(1,2));
             enemy2.getPosition().arrives(enemy2);
             target.get(0).setEnemyPlayer(enemy);
-            target.get(0).setConstraintSquare(enemy.getPosition());
             target.get(1).setEnemyPlayer(enemy2);
-            target.get(1).setConstraintSquare(enemy2.getPosition());
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -364,7 +355,6 @@ class WeaponAlternativeTest {
             enemy3.setPosition(board.find(1,1));
             enemy3.getPosition().arrives(enemy3);
             target.get(0).setTargetSquare(board.find(1,1));
-            target.get(0).setConstraintSquare(board.find(1,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -409,7 +399,6 @@ class WeaponAlternativeTest {
 
         try {
             target.get(0).setTargetSquare(board.find(2,1));
-            target.get(0).setConstraintSquare(board.find(2,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -424,7 +413,6 @@ class WeaponAlternativeTest {
         }
         try {
             target.get(0).setTargetSquare(board.find(1,2));
-            target.get(0).setConstraintSquare(board.find(1,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -451,9 +439,7 @@ class WeaponAlternativeTest {
             enemy3.setPosition(board.find(2,1));
             enemy3.getPosition().arrives(enemy3);
             target.get(0).setEnemyPlayer(enemy);
-            target.get(0).setConstraintSquare(enemy.getPosition());
             target.get(1).setTargetSquare(board.find(2,1));
-            target.get(1).setConstraintSquare(board.find(2,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -506,9 +492,7 @@ class WeaponAlternativeTest {
             enemy3.setPosition(board.find(2,2));
             enemy3.getPosition().arrives(enemy3);
             target.get(0).setEnemyPlayer(enemy);
-            target.get(0).setConstraintSquare(enemy.getPosition());
             target.get(1).setTargetSquare(board.find(2,2));
-            target.get(1).setConstraintSquare(board.find(2,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -558,10 +542,8 @@ class WeaponAlternativeTest {
         owner.setRedAmmo(3);
 
         target.get(0).setEnemyPlayer(owner);
-        target.get(0).setConstraintSquare(owner.getPosition());
         try {
             target.get(1).setTargetSquare(board.find(2,1));
-            target.get(1).setConstraintSquare(board.find(2,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -576,10 +558,8 @@ class WeaponAlternativeTest {
         }
 
         target.get(0).setEnemyPlayer(enemy);
-        target.get(0).setConstraintSquare(enemy.getPosition());
         try {
             target.get(1).setTargetSquare(board.find(1,1));
-            target.get(1).setConstraintSquare(board.find(1,1));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -587,12 +567,10 @@ class WeaponAlternativeTest {
 
         target.get(0).setOwner(null);
         target.get(0).setEnemyPlayer(enemy);
-        target.get(0).setConstraintSquare(enemy.getPosition());
         try {
             enemy.setPosition(board.find(2,2));
             enemy.getPosition().arrives(enemy);
             target.get(1).setTargetSquare(board.find(2,2));
-            target.get(1).setConstraintSquare(board.find(2,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -615,9 +593,7 @@ class WeaponAlternativeTest {
             enemy.setPosition(board.find(3,2));
             enemy.getPosition().arrives(enemy);
             target.get(0).setEnemyPlayer(enemy);
-            target.get(0).setConstraintSquare(enemy.getPosition());
             target.get(1).setMovement(enemy.getPosition());
-            target.get(1).setConstraintSquare(enemy.getPosition());
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -663,13 +639,9 @@ class WeaponAlternativeTest {
             enemy2.setPosition(board.find(2,2));
             enemy2.getPosition().arrives(enemy2);
             target.get(0).setEnemyPlayer(enemy);
-            target.get(0).setConstraintSquare(enemy.getPosition());
             target.get(1).setMovement(board.find(3,2));
-            target.get(1).setConstraintSquare(board.find(3,2));
             target.get(2).setEnemyPlayer(enemy2);
-            target.get(2).setConstraintSquare(enemy2.getPosition());
             target.get(3).setMovement(board.find(2,2));
-            target.get(3).setConstraintSquare(board.find(2,2));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
