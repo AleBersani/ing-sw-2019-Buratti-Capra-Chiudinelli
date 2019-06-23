@@ -116,7 +116,6 @@ public class Controller {
                 case END: {
                     if(msg.startsWith("GMC-UPU-")){
                         targetRequestPU(clientHandler,msg.substring(ETIQUETTE));
-                        updateBackground();
                     }
                     else {
                         if (msg.startsWith("END-")) {
