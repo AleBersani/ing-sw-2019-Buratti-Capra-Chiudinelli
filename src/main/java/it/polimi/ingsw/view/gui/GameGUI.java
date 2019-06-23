@@ -701,6 +701,14 @@ public class GameGUI {
                     GridPane.setHalignment(backRun, HPos.CENTER);
                     GridPane.setValignment(backRun, VPos.CENTER);
 
+                    Label text = new Label("Click on a cell of the map");
+                    text.setTextFill(Color.web("#ffffff", 0.8));
+                    text.setStyle("-fx-font: 40 Helvetica;");
+                    text.setEffect(new DropShadow());
+                    grid5.add(text, 0, 3,4,1);
+                    GridPane.setHalignment(text, HPos.CENTER);
+                    GridPane.setValignment(text, VPos.CENTER);
+
                     EventHandler clickEvent = (EventHandler<MouseEvent>) event1 -> {
                         int cellX = 1 + (int) (event1.getScreenX() / (pane.getWidth() / N_COLUMN));
                         int cellY = 1 + (int) (event1.getScreenY() / (pane.getHeight() / N_ROW));
@@ -743,6 +751,14 @@ public class GameGUI {
                     grid5.add(backRun, 4, 3);
                     GridPane.setHalignment(backRun, HPos.CENTER);
                     GridPane.setValignment(backRun, VPos.CENTER);
+
+                    Label text = new Label("Click on a cell of the map");
+                    text.setTextFill(Color.web("#ffffff", 0.8));
+                    text.setStyle("-fx-font: 40 Helvetica;");
+                    text.setEffect(new DropShadow());
+                    grid5.add(text, 0, 3,4,1);
+                    GridPane.setHalignment(text, HPos.CENTER);
+                    GridPane.setValignment(text, VPos.CENTER);
 
                     final boolean[] cancelClickEvent = new boolean[1];
                     cancelClickEvent[0] = true;
