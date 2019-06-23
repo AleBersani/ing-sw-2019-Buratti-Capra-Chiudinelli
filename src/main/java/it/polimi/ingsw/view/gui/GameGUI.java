@@ -603,7 +603,6 @@ public class GameGUI {
             pane.getChildren().add(gridInfo);
         });
 
-
         //quit button
         Button quit = new Button("Quit");
         gridButtons.add(quit, 6, 4);
@@ -701,7 +700,7 @@ public class GameGUI {
                     GridPane.setHalignment(backRun, HPos.CENTER);
                     GridPane.setValignment(backRun, VPos.CENTER);
 
-                    Label text = new Label("Click on a cell of the map");
+                    Label text = new Label("Choose a square where you want to move");
                     text.setTextFill(Color.web("#ffffff", 0.8));
                     text.setStyle("-fx-font: 40 Helvetica;");
                     text.setEffect(new DropShadow());
@@ -752,7 +751,7 @@ public class GameGUI {
                     GridPane.setHalignment(backRun, HPos.CENTER);
                     GridPane.setValignment(backRun, VPos.CENTER);
 
-                    Label text = new Label("Click on a cell of the map");
+                    Label text = new Label("Choose a square where you want to move and grab");
                     text.setTextFill(Color.web("#ffffff", 0.8));
                     text.setStyle("-fx-font: 40 Helvetica;");
                     text.setEffect(new DropShadow());
@@ -844,7 +843,7 @@ public class GameGUI {
                 shoot.setOnAction(e->{
                     GridPane gridWeapons = new GridPane();
                     Button backShoot = new Button("BACK");
-
+                    
                     gridWeapons.add(backShoot,0,0);
                     GridPane.setHalignment(backShoot,HPos.CENTER);
                     GridPane.setValignment(backShoot,VPos.CENTER);
@@ -1147,7 +1146,7 @@ public class GameGUI {
         rectangle.widthProperty().bind(pane.widthProperty());
         rectangle.heightProperty().bind(pane.heightProperty());
 
-        Label text = new Label(""); //TODO initialize the label with the first value
+        Label text = new Label("");
         label40Helvetica(text, "#ffffff", 0.8);
         targetGrid.add(text,0,3,4,1);
         GridPane.setHalignment(text,HPos.CENTER);
@@ -1162,6 +1161,8 @@ public class GameGUI {
             }
             i++;
         }
+
+        targetDescription(targetParameters.get(0).get(0),text);
 
         final int[] j = {0};
         final int[] k = {0};
@@ -1275,6 +1276,10 @@ public class GameGUI {
                             client.send(targetString[0]);
                         }
                     }
+                    if(j[0] < targetParameters.size()){
+                        targetDescription(targetParameters.get(j[0]).get(k[0]),text);
+                    }
+
                 }
             }
         };
@@ -1333,6 +1338,33 @@ public class GameGUI {
                 }
             }
         }
+    }
+
+    private void targetDescription(String msg, Label infoText){
+        String info = "";
+        switch(msg){
+            case "Movement:enemy":{
+                info = "Choose a square where you want to move the enemy player";
+                break;
+            }
+            case "Movement:self":{
+                info = "Choose a square where you want to move";
+                break;
+            }
+            case "Player":{
+                info = "Choose an enemy player";
+                break;
+            }
+            case "Room":{
+                info = "Choose a square to select the room";
+                break;
+            }
+            case "Square":{
+                info = "Choose a square";
+                break;
+            }
+        }
+        infoText.setText(info);
     }
 
     private void columnConstraint(GridPane grid, double nColumn){
