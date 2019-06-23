@@ -30,6 +30,7 @@ public class GameGUI {
     protected boolean endTurn=false;
     private String handPosition;
     private String typeOfFire;
+    private String powerUpPay;
 
     private static final String PURPLE="purple";
     private static final String BLUE="blue";
@@ -512,6 +513,7 @@ public class GameGUI {
                 j++;
             }
 
+            //power ups
             if(!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
                 for (String powerups : gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
                     String[] powerupPlusColor = powerups.split(":");
@@ -843,8 +845,29 @@ public class GameGUI {
                 shoot.setOnAction(e->{
                     GridPane gridWeapons = new GridPane();
                     Button backShoot = new Button("BACK");
-                    
-                    gridWeapons.add(backShoot,0,0);
+
+                    int j = 0;
+                    for (String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")) {
+                        if (!weapon.equals("")) {
+                            String[] playerWeapon = weapon.split(":");
+                            if(playerWeapon[1].equals("true")){
+                                String weaponName = playerWeapon[0].toLowerCase().replace(" ", "").concat(".png");
+                                ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
+                                gridWeapons.add(weaponIV, j, 0);
+                                final int wpn = j;
+                                weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED,ev ->{
+                                    client.send("GMC-SHT-".concat(Integer.toString(wpn)));
+                                    //TODO AGGIUNGERE PAGAMENTO POWER UP E POSIZIONE ADRENALINA
+                                });
+                            }
+                        }
+                        j++;
+                    }
+
+                    if(j==0){
+                        j=1;
+                    }
+                    gridWeapons.add(backShoot,0,0, j,1);
                     GridPane.setHalignment(backShoot,HPos.CENTER);
                     GridPane.setValignment(backShoot,VPos.CENTER);
 
@@ -1365,6 +1388,103 @@ public class GameGUI {
             }
         }
         infoText.setText(info);
+    }
+
+    private void powerUpPay(Pane pane){//TODO CONTROLLARE QUANDO VIENE CHIAMATA
+        Pane payPane = new Pane();
+
+        GridPane payGrid = new GridPane();
+
+        Label title = new Label("Do you want to pay with power ups?");
+        label40Helvetica(title, "#ffffff", 0.8);
+        payGrid.add(title,0,0);
+        GridPane.setHalignment(title,HPos.CENTER);
+        GridPane.setValignment(title,VPos.CENTER);
+
+        Button yes = new Button("YES");
+        payGrid.add(yes,0,1);
+        GridPane.setHalignment(yes,HPos.CENTER);
+        GridPane.setValignment(yes,VPos.CENTER);
+        yes.setOnAction(e->{
+            payPane.getChildren().remove(payGrid);
+
+            GridPane gridPowerUp = new GridPane();
+            
+            if(!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
+                String [] powerUps = gui.getYouRepresentation().get(YOU_POWERUP).split("'");
+                boolean[] consumed = new boolean[powerUps.length];
+                for (int j=0;j<powerUps.length;j++) {
+                    consumed[j] = false;
+                    String[] powerupPlusColor = powerUps[j].split(":");
+                    String realPowerUp = powerupPlusColor[1];
+                    switch (powerupPlusColor[0]) {
+                        case "tagback grenade": {
+                            realPowerUp = realPowerUp.concat("TagbackGrenade");
+                            break;
+                        }
+                        case "newton": {
+                            realPowerUp = realPowerUp.concat("Newton");
+                            break;
+                        }
+                        case "teleporter": {
+                            realPowerUp = realPowerUp.concat("Teleporter");
+                            break;
+                        }
+                        case "targeting scope": {
+                            realPowerUp = realPowerUp.concat("TargetingScope");
+                            break;
+                        }
+                        default:
+                    }
+                    ImageView powerUpIV = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
+                    gridPowerUp.add(powerUpIV, j, 0);
+                    final int pu=j;
+                    powerUpIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
+                        if(!consumed[pu]) {
+                            consumed[pu] = true;
+                            this.powerUpPay = this.powerUpPay.concat(Integer.toString(pu).concat(","));
+                            powerUpIV.setFitWidth(pane.getWidth() / (N_COLUMN * 2));
+                            powerUpIV.setFitHeight(pane.getHeight() / (NUMBER_OF_WEAPON * 2));
+                        }
+                        else{
+                            ev.consume();
+                        }
+                    });
+                }
+            }
+
+            Button done = new Button("DONE");
+            gridPowerUp.add(done,0,1);
+            GridPane.setHalignment(done,HPos.CENTER);
+            GridPane.setValignment(done,VPos.CENTER);
+            done.setOnAction(ev->{
+                //TODO WTF?
+                pane.getChildren().remove(payPane);
+            });
+
+            payPane.getChildren().add(gridPowerUp);
+        });
+
+        Button no = new Button("NO");
+        payGrid.add(no,1,1);
+        GridPane.setHalignment(no,HPos.CENTER);
+        GridPane.setValignment(no,VPos.CENTER);
+        no.setOnAction(e->{
+            this.powerUpPay=" ";
+            pane.getChildren().remove(payPane);
+        });
+
+        Rectangle rectangle = new Rectangle();
+        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+        rectangle.setEffect(new BoxBlur());
+        rectangle.widthProperty().bind(pane.widthProperty());
+        rectangle.heightProperty().bind(pane.heightProperty());
+
+        payGrid.setAlignment(Pos.CENTER);
+        payPane.getChildren().add(rectangle);
+        payPane.getChildren().add(payGrid);
+        pane.getChildren().add(payPane);
+
     }
 
     private void columnConstraint(GridPane grid, double nColumn){
