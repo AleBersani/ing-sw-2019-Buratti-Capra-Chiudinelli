@@ -43,7 +43,6 @@ class WeaponBaseTest {
             board.find(2,1).arrives(owner);
             enemy.setPosition(board.find(2,2));
             board.find(2,2).arrives(enemy);
-            target.get(0).setConstraintSquare(enemy.getPosition());
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -62,7 +61,6 @@ class WeaponBaseTest {
         try {
             enemy.setPosition(board.find(1,1));
             enemy.getPosition().arrives(enemy);
-            target.get(0).setConstraintSquare(enemy.getPosition());
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -82,7 +80,6 @@ class WeaponBaseTest {
             owner.getPosition().arrives(owner);
             enemy.setPosition(board.find(2,2));
             enemy.getPosition().arrives(enemy);
-            target.get(0).setConstraintSquare(enemy.getPosition());
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -109,7 +106,6 @@ class WeaponBaseTest {
         try {
             enemy.setPosition(board.find(2,1));
             enemy.getPosition().arrives(enemy);
-            target.get(0).setConstraintSquare(enemy.getPosition());
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -118,7 +114,6 @@ class WeaponBaseTest {
         try {
             enemy.setPosition(board.find(4,2));
             enemy.getPosition().arrives(enemy);
-            target.get(0).setConstraintSquare(enemy.getPosition());
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
