@@ -42,7 +42,12 @@ public class MovementEffect extends Effect {
             player=target.getOwner();
         }
         else{
-            player=target.getEnemyPlayer();
+            if(target.getEnemyPlayer().equals(target.getOwner())){
+                throw new InvalidTargetException();
+            }
+            else {
+                player=target.getEnemyPlayer();
+            }
         }
 
         if(player.getPosition().calcDist(target.getMovement())>this.distance){
