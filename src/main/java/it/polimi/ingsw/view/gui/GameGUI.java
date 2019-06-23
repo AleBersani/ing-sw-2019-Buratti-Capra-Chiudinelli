@@ -1287,6 +1287,7 @@ public class GameGUI {
                     }
                 }
                 if (success[0]) {
+                    success[0]=false;
                     k[0]++;
                     if (k[0] >= targetParameters.get(j[0]).size()) {
                         k[0] = 0;
@@ -1409,7 +1410,7 @@ public class GameGUI {
             payPane.getChildren().remove(payGrid);
 
             GridPane gridPowerUp = new GridPane();
-            
+
             if(!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
                 String [] powerUps = gui.getYouRepresentation().get(YOU_POWERUP).split("'");
                 boolean[] consumed = new boolean[powerUps.length];
