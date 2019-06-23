@@ -145,9 +145,9 @@ public class Controller {
                                     }
                                     else {
                                         clientInfo.setState(ClientInfo.State.GAME);
-                                        lifeCycle(clientInfo.clientHandler);
                                         updateBackground();
                                         sendString(">>>Now is your turn", clientInfo.clientHandler);
+                                        lifeCycle(clientInfo.clientHandler);
                                     }
                                 }
                             }
