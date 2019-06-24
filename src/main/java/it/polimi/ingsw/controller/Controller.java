@@ -292,12 +292,13 @@ public class Controller {
         try {
             playerFromNickname(clientHandler.getName()).run(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
                     Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])));
+            updateBackground();
         } catch (InvalidDestinationException e) {
             sendString(">>>Square not valid", clientHandler);
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
+            updateBackground();
         }
-        updateBackground();
         lifeCycle(clientHandler);
     }
 
