@@ -69,9 +69,6 @@ public class GameGUI {
     private static final int KILL_COL_SPAN= 3;
     private static final int NUMBER_OF_WEAPON= 3;
 
-
-
-
     public GameGUI(GUI gui, MessageHandler messageHandler, Client client) {
         this.gui = gui;
         this.messageHandler = messageHandler;
