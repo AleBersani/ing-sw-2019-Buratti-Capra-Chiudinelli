@@ -140,6 +140,7 @@ public class GUI extends Application implements ViewInterface {
             }
             case GAME: {
                 reShow();
+                gameGUI.informationMessage(stage,messageHandler.getToShow().substring(3));
                 break;
             }
         }

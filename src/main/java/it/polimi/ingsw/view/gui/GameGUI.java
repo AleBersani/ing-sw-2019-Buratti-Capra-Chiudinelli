@@ -272,11 +272,29 @@ public class GameGUI {
         rowConstraint(grid, N_ROW);
 
         int i=0;
-        for(ArrayList<String> playerColor: gui.getPlayersRepresentation()){
-            String[] color = playerColor.get(PLAYER_COLOR).split(":");
+        for(ArrayList<String> player: gui.getPlayersRepresentation()){
+            String[] color = player.get(PLAYER_COLOR).split(":");
             String playerPlance = color[1];
+            String [] turned = player.get(10).split(":");
+            String playerTurned = turned[1];
+            String [] frenzy = player.get(11).split(":");
+            String turnFrenzy = frenzy[1];
+            String declaration = "/images/game/plance/";
+
             if((playerPlance.equals(PURPLE))||(playerPlance.equals(BLUE))||(playerPlance.equals(GREEN))||(playerPlance.equals(YELLOW))||(playerPlance.equals(GREY))) {
-                grid.add(new ImageView(new Image("/images/game/plance/".concat(playerPlance).concat("Player.png"), pane.getWidth() / N_COLUMN * PLAYER_COL_SPAN, pane.getHeight() / N_ROW, false, false)), PLAYER_XPOS, i, PLAYER_COL_SPAN, PLAYER_ROW_SPAN);
+                if(turnFrenzy.equals("false")){ //frenzy false
+                    grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("Player.png"), pane.getWidth() / N_COLUMN * PLAYER_COL_SPAN, pane.getHeight() / N_ROW, false, false)), PLAYER_XPOS, i, PLAYER_COL_SPAN, PLAYER_ROW_SPAN);
+                }
+                else{
+                    if(playerTurned.equals("false")){   //turned false
+                        grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedActionPlayer.png"), pane.getWidth() / N_COLUMN * PLAYER_COL_SPAN, pane.getHeight() / N_ROW, false, false)), PLAYER_XPOS, i, PLAYER_COL_SPAN, PLAYER_ROW_SPAN);
+
+                    }
+                    else{   //frenzy true and turned true
+                        grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedPlayer.png"), pane.getWidth() / N_COLUMN * PLAYER_COL_SPAN, pane.getHeight() / N_ROW, false, false)), PLAYER_XPOS, i, PLAYER_COL_SPAN, PLAYER_ROW_SPAN);
+
+                    }
+                }
             }
             i++;
         }
@@ -1623,34 +1641,39 @@ public class GameGUI {
         }
         pane.getChildren().add(pane2);
     }
-
-    public void informationMessage(Pane pane){
+*/
+    public void informationMessage(Stage stage,String msg){
+        StackPane pane = (StackPane)stage.getScene().getRoot();
         StackPane pane2 = new StackPane();
-        GridPane grid2 = new GridPane();
+
+        GridPane grid = new GridPane();
+
         Rectangle rectangle = new Rectangle();
-        Label text = new Label("Problems...");
-        text.setTextFill(Color.web("#ffffff", 0.8));
-        text.setStyle("-fx-font: 60 Helvetica;");
-        text.setEffect(new DropShadow());
-        Button ok = new Button("OK");
         rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
         rectangle.setEffect(new BoxBlur());
         rectangle.widthProperty().bind(pane.widthProperty());
         rectangle.heightProperty().bind(pane.heightProperty());
-        grid2.add(text,0,0);
-        grid2.add(ok,0,1);
-        ok.setOnAction(e->{
-            pane.getChildren().remove(pane2);
-        });
-        grid2.setAlignment(Pos.CENTER);
+
+        Label text = new Label(msg);
+        text.setTextFill(Color.web("#ffffff", 0.8));
+        text.setStyle("-fx-font: 50 Helvetica;");
+        text.setEffect(new DropShadow());
         GridPane.setHalignment(text,HPos. CENTER);
         GridPane.setValignment(text,VPos. CENTER);
+
+        Button ok = new Button("OK");
         GridPane.setHalignment(ok,HPos. CENTER);
         GridPane.setValignment(ok,VPos. CENTER);
-        pane2.getChildren().add(rectangle);
-        pane2.getChildren().add(grid2);
-        pane.getChildren().add(pane2);
+        ok.setOnAction(e-> pane.getChildren().remove(pane2));
 
+        grid.setVgap(50);
+
+        grid.add(text,0,0);
+        grid.add(ok,0,1);
+        grid.setAlignment(Pos.CENTER);
+
+        pane2.getChildren().add(rectangle);
+        pane2.getChildren().add(grid);
+        pane.getChildren().add(pane2);
     }
-    */
 }
