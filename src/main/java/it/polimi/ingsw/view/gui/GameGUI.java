@@ -56,6 +56,8 @@ public class GameGUI {
     private static final int PLAYER_POWER_UP= 6;
     private static final int PLAYER_WEAPON= 8;
     private static final int PLAYER_COLOR= 9;
+    private static final int PLAYER_TURNED= 10;
+    private static final int PLAYER_FRENZY= 11;
     private static final int YOU_XPOS= 0;
     private static final int YOU_COL_SPAN= 4;
     private static final int YOU_YPOS= 4;
@@ -272,9 +274,9 @@ public class GameGUI {
         for(ArrayList<String> player: gui.getPlayersRepresentation()){
             String[] color = player.get(PLAYER_COLOR).split(":");
             String playerPlance = color[1];
-            String [] turned = player.get(10).split(":");
+            String [] turned = player.get(PLAYER_TURNED).split(":");
             String playerTurned = turned[1];
-            String [] frenzy = player.get(11).split(":");
+            String [] frenzy = player.get(PLAYER_FRENZY).split(":");
             String turnFrenzy = frenzy[1];
             String declaration = "/images/game/plance/";
 
@@ -315,19 +317,31 @@ public class GameGUI {
 
         String[] color = gui.getYouRepresentation().get(PLAYER_COLOR).split(":");
         String playerPlance = color[1];
-        if((playerPlance.equals(PURPLE))||(playerPlance.equals(BLUE))||(playerPlance.equals(GREEN))||(playerPlance.equals(YELLOW))||(playerPlance.equals(GREY))) {
-            grid.add(new ImageView(new Image("/images/game/plance/".concat(playerPlance).concat("Player.png"),pane.getWidth()/N_COLUMN*YOU_COL_SPAN,pane.getHeight()/N_ROW,false,false)),YOU_XPOS,YOU_YPOS,YOU_COL_SPAN,PLAYER_ROW_SPAN);
-        }
+        String [] turned = gui.getYouRepresentation().get(PLAYER_TURNED).split(":");
+        String playerTurned = turned[1];
+        String [] frenzy = gui.getYouRepresentation().get(PLAYER_FRENZY).split(":");
+        String turnFrenzy = frenzy[1];
+        String declaration = "/images/game/plance/";
 
+        if((playerPlance.equals(PURPLE))||(playerPlance.equals(BLUE))||(playerPlance.equals(GREEN))||(playerPlance.equals(YELLOW))||(playerPlance.equals(GREY))) {
+            if (turnFrenzy.equals("false")) {
+                grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("Player.png"), pane.getWidth() / N_COLUMN * YOU_COL_SPAN, pane.getHeight() / N_ROW, false, false)), YOU_XPOS, YOU_YPOS, YOU_COL_SPAN, PLAYER_ROW_SPAN);
+            }
+            else{
+                if(playerTurned.equals("false")){
+                    grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedActionPlayer.png"), pane.getWidth() / N_COLUMN * YOU_COL_SPAN, pane.getHeight() / N_ROW, false, false)), YOU_XPOS, YOU_YPOS, YOU_COL_SPAN, PLAYER_ROW_SPAN);
+                }
+                else{
+                    grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedPlayer.png"), pane.getWidth() / N_COLUMN * YOU_COL_SPAN, pane.getHeight() / N_ROW, false, false)), YOU_XPOS, YOU_YPOS, YOU_COL_SPAN, PLAYER_ROW_SPAN);
+                }
+            }
+        }
         Label points = new Label(gui.getYouRepresentation().get(YOU_POINT));
         grid.add(points,3,3);
         points.setTextFill(Color.web("#ffffff", 0.8));
         points.setStyle("-fx-font: 30 Helvetica;");
         points.setEffect(new DropShadow());
         GridPane.setHalignment(points, HPos.CENTER);
-        //TODO altre plance da fare ancora come immagini
-
-
 
         pane.getChildren().add(grid);
     }
@@ -516,14 +530,16 @@ public class GameGUI {
 
             //weapons
             int j = 0;
-
+            int notLoaded=1;
             for (String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")) {
                 if (!weapon.equals("")) {
                     String[] playerWeapon = weapon.split(":");
-
                     String weaponName = playerWeapon[0].toLowerCase().replace(" ", "").concat(".png");
-                    gridInfo.add(new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false)), j, 0);
-                    //TODO carica o scarica
+
+                    if(playerWeapon[1].equals("false")) {
+                        notLoaded=2;
+                    }
+                    gridInfo.add(new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / (N_COLUMN*notLoaded), pane.getHeight() / (NUMBER_OF_WEAPON*notLoaded), false, false)), j, 0);
                 }
                 j++;
             }
@@ -1503,6 +1519,85 @@ public class GameGUI {
 
     }
 
+    public void chooseWeapon(Stage stage){ //TODO JOIN WITH MESSAGE HANDLER
+        StackPane pane = (StackPane)stage.getScene().getRoot();
+        StackPane pane2 = new StackPane();
+        GridPane grid = new GridPane();
+
+        Rectangle rectangle = new Rectangle();
+        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+        rectangle.setEffect(new BoxBlur());
+        rectangle.widthProperty().bind(pane.widthProperty());
+        rectangle.heightProperty().bind(pane.heightProperty());
+
+        Label text = new Label("Choose the weapon you want to change");
+        label40Helvetica(text, "#ffffff", 0.8);
+
+        int j = 0;
+        int notLoaded=1;
+        for (String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")) {
+            if (!weapon.equals("")) {
+                String[] playerWeapon = weapon.split(":");
+                String weaponName = playerWeapon[0].toLowerCase().replace(" ", "").concat(".png");
+
+                if(playerWeapon[1].equals("false")) {
+                    notLoaded=2;
+                }
+                ImageView weaponIV= new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / (N_COLUMN*notLoaded), pane.getHeight() / (NUMBER_OF_WEAPON*notLoaded), false, false));
+                grid.add(weaponIV, j, 1);
+                final int wpn=j;
+                weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED,e->{
+                    client.send(Integer.toString(wpn)); //TODO CONTROL THE SEND MESSAGE OF WEAPON CHANGE
+                    pane.getChildren().remove(pane2);
+                });
+            }
+            j++;
+        }
+
+        grid.add(text,0,0,j,1);
+        GridPane.setHalignment(text,HPos.CENTER);
+        GridPane.setValignment(text,VPos.CENTER);
+
+        pane2.getChildren().add(rectangle);
+        pane2.getChildren().add(grid);
+        pane.getChildren().add(pane2);
+    }
+
+    public void informationMessage(Stage stage,String msg){
+        StackPane pane = (StackPane)stage.getScene().getRoot();
+        StackPane pane2 = new StackPane();
+
+        GridPane grid = new GridPane();
+
+        Rectangle rectangle = new Rectangle();
+        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+        rectangle.setEffect(new BoxBlur());
+        rectangle.widthProperty().bind(pane.widthProperty());
+        rectangle.heightProperty().bind(pane.heightProperty());
+
+        Label text = new Label(msg);
+        text.setTextFill(Color.web("#ffffff", 0.8));
+        text.setStyle("-fx-font: 50 Helvetica;");
+        text.setEffect(new DropShadow());
+        GridPane.setHalignment(text,HPos. CENTER);
+        GridPane.setValignment(text,VPos. CENTER);
+
+        Button ok = new Button("OK");
+        GridPane.setHalignment(ok,HPos. CENTER);
+        GridPane.setValignment(ok,VPos. CENTER);
+        ok.setOnAction(e-> pane.getChildren().remove(pane2));
+
+        grid.setVgap(50);
+
+        grid.add(text,0,0);
+        grid.add(ok,0,1);
+        grid.setAlignment(Pos.CENTER);
+
+        pane2.getChildren().add(rectangle);
+        pane2.getChildren().add(grid);
+        pane.getChildren().add(pane2);
+    }
+
     private void columnConstraint(GridPane grid, double nColumn){
         for (int j = 0 ; j < nColumn; j++) {
             ColumnConstraints col = new ColumnConstraints();
@@ -1530,9 +1625,6 @@ public class GameGUI {
     }
 
     /*
-        //TODO IF THERE ARE ANY THROWED EXCEPTION
-        //informationMessage(pane);
-
     public void drawYellowPlayer(Pane pane){
         drawBloodOnYellow(pane);
         drawMarkOnYellow(pane);
@@ -1639,38 +1731,4 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 */
-    public void informationMessage(Stage stage,String msg){
-        StackPane pane = (StackPane)stage.getScene().getRoot();
-        StackPane pane2 = new StackPane();
-
-        GridPane grid = new GridPane();
-
-        Rectangle rectangle = new Rectangle();
-        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-        rectangle.setEffect(new BoxBlur());
-        rectangle.widthProperty().bind(pane.widthProperty());
-        rectangle.heightProperty().bind(pane.heightProperty());
-
-        Label text = new Label(msg);
-        text.setTextFill(Color.web("#ffffff", 0.8));
-        text.setStyle("-fx-font: 50 Helvetica;");
-        text.setEffect(new DropShadow());
-        GridPane.setHalignment(text,HPos. CENTER);
-        GridPane.setValignment(text,VPos. CENTER);
-
-        Button ok = new Button("OK");
-        GridPane.setHalignment(ok,HPos. CENTER);
-        GridPane.setValignment(ok,VPos. CENTER);
-        ok.setOnAction(e-> pane.getChildren().remove(pane2));
-
-        grid.setVgap(50);
-
-        grid.add(text,0,0);
-        grid.add(ok,0,1);
-        grid.setAlignment(Pos.CENTER);
-
-        pane2.getChildren().add(rectangle);
-        pane2.getChildren().add(grid);
-        pane.getChildren().add(pane2);
-    }
 }
