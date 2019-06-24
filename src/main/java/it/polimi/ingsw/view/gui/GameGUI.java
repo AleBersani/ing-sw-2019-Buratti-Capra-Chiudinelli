@@ -898,7 +898,7 @@ public class GameGUI {
                     if(j==0){
                         j=1;
                     }
-                    gridWeapons.add(backShoot,0,0, j,1);
+                    gridWeapons.add(backShoot,0,1, j,1);
                     GridPane.setHalignment(backShoot,HPos.CENTER);
                     GridPane.setValignment(backShoot,VPos.CENTER);
 
@@ -908,6 +908,8 @@ public class GameGUI {
                         actions.fire();
                     });
 
+                    gridWeapons.setHgap(40);
+                    gridWeapons.setVgap(50);
                     gridWeapons.setAlignment(Pos.CENTER);
                     pane.getChildren().remove(grid4);
                     pane.getChildren().add(gridWeapons);
