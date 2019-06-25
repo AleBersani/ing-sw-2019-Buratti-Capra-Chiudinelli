@@ -779,6 +779,7 @@ public class GameGUI {
                                         if (cell.get(CELL_TYPE).equals("AmmoPoint")) {
                                             client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)));
                                         } else {
+                                            text.setText("");
                                             cancelClickEvent[0] = false;
                                             GridPane grid = new GridPane();
                                             String[] weapon = cell.get(CELL_INSIDE).split("'");
@@ -1280,8 +1281,10 @@ public class GameGUI {
         StackPane pane = (StackPane)stage.getScene().getRoot();
         StackPane preShootPane = new StackPane();
         GridPane preShootGrid = new GridPane();
-        preShootGrid.setHgap(50);
-        preShootGrid.setVgap(100);
+
+        RowConstraints row = new RowConstraints();
+        row.setPercentHeight(20);
+        preShootGrid.getRowConstraints().add(row);
 
         Rectangle rectangle = new Rectangle();
         rectangleStandard(rectangle,pane);
@@ -1343,7 +1346,15 @@ public class GameGUI {
         ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName).concat(".png"), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
         preShootGrid.add(weaponIV, 0, 1,1,j-1);
 
+        for(int i=0;i<(j-1);i++){
+            RowConstraints buttonRow = new RowConstraints();
+            buttonRow.setPrefHeight(pane.getHeight() / (NUMBER_OF_WEAPON*(j-1)));
+            preShootGrid.getRowConstraints().add(buttonRow);
+        }
+
+        preShootGrid.setHgap(50);
         preShootGrid.setAlignment(Pos.CENTER);
+
         preShootPane.getChildren().add(rectangle);
         preShootPane.getChildren().add(preShootGrid);
         pane.getChildren().add(preShootPane);
