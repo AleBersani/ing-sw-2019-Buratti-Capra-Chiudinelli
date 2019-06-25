@@ -1,14 +1,19 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.communication.server.ClientHandler;
+import it.polimi.ingsw.model.Match;
 
 public class ClientInfo {
+    Match simulation;
+    String shootingOptionals;
+    Integer optionalWeaponShooting;
     ClientHandler clientHandler;
     State state;
 
     ClientInfo(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
         this.state = State.LOGIN;
+        this.shootingOptionals="";
     }
 
     ClientInfo(ClientHandler clientHandler, State state) {
