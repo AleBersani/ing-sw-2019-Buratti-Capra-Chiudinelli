@@ -192,11 +192,13 @@ public class Controller {
 
     private void layWeapon(int weaponPos, ClientHandler clientHandler) {
         try {
-            Player player =playerFromNickname(clientHandler.getName());
-            Weapon weapon= player.getWeapons().get(weaponPos);
-            player.getWeapons().remove(weapon);
-            ((SpawnPoint)player.getPosition()).getWeapons().add(weapon);
-            clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+            if(weaponPos<playerFromNickname(clientHandler.getName()).getWeapons().size()-1) {
+                Player player = playerFromNickname(clientHandler.getName());
+                Weapon weapon = player.getWeapons().get(weaponPos);
+                player.getWeapons().remove(weapon);
+                ((SpawnPoint) player.getPosition()).getWeapons().add(weapon);
+                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+            }
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
         }
@@ -333,7 +335,11 @@ public class Controller {
             catch (MaxHandWeaponSizeException e1) {
                 try {
                     clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.LAY_WEAPON);
-                    sendString("WPN-Select the weapon to drop:"+playerFromNickname(clientHandler.getName()).getWeapons(), clientHandler);
+                    String toLay="WPN-Select the weapon to drop:";
+                    for (int i=0; i<playerFromNickname(clientHandler.getName()).getWeapons().size()-2;i++){
+                        toLay=toLay.concat(playerFromNickname(clientHandler.getName()).getWeapons().get(i).getName()).concat(";");
+                    }
+                    sendString(toLay, clientHandler);
                 } catch (NotFoundException e2) {
                     sendString("error", clientHandler);
                 }
