@@ -408,10 +408,7 @@ public class GameGUI {
             infoButton.setOnAction(e -> {
                 GridPane gridInfo = new GridPane();
                 Rectangle rectangle = new Rectangle();
-                rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-                rectangle.setEffect(new BoxBlur());
-                rectangle.widthProperty().bind(pane.widthProperty());
-                rectangle.heightProperty().bind(pane.heightProperty());
+                rectangleStandard(rectangle,pane);
 
                 RowConstraints row = new RowConstraints();
                 row.setVgrow(Priority.ALWAYS);
@@ -520,10 +517,7 @@ public class GameGUI {
         infoButton.setOnAction(e -> {
             GridPane gridInfo = new GridPane();
             Rectangle rectangle = new Rectangle();
-            rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-            rectangle.setEffect(new BoxBlur());
-            rectangle.widthProperty().bind(pane.widthProperty());
-            rectangle.heightProperty().bind(pane.heightProperty());
+            rectangleStandard(rectangle,pane);
 
             RowConstraints row = new RowConstraints();
             row.setVgrow(Priority.ALWAYS);
@@ -550,27 +544,7 @@ public class GameGUI {
             //power ups
             if(!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
                 for (String powerups : gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
-                    String[] powerupPlusColor = powerups.split(":");
-                    String realPowerUp = powerupPlusColor[1];
-                    switch (powerupPlusColor[0]) {
-                        case "tagback grenade": {
-                            realPowerUp = realPowerUp.concat("TagbackGrenade");
-                            break;
-                        }
-                        case "newton": {
-                            realPowerUp = realPowerUp.concat("Newton");
-                            break;
-                        }
-                        case "teleporter": {
-                            realPowerUp = realPowerUp.concat("Teleporter");
-                            break;
-                        }
-                        case "targeting scope": {
-                            realPowerUp = realPowerUp.concat("TargetingScope");
-                            break;
-                        }
-                        default:
-                    }
+                    String realPowerUp = powerUpSwitch(powerups);
                     ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
                     gridInfo.add(powerUp, j, 0);
                     j++;
@@ -658,10 +632,7 @@ public class GameGUI {
             text.setEffect(new DropShadow());
             Button quit1 = new Button("QUIT");
             Button back = new Button("BACK");
-            rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-            rectangle.setEffect(new BoxBlur());
-            rectangle.widthProperty().bind(pane.widthProperty());
-            rectangle.heightProperty().bind(pane.heightProperty());
+            rectangleStandard(rectangle,pane);
             quitGrid.add(text, 0, 0, 2, 1);
             quitGrid.add(back, 1, 1);
             quitGrid.add(quit1, 0, 1);
@@ -698,10 +669,7 @@ public class GameGUI {
                 Button run = new Button("RUN");
                 Button grab = new Button("GRAB");
                 Button back = new Button("BACK");
-                rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-                rectangle.setEffect(new BoxBlur());
-                rectangle.widthProperty().bind(pane.widthProperty());
-                rectangle.heightProperty().bind(pane.heightProperty());
+                rectangleStandard(rectangle,pane);
                 grid4.add(shoot, 0, 0);
                 grid4.add(run, 1, 0);
                 grid4.add(grab, 2, 0);
@@ -945,35 +913,12 @@ public class GameGUI {
         powerUps.setOnAction(e->{
             GridPane powerUpGrid = new GridPane();
             Rectangle rectangle = new Rectangle();
-            rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-            rectangle.setEffect(new BoxBlur());
-            rectangle.widthProperty().bind(pane.widthProperty());
-            rectangle.heightProperty().bind(pane.heightProperty());
+            rectangleStandard(rectangle,pane);
 
             int j=0;
             if(!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
                 for (String powerups : gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
-                    String[] powerupPlusColor = powerups.split(":");
-                    String realPowerUp = powerupPlusColor[1];
-                    switch (powerupPlusColor[0]) {
-                        case "tagback grenade": {
-                            realPowerUp = realPowerUp.concat("TagbackGrenade");
-                            break;
-                        }
-                        case "newton": {
-                            realPowerUp = realPowerUp.concat("Newton");
-                            break;
-                        }
-                        case "teleporter": {
-                            realPowerUp = realPowerUp.concat("Teleporter");
-                            break;
-                        }
-                        case "targeting scope": {
-                            realPowerUp = realPowerUp.concat("TargetingScope");
-                            break;
-                        }
-                        default:
-                    }
+                    String realPowerUp = powerUpSwitch(powerups);
                     ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
                     powerUpGrid.add(powerUp, j, 0);
                     final int pu=j;
@@ -1022,10 +967,7 @@ public class GameGUI {
         text.setStyle("-fx-font: 35 Helvetica;");
         text.setEffect(new DropShadow());
         text.setAlignment(Pos.CENTER);
-        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-        rectangle.setEffect(new BoxBlur());
-        rectangle.widthProperty().bind(pane.widthProperty());
-        rectangle.heightProperty().bind(pane.heightProperty());
+        rectangleStandard(rectangle,pane);
 
         GridPane grid2 = new GridPane();
         grid2.add(text,0,0, numberPowerup, 1);
@@ -1040,27 +982,9 @@ public class GameGUI {
         }
         int i=0;
         for(String powerups: gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
-            String[] powerupPlusColor = powerups.split(":");
-            String realPowerUp = powerupPlusColor[1];
-            switch (powerupPlusColor[0]) {
-                case "tagback grenade": {
-                    realPowerUp = realPowerUp.concat("TagbackGrenade");
-                    break;
-                }
-                case "newton": {
-                    realPowerUp = realPowerUp.concat("Newton");
-                    break;
-                }
-                case "teleporter": {
-                    realPowerUp = realPowerUp.concat("Teleporter");
-                    break;
-                }
-                case "targeting scope": {
-                    realPowerUp = realPowerUp.concat("TargetingScope");
-                    break;
-                }
-                default:
-            }
+
+            String realPowerUp = powerUpSwitch(powerups);
+
             ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
             grid2.add(powerUp, i, 1);
             GridPane.setHalignment(powerUp,HPos.CENTER);
@@ -1099,10 +1023,7 @@ public class GameGUI {
         reloadGrid.getRowConstraints().add(row2);
 
         Rectangle rectangle = new Rectangle();
-        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-        rectangle.setEffect(new BoxBlur());
-        rectangle.widthProperty().bind(pane.widthProperty());
-        rectangle.heightProperty().bind(pane.heightProperty());
+        rectangleStandard(rectangle,pane);
         Button ignore = new Button("IGNORE");
         Button done = new Button("DONE ");
 
@@ -1205,10 +1126,7 @@ public class GameGUI {
         rowConstraint(targetGrid,N_ROW);
 
         Rectangle rectangle = new Rectangle();
-        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-        rectangle.setEffect(new BoxBlur());
-        rectangle.widthProperty().bind(pane.widthProperty());
-        rectangle.heightProperty().bind(pane.heightProperty());
+        rectangleStandard(rectangle,pane);
 
         Label text = new Label("");
         label40Helvetica(text, "#ffffff", 0.8);
@@ -1276,23 +1194,23 @@ public class GameGUI {
                             String color = "";
                             switch (pos) {
                                 case "01": {
-                                    color = "blue";
+                                    color = BLUE;
                                     break;
                                 }
                                 case "02": {
-                                    color = "yellow";
+                                    color = YELLOW;
                                     break;
                                 }
                                 case "12": {
-                                    color = "green";
+                                    color = GREEN;
                                     break;
                                 }
                                 case "22": {
-                                    color = "grey";
+                                    color = GREY;
                                     break;
                                 }
                                 case "21": {
-                                    color = "purple";
+                                    color = PURPLE;
                                     break;
                                 }
                                 default: {
@@ -1366,10 +1284,7 @@ public class GameGUI {
         preShootGrid.setVgap(100);
 
         Rectangle rectangle = new Rectangle();
-        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-        rectangle.setEffect(new BoxBlur());
-        rectangle.widthProperty().bind(pane.widthProperty());
-        rectangle.heightProperty().bind(pane.heightProperty());
+        rectangleStandard(rectangle,pane);
 
         Label text = new Label("Choose the type of fire");
         label40Helvetica(text, "#ffffff", 0.8);
@@ -1443,10 +1358,7 @@ public class GameGUI {
             columnConstraint(movementGrid,N_COLUMN);
 
             Rectangle rectangle = new Rectangle();
-            rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-            rectangle.setEffect(new BoxBlur());
-            rectangle.widthProperty().bind(pane.widthProperty());
-            rectangle.heightProperty().bind(pane.heightProperty());
+            rectangleStandard(rectangle,pane);
 
             Label text = new Label("Where do you want to move?");
             label40Helvetica(text, "#ffffff", 0.8);
@@ -1487,10 +1399,7 @@ public class GameGUI {
                     storeButton.setOnAction(e ->{
                         GridPane grid4 = new GridPane();
                         Rectangle rectangle = new Rectangle();
-                        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-                        rectangle.setEffect(new BoxBlur());
-                        rectangle.widthProperty().bind(pane.widthProperty());
-                        rectangle.heightProperty().bind(pane.heightProperty());
+                        rectangleStandard(rectangle,pane);
                         String[] weapon = cell.get(CELL_INSIDE).split("'");
                         for(int i=0; i<NUMBER_OF_WEAPON; i++){
                             if(i<weapon.length){
@@ -1545,6 +1454,9 @@ public class GameGUI {
                 info = "Choose a square";
                 break;
             }
+            default:{
+
+            }
         }
         infoText.setText(info);
     }
@@ -1574,27 +1486,7 @@ public class GameGUI {
                 boolean[] consumed = new boolean[powerUps.length];
                 for (int j=0;j<powerUps.length;j++) {
                     consumed[j] = false;
-                    String[] powerupPlusColor = powerUps[j].split(":");
-                    String realPowerUp = powerupPlusColor[1];
-                    switch (powerupPlusColor[0]) {
-                        case "tagback grenade": {
-                            realPowerUp = realPowerUp.concat("TagbackGrenade");
-                            break;
-                        }
-                        case "newton": {
-                            realPowerUp = realPowerUp.concat("Newton");
-                            break;
-                        }
-                        case "teleporter": {
-                            realPowerUp = realPowerUp.concat("Teleporter");
-                            break;
-                        }
-                        case "targeting scope": {
-                            realPowerUp = realPowerUp.concat("TargetingScope");
-                            break;
-                        }
-                        default:
-                    }
+                    String realPowerUp = powerUpSwitch(powerUps[j]);
                     ImageView powerUpIV = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
                     gridPowerUp.add(powerUpIV, j, 0);
                     final int pu=j;
@@ -1617,7 +1509,7 @@ public class GameGUI {
             GridPane.setHalignment(done,HPos.CENTER);
             GridPane.setValignment(done,VPos.CENTER);
             done.setOnAction(ev->{
-                //TODO WTF?
+                //TODO cosa bisogna mandare qui così
                 pane.getChildren().remove(payPane);
             });
 
@@ -1634,10 +1526,7 @@ public class GameGUI {
         });
 
         Rectangle rectangle = new Rectangle();
-        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-        rectangle.setEffect(new BoxBlur());
-        rectangle.widthProperty().bind(pane.widthProperty());
-        rectangle.heightProperty().bind(pane.heightProperty());
+        rectangleStandard(rectangle,pane);
 
         payGrid.setAlignment(Pos.CENTER);
         payPane.getChildren().add(rectangle);
@@ -1652,10 +1541,7 @@ public class GameGUI {
         GridPane grid = new GridPane();
 
         Rectangle rectangle = new Rectangle();
-        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-        rectangle.setEffect(new BoxBlur());
-        rectangle.widthProperty().bind(pane.widthProperty());
-        rectangle.heightProperty().bind(pane.heightProperty());
+        rectangleStandard(rectangle,pane);
 
         String[] message = msg.split(":");
 
@@ -1703,10 +1589,7 @@ public class GameGUI {
         GridPane grid = new GridPane();
 
         Rectangle rectangle = new Rectangle();
-        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
-        rectangle.setEffect(new BoxBlur());
-        rectangle.widthProperty().bind(pane.widthProperty());
-        rectangle.heightProperty().bind(pane.heightProperty());
+        rectangleStandard(rectangle,pane);
 
         Label text = new Label(msg);
         text.setTextFill(Color.web("#ffffff", 0.8));
@@ -1751,10 +1634,42 @@ public class GameGUI {
         }
     }
 
+    private void rectangleStandard(Rectangle rectangle, Pane pane){
+        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+        rectangle.setEffect(new BoxBlur());
+        rectangle.widthProperty().bind(pane.widthProperty());
+        rectangle.heightProperty().bind(pane.heightProperty());
+    }
+
     private void label40Helvetica(Label label, String color, double opacity){
         label.setTextFill(Color.web(color, opacity));
         label.setStyle("-fx-font: 40 Helvetica;");
         label.setEffect(new DropShadow());
+    }
+
+    private String powerUpSwitch(String powerups){
+        String[] powerupPlusColor = powerups.split(":");
+        String realPowerUp = powerupPlusColor[1];
+        switch (powerupPlusColor[0]) {
+            case "tagback grenade": {
+                realPowerUp = realPowerUp.concat("TagbackGrenade");
+                break;
+            }
+            case "newton": {
+                realPowerUp = realPowerUp.concat("Newton");
+                break;
+            }
+            case "teleporter": {
+                realPowerUp = realPowerUp.concat("Teleporter");
+                break;
+            }
+            case "targeting scope": {
+                realPowerUp = realPowerUp.concat("TargetingScope");
+                break;
+            }
+            default:
+        }
+        return realPowerUp;
     }
 
     /*
