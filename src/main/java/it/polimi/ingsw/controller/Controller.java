@@ -228,7 +228,7 @@ public class Controller {
     }
 
     private void targetRequestWeapon(ClientHandler clientHandler, String msg) {
-        String targetRequest="";
+        String targetRequest="TRW-";
         try {
             clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.TARGETING);
             targetRequest=targetRequest.concat("'Base'");
