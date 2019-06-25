@@ -198,6 +198,7 @@ public class Controller {
                 Player player = playerFromNickname(clientHandler.getName());
                 Weapon weapon = player.getWeapons().get(weaponPos);
                 player.getWeapons().remove(weapon);
+                weapon.reload();
                 ((SpawnPoint) player.getPosition()).getWeapons().add(weapon);
                 clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
             }
@@ -230,7 +231,7 @@ public class Controller {
         String targetRequest="";
         try {
             clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.TARGETING);
-            targetRequest=targetRequest.concat("Base:");
+            targetRequest=targetRequest.concat("'Base'");
             for(Effect effect : playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE))).getEffect()){
                 targetRequest=targetRequest.concat(effect.getDescription()).concat(";");
             }
@@ -238,7 +239,7 @@ public class Controller {
                 int i=0;
                 WeaponOptional weaponOptional=(WeaponOptional)playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE)));
                 for (ArrayList<Effect> arrayList : weaponOptional.getOptionalEffect()){
-                    targetRequest=targetRequest.concat("Optional-"+ i +":");
+                    targetRequest=targetRequest.concat("'Optional-"+ i +"'");
                     for (Effect effect : arrayList){
                         targetRequest=targetRequest.concat(effect.getDescription()).concat(";");
                     }
@@ -247,7 +248,7 @@ public class Controller {
             }
             if (playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE))).isAlternative()){
                 WeaponAlternative weaponAlternative=(WeaponAlternative) playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE)));
-                targetRequest=targetRequest.concat("Alternative:");
+                targetRequest=targetRequest.concat("'Alternative'");
                 for (Effect effect : weaponAlternative.getAlternativeEffect()) {
                     targetRequest=targetRequest.concat(effect.getDescription()).concat(";");
                 }
