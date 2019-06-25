@@ -157,4 +157,6 @@ public abstract class Weapon implements Serializable {
     }
 
     public abstract boolean isOptional();
+
+    public abstract boolean isAlternative();
 }

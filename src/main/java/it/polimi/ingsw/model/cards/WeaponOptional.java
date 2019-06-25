@@ -40,9 +40,17 @@ public class WeaponOptional extends Weapon {
     }
 
     @Override
+    public boolean isAlternative() {
+        return false;
+    }
+
+    @Override
     protected boolean canPay(ArrayList<Integer> payment, int which){
         return this.optionalEffect.get(which).get(0).getCostBlue()==payment.get(2) && this.optionalEffect.get(which).get(0).getCostRed()==payment.get(0) && this.optionalEffect.get(which).get(0).getCostYellow()==payment.get(1);
 
     }
 
+    public ArrayList<ArrayList<Effect>> getOptionalEffect() {
+        return optionalEffect;
+    }
 }

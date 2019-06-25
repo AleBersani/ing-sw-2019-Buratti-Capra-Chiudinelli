@@ -31,5 +31,10 @@ public class WeaponBase extends Weapon {
         return false;
     }
 
+    @Override
+    public boolean isAlternative() {
+        return false;
+    }
+
 
 }
