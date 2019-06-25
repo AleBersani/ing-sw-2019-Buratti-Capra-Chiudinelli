@@ -356,7 +356,7 @@ public class Controller {
                 try {
                     clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.LAY_WEAPON);
                     String toLay="WPN-Select the weapon to drop:";
-                    for (int i=0; i<playerFromNickname(clientHandler.getName()).getWeapons().size()-2;i++){
+                    for (int i=0; i<playerFromNickname(clientHandler.getName()).getWeapons().size()-1;i++){
                         toLay=toLay.concat(playerFromNickname(clientHandler.getName()).getWeapons().get(i).getName()).concat(";");
                     }
                     sendString(toLay, clientHandler);
