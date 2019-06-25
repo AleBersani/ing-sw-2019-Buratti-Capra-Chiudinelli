@@ -170,6 +170,8 @@ public class Controller {
                                 powerUpAction(clientHandler, msg.substring(ETIQUETTE*2));
                                 break;
                             }
+                            default:
+                                sendString("Wrong Etiquette, this is TARGETING", clientHandler);
                         }
                     }
                     break;
@@ -177,7 +179,7 @@ public class Controller {
                 case OPTIONAL_WEAPON_SHOOTING:{
                     if (msg.startsWith("TRG-WPN-")){
                         try {
-                            shootingAction(clientHandler,clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting + "'" + msg.substring(ETIQUETTE*2).split("'")[0]);
+                            shootingAction(clientHandler,clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting + "'" + msg.substring(ETIQUETTE*2).split("'")[1]);
                         } catch (NotFoundException e) {
                             sendString("error", clientHandler);
                         }
@@ -185,6 +187,9 @@ public class Controller {
 
                     else if (msg.equals("ESH-")){
                         endOptionalShooting(clientHandler);
+                    }
+                    else {
+                        sendString("Wrong Etiquette, this is OPTIONAL_WEAPON_SHOOTING", clientHandler);
                     }
                     break;
                 }
