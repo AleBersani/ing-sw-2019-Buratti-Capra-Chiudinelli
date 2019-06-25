@@ -1457,9 +1457,10 @@ public class GameGUI {
             EventHandler clickEvent = (EventHandler<MouseEvent>) event -> {
                 String cellX = Integer.toString(1 + (int) (event.getScreenX() / (pane.getWidth() / N_COLUMN)));
                 String cellY = Integer.toString(1 + (int) (event.getScreenY() / (pane.getHeight() / N_ROW)));
-
-                buildTarget(stage,msg,cellX.concat(":").concat(cellY));
-                pane.getChildren().remove(movementPane);
+                if((Integer.valueOf(cellX) <= 4) && (Integer.valueOf(cellY) <= 3)){
+                    buildTarget(stage,msg,cellX.concat(":").concat(cellY));
+                    pane.getChildren().remove(movementPane);
+                }
             };
 
             movementPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
