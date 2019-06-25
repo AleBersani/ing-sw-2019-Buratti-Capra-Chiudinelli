@@ -3,7 +3,7 @@
   "name": "Sledgehammer",
   "costBlue": 0,
   "costRed": 0,
-  "costYellow": 2,
+  "costYellow": 1,
   "load": true,
   "effect": [
     {
