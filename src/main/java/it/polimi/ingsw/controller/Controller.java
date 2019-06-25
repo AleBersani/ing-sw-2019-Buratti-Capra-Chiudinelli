@@ -108,7 +108,7 @@ public class Controller {
                 case LAY_WEAPON: {
                     if (msg.startsWith("WPN-")){
                         layWeapon(Integer.parseInt(msg.substring(ETIQUETTE)), clientHandler);
-                        updateBackground();
+                        updateBackground(this.match);
                     }
                     else {
                         sendString("Wrong Etiquette, this is LAY WEAPON", clientHandler);
@@ -132,7 +132,7 @@ public class Controller {
                                 } catch (NotFoundException e) {
                                     sendString("error", clientHandler);
                                 }
-                                updateBackground();
+                                updateBackground(this.match);
                             }
                             respawn();
                             match.getTurn().endTurn();
@@ -146,7 +146,7 @@ public class Controller {
                                     }
                                     else {
                                         clientInfo.setState(ClientInfo.State.GAME);
-                                        updateBackground();
+                                        updateBackground(this.match);
                                         sendString(">>>Now is your turn", clientInfo.clientHandler);
                                         lifeCycle(clientInfo.clientHandler);
                                     }
@@ -174,7 +174,51 @@ public class Controller {
                     }
                     break;
                 }
+                case OPTIONAL_WEAPON_SHOOTING:{
+                    if (msg.startsWith("TRG-WPN-")){
+                        try {
+                            shootingAction(clientHandler,clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting + "'" + msg.substring(ETIQUETTE*2).split("'")[0]);
+                        } catch (NotFoundException e) {
+                            sendString("error", clientHandler);
+                        }
+                    }
+
+                    else if (msg.equals("ESH-")){
+                        endOptionalShooting(clientHandler);
+                    }
+                    break;
+                }
             }
+        }
+    }
+
+    private void endOptionalShooting(ClientHandler clientHandler) {
+        boolean ok=false;
+        try {
+            for (String order :((WeaponOptional)playerFromNickname(clientHandler.getName()).getWeapons().get(clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting)).getOrder()){
+                if(order.equals(clientInfoFromClientHandeler(clientHandler).shootingOptionals.substring(0,order.length()-1))){
+                    playerFromNickname(clientHandler.getName()).endShoot(playerFromNickname(clientHandler.getName()).getWeapons().get(clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting));
+                    clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+                    clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting= null;
+                    clientInfoFromClientHandeler(clientHandler).shootingOptionals="";
+                    this.match=clientInfoFromClientHandeler(clientHandler).simulation;
+                    clientInfoFromClientHandeler(clientHandler).simulation=null;
+                    updateBackground(this.match);
+                    lifeCycle(clientHandler);
+                    ok=true;
+                }
+            }
+            if(!ok){
+                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+                clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting= null;
+                clientInfoFromClientHandeler(clientHandler).shootingOptionals="";
+                clientInfoFromClientHandeler(clientHandler).simulation=null;
+                updateBackground(this.match);
+                sendString(">>>Not correct order of effects",clientHandler);
+                lifeCycle(clientHandler);
+            }
+        } catch (NotFoundException e) {
+            sendString("error", clientHandler);
         }
     }
 
@@ -270,24 +314,29 @@ public class Controller {
 
     private void shootingAction(ClientHandler clientHandler, String msg){
         ArrayList<TargetParameter> targetParameters = new ArrayList<>();
-        Match simulation;
         String[] data = msg.split("'");
         try {
-            simulation = deepClone(match);
+            clientInfoFromClientHandeler(clientHandler).simulation = deepClone(match);
             for (String target : data[2].split(";")) {
                 targetParameters.add(generateTarget(target, clientHandler));
             }
-            simulation.getTurn().getCurrent().shoot(simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])),
-                    data[1].equals("") ? null : simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]),Integer.parseInt(data[1].split(":")[1])),
+            clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().shoot(clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])),
+                    data[1].equals("") ? null : clientInfoFromClientHandeler(clientHandler).simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]),Integer.parseInt(data[1].split(":")[1])),
                     targetParameters);
-            if(!simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])).isOptional()) {
-                simulation.getTurn().getCurrent().endShoot(simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])));
-                match = simulation;
-                updateBackground();
+            if(!clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])).isOptional()) {
+                clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().endShoot(clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])));
+                match = clientInfoFromClientHandeler(clientHandler).simulation;
+                updateBackground(this.match);
             }
             else{
+                clientInfoFromClientHandeler(clientHandler).shootingOptionals.concat(
+                        targetParameters.get(0).getTypeOfFire().contains("-")?
+                                Integer.toString(Integer.parseInt(targetParameters.get(0).getTypeOfFire().split("-")[1]+1)) :
+                                "0").concat("-");
+                clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting = Integer.parseInt(data[0]);
                 clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.OPTIONAL_WEAPON_SHOOTING);
-                //TODO opzionali + ordine
+                updateBackground(clientInfoFromClientHandeler(clientHandler).simulation);
+                sendString("OWS-",clientHandler);
             }
         } catch (InvalidTargetException e) {
             sendString(">>>Invalid target", clientHandler);
@@ -315,12 +364,12 @@ public class Controller {
         try {
             playerFromNickname(clientHandler.getName()).run(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
                     Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])));
-            updateBackground();
+            updateBackground(this.match);
         } catch (InvalidDestinationException e) {
             sendString(">>>Square not valid", clientHandler);
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
-            updateBackground();
+            updateBackground(this.match);
         }
         lifeCycle(clientHandler);
     }
@@ -330,7 +379,7 @@ public class Controller {
             String[] stringo =msg.substring(ETIQUETTE).split(",");
             playerFromNickname(clientHandler.getName()).grab(match.getBoard().find(Integer.parseInt(stringo[0]),
                     Integer.parseInt(stringo[1])));
-            updateBackground();
+            updateBackground(this.match);
             lifeCycle(clientHandler);
         } catch (InvalidDestinationException e) {
             sendString(">>>Square not valid", clientHandler);
@@ -343,7 +392,7 @@ public class Controller {
             try {
                 playerFromNickname(clientHandler.getName()).grabWeapon(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
                         Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])),Integer.parseInt(msg.substring(ETIQUETTE).split(",")[2]));
-                updateBackground();
+                updateBackground(this.match);
                 lifeCycle(clientHandler);
                 //TODO richiamare grabWeapon con powerUp
             } catch (ElementNotFoundException e1) {
@@ -373,7 +422,7 @@ public class Controller {
         try {
             playerFromNickname(clientHandler.getName()).usePowerUp(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.split("'")[0])),
                     generateTarget(msg, clientHandler));
-            updateBackground();
+            updateBackground(this.match);
         } catch (InvalidTargetException e) {
             sendString(">>>Invalid Target", clientHandler);
         } catch (NoOwnerException e) {
@@ -603,7 +652,7 @@ public class Controller {
             clientInfo.clientHandler.setYourTurn(false);
 
         }
-        updateBackground();
+        updateBackground(this.match);
         for(ClientInfo clientInfo: getNicknameList().values()) {
             if (match.getTurn().getCurrent().getNickname().equals(clientInfo.clientHandler.getName())) {
                 clientInfo.clientHandler.setYourTurn(true);
@@ -625,7 +674,7 @@ public class Controller {
         } catch (MaxHandSizeException e) {
             player.forceDraw();
         }
-        updateBackground();
+        updateBackground(this.match);
         sendString("SPW-Discard a power up for spawning:" +powerUps(player), actual);
     }
 
@@ -655,12 +704,12 @@ public class Controller {
         return powerUps;
     }
 
-    private void updateBackground(){
+    private void updateBackground(Match match){
         for (ClientInfo clientInfo: getNicknameList().values()){
-            sendString(boardDescriptor(),clientInfo.clientHandler);
-            sendString(playersDescriptor(clientInfo.clientHandler),(clientInfo.clientHandler));
-            sendString(youDescriptor(clientInfo.clientHandler),clientInfo.clientHandler);
-            sendString(killshotTrackDescriptor(),clientInfo.clientHandler);
+            sendString(boardDescriptor(match),clientInfo.clientHandler);
+            sendString(playersDescriptor(clientInfo.clientHandler, match),(clientInfo.clientHandler));
+            sendString(youDescriptor(clientInfo.clientHandler, match),clientInfo.clientHandler);
+            sendString(killshotTrackDescriptor(match),clientInfo.clientHandler);
         }
     }
 
@@ -679,7 +728,7 @@ public class Controller {
             } catch (NotFoundException e) {
                 sendString("SpawnPoint not found", actual);
             }
-            updateBackground();
+            updateBackground(this.match);
             if(actual.isYourTurn()){
                 lifeCycle(actual);
             }
@@ -690,7 +739,7 @@ public class Controller {
         }
     }
 
-    private String killshotTrackDescriptor() {
+    private String killshotTrackDescriptor(Match match) {
         String killshotTrackDescriptor= "BGD-KLL-".concat(Integer.toString(match.getSkulls())).concat(";");
         for (Player p : match.getKillShotTrack()) {
             killshotTrackDescriptor = killshotTrackDescriptor.concat(p.getColor()).concat("'");
@@ -699,15 +748,15 @@ public class Controller {
         return killshotTrackDescriptor;
     }
 
-    private String boardDescriptor() {
+    private String boardDescriptor(Match match) {
         String boardDescriptor="BGD-BRD-";
         boardDescriptor=boardDescriptor.concat(match.getBoard().getRooms().toString());
         return boardDescriptor;
     }
 
-    private String playersDescriptor(ClientHandler current){
+    private String playersDescriptor(ClientHandler current, Match match){
         String you= current.getName();
-        ArrayList<Player> enemies= (ArrayList<Player>) this.match.getPlayers().clone();
+        ArrayList<Player> enemies= (ArrayList<Player>) match.getPlayers().clone();
         Player i=null;
         for (Player p : enemies){
             if(p.getNickname().equals(you)){
@@ -720,7 +769,7 @@ public class Controller {
         return playersDescriptor;
     }
 
-    private String youDescriptor(ClientHandler current){
+    private String youDescriptor(ClientHandler current, Match match){
         String you= current.getName();
         Player y=null;
         for (Player p: match.getPlayers()){

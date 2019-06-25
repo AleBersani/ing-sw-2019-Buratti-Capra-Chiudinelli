@@ -53,4 +53,8 @@ public class WeaponOptional extends Weapon {
     public ArrayList<ArrayList<Effect>> getOptionalEffect() {
         return optionalEffect;
     }
+
+    public ArrayList<String> getOrder() {
+        return order;
+    }
 }
