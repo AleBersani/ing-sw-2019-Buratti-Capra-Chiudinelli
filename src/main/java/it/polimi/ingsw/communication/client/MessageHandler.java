@@ -127,12 +127,15 @@ public class MessageHandler {
                 }
                 else {
                     client.send("RLD-ignore");
-
                 }
                 break;
             }
             case "TRG-":{
                 view.targetShow(msg.substring(NAME_ETIQUETTE));
+                break;
+            }
+            case "WPN-":{
+                view.discardWeapon(msg.substring(NAME_ETIQUETTE));
                 break;
             }
             default:

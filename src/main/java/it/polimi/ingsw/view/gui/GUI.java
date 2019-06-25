@@ -10,10 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class GUI extends Application implements ViewInterface {
 
@@ -29,6 +27,7 @@ public class GUI extends Application implements ViewInterface {
     private String youData;
     private String killShotTrackData;
     private String infoString;
+    private String discard;
     private ArrayList<ArrayList<ArrayList<String>>> boardRepresentation;
     private ArrayList<ArrayList<String>> playersRepresentation;
     private ArrayList<String> youRepresentation;
@@ -121,25 +120,26 @@ public class GUI extends Application implements ViewInterface {
 
     private void realShowMessage(){
         this.messageToShow = true;
-        this.clearPane();
         switch (messageHandler.getState()){
             case LOGIN: {
+                this.clearPane();
                 loginGUI.loginImageSetting(stage);
                 loginGUI.loginGridSetting(stage);
                 break;
             }
             case MENU: {
+                this.clearPane();
                 loginGUI.loginImageSetting(stage);
                 loginGUI.menuGridSetting(stage,infoChoiceBox,infoString);
                 break;
             }
             case WAIT: {
+                this.clearPane();
                 loginGUI.loginImageSetting(stage);
                 loginGUI.roomGridSetting(stage);
                 break;
             }
             case GAME: {
-                reShow();
                 gameGUI.informationMessage(stage,messageHandler.getToShow().substring(3));
                 break;
             }
@@ -214,6 +214,10 @@ public class GUI extends Application implements ViewInterface {
 
     private void showTarget(){
         this.gameGUI.buildTarget(stage,infoString);
+    }
+
+    private void weaponDiscard(){
+        gameGUI.chooseWeapon(stage, this.discard);
     }
 
     @Override
@@ -291,6 +295,12 @@ public class GUI extends Application implements ViewInterface {
     public void targetShow(String msg) {
         this.infoString = msg;
         Platform.runLater(this::showTarget);
+    }
+
+    @Override
+    public void discardWeapon(String msg) {
+        this.discard = msg;
+        Platform.runLater(this::weaponDiscard);
     }
 
     @Override

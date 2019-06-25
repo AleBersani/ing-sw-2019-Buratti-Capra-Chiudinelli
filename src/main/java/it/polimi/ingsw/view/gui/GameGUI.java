@@ -1521,7 +1521,7 @@ public class GameGUI {
 
     }
 
-    public void chooseWeapon(Stage stage){ //TODO JOIN WITH MESSAGE HANDLER
+    public void chooseWeapon(Stage stage, String msg){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         StackPane pane2 = new StackPane();
         GridPane grid = new GridPane();
@@ -1532,7 +1532,9 @@ public class GameGUI {
         rectangle.widthProperty().bind(pane.widthProperty());
         rectangle.heightProperty().bind(pane.heightProperty());
 
-        Label text = new Label("Choose the weapon you want to change");
+        String[] message = msg.split(":");
+
+        Label text = new Label(message[0]);
         label40Helvetica(text, "#ffffff", 0.8);
 
         int j = 0;
@@ -1549,7 +1551,7 @@ public class GameGUI {
                 grid.add(weaponIV, j, 1);
                 final int wpn=j;
                 weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED,e->{
-                    client.send(Integer.toString(wpn)); //TODO CONTROL THE SEND MESSAGE OF WEAPON CHANGE
+                    client.send("WPN-".concat(Integer.toString(wpn)));
                     pane.getChildren().remove(pane2);
                 });
             }
@@ -1559,6 +1561,10 @@ public class GameGUI {
         grid.add(text,0,0,j,1);
         GridPane.setHalignment(text,HPos.CENTER);
         GridPane.setValignment(text,VPos.CENTER);
+
+        grid.setAlignment(Pos.CENTER);
+        grid.setVgap(30);
+        grid.setHgap(50);
 
         pane2.getChildren().add(rectangle);
         pane2.getChildren().add(grid);

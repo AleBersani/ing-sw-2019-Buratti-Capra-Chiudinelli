@@ -24,5 +24,7 @@ public interface ViewInterface {
 
     void targetShow(String msg);
 
+    void discardWeapon(String msg);
+
     void gameReShow();
 }
