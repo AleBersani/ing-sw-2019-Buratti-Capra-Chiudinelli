@@ -214,7 +214,7 @@ public class GUI extends Application implements ViewInterface {
     }
 
     private void showTarget(){
-        this.gameGUI.buildTarget(stage,infoTarget);
+        this.gameGUI.buildTarget(stage,infoTarget,"");
     }
 
     private void preShowShoot(){

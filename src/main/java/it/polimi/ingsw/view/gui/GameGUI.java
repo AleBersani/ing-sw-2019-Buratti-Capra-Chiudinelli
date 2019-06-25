@@ -38,6 +38,7 @@ public class GameGUI {
     private static final String GREEN="green";
     private static final String YELLOW="yellow";
     private static final String GREY="grey";
+    private static final int SHOOT_ADRENALINE = 6;
     private static final int N_INNER_COLUMN= 3;
     private static final int N_COLUMN= 7;
     private static final int N_INNER_ROW= 3;
@@ -53,6 +54,7 @@ public class GameGUI {
     private static final int PLAYER_ROW_SPAN=1;
     private static final int PLAYER_AMMO=1;
     private static final int PLAYER_COL_SPAN=3;
+    private static final int PLAYER_DAMAGE=3;
     private static final int PLAYER_XPOS=4;
     private static final int PLAYER_POWER_UP= 6;
     private static final int PLAYER_WEAPON= 8;
@@ -1195,7 +1197,7 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-    protected void buildTarget(Stage stage, String msg){
+    protected void buildTarget(Stage stage, String msg, String movement){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         StackPane targetPane = new StackPane();
         GridPane targetGrid = new GridPane();
@@ -1239,7 +1241,7 @@ public class GameGUI {
         else {
             //caso armi
 
-            targetString[0] = targetString[0].concat("WPN-").concat(handPosition).concat("'");
+            targetString[0] = targetString[0].concat("WPN-").concat(handPosition).concat("'").concat(movement).concat("'");
             fireType = typeOfFire;
         }
         final String[] target = {" "," "," "," "};
@@ -1386,7 +1388,7 @@ public class GameGUI {
             final int w = j-1;
             effectButton.setOnAction(e->{
                 this.typeOfFire = fire;
-                buildTarget(stage,target.get(w));
+                shootMovement(stage,target.get(w));
                 pane.getChildren().remove(preShootPane);
             });
             switch (meaning[0]){
@@ -1423,16 +1425,52 @@ public class GameGUI {
                 break;
             }
         }
-        System.out.println(this.nameWeapon);
         ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName).concat(".png"), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
         preShootGrid.add(weaponIV, 0, 1,1,j-1);
-
-
 
         preShootGrid.setAlignment(Pos.CENTER);
         preShootPane.getChildren().add(rectangle);
         preShootPane.getChildren().add(preShootGrid);
         pane.getChildren().add(preShootPane);
+    }
+
+    private void shootMovement(Stage stage, String msg){
+        if(gui.getYouRepresentation().get(PLAYER_DAMAGE).split("'").length >= SHOOT_ADRENALINE){
+            StackPane pane = (StackPane)stage.getScene().getRoot();
+            StackPane movementPane = new StackPane();
+            GridPane movementGrid = new GridPane();
+            rowConstraint(movementGrid,N_ROW);
+            columnConstraint(movementGrid,N_COLUMN);
+
+            Rectangle rectangle = new Rectangle();
+            rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+            rectangle.setEffect(new BoxBlur());
+            rectangle.widthProperty().bind(pane.widthProperty());
+            rectangle.heightProperty().bind(pane.heightProperty());
+
+            Label text = new Label("Where do you want to move?");
+            label40Helvetica(text, "#ffffff", 0.8);
+            movementGrid.add(text,0,3,4,1);
+            GridPane.setHalignment(text,HPos.CENTER);
+            GridPane.setValignment(text,VPos.CENTER);
+
+            EventHandler clickEvent = (EventHandler<MouseEvent>) event -> {
+                String cellX = Integer.toString(1 + (int) (event.getScreenX() / (pane.getWidth() / N_COLUMN)));
+                String cellY = Integer.toString(1 + (int) (event.getScreenY() / (pane.getHeight() / N_ROW)));
+
+                buildTarget(stage,msg,cellX.concat(":").concat(cellY));
+                pane.getChildren().remove(movementPane);
+            };
+
+            movementPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
+            movementPane.getChildren().add(rectangle);
+            movementPane.getChildren().add(boardGrid);
+            movementPane.getChildren().add(movementGrid);
+            pane.getChildren().add(movementPane);
+        }
+        else {
+            buildTarget(stage,msg,"");
+        }
     }
 
     private void storeButtons(GridPane gridButtons, StackPane pane){
