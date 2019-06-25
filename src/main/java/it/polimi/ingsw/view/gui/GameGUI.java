@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.communication.client.Client;
 import it.polimi.ingsw.communication.client.MessageHandler;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 public class GameGUI {
     private Stage stage;
     private GUI gui;
-    private MessageHandler messageHandler;
     private Client client;
     private GridPane boardGrid;
     protected boolean endTurn=false;
@@ -74,9 +72,8 @@ public class GameGUI {
     private static final int KILL_COL_SPAN= 3;
     private static final int NUMBER_OF_WEAPON= 3;
 
-    public GameGUI(GUI gui, MessageHandler messageHandler, Client client) {
+    public GameGUI(GUI gui, Client client) {
         this.gui = gui;
-        this.messageHandler = messageHandler;
         this.client = client;
     }
 
@@ -290,18 +287,14 @@ public class GameGUI {
                 else{
                     if(playerTurned.equals("false")){   //turned false
                         grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedActionPlayer.png"), pane.getWidth() / N_COLUMN * PLAYER_COL_SPAN, pane.getHeight() / N_ROW, false, false)), PLAYER_XPOS, i, PLAYER_COL_SPAN, PLAYER_ROW_SPAN);
-
                     }
                     else{   //frenzy true and turned true
                         grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedPlayer.png"), pane.getWidth() / N_COLUMN * PLAYER_COL_SPAN, pane.getHeight() / N_ROW, false, false)), PLAYER_XPOS, i, PLAYER_COL_SPAN, PLAYER_ROW_SPAN);
-
                     }
                 }
             }
             i++;
         }
-
-
         pane.getChildren().add(grid);
     }
 
@@ -716,9 +709,6 @@ public class GameGUI {
                         int cellX = 1 + (int) (event1.getScreenX() / (pane.getWidth() / N_COLUMN));
                         int cellY = 1 + (int) (event1.getScreenY() / (pane.getHeight() / N_ROW));
 
-                        System.out.println(cellX);
-                        System.out.println(cellY);
-
                         if ((cellX < 5) && (cellY < 4)) {
                             client.send("GMC-RUN-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)));
                         }
@@ -770,8 +760,6 @@ public class GameGUI {
                         int cellX = 1 + (int) (event1.getScreenX() / (pane.getWidth() / N_COLUMN));
                         int cellY = 1 + (int) (event1.getScreenY() / (pane.getHeight() / N_ROW));
 
-                        System.out.println(cellX);
-                        System.out.println(cellY);
                         if ((cellX < 5) && (cellY < 4) && (cancelClickEvent[0])) {
                             for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
                                 for (ArrayList<String> cell : room) {
@@ -1093,16 +1081,12 @@ public class GameGUI {
         }
 
         reloadGrid.add(done,0,2);
-        done.setOnAction(e->{
-            client.send(toSend);
-        });
+        done.setOnAction(e-> client.send(toSend));
         GridPane.setHalignment(done,HPos.CENTER);
         GridPane.setValignment(done,VPos.CENTER);
 
         reloadGrid.add(ignore,1,2);
-        ignore.setOnAction(e->{
-            client.send("RLD-ignore");
-        });
+        ignore.setOnAction(e-> client.send("RLD-ignore"));
         GridPane.setHalignment(ignore,HPos.CENTER);
         GridPane.setValignment(ignore,VPos.CENTER);
 
@@ -1169,7 +1153,6 @@ public class GameGUI {
         String finalFireType = fireType;
         EventHandler clickEvent = (EventHandler<MouseEvent>) event -> {
             if(j[0] >= targetParameters.size()){
-                System.out.println("FINITO");
                 event.consume();
             }
             else {
@@ -1243,6 +1226,8 @@ public class GameGUI {
                             target[3] = cellX.concat(":").concat(cellY);
                             success[0] = true;
                             break;
+                        }
+                        default:{
                         }
                     }
                 }
