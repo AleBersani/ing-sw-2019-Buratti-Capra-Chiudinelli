@@ -231,7 +231,7 @@ public class Controller {
         String targetRequest="TRW-";
         try {
             clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.TARGETING);
-            targetRequest=targetRequest.concat("'Base'");
+            targetRequest=targetRequest.concat("Base'");
             for(Effect effect : playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE))).getEffect()){
                 targetRequest=targetRequest.concat(effect.getDescription()).concat(";");
             }

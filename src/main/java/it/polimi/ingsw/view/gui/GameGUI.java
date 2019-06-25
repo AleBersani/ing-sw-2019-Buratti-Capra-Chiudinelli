@@ -31,6 +31,7 @@ public class GameGUI {
     private String handPosition;
     private String typeOfFire;
     private String powerUpPay;
+    private String nameWeapon;
 
     private static final String PURPLE="purple";
     private static final String BLUE="blue";
@@ -882,12 +883,16 @@ public class GameGUI {
                         if (!weapon.equals("")) {
                             String[] playerWeapon = weapon.split(":");
                             if(playerWeapon[1].equals("true")){
-                                String weaponName = playerWeapon[0].toLowerCase().replace(" ", "").concat(".png");
-                                ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
+                                String weaponName = playerWeapon[0].toLowerCase().replace(" ", "");
+                                ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName).concat(".png"), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
                                 gridWeapons.add(weaponIV, j, 0);
                                 final int wpn = j;
                                 weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED,ev ->{
                                     client.send("GMC-SHT-".concat(Integer.toString(wpn)));
+                                    pane.getChildren().remove(gridWeapons);
+                                    pane.getChildren().remove(rectangle);
+                                    this.nameWeapon = weaponName;
+                                    this.handPosition = Integer.toString(wpn);
                                     //TODO AGGIUNGERE PAGAMENTO POWER UP E POSIZIONE ADRENALINA
                                 });
                             }
@@ -972,6 +977,7 @@ public class GameGUI {
                     final int pu=j;
                     powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
                         pane.getChildren().remove(powerUpGrid);
+                        pane.getChildren().remove(rectangle);
                         pane.getChildren().remove(backButton);
                         client.send(("GMC-UPU-")+(pu));
                         typeOfFire = "upu";
@@ -1342,11 +1348,91 @@ public class GameGUI {
         };
 
         targetPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
+        targetPane.getChildren().add(rectangle);
         targetPane.getChildren().add(boardGrid);
         storeButtons(targetGrid,targetPane);
         targetPane.getChildren().add(targetGrid);
 
         pane.getChildren().add(targetPane);
+    }
+
+    public void preShootShow(Stage stage, String msg){
+        StackPane pane = (StackPane)stage.getScene().getRoot();
+        StackPane preShootPane = new StackPane();
+        GridPane preShootGrid = new GridPane();
+        preShootGrid.setHgap(50);
+        preShootGrid.setVgap(100);
+
+        Rectangle rectangle = new Rectangle();
+        rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
+        rectangle.setEffect(new BoxBlur());
+        rectangle.widthProperty().bind(pane.widthProperty());
+        rectangle.heightProperty().bind(pane.heightProperty());
+
+        Label text = new Label("Choose the type of fire");
+        label40Helvetica(text, "#ffffff", 0.8);
+        preShootGrid.add(text,0,0,2,1);
+        GridPane.setHalignment(text,HPos.CENTER);
+        GridPane.setValignment(text,VPos.CENTER);
+
+        String[] effect = msg.split("'");
+
+        int j=1;
+        ArrayList<String> target = new ArrayList<>();
+        for(String trg: effect){
+            Button effectButton = new Button();
+            String[] meaning = trg.split("-");
+            final String fire = trg;
+            final int w = j-1;
+            effectButton.setOnAction(e->{
+                this.typeOfFire = fire;
+                buildTarget(stage,target.get(w));
+                pane.getChildren().remove(preShootPane);
+            });
+            switch (meaning[0]){
+                case "Base":{
+                    effectButton.setText("BASE");
+                    preShootGrid.add(effectButton,1,j);
+                    j++;
+                    break;
+                }
+                case "Optional":{
+                    effectButton.setText("OPT. ".concat(Integer.toString(Integer.valueOf(meaning[1])+1)));
+                    preShootGrid.add(effectButton,1,j);
+                    j++;
+                    break;
+                }
+                case "Alternative":{
+                    effectButton.setText("ALT.");
+                    preShootGrid.add(effectButton,1,j);
+                    j++;
+                    break;
+                }
+                default:{
+                    target.add(trg);
+                }
+            }
+            GridPane.setHalignment(effectButton,HPos.CENTER);
+            GridPane.setValignment(effectButton,VPos.CENTER);
+        }
+
+        String weaponName = this.nameWeapon;
+        for(String trg: effect){
+            if(trg.startsWith("Optional-")){
+                weaponName = this.nameWeapon.concat("Info");
+                break;
+            }
+        }
+        System.out.println(this.nameWeapon);
+        ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName).concat(".png"), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
+        preShootGrid.add(weaponIV, 0, 1,1,j-1);
+
+
+
+        preShootGrid.setAlignment(Pos.CENTER);
+        preShootPane.getChildren().add(rectangle);
+        preShootPane.getChildren().add(preShootGrid);
+        pane.getChildren().add(preShootPane);
     }
 
     private void storeButtons(GridPane gridButtons, StackPane pane){

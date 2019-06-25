@@ -61,7 +61,7 @@
       "self": false,
       "addToList": true,
       "removeFromList": false,
-      "description": "Player.Movement:enemy"
+      "description": "Player,Movement:enemy"
     },
     {
       "type": "EffectVsPlayer",

@@ -27,6 +27,7 @@ public class GUI extends Application implements ViewInterface {
     private String youData;
     private String killShotTrackData;
     private String infoString;
+    private String infoTarget;
     private String discard;
     private ArrayList<ArrayList<ArrayList<String>>> boardRepresentation;
     private ArrayList<ArrayList<String>> playersRepresentation;
@@ -213,7 +214,11 @@ public class GUI extends Application implements ViewInterface {
     }
 
     private void showTarget(){
-        this.gameGUI.buildTarget(stage,infoString);
+        this.gameGUI.buildTarget(stage,infoTarget);
+    }
+
+    private void preShowShoot(){
+        this.gameGUI.preShootShow(stage,infoTarget);
     }
 
     private void weaponDiscard(){
@@ -293,7 +298,7 @@ public class GUI extends Application implements ViewInterface {
 
     @Override
     public void targetShow(String msg) {
-        this.infoString = msg;
+        this.infoTarget = msg;
         Platform.runLater(this::showTarget);
     }
 
@@ -301,6 +306,12 @@ public class GUI extends Application implements ViewInterface {
     public void discardWeapon(String msg) {
         this.discard = msg;
         Platform.runLater(this::weaponDiscard);
+    }
+
+    @Override
+    public void preShoot(String msg) {
+        this.infoTarget = msg;
+        Platform.runLater(this::preShowShoot);
     }
 
     @Override

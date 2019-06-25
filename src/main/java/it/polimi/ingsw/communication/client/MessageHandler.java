@@ -134,6 +134,10 @@ public class MessageHandler {
                 view.targetShow(msg.substring(NAME_ETIQUETTE));
                 break;
             }
+            case "TRW-":{
+                view.preShoot(msg.substring(NAME_ETIQUETTE));
+                break;
+            }
             case "WPN-":{
                 view.discardWeapon(msg.substring(NAME_ETIQUETTE));
                 break;
