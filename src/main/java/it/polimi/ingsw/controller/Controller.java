@@ -9,6 +9,8 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.TargetParameter;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
+import it.polimi.ingsw.model.cards.WeaponAlternative;
+import it.polimi.ingsw.model.cards.WeaponOptional;
 import it.polimi.ingsw.model.cards.effects.Effect;
 import it.polimi.ingsw.model.map.SpawnPoint;
 
@@ -225,12 +227,30 @@ public class Controller {
     }
 
     private void targetRequestWeapon(ClientHandler clientHandler, String msg) {
-        //TODO typeOfFire
         String targetRequest="";
         try {
             clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.TARGETING);
-            for(Effect effect : playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE))).getEffect/*quale?*/()){
-                targetRequest=targetRequest.concat(effect.getDescription());
+            targetRequest=targetRequest.concat("Base:");
+            for(Effect effect : playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE))).getEffect()){
+                targetRequest=targetRequest.concat(effect.getDescription()).concat(";");
+            }
+            if (playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE))).isOptional()){
+                int i=0;
+                WeaponOptional weaponOptional=(WeaponOptional)playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE)));
+                for (ArrayList<Effect> arrayList : weaponOptional.getOptionalEffect()){
+                    targetRequest=targetRequest.concat("Optional-"+ i +":");
+                    for (Effect effect : arrayList){
+                        targetRequest=targetRequest.concat(effect.getDescription()).concat(";");
+                    }
+                    i++;
+                }
+            }
+            if (playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE))).isAlternative()){
+                WeaponAlternative weaponAlternative=(WeaponAlternative) playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE)));
+                targetRequest=targetRequest.concat("Alternative:");
+                for (Effect effect : weaponAlternative.getAlternativeEffect()) {
+                    targetRequest=targetRequest.concat(effect.getDescription()).concat(";");
+                }
             }
             sendString(targetRequest, clientHandler);
         } catch (NotFoundException e) {

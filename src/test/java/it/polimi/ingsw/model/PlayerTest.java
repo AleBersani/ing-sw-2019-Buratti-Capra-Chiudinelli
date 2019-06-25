@@ -79,6 +79,11 @@ class PlayerTest {
             public boolean isOptional() {
                 return false;
             }
+
+            @Override
+            public boolean isAlternative() {
+                return false;
+            }
         };
     }
 
