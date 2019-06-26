@@ -1422,7 +1422,7 @@ public class GameGUI {
             movementPane.getChildren().add(movementGrid);
             pane.getChildren().add(movementPane);
         } else {
-            buildTarget(stage, msg, "");
+            buildTarget(stage, msg, " ");
         }
     }
 
