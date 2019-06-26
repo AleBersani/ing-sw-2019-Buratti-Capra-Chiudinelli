@@ -323,10 +323,10 @@ public class Controller {
         try {
             clientInfoFromClientHandeler(clientHandler).simulation = deepClone(match);
             for (String target : data[2].split(";")) {
-                targetParameters.add(generateTarget(target, clientHandler));
+                targetParameters.add(generateTarget(target, clientHandler, clientInfoFromClientHandeler(clientHandler).simulation));
             }
             clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().shoot(clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])),
-                    data[1].equals("") ? null : clientInfoFromClientHandeler(clientHandler).simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]),Integer.parseInt(data[1].split(":")[1])), //TODO potrebbero esserci casini con questa null
+                    data[1].equals(" ") ? null : clientInfoFromClientHandeler(clientHandler).simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]), Integer.parseInt(data[1].split(":")[1])),
                     targetParameters);
             if(!clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])).isOptional()) {
                 clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().endShoot(clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])));
@@ -426,7 +426,7 @@ public class Controller {
     private void powerUpAction(ClientHandler clientHandler, String msg){
         try {
             playerFromNickname(clientHandler.getName()).usePowerUp(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.split("'")[0])),
-                    generateTarget(msg, clientHandler));
+                    generateTarget(msg.split("'")[1], clientHandler,this.match));
             updateBackground(this.match);
         } catch (InvalidTargetException e) {
             sendString(">>>Invalid Target", clientHandler);
@@ -447,17 +447,16 @@ public class Controller {
 
     }
 
-    private TargetParameter generateTarget(String target,ClientHandler clientHandler) {
-        String[] data =target.split("'");
-        String[] parameters = data[1].split(",");
+    private TargetParameter generateTarget(String target,ClientHandler clientHandler, Match match) {
+        String[] parameters = target.split(",");
         TargetParameter targetParameter= null;
         try {
             targetParameter = new TargetParameter(
                     parameters[0].equals(" ")? null : match.getBoard().find(Integer.parseInt(parameters[0].split(":")[0]),Integer.parseInt(parameters[0].split(":")[1])),
-                    playerFromNickname(clientHandler.getName()),
-                    parameters[1].equals(" ")? null : playerFromColor(parameters[1]),
+                    match.getTurn().getCurrent(),
+                    parameters[1].equals(" ")? null : playerFromColor(parameters[1], match),
                     parameters[2].equals(" ")? null : match.getBoard().find(Integer.parseInt(parameters[2].split(":")[0]),Integer.parseInt(parameters[2].split(":")[1])).getRoom(),
-                    parameters[3].equals(" ")? null :match.getBoard().find(Integer.parseInt(parameters[3].split(":")[0]),Integer.parseInt(parameters[3].split(":")[1])),
+                    parameters[3].equals(" ")? null : match.getBoard().find(Integer.parseInt(parameters[3].split(":")[0]),Integer.parseInt(parameters[3].split(":")[1])),
                     parameters[4].equals(" ")? null : parameters[4]
             );
         } catch (NotFoundException e) {
@@ -796,7 +795,7 @@ public class Controller {
         throw (new NotFoundException());
     }
 
-    private Player playerFromColor(String color) throws NotFoundException {
+    private Player playerFromColor(String color, Match match) throws NotFoundException {
         for (Player player : match.getPlayers()){
             if(color.equals(player.getColor())){
                 return player;
