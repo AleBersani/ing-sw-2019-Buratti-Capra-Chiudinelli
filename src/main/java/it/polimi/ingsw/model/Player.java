@@ -247,13 +247,18 @@ public class Player implements Serializable {
      * @throws NoOwnerException This exception means the weapon is not loaded
      */
     public void shoot(Weapon weapon, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, NotThisKindOfWeapon, NoAmmoException, NoOwnerException {
-        if (this.position.calcDist(destination) <= isOnAdrenalineShoot())
+        if(isOnAdrenalineShoot()) {
+            if (this.position.calcDist(destination) <= 1)
+                shootType(weapon, target);
+            else
+                throw new InvalidDestinationException();
+            this.position.leaves(this);
+            this.position = destination;
+            destination.arrives(this);
+        }
+        else {
             shootType(weapon,target);
-        else
-            throw new InvalidDestinationException();
-        this.position.leaves(this);
-        this.position = destination;
-        destination.arrives(this);
+        }
     }
 
     /**
@@ -542,12 +547,12 @@ public class Player implements Serializable {
 
     /**
      * This method unlock the second adrenaline improvement
-     * @return 1 if the player has 6 or more damage counters, 0 otherwise
+     * @return true if the player has 6 or more damage counters, false otherwise
      */
-    private int isOnAdrenalineShoot() {
+    private boolean isOnAdrenalineShoot() {
         if (this.damageCounter >= 6 && !this.turnedPlank)
-            return 1;
-        return 0;
+            return true;
+        return false;
     }
 
     /**

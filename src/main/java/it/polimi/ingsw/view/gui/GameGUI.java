@@ -1623,7 +1623,7 @@ public class GameGUI {
     public void drawBloodOnPlayer(Pane pane){
         int j=0;
         for(ArrayList<String> player : gui.getPlayersRepresentation()) {
-            String[] blood = player.get(PLAYER_SKULL).split("'");
+            String[] blood = player.get(PLAYER_DAMAGE).split("'");
 
             for(int i=0;i<blood.length;i++){
                 ImageView bloodIV = new ImageView(new Image("/images/game/blood/".concat(blood[i]).concat("Blood.png"),pane.getWidth()/25,pane.getHeight()/15,false,false));
