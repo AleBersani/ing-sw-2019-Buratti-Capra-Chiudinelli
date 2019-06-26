@@ -1130,7 +1130,7 @@ public class GameGUI {
         int i = 0;
         for (String targetParameter : msg.split(";")) {
             targetParameters.add(new ArrayList<>());
-            success.add(new boolean[targetParameter.split("'").length]);
+            success.add(new boolean[targetParameter.split(",").length]);
             int w=0;
             for (String singleTarget : targetParameter.split(",")) {
                 targetParameters.get(i).add(singleTarget);
