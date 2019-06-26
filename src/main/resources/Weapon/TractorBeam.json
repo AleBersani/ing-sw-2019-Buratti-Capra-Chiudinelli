@@ -38,6 +38,10 @@
           "level": 0
         }
       ],
+      "constraintPositivity": [
+        true,
+        true
+      ],
       "damage": 1,
       "mark": 0,
       "addToList": false,

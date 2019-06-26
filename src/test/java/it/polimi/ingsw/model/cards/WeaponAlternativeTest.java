@@ -1331,6 +1331,61 @@ class WeaponAlternativeTest {
     }
 
     @Test
+    void tracktorBeam(){
+        for(Weapon w: board.getWeaponsListCopy()){
+            if(w.getName().equals("Tractor Beam")){
+                weapon = w;
+            }
+        }
+        weapon.setOwner(owner);
+        weapon.setOwner(owner);
+        try {
+            owner.setPosition(board.find(2,2));
+            owner.getPosition().arrives(owner);
+            enemy.setPosition(board.find(4,2));
+            enemy.getPosition().arrives(enemy);
+            target.get(0).setMovement(board.find(3,2));
+            target.get(0).setEnemyPlayer(enemy);
+            target.get(1).setEnemyPlayer(enemy);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            weapon.fire(target);
+        } catch (InvalidTargetException e) {
+            e.printStackTrace();
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
+        try {
+            assertEquals(board.find(3,2).getOnMe().get(0),enemy);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        assertEquals(1,enemy.getDamageCounter());
+        for(int i=0;i<1;i++){
+            assertEquals(owner,enemy.getDamage().get(i));
+        }
+
+        enemy.getPosition().leaves(enemy);
+
+        enemy.getDamage().clear();
+        enemy.getMark().clear();
+        enemy.setDamageCounter(0);
+
+        for(TargetParameter targetParameter: target){
+            targetParameter.setConstraintSquare(null);
+            targetParameter.setEnemyPlayer(null);
+            targetParameter.setTargetSquare(null);
+            targetParameter.setTargetRoom(null);
+            targetParameter.setMovement(null);
+        }
+        for(int i=0;i<weapon.getPreviousTarget().size();i++){
+            weapon.getPreviousTarget().get(i).clear();
+        }
+    }
+
+    @Test
     void ZX2(){
         for(Weapon w: board.getWeaponsListCopy()){
             if(w.getName().equals("ZX2")){
