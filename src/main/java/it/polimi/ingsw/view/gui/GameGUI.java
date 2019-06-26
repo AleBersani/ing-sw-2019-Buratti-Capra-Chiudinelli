@@ -1142,8 +1142,10 @@ public class GameGUI {
 
         targetDescription(targetParameters.get(0).get(0), text);
 
-        ImageView skullIV = new ImageView(new Image("/images/game/blood/redSkull.png",pane.getWidth()/35,pane.getHeight()/20,false,false));
-        targetGrid.add(skullIV,4,3);
+        ImageView skipIV = new ImageView(new Image("/images/game/skip.png",pane.getWidth()/17,pane.getHeight()/10,false,false));
+        targetGrid.add(skipIV,4,3);
+        GridPane.setHalignment(skipIV,HPos.CENTER);
+        GridPane.setValignment(skipIV,VPos.CENTER);
 
         final int[] j = {0};
         final int[] k = {0};
