@@ -42,6 +42,9 @@ public class Match implements Serializable {
      */
     private Board board;
 
+    /**
+     * This attribute is the array list that represent if the value of blood is double
+     */
     private ArrayList<Boolean> doubleOnKillShotTrack;
 
     int i;

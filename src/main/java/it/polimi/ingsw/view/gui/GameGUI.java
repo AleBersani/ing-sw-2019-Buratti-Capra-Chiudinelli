@@ -20,7 +20,6 @@ import javafx.scene.control.Button;
 import java.util.ArrayList;
 
 public class GameGUI {
-    private Stage stage;
     private GUI gui;
     private Client client;
     private GridPane boardGrid;
@@ -91,7 +90,6 @@ public class GameGUI {
     public void buildBoard(Stage stage) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
-        this.stage = stage;
         stage.setResizable(false);
         GridPane grid = new GridPane();
 
@@ -261,7 +259,6 @@ public class GameGUI {
     public void buildPlayers(Stage stage) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
-        this.stage = stage;
         GridPane grid = new GridPane();
 
         //grid column constraint
@@ -309,7 +306,6 @@ public class GameGUI {
     public void buildYou(Stage stage) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
-        this.stage = stage;
         stage.setResizable(false);
         GridPane grid = new GridPane();
 
@@ -360,7 +356,6 @@ public class GameGUI {
     public void buildKillShotTrack(Stage stage) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
-        this.stage = stage;
         stage.setResizable(false);
         GridPane grid = new GridPane();
 
@@ -374,7 +369,7 @@ public class GameGUI {
         Pane pane2 = new Pane();
         String[] damage = gui.getKillShotRepresentation().get(1).split("'");
         String[] doubleDamage = gui.getKillShotRepresentation().get(2).split(",");
-        int totalSkull = Integer.valueOf(gui.getKillShotRepresentation().get(KILL_TOT_SKULL));
+        int totalSkull = Integer.parseInt(gui.getKillShotRepresentation().get(KILL_TOT_SKULL));
         for (int i = 0; i < totalSkull; i++) {
             String bloodString = "";
             if ((i < damage.length) && (!damage[i].equals(""))) {
@@ -1698,6 +1693,43 @@ public class GameGUI {
         pane2.getChildren().add(rectangle);
         pane2.getChildren().add(grid);
         pane.getChildren().add(pane2);
+    }
+
+    public void buildWinner(Stage stage){
+        StackPane pane = (StackPane)stage.getScene().getRoot();
+        //TODO MESSAGE HANDLER NEED TO CALL TO THE BACKGROUND IMAGE OF THE LOGIN GUI
+        //TODO WE NEED TO KNOW ONLY THE NAME OF THE WINNER AND THE POINTS THAT HE MAKES
+        GridPane winnerGrid = new GridPane();
+
+        winnerGrid.add(new ImageView(new Image("/images/game/crown.png",pane.getWidth()/40,pane.getHeight()/25,false,false)),0,0);
+
+        Label winner = new Label();
+        winner.setTextFill(Color.web("#ffffff", 0.8));
+        winner.setStyle("-fx-font: 50 Helvetica;");
+        winner.setEffect(new DropShadow());
+        winnerGrid.add(winner,0,1);
+        GridPane.setHalignment(winner,HPos.CENTER);
+        GridPane.setValignment(winner,VPos.CENTER);
+
+        Label points = new Label();
+        points.setTextFill(Color.web("#ffffff", 0.8));
+        points.setStyle("-fx-font: 40 Helvetica;");
+        points.setEffect(new DropShadow());
+        winnerGrid.add(points,0,2);
+        GridPane.setHalignment(points,HPos.CENTER);
+        GridPane.setValignment(points,VPos.CENTER);
+
+        Button exit = new Button("EXIT");
+        winnerGrid.add(exit,0,2);
+        GridPane.setHalignment(exit,HPos.CENTER);
+        GridPane.setValignment(exit,VPos.CENTER);
+        exit.setOnAction(e->{
+            client.send("quit");
+        });
+
+        winnerGrid.setVgap(50);
+
+        pane.getChildren().add(winnerGrid);
     }
 
     private void columnConstraint(GridPane grid, double nColumn){
