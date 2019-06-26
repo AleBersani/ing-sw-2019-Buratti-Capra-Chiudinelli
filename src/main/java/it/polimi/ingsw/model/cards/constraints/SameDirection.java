@@ -7,12 +7,26 @@ import it.polimi.ingsw.model.TargetParameter;
 
 import java.util.ArrayList;
 
+/**
+ * this class check if the enemies are on the same direction with the Owner
+ */
 public class SameDirection extends Constraint {
-
+    /**
+     * constructor class of SameDirection
+     * @param level of the previousTarget control
+     */
     public SameDirection(int level) {
         super(level);
     }
 
+    /**
+     * this method evaluates if the player, the targeted enemy and the previous target are on the same direction
+     * @param target contain a player or a square
+     * @param constraintPositivity is not needed in this method
+     * @param previousTarget is the list of targets of the previous effects
+     * @return true if the player can shoot, false if the player can't shoot
+     * @throws NoOwnerException when in target there isn't the owner or the owner position
+     */
     @Override
     public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<ArrayList<Player>> previousTarget)throws NoOwnerException {
         if((target.getOwner()==null)||(target.getOwner().getPosition()==null)){

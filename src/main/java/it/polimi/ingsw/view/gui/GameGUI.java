@@ -1131,16 +1131,24 @@ public class GameGUI {
         GridPane.setValignment(text, VPos.CENTER);
 
         ArrayList<ArrayList<String>> targetParameters = new ArrayList<>();
+        ArrayList<boolean[]> success = new ArrayList<>();
         int i = 0;
         for (String targetParameter : msg.split(";")) {
             targetParameters.add(new ArrayList<>());
+            success.add(new boolean[targetParameter.split("'").length]);
+            int w=0;
             for (String singleTarget : targetParameter.split(",")) {
                 targetParameters.get(i).add(singleTarget);
+                success.get(i)[w] = false;
+                w++;
             }
             i++;
         }
 
         targetDescription(targetParameters.get(0).get(0), text);
+
+        ImageView skullIV = new ImageView(new Image("/images/game/blood/redSkull.png",pane.getWidth()/35,pane.getHeight()/20,false,false));
+        targetGrid.add(skullIV,4,3);
 
         final int[] j = {0};
         final int[] k = {0};
@@ -1156,7 +1164,6 @@ public class GameGUI {
             fireType = typeOfFire;
         }
         final String[] target = {" ", " ", " ", " "};
-        final boolean[] success = {false};
 
         String finalFireType = fireType;
         EventHandler clickEvent = (EventHandler<MouseEvent>) event -> {
@@ -1170,75 +1177,79 @@ public class GameGUI {
                 String cellY = Integer.toString(1 + (int) (pixelY / (pane.getHeight() / N_ROW)));
 
                 String[] type = targetParameters.get(j[0]).get(k[0]).split(":");
-
-                if ((Integer.valueOf(cellX) <= 4) && (Integer.valueOf(cellY) <= 3)) {
-                    switch (type[0]) {
-                        case "Movement": {
-                            target[0] = cellX.concat(":").concat(cellY);
-                            success[0] = true;
-                            break;
-                        }
-                        case "Player": {
-                            String innerCellX = Integer.toString((int) (pixelX / (pane.getWidth() / (N_COLUMN * N_INNER_COLUMN))) % N_INNER_COLUMN);
-                            String innerCellY = Integer.toString((int) (pixelY / (pane.getHeight() / (N_ROW * N_INNER_ROW))) % N_INNER_ROW);
-                            String pos = innerCellX.concat(innerCellY);
-                            String color = "";
-                            switch (pos) {
-                                case "01": {
-                                    color = BLUE;
-                                    break;
-                                }
-                                case "02": {
-                                    color = YELLOW;
-                                    break;
-                                }
-                                case "12": {
-                                    color = GREEN;
-                                    break;
-                                }
-                                case "22": {
-                                    color = GREY;
-                                    break;
-                                }
-                                case "21": {
-                                    color = PURPLE;
-                                    break;
-                                }
-                                default: {
-                                }
+                if((Integer.valueOf(cellX) == 5) && (Integer.valueOf(cellY) == 4)){
+                    success.get(j[0])[k[0]] = true;
+                }
+                else {
+                    if ((Integer.valueOf(cellX) <= 4) && (Integer.valueOf(cellY) <= 3)) {
+                        switch (type[0]) {
+                            case "Movement": {
+                                target[0] = cellX.concat(":").concat(cellY);
+                                success.get(j[0])[k[0]] = true;
+                                break;
                             }
-                            if (!color.equals("")) {
-                                for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
-                                    for (ArrayList<String> cell : room) {
-                                        if ((cell.get(CELL_X).equals(cellX)) && (cell.get(CELL_Y).equals(cellY))) {
-                                            for (String player : cell.get(CELL_PLAYER_ON_ME).split("'")) {
-                                                if (player.equals(color)) {
-                                                    target[1] = color;
-                                                    success[0] = true;
+                            case "Player": {
+                                String innerCellX = Integer.toString((int) (pixelX / (pane.getWidth() / (N_COLUMN * N_INNER_COLUMN))) % N_INNER_COLUMN);
+                                String innerCellY = Integer.toString((int) (pixelY / (pane.getHeight() / (N_ROW * N_INNER_ROW))) % N_INNER_ROW);
+                                String pos = innerCellX.concat(innerCellY);
+                                String color = "";
+                                switch (pos) {
+                                    case "01": {
+                                        color = BLUE;
+                                        break;
+                                    }
+                                    case "02": {
+                                        color = YELLOW;
+                                        break;
+                                    }
+                                    case "12": {
+                                        color = GREEN;
+                                        break;
+                                    }
+                                    case "22": {
+                                        color = GREY;
+                                        break;
+                                    }
+                                    case "21": {
+                                        color = PURPLE;
+                                        break;
+                                    }
+                                    default: {
+                                    }
+                                }
+                                if (!color.equals("")) {
+                                    for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
+                                        for (ArrayList<String> cell : room) {
+                                            if ((cell.get(CELL_X).equals(cellX)) && (cell.get(CELL_Y).equals(cellY))) {
+                                                for (String player : cell.get(CELL_PLAYER_ON_ME).split("'")) {
+                                                    if (player.equals(color)) {
+                                                        target[1] = color;
+                                                        success.get(j[0])[k[0]] = true;
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 }
+                                break;
                             }
-                            break;
-                        }
-                        case "Room": {
-                            target[2] = cellX.concat(":").concat(cellY);
-                            success[0] = true;
-                            break;
-                        }
-                        case "Square": {
-                            target[3] = cellX.concat(":").concat(cellY);
-                            success[0] = true;
-                            break;
-                        }
-                        default: {
+                            case "Room": {
+                                target[2] = cellX.concat(":").concat(cellY);
+                                success.get(j[0])[k[0]] = true;
+                                break;
+                            }
+                            case "Square": {
+                                target[3] = cellX.concat(":").concat(cellY);
+                                success.get(j[0])[k[0]] = true;
+                                break;
+                            }
+                            default: {
+                            }
                         }
                     }
                 }
-                if (success[0]) {
-                    success[0] = false;
+                if (success.get(j[0])[k[0]]) {
+                    success.get(j[0])[k[0]] = false;
                     k[0]++;
                     if (k[0] >= targetParameters.get(j[0]).size()) {
                         k[0] = 0;
@@ -1254,7 +1265,6 @@ public class GameGUI {
                     if (j[0] < targetParameters.size()) {
                         targetDescription(targetParameters.get(j[0]).get(k[0]), text);
                     }
-
                 }
             }
         };
@@ -1266,6 +1276,35 @@ public class GameGUI {
         targetPane.getChildren().add(targetGrid);
 
         pane.getChildren().add(targetPane);
+    }
+
+    private void targetDescription(String msg, Label infoText) {
+        String info = "";
+        switch (msg) {
+            case "Movement:enemy": {
+                info = "Choose a square where you want to move the enemy player";
+                break;
+            }
+            case "Movement:self": {
+                info = "Choose a square where you want to move";
+                break;
+            }
+            case "Player": {
+                info = "Choose an enemy player";
+                break;
+            }
+            case "Room": {
+                info = "Choose a square to select the room";
+                break;
+            }
+            case "Square": {
+                info = "Choose a square";
+                break;
+            }
+            default: {
+            }
+        }
+        infoText.setText(info);
     }
 
     public void preShootShow(Stage stage, String msg) {
@@ -1431,34 +1470,6 @@ public class GameGUI {
         }
     }
 
-    private void targetDescription(String msg, Label infoText) {
-        String info = "";
-        switch (msg) {
-            case "Movement:enemy": {
-                info = "Choose a square where you want to move the enemy player";
-                break;
-            }
-            case "Movement:self": {
-                info = "Choose a square where you want to move";
-                break;
-            }
-            case "Player": {
-                info = "Choose an enemy player";
-                break;
-            }
-            case "Room": {
-                info = "Choose a square to select the room";
-                break;
-            }
-            case "Square": {
-                info = "Choose a square";
-                break;
-            }
-            default: {
-            }
-        }
-        infoText.setText(info);
-    }
 
     private void powerUpPay(Pane pane) {//TODO CONTROLLARE QUANDO VIENE CHIAMATA
         Pane payPane = new Pane();
