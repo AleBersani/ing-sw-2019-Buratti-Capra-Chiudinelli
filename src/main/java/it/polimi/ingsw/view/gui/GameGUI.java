@@ -1139,140 +1139,143 @@ public class GameGUI {
             }
             i++;
         }
+        if(!targetParameters.get(0).get(0).equals("Area")) {
+            targetDescription(targetParameters.get(0).get(0), text);
 
-        targetDescription(targetParameters.get(0).get(0), text);
+            ImageView skipIV = new ImageView(new Image("/images/game/skip.png", pane.getWidth() / 17, pane.getHeight() / 10, false, false));
+            targetGrid.add(skipIV, 4, 3);
+            GridPane.setHalignment(skipIV, HPos.CENTER);
+            GridPane.setValignment(skipIV, VPos.CENTER);
 
-        ImageView skipIV = new ImageView(new Image("/images/game/skip.png",pane.getWidth()/17,pane.getHeight()/10,false,false));
-        targetGrid.add(skipIV,4,3);
-        GridPane.setHalignment(skipIV,HPos.CENTER);
-        GridPane.setValignment(skipIV,VPos.CENTER);
-
-        final int[] j = {0};
-        final int[] k = {0};
-        String fireType = "";
-        final String[] targetString = {"TRG-"};
-        if (typeOfFire.equals("upu")) {
-            //caso powerup
-            targetString[0] = targetString[0].concat("POU-").concat(handPosition).concat("'");
-            fireType = " ";
-        } else {
-            //caso armi
-            targetString[0] = targetString[0].concat("WPN-").concat(handPosition).concat("'").concat(movement).concat("'");
-            fireType = typeOfFire;
-        }
-        final String[] target = {" ", " ", " ", " "};
-
-        String finalFireType = fireType;
-        EventHandler clickEvent = (EventHandler<MouseEvent>) event -> {
-            if (j[0] >= targetParameters.size()) {
-                event.consume();
+            final int[] j = {0};
+            final int[] k = {0};
+            String fireType = "";
+            final String[] targetString = {"TRG-"};
+            if (typeOfFire.equals("upu")) {
+                //caso powerup
+                targetString[0] = targetString[0].concat("POU-").concat(handPosition).concat("'");
+                fireType = " ";
             } else {
-                double pixelX = event.getScreenX();
-                double pixelY = event.getScreenY();
+                //caso armi
+                targetString[0] = targetString[0].concat("WPN-").concat(handPosition).concat("'").concat(movement).concat("'");
+                fireType = typeOfFire;
+            }
+            final String[] target = {" ", " ", " ", " "};
 
-                String cellX = Integer.toString(1 + (int) (pixelX / (pane.getWidth() / N_COLUMN)));
-                String cellY = Integer.toString(1 + (int) (pixelY / (pane.getHeight() / N_ROW)));
+            String finalFireType = fireType;
+            EventHandler clickEvent = (EventHandler<MouseEvent>) event -> {
+                if (j[0] >= targetParameters.size()) {
+                    event.consume();
+                } else {
+                    double pixelX = event.getScreenX();
+                    double pixelY = event.getScreenY();
 
-                String[] type = targetParameters.get(j[0]).get(k[0]).split(":");
-                if((Integer.valueOf(cellX) == 5) && (Integer.valueOf(cellY) == 4)){
-                    success.get(j[0])[k[0]] = true;
-                }
-                else {
-                    if ((Integer.valueOf(cellX) <= 4) && (Integer.valueOf(cellY) <= 3)) {
-                        switch (type[0]) {
-                            case "Movement": {
-                                target[0] = cellX.concat(":").concat(cellY);
-                                success.get(j[0])[k[0]] = true;
-                                break;
-                            }
-                            case "Player": {
-                                String innerCellX = Integer.toString((int) (pixelX / (pane.getWidth() / (N_COLUMN * N_INNER_COLUMN))) % N_INNER_COLUMN);
-                                String innerCellY = Integer.toString((int) (pixelY / (pane.getHeight() / (N_ROW * N_INNER_ROW))) % N_INNER_ROW);
-                                String pos = innerCellX.concat(innerCellY);
-                                String color = "";
-                                switch (pos) {
-                                    case "01": {
-                                        color = BLUE;
-                                        break;
-                                    }
-                                    case "02": {
-                                        color = YELLOW;
-                                        break;
-                                    }
-                                    case "12": {
-                                        color = GREEN;
-                                        break;
-                                    }
-                                    case "22": {
-                                        color = GREY;
-                                        break;
-                                    }
-                                    case "21": {
-                                        color = PURPLE;
-                                        break;
-                                    }
-                                    default: {
-                                    }
+                    String cellX = Integer.toString(1 + (int) (pixelX / (pane.getWidth() / N_COLUMN)));
+                    String cellY = Integer.toString(1 + (int) (pixelY / (pane.getHeight() / N_ROW)));
+
+                    String[] type = targetParameters.get(j[0]).get(k[0]).split(":");
+                    if ((Integer.valueOf(cellX) == 5) && (Integer.valueOf(cellY) == 4)) {
+                        success.get(j[0])[k[0]] = true;
+                    } else {
+                        if ((Integer.valueOf(cellX) <= 4) && (Integer.valueOf(cellY) <= 3)) {
+                            switch (type[0]) {
+                                case "Movement": {
+                                    target[0] = cellX.concat(":").concat(cellY);
+                                    success.get(j[0])[k[0]] = true;
+                                    break;
                                 }
-                                if (!color.equals("")) {
-                                    for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
-                                        for (ArrayList<String> cell : room) {
-                                            if ((cell.get(CELL_X).equals(cellX)) && (cell.get(CELL_Y).equals(cellY))) {
-                                                for (String player : cell.get(CELL_PLAYER_ON_ME).split("'")) {
-                                                    if (player.equals(color)) {
-                                                        target[1] = color;
-                                                        success.get(j[0])[k[0]] = true;
+                                case "Player": {
+                                    String innerCellX = Integer.toString((int) (pixelX / (pane.getWidth() / (N_COLUMN * N_INNER_COLUMN))) % N_INNER_COLUMN);
+                                    String innerCellY = Integer.toString((int) (pixelY / (pane.getHeight() / (N_ROW * N_INNER_ROW))) % N_INNER_ROW);
+                                    String pos = innerCellX.concat(innerCellY);
+                                    String color = "";
+                                    switch (pos) {
+                                        case "01": {
+                                            color = BLUE;
+                                            break;
+                                        }
+                                        case "02": {
+                                            color = YELLOW;
+                                            break;
+                                        }
+                                        case "12": {
+                                            color = GREEN;
+                                            break;
+                                        }
+                                        case "22": {
+                                            color = GREY;
+                                            break;
+                                        }
+                                        case "21": {
+                                            color = PURPLE;
+                                            break;
+                                        }
+                                        default: {
+                                        }
+                                    }
+                                    if (!color.equals("")) {
+                                        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
+                                            for (ArrayList<String> cell : room) {
+                                                if ((cell.get(CELL_X).equals(cellX)) && (cell.get(CELL_Y).equals(cellY))) {
+                                                    for (String player : cell.get(CELL_PLAYER_ON_ME).split("'")) {
+                                                        if (player.equals(color)) {
+                                                            target[1] = color;
+                                                            success.get(j[0])[k[0]] = true;
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
                                     }
+                                    break;
                                 }
-                                break;
+                                case "Room": {
+                                    target[2] = cellX.concat(":").concat(cellY);
+                                    success.get(j[0])[k[0]] = true;
+                                    break;
+                                }
+                                case "Square": {
+                                    target[3] = cellX.concat(":").concat(cellY);
+                                    success.get(j[0])[k[0]] = true;
+                                    break;
+                                }
+                                default: {
+                                }
                             }
-                            case "Room": {
-                                target[2] = cellX.concat(":").concat(cellY);
-                                success.get(j[0])[k[0]] = true;
-                                break;
+                        }
+                    }
+                    if (success.get(j[0])[k[0]]) {
+                        success.get(j[0])[k[0]] = false;
+                        k[0]++;
+                        if (k[0] >= targetParameters.get(j[0]).size()) {
+                            k[0] = 0;
+                            j[0]++;
+                            targetString[0] = targetString[0].concat(target[0]).concat(",").concat(target[1]).concat(",").concat(target[2]).concat(",").concat(target[3]).concat(",").concat(finalFireType).concat(";");
+                            for (int z = 0; z < target.length; z++) {
+                                target[z] = " ";
                             }
-                            case "Square": {
-                                target[3] = cellX.concat(":").concat(cellY);
-                                success.get(j[0])[k[0]] = true;
-                                break;
+                            if (j[0] >= targetParameters.size()) {
+                                client.send(targetString[0]);
                             }
-                            default: {
-                            }
+                        }
+                        if (j[0] < targetParameters.size()) {
+                            targetDescription(targetParameters.get(j[0]).get(k[0]), text);
                         }
                     }
                 }
-                if (success.get(j[0])[k[0]]) {
-                    success.get(j[0])[k[0]] = false;
-                    k[0]++;
-                    if (k[0] >= targetParameters.get(j[0]).size()) {
-                        k[0] = 0;
-                        j[0]++;
-                        targetString[0] = targetString[0].concat(target[0]).concat(",").concat(target[1]).concat(",").concat(target[2]).concat(",").concat(target[3]).concat(",").concat(finalFireType).concat(";");
-                        for (int z = 0; z < target.length; z++) {
-                            target[z] = " ";
-                        }
-                        if (j[0] >= targetParameters.size()) {
-                            client.send(targetString[0]);
-                        }
-                    }
-                    if (j[0] < targetParameters.size()) {
-                        targetDescription(targetParameters.get(j[0]).get(k[0]), text);
-                    }
-                }
-            }
-        };
+            };
 
-        targetPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
-        targetPane.getChildren().add(rectangle);
-        targetPane.getChildren().add(boardGrid);
-        storeButtons(targetGrid, targetPane);
-        targetPane.getChildren().add(targetGrid);
+            targetPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
+            targetPane.getChildren().add(rectangle);
+            targetPane.getChildren().add(boardGrid);
+            storeButtons(targetGrid, targetPane);
+            targetPane.getChildren().add(targetGrid);
 
-        pane.getChildren().add(targetPane);
+            pane.getChildren().add(targetPane);
+        }
+        else{
+            client.send("TRG-WPN-".concat(handPosition).concat("'").concat(movement).concat("' , , , ,").concat(typeOfFire).concat(";"));
+        }
     }
 
     private void targetDescription(String msg, Label infoText) {
