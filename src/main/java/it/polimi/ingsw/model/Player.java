@@ -786,6 +786,10 @@ public class Player implements Serializable {
         this.turn = turn;
     }
 
+    /**
+     * This method sets the player to first
+     * @param first True if is the first, false otherwise
+     */
     public void setFirst(boolean first) {
         this.first = first;
     }
