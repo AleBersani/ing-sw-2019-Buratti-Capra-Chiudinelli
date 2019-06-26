@@ -203,7 +203,7 @@ public class GameGUI {
             }
         }
 
-        //plyersToken
+        //playersToken
         for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
                 int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
@@ -289,7 +289,10 @@ public class GameGUI {
                 }
             }
             i++;
+        }
+        pane.getChildren().add(grid);
 
+        for (ArrayList<String> player : gui.getPlayersRepresentation()){
             if(!player.get(PLAYER_SKULL).equals("")){
                 drawSkullOnPlayer(pane);
             }
@@ -300,7 +303,6 @@ public class GameGUI {
                 drawMarkOnPlayer(pane);
             }
         }
-        pane.getChildren().add(grid);
     }
 
     public void buildYou(Stage stage) {
@@ -341,6 +343,8 @@ public class GameGUI {
         points.setEffect(new DropShadow());
         GridPane.setHalignment(points, HPos.CENTER);
 
+        pane.getChildren().add(grid);
+
         if(!gui.getYouRepresentation().get(PLAYER_SKULL).equals("")){
             drawSkullOnYou(pane);
         }
@@ -350,7 +354,6 @@ public class GameGUI {
         if(!gui.getYouRepresentation().get(PLAYER_MARK).equals("")){
             drawMarkOnYou(pane);
         }
-        pane.getChildren().add(grid);
     }
 
     public void buildKillShotTrack(Stage stage) {
@@ -1256,6 +1259,7 @@ public class GameGUI {
                             }
                             if (j[0] >= targetParameters.size()) {
                                 client.send(targetString[0]);
+                                gui.reShow();
                             }
                         }
                         if (j[0] < targetParameters.size()) {
@@ -1590,79 +1594,89 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-    public void drawBloodOnYou(Pane pane) {
+    public void drawBloodOnYou(StackPane pane) {
         String[] blood = gui.getYouRepresentation().get(PLAYER_DAMAGE).split("'");
 
         for(int i=0;i<blood.length;i++){
-            ImageView bloodIV = new ImageView(new Image("/images/game/blood/".concat(blood[i]).concat("Blood.png"),pane.getWidth()/25,pane.getHeight()/15,false,false));
-            bloodIV.setX(pane.getWidth()/21.3333 + (i * pane.getWidth()/31.4754));
-            bloodIV.setY(pane.getHeight()/1.1489);
-            pane.getChildren().add(bloodIV);
+            if(!blood[i].equals("")) {
+                ImageView bloodIV = new ImageView(new Image("/images/game/blood/".concat(blood[i]).concat("Blood.png"), pane.getWidth() / 25, pane.getHeight() / 15, false, false));
+                bloodIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 21.3333 + (i * pane.getWidth() / 31.4754));
+                bloodIV.setTranslateY(-pane.getWidth()/2 + pane.getHeight() / 1.1489);
+                pane.getChildren().add(bloodIV);
+            }
         }
     }
 
-    public void drawSkullOnYou(Pane pane) {
+    public void drawSkullOnYou(StackPane pane) {
         String[] skull = gui.getYouRepresentation().get(PLAYER_SKULL).split(":");
 
         for (int i = 0; i < Integer.valueOf(skull[1]); i++) {
             ImageView skullIV = new ImageView(new Image("/images/game/blood/redSkull.png",pane.getWidth()/35,pane.getHeight()/20,false,false));
-            skullIV.setX(pane.getWidth() / 8.3478 + (i * pane.getWidth() / 33.6842));
-            skullIV.setY(pane.getHeight() / 1.0588);
+            skullIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 8.3478 + (i * pane.getWidth() / 33.6842));
+            skullIV.setTranslateY(-pane.getWidth()/2 + pane.getHeight() / 1.0588);
             pane.getChildren().add(skullIV);
         }
     }
 
-    public void drawMarkOnYou(Pane pane){
+    public void drawMarkOnYou(StackPane pane){
         String[] mark = gui.getYouRepresentation().get(PLAYER_MARK).split("'");
 
         for(int i=0;i<mark.length;i++){
-            ImageView markIV = new ImageView(new Image("/images/game/blood/".concat(mark[i]).concat("Blood.png"),pane.getWidth()/40,pane.getHeight()/25,false,false));
-            markIV.setX(pane.getWidth()/2.4303 - (i * pane.getWidth()/76.8));
-            markIV.setY(pane.getHeight()/1.2485);
-            pane.getChildren().add(markIV);
+            if(!mark[i].equals("")) {
+                ImageView markIV = new ImageView(new Image("/images/game/blood/".concat(mark[i]).concat("Blood.png"), pane.getWidth() / 40, pane.getHeight() / 25, false, false));
+                markIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 2.4303 - (i * pane.getWidth() / 76.8));
+                markIV.setTranslateY(-pane.getWidth()/2 + pane.getHeight() / 1.2485);
+                pane.getChildren().add(markIV);
+            }
         }
     }
 
-    public void drawBloodOnPlayer(Pane pane){
+    public void drawBloodOnPlayer(StackPane pane){
         int j=0;
         for(ArrayList<String> player : gui.getPlayersRepresentation()) {
             String[] blood = player.get(PLAYER_DAMAGE).split("'");
 
             for(int i=0;i<blood.length;i++){
-                ImageView bloodIV = new ImageView(new Image("/images/game/blood/".concat(blood[i]).concat("Blood.png"),pane.getWidth()/25,pane.getHeight()/15,false,false));
-                bloodIV.setX(pane.getWidth()/1.6666 + (i * pane.getWidth()/40.8510));
-                bloodIV.setY(pane.getHeight()/14.4 + (j*pane.getHeight()/N_ROW));
-                pane.getChildren().add(bloodIV);
+                if(!blood[i].equals("")) {
+                    ImageView bloodIV = new ImageView(new Image("/images/game/blood/".concat(blood[i]).concat("Blood.png"), pane.getWidth() / 25, pane.getHeight() / 15, false, false));
+
+                    bloodIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 1.6120 + (i * pane.getWidth() / (3.7647*11)));
+                    bloodIV.setTranslateY(-pane.getHeight()/2 + pane.getHeight() / 9.8461 + (j * pane.getHeight() / N_ROW));
+
+                    pane.getChildren().add(bloodIV);
+                }
             }
             j++;
         }
     }
 
-    public void drawSkullOnPlayer(Pane pane){
+    public void drawSkullOnPlayer(StackPane pane){
         int j=0;
         for(ArrayList<String> player : gui.getPlayersRepresentation()){
             String[] skull = player.get(PLAYER_SKULL).split(":");
 
             for (int i = 0; i < Integer.valueOf(skull[1]); i++) {
                 ImageView skullIV = new ImageView(new Image("/images/game/blood/redSkull.png", pane.getWidth() / 35, pane.getHeight() / 20, false, false));
-                skullIV.setX(pane.getWidth() / 1.5238 + (i * pane.getWidth() / 42.6666));
-                skullIV.setY(pane.getHeight() / 6.75 + (j*pane.getHeight()/N_ROW));
+                skullIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 1.5238 + (i * pane.getWidth() / 42.6666));
+                skullIV.setTranslateY(-pane.getWidth()/2 + pane.getHeight() / 6.75 + (j*pane.getHeight()/N_ROW));
                 pane.getChildren().add(skullIV);
             }
             j++;
         }
     }
 
-    public void drawMarkOnPlayer(Pane pane){
+    public void drawMarkOnPlayer(StackPane pane){
         int j=0;
         for(ArrayList<String> player : gui.getPlayersRepresentation()) {
             String[] mark = player.get(PLAYER_MARK).split("'");
 
             for(int i=0;i<mark.length;i++){
-                ImageView markIV = new ImageView(new Image("/images/game/blood/".concat(mark[i]).concat("Blood.png"),pane.getWidth()/40,pane.getHeight()/25,false,false));
-                markIV.setX(pane.getWidth()/1.1428 - (i * pane.getWidth()/106.6666));
-                markIV.setY(pane.getHeight()/360 + (j*pane.getHeight()/N_ROW));
-                pane.getChildren().add(markIV);
+                if(!mark[i].equals("")) {
+                    ImageView markIV = new ImageView(new Image("/images/game/blood/".concat(mark[i]).concat("Blood.png"), pane.getWidth() / 40, pane.getHeight() / 25, false, false));
+                    markIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 1.1428 - (i * pane.getWidth() / 106.6666));
+                    markIV.setTranslateY(-pane.getWidth()/2 + pane.getHeight() / 360 + (j * pane.getHeight() / N_ROW));
+                    pane.getChildren().add(markIV);
+                }
             }
             j++;
         }
