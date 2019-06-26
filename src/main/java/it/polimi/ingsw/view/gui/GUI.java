@@ -65,7 +65,7 @@ public class GUI extends Application implements ViewInterface {
         this.youRepresentation = new ArrayList<>();
         this.killShotRepresentation = new ArrayList<>();
         this.loginGUI = new LoginGUI(this,messageHandler,client);
-        this.gameGUI = new GameGUI(this,messageHandler,client);
+        this.gameGUI = new GameGUI(this,client);
         client.setMessageHandler(messageHandler);
         client.init();
         client.start();

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.communication.client.Client;
-import it.polimi.ingsw.communication.client.MessageHandler;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -25,61 +24,63 @@ public class GameGUI {
     private GUI gui;
     private Client client;
     private GridPane boardGrid;
-    protected boolean endTurn=false;
+    protected boolean endTurn = false;
     private String handPosition;
     private String typeOfFire;
     private String powerUpPay;
     private String nameWeapon;
 
-    private static final String PURPLE="purple";
-    private static final String BLUE="blue";
-    private static final String GREEN="green";
-    private static final String YELLOW="yellow";
-    private static final String GREY="grey";
+    private static final String PURPLE = "purple";
+    private static final String BLUE = "blue";
+    private static final String GREEN = "green";
+    private static final String YELLOW = "yellow";
+    private static final String GREY = "grey";
     private static final int SHOOT_ADRENALINE = 6;
-    private static final int N_INNER_COLUMN= 3;
-    private static final int N_COLUMN= 7;
-    private static final int N_INNER_ROW= 3;
-    private static final int N_ROW= 5;
-    private static final int CELL_X= 0;
-    private static final int CELL_Y= 1;
-    private static final int CELL_COLOR= 2;
-    private static final int CELL_TYPE= 3;
-    private static final int CELL_INSIDE= 4;
-    private static final int CELL_PLAYER_ON_ME= 6;
-    private static final int CELL_DOORS= 8;
-    private static final int CELL_WALLS= 10;
-    private static final int PLAYER_ROW_SPAN=1;
-    private static final int PLAYER_AMMO=1;
-    private static final int PLAYER_COL_SPAN=3;
-    private static final int PLAYER_DAMAGE=3;
-    private static final int PLAYER_XPOS=4;
-    private static final int PLAYER_POWER_UP= 6;
-    private static final int PLAYER_WEAPON= 8;
-    private static final int PLAYER_COLOR= 9;
-    private static final int PLAYER_TURNED= 10;
-    private static final int PLAYER_FRENZY= 11;
-    private static final int YOU_XPOS= 0;
-    private static final int YOU_COL_SPAN= 4;
-    private static final int YOU_YPOS= 4;
-    private static final int YOU_POINT= 12;
-    private static final int YOU_WEAPON= 14;
-    private static final int YOU_POWERUP= 16;
-    private static final int KILL_ROW= 3;
-    private static final int KILL_COL= 0;
-    private static final int KILL_TOT_SKULL= 0;
-    private static final int KILL_ROW_SPAN= 1;
-    private static final int KILL_COL_SPAN= 3;
-    private static final int NUMBER_OF_WEAPON= 3;
+    private static final int N_INNER_COLUMN = 3;
+    private static final int N_COLUMN = 7;
+    private static final int N_INNER_ROW = 3;
+    private static final int N_ROW = 5;
+    private static final int CELL_X = 0;
+    private static final int CELL_Y = 1;
+    private static final int CELL_COLOR = 2;
+    private static final int CELL_TYPE = 3;
+    private static final int CELL_INSIDE = 4;
+    private static final int CELL_PLAYER_ON_ME = 6;
+    private static final int CELL_DOORS = 8;
+    private static final int CELL_WALLS = 10;
+    private static final int PLAYER_SKULL = 0;
+    private static final int PLAYER_ROW_SPAN = 1;
+    private static final int PLAYER_AMMO = 1;
+    private static final int PLAYER_COL_SPAN = 3;
+    private static final int PLAYER_DAMAGE = 3;
+    private static final int PLAYER_XPOS = 4;
+    private static final int PLAYER_MARK = 5;
+    private static final int PLAYER_POWER_UP = 6;
+    private static final int PLAYER_WEAPON = 8;
+    private static final int PLAYER_COLOR = 9;
+    private static final int PLAYER_TURNED = 10;
+    private static final int PLAYER_FRENZY = 11;
+    private static final int YOU_XPOS = 0;
+    private static final int YOU_COL_SPAN = 4;
+    private static final int YOU_YPOS = 4;
+    private static final int YOU_POINT = 12;
+    private static final int YOU_WEAPON = 14;
+    private static final int YOU_POWERUP = 16;
+    private static final int KILL_ROW = 3;
+    private static final int KILL_COL = 0;
+    private static final int KILL_TOT_SKULL = 0;
+    private static final int KILL_ROW_SPAN = 1;
+    private static final int KILL_COL_SPAN = 3;
+    private static final int NUMBER_OF_WEAPON = 3;
 
     public GameGUI(GUI gui, Client client) {
         this.gui = gui;
         this.client = client;
     }
 
-    public void backGround(Stage stage){
+    public void backGround(Stage stage) {
         //backGround image
-        StackPane pane = (StackPane)stage.getScene().getRoot();
+        StackPane pane = (StackPane) stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         ImageView screen = new ImageView(new Image("/images/game/metallicScreen.png"));
         screen.fitWidthProperty().bind(pane.widthProperty());
@@ -87,8 +88,8 @@ public class GameGUI {
         pane.getChildren().add(screen);
     }
 
-    public void buildBoard(Stage stage){
-        StackPane pane = (StackPane)stage.getScene().getRoot();
+    public void buildBoard(Stage stage) {
+        StackPane pane = (StackPane) stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         this.stage = stage;
         stage.setResizable(false);
@@ -101,13 +102,13 @@ public class GameGUI {
         rowConstraint(grid, N_ROW);
 
         //cells
-        for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
+        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
-                if(!cell.isEmpty()) {
+                if (!cell.isEmpty()) {
                     int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
                     int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
                     String color = cell.get(CELL_COLOR);
-                    if((color.equals(BLUE))||(color.equals(GREEN))||(color.equals(PURPLE))||(color.equals("red"))||(color.equals("white"))||(color.equals(YELLOW))) {
+                    if ((color.equals(BLUE)) || (color.equals(GREEN)) || (color.equals(PURPLE)) || (color.equals("red")) || (color.equals("white")) || (color.equals(YELLOW))) {
                         grid.add(new ImageView(new Image("/images/game/cell/".concat(color).concat("Cell.png"), pane.getWidth() / N_COLUMN, pane.getHeight() / N_ROW, false, false)), xPos, yPos);
                     }
                 }
@@ -115,60 +116,59 @@ public class GameGUI {
         }
 
         //walls
-        for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
+        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
                 int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
                 int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
-                for(String s: cell.get(CELL_WALLS).split("'")){
+                for (String s : cell.get(CELL_WALLS).split("'")) {
                     String wall = "wall".concat(s).concat(".png");
-                    if((wall.equals("wallN.png"))||(wall.equals("wallS.png"))||(wall.equals("wallW.png"))||(wall.equals("wallE.png"))){
-                        grid.add(new ImageView(new Image("/images/game/cell/wall/".concat(wall),pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false)), xPos, yPos);
+                    if ((wall.equals("wallN.png")) || (wall.equals("wallS.png")) || (wall.equals("wallW.png")) || (wall.equals("wallE.png"))) {
+                        grid.add(new ImageView(new Image("/images/game/cell/wall/".concat(wall), pane.getWidth() / N_COLUMN, pane.getHeight() / N_ROW, false, false)), xPos, yPos);
                     }
                 }
             }
         }
 
         //doors
-        for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
+        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
-                if(!cell.get(CELL_DOORS).isEmpty()){
-                    for(String singleDoor: cell.get(CELL_DOORS).split(":")){
+                if (!cell.get(CELL_DOORS).isEmpty()) {
+                    for (String singleDoor : cell.get(CELL_DOORS).split(":")) {
                         int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
                         int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
                         String[] door = singleDoor.split("'");
                         int xDoor = Integer.parseInt(door[CELL_X]);
                         int yDoor = Integer.parseInt(door[CELL_Y]);
                         String doorDirection = "";
-                        if(xPos+1 == xDoor){
-                            if(yPos+1 > yDoor){
+                        if (xPos + 1 == xDoor) {
+                            if (yPos + 1 > yDoor) {
                                 doorDirection = "doorN.png";
                             }
-                            if(yPos+1 < yDoor){
+                            if (yPos + 1 < yDoor) {
                                 doorDirection = "doorS.png";
                             }
-                        }
-                        else {
-                            if(xPos+1 > xDoor){
+                        } else {
+                            if (xPos + 1 > xDoor) {
                                 doorDirection = "doorW.png";
                             }
-                            if(xPos+1 < xDoor){
+                            if (xPos + 1 < xDoor) {
                                 doorDirection = "doorE.png";
                             }
                         }
-                        grid.add(new ImageView(new Image("/images/game/cell/door/".concat(doorDirection),pane.getWidth()/N_COLUMN,pane.getHeight()/N_ROW,false,false)),xPos,yPos);
+                        grid.add(new ImageView(new Image("/images/game/cell/door/".concat(doorDirection), pane.getWidth() / N_COLUMN, pane.getHeight() / N_ROW, false, false)), xPos, yPos);
                     }
                 }
             }
         }
 
         //Ammopoint
-        for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
+        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
                 int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
                 int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
-                if(cell.get(CELL_TYPE).equals("AmmoPoint")){
+                if (cell.get(CELL_TYPE).equals("AmmoPoint")) {
                     String ammoName = "";
-                    if(!cell.get(CELL_INSIDE).equals("")) {
+                    if (!cell.get(CELL_INSIDE).equals("")) {
                         for (String s : cell.get(CELL_INSIDE).split("'")) {
                             String[] difi = s.split(":");
                             if (s.startsWith("Y:")) {
@@ -206,45 +206,45 @@ public class GameGUI {
         }
 
         //plyersToken
-        for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
+        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
                 int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
                 int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
-                for(String player: cell.get(CELL_PLAYER_ON_ME).split("'")){
-                    switch (player){
-                        case PURPLE:{
-                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/purpleToken.png",pane.getWidth()/N_COLUMN/N_INNER_COLUMN,pane.getHeight()/N_ROW/N_INNER_ROW,false,false));
-                            grid.add(playerToken,xPos,yPos);
-                            GridPane.setHalignment(playerToken,HPos.RIGHT);
-                            GridPane.setValignment(playerToken,VPos.CENTER);
+                for (String player : cell.get(CELL_PLAYER_ON_ME).split("'")) {
+                    switch (player) {
+                        case PURPLE: {
+                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/purpleToken.png", pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
+                            grid.add(playerToken, xPos, yPos);
+                            GridPane.setHalignment(playerToken, HPos.RIGHT);
+                            GridPane.setValignment(playerToken, VPos.CENTER);
                             break;
                         }
-                        case BLUE:{
-                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/blueToken.png",pane.getWidth()/N_COLUMN/N_INNER_COLUMN,pane.getHeight()/N_ROW/N_INNER_ROW,false,false));
-                            grid.add(playerToken,xPos,yPos);
-                            GridPane.setHalignment(playerToken,HPos.LEFT);
-                            GridPane.setValignment(playerToken,VPos.CENTER);
+                        case BLUE: {
+                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/blueToken.png", pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
+                            grid.add(playerToken, xPos, yPos);
+                            GridPane.setHalignment(playerToken, HPos.LEFT);
+                            GridPane.setValignment(playerToken, VPos.CENTER);
                             break;
                         }
-                        case GREEN:{
-                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/greenToken.png",pane.getWidth()/N_COLUMN/N_INNER_COLUMN,pane.getHeight()/N_ROW/N_INNER_ROW,false,false));
-                            grid.add(playerToken,xPos,yPos);
-                            GridPane.setHalignment(playerToken,HPos.CENTER);
-                            GridPane.setValignment(playerToken,VPos.BOTTOM);
+                        case GREEN: {
+                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/greenToken.png", pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
+                            grid.add(playerToken, xPos, yPos);
+                            GridPane.setHalignment(playerToken, HPos.CENTER);
+                            GridPane.setValignment(playerToken, VPos.BOTTOM);
                             break;
                         }
-                        case YELLOW:{
-                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/yellowToken.png",pane.getWidth()/N_COLUMN/N_INNER_COLUMN,pane.getHeight()/N_ROW/N_INNER_ROW,false,false));
-                            grid.add(playerToken,xPos,yPos);
-                            GridPane.setHalignment(playerToken,HPos.LEFT);
-                            GridPane.setValignment(playerToken,VPos.BOTTOM);
+                        case YELLOW: {
+                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/yellowToken.png", pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
+                            grid.add(playerToken, xPos, yPos);
+                            GridPane.setHalignment(playerToken, HPos.LEFT);
+                            GridPane.setValignment(playerToken, VPos.BOTTOM);
                             break;
                         }
-                        case GREY:{
-                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/greyToken.png",pane.getWidth()/N_COLUMN/N_INNER_COLUMN,pane.getHeight()/N_ROW/N_INNER_ROW,false,false));
-                            grid.add(playerToken,xPos,yPos);
-                            GridPane.setHalignment(playerToken,HPos.RIGHT);
-                            GridPane.setValignment(playerToken,VPos.BOTTOM);
+                        case GREY: {
+                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/greyToken.png", pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
+                            grid.add(playerToken, xPos, yPos);
+                            GridPane.setHalignment(playerToken, HPos.RIGHT);
+                            GridPane.setValignment(playerToken, VPos.BOTTOM);
                             break;
                         }
                         default:
@@ -258,8 +258,8 @@ public class GameGUI {
         boardGrid = grid;
     }
 
-    public void buildPlayers(Stage stage){
-        StackPane pane = (StackPane)stage.getScene().getRoot();
+    public void buildPlayers(Stage stage) {
+        StackPane pane = (StackPane) stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         this.stage = stage;
         GridPane grid = new GridPane();
@@ -270,36 +270,44 @@ public class GameGUI {
         //grid row constraint
         rowConstraint(grid, N_ROW);
 
-        int i=0;
-        for(ArrayList<String> player: gui.getPlayersRepresentation()){
+        int i = 0;
+        for (ArrayList<String> player : gui.getPlayersRepresentation()) {
             String[] color = player.get(PLAYER_COLOR).split(":");
             String playerPlance = color[1];
-            String [] turned = player.get(PLAYER_TURNED).split(":");
+            String[] turned = player.get(PLAYER_TURNED).split(":");
             String playerTurned = turned[1];
-            String [] frenzy = player.get(PLAYER_FRENZY).split(":");
+            String[] frenzy = player.get(PLAYER_FRENZY).split(":");
             String turnFrenzy = frenzy[1];
             String declaration = "/images/game/plance/";
 
-            if((playerPlance.equals(PURPLE))||(playerPlance.equals(BLUE))||(playerPlance.equals(GREEN))||(playerPlance.equals(YELLOW))||(playerPlance.equals(GREY))) {
-                if(turnFrenzy.equals("false")){ //frenzy false
+            if ((playerPlance.equals(PURPLE)) || (playerPlance.equals(BLUE)) || (playerPlance.equals(GREEN)) || (playerPlance.equals(YELLOW)) || (playerPlance.equals(GREY))) {
+                if (turnFrenzy.equals("false")) { //frenzy false
                     grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("Player.png"), pane.getWidth() / N_COLUMN * PLAYER_COL_SPAN, pane.getHeight() / N_ROW, false, false)), PLAYER_XPOS, i, PLAYER_COL_SPAN, PLAYER_ROW_SPAN);
-                }
-                else{
-                    if(playerTurned.equals("false")){   //turned false
+                } else {
+                    if (playerTurned.equals("false")) {   //turned false
                         grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedActionPlayer.png"), pane.getWidth() / N_COLUMN * PLAYER_COL_SPAN, pane.getHeight() / N_ROW, false, false)), PLAYER_XPOS, i, PLAYER_COL_SPAN, PLAYER_ROW_SPAN);
-                    }
-                    else{   //frenzy true and turned true
+                    } else {   //frenzy true and turned true
                         grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedPlayer.png"), pane.getWidth() / N_COLUMN * PLAYER_COL_SPAN, pane.getHeight() / N_ROW, false, false)), PLAYER_XPOS, i, PLAYER_COL_SPAN, PLAYER_ROW_SPAN);
                     }
                 }
             }
             i++;
+
+            if(!player.get(PLAYER_SKULL).equals("")){
+                drawSkullOnPlayer(pane);
+            }
+            if(!player.get(PLAYER_DAMAGE).equals("")){
+                drawBloodOnPlayer(pane);
+            }
+            if(!player.get(PLAYER_MARK).equals("")){
+                drawMarkOnPlayer(pane);
+            }
         }
         pane.getChildren().add(grid);
     }
 
-    public void buildYou(Stage stage){
-        StackPane pane = (StackPane)stage.getScene().getRoot();
+    public void buildYou(Stage stage) {
+        StackPane pane = (StackPane) stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         this.stage = stage;
         stage.setResizable(false);
@@ -313,67 +321,73 @@ public class GameGUI {
 
         String[] color = gui.getYouRepresentation().get(PLAYER_COLOR).split(":");
         String playerPlance = color[1];
-        String [] turned = gui.getYouRepresentation().get(PLAYER_TURNED).split(":");
+        String[] turned = gui.getYouRepresentation().get(PLAYER_TURNED).split(":");
         String playerTurned = turned[1];
-        String [] frenzy = gui.getYouRepresentation().get(PLAYER_FRENZY).split(":");
+        String[] frenzy = gui.getYouRepresentation().get(PLAYER_FRENZY).split(":");
         String turnFrenzy = frenzy[1];
         String declaration = "/images/game/plance/";
 
-        if((playerPlance.equals(PURPLE))||(playerPlance.equals(BLUE))||(playerPlance.equals(GREEN))||(playerPlance.equals(YELLOW))||(playerPlance.equals(GREY))) {
+        if ((playerPlance.equals(PURPLE)) || (playerPlance.equals(BLUE)) || (playerPlance.equals(GREEN)) || (playerPlance.equals(YELLOW)) || (playerPlance.equals(GREY))) {
             if (turnFrenzy.equals("false")) {
                 grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("Player.png"), pane.getWidth() / N_COLUMN * YOU_COL_SPAN, pane.getHeight() / N_ROW, false, false)), YOU_XPOS, YOU_YPOS, YOU_COL_SPAN, PLAYER_ROW_SPAN);
-            }
-            else{
-                if(playerTurned.equals("false")){
+            } else {
+                if (playerTurned.equals("false")) {
                     grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedActionPlayer.png"), pane.getWidth() / N_COLUMN * YOU_COL_SPAN, pane.getHeight() / N_ROW, false, false)), YOU_XPOS, YOU_YPOS, YOU_COL_SPAN, PLAYER_ROW_SPAN);
-                }
-                else{
+                } else {
                     grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedPlayer.png"), pane.getWidth() / N_COLUMN * YOU_COL_SPAN, pane.getHeight() / N_ROW, false, false)), YOU_XPOS, YOU_YPOS, YOU_COL_SPAN, PLAYER_ROW_SPAN);
                 }
             }
         }
         Label points = new Label(gui.getYouRepresentation().get(YOU_POINT));
-        grid.add(points,3,3);
+        grid.add(points, 3, 3);
         points.setTextFill(Color.web("#ffffff", 0.8));
         points.setStyle("-fx-font: 30 Helvetica;");
         points.setEffect(new DropShadow());
         GridPane.setHalignment(points, HPos.CENTER);
 
+        if(!gui.getYouRepresentation().get(PLAYER_SKULL).equals("")){
+            drawSkullOnYou(pane);
+        }
+        if(!gui.getYouRepresentation().get(PLAYER_DAMAGE).equals("")){
+            drawBloodOnYou(pane);
+        }
+        if(!gui.getYouRepresentation().get(PLAYER_MARK).equals("")){
+            drawMarkOnYou(pane);
+        }
         pane.getChildren().add(grid);
     }
 
-    public void buildKillShotTrack(Stage stage){
-        StackPane pane = (StackPane)stage.getScene().getRoot();
+    public void buildKillShotTrack(Stage stage) {
+        StackPane pane = (StackPane) stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         this.stage = stage;
         stage.setResizable(false);
         GridPane grid = new GridPane();
 
-        columnConstraint(grid,N_COLUMN);
+        columnConstraint(grid, N_COLUMN);
 
-        rowConstraint(grid,N_ROW);
+        rowConstraint(grid, N_ROW);
 
-        grid.add(new ImageView(new Image("/images/game/killshotTrack.png",pane.getWidth()/N_COLUMN*KILL_COL_SPAN,pane.getHeight()/N_COLUMN,false,false)),KILL_COL,KILL_ROW,KILL_COL_SPAN,KILL_ROW_SPAN);
+        grid.add(new ImageView(new Image("/images/game/killshotTrack.png", pane.getWidth() / N_COLUMN * KILL_COL_SPAN, pane.getHeight() / N_COLUMN, false, false)), KILL_COL, KILL_ROW, KILL_COL_SPAN, KILL_ROW_SPAN);
         pane.getChildren().add(grid);
 
         Pane pane2 = new Pane();
         String[] damage = gui.getKillShotRepresentation().get(1).split("'");
         String[] doubleDamage = gui.getKillShotRepresentation().get(2).split(",");
         int totalSkull = Integer.valueOf(gui.getKillShotRepresentation().get(KILL_TOT_SKULL));
-        for(int i = 0;i<totalSkull;i++) {
+        for (int i = 0; i < totalSkull; i++) {
             String bloodString = "";
-            if((i < damage.length)&&(!damage[i].equals(""))) {
+            if ((i < damage.length) && (!damage[i].equals(""))) {
                 bloodString = damage[i].concat("Blood");
                 if (doubleDamage[i].equals("true")) {
                     bloodString = bloodString.concat("X2");
                 }
-            }
-            else {
+            } else {
                 bloodString = "redSkull";
             }
-            ImageView blood = new ImageView(new Image("/images/game/blood/".concat(bloodString).concat(".png"),pane.getWidth()/30,pane.getHeight()/15,false,false));
-            blood.setX(pane.getWidth()/3.02 - ((totalSkull-1-i) * pane.getWidth()/21.5));
-            blood.setY(pane.getHeight()/1.5);
+            ImageView blood = new ImageView(new Image("/images/game/blood/".concat(bloodString).concat(".png"), pane.getWidth() / 30, pane.getHeight() / 15, false, false));
+            blood.setX(pane.getWidth() / 3.02 - ((totalSkull - 1 - i) * pane.getWidth() / 21.5));
+            blood.setY(pane.getHeight() / 1.5);
             pane2.getChildren().add(blood);
         }
 
@@ -401,7 +415,7 @@ public class GameGUI {
             infoButton.setOnAction(e -> {
                 GridPane gridInfo = new GridPane();
                 Rectangle rectangle = new Rectangle();
-                rectangleStandard(rectangle,pane);
+                rectangleStandard(rectangle, pane);
 
                 RowConstraints row = new RowConstraints();
                 row.setVgrow(Priority.ALWAYS);
@@ -483,7 +497,7 @@ public class GameGUI {
 
                 //back button
                 Button backButton = new Button("BACK");
-                gridInfo.add(backButton, 0, 1,j+2,1);
+                gridInfo.add(backButton, 0, 1, j + 2, 1);
                 GridPane.setHalignment(backButton, HPos.CENTER);
                 GridPane.setValignment(backButton, VPos.CENTER);
                 backButton.setOnAction(ev -> {
@@ -510,7 +524,7 @@ public class GameGUI {
         infoButton.setOnAction(e -> {
             GridPane gridInfo = new GridPane();
             Rectangle rectangle = new Rectangle();
-            rectangleStandard(rectangle,pane);
+            rectangleStandard(rectangle, pane);
 
             RowConstraints row = new RowConstraints();
             row.setVgrow(Priority.ALWAYS);
@@ -520,22 +534,22 @@ public class GameGUI {
 
             //weapons
             int j = 0;
-            int notLoaded=1;
+            int notLoaded = 1;
             for (String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")) {
                 if (!weapon.equals("")) {
                     String[] playerWeapon = weapon.split(":");
                     String weaponName = playerWeapon[0].toLowerCase().replace(" ", "").concat(".png");
 
-                    if(playerWeapon[1].equals("false")) {
-                        notLoaded=2;
+                    if (playerWeapon[1].equals("false")) {
+                        notLoaded = 2;
                     }
-                    gridInfo.add(new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / (N_COLUMN*notLoaded), pane.getHeight() / (NUMBER_OF_WEAPON*notLoaded), false, false)), j, 0);
+                    gridInfo.add(new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / (N_COLUMN * notLoaded), pane.getHeight() / (NUMBER_OF_WEAPON * notLoaded), false, false)), j, 0);
                 }
                 j++;
             }
 
             //power ups
-            if(!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
+            if (!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
                 for (String powerups : gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
                     String realPowerUp = powerUpSwitch(powerups);
                     ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
@@ -589,7 +603,7 @@ public class GameGUI {
 
             //back button
             Button backButton = new Button("BACK");
-            gridInfo.add(backButton, 0, 1,j+2,1);
+            gridInfo.add(backButton, 0, 1, j + 2, 1);
             GridPane.setHalignment(backButton, HPos.CENTER);
             GridPane.setValignment(backButton, VPos.CENTER);
             backButton.setOnAction(ev -> {
@@ -625,7 +639,7 @@ public class GameGUI {
             text.setEffect(new DropShadow());
             Button quit1 = new Button("QUIT");
             Button back = new Button("BACK");
-            rectangleStandard(rectangle,pane);
+            rectangleStandard(rectangle, pane);
             quitGrid.add(text, 0, 0, 2, 1);
             quitGrid.add(back, 1, 1);
             quitGrid.add(quit1, 0, 1);
@@ -649,7 +663,7 @@ public class GameGUI {
             });
         });
 
-        if(!endTurn){
+        if (!endTurn) {
             //Actions
             Button actions = new Button("Actions");
             gridButtons.add(actions, 4, 4);
@@ -662,7 +676,7 @@ public class GameGUI {
                 Button run = new Button("RUN");
                 Button grab = new Button("GRAB");
                 Button back = new Button("BACK");
-                rectangleStandard(rectangle,pane);
+                rectangleStandard(rectangle, pane);
                 grid4.add(shoot, 0, 0);
                 grid4.add(run, 1, 0);
                 grid4.add(grab, 2, 0);
@@ -701,7 +715,7 @@ public class GameGUI {
                     text.setTextFill(Color.web("#ffffff", 0.8));
                     text.setStyle("-fx-font: 40 Helvetica;");
                     text.setEffect(new DropShadow());
-                    grid5.add(text, 0, 3,4,1);
+                    grid5.add(text, 0, 3, 4, 1);
                     GridPane.setHalignment(text, HPos.CENTER);
                     GridPane.setValignment(text, VPos.CENTER);
 
@@ -749,7 +763,7 @@ public class GameGUI {
                     text.setTextFill(Color.web("#ffffff", 0.8));
                     text.setStyle("-fx-font: 40 Helvetica;");
                     text.setEffect(new DropShadow());
-                    grid5.add(text, 0, 3,4,1);
+                    grid5.add(text, 0, 3, 4, 1);
                     GridPane.setHalignment(text, HPos.CENTER);
                     GridPane.setValignment(text, VPos.CENTER);
 
@@ -833,7 +847,7 @@ public class GameGUI {
                 });
 
                 //shoot
-                shoot.setOnAction(e->{
+                shoot.setOnAction(e -> {
                     GridPane gridWeapons = new GridPane();
                     Button backShoot = new Button("BACK");
 
@@ -841,12 +855,12 @@ public class GameGUI {
                     for (String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")) {
                         if (!weapon.equals("")) {
                             String[] playerWeapon = weapon.split(":");
-                            if(playerWeapon[1].equals("true")){
+                            if (playerWeapon[1].equals("true")) {
                                 String weaponName = playerWeapon[0].toLowerCase().replace(" ", "");
                                 ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName).concat(".png"), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
                                 gridWeapons.add(weaponIV, j, 0);
                                 final int wpn = j;
-                                weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED,ev ->{
+                                weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
                                     client.send("GMC-SHT-".concat(Integer.toString(wpn)));
                                     pane.getChildren().remove(gridWeapons);
                                     pane.getChildren().remove(rectangle);
@@ -859,14 +873,14 @@ public class GameGUI {
                         j++;
                     }
 
-                    if(j==0){
-                        j=1;
+                    if (j == 0) {
+                        j = 1;
                     }
-                    gridWeapons.add(backShoot,0,1, j,1);
-                    GridPane.setHalignment(backShoot,HPos.CENTER);
-                    GridPane.setValignment(backShoot,VPos.CENTER);
+                    gridWeapons.add(backShoot, 0, 1, j, 1);
+                    GridPane.setHalignment(backShoot, HPos.CENTER);
+                    GridPane.setValignment(backShoot, VPos.CENTER);
 
-                    backShoot.setOnAction(ev-> {
+                    backShoot.setOnAction(ev -> {
                         pane.getChildren().remove(gridWeapons);
                         pane.getChildren().remove(rectangle);
                         actions.fire();
@@ -880,70 +894,68 @@ public class GameGUI {
                 });
 
             });
-        }
-        else{
+        } else {
             //end turn
             Button endTurnButton = new Button("END TURN");
             gridButtons.add(endTurnButton, 4, 4);
             GridPane.setHalignment(endTurnButton, HPos.CENTER);
             GridPane.setValignment(endTurnButton, VPos.CENTER);
             endTurnButton.setOnAction(event -> {
-                this.endTurn=false;
+                this.endTurn = false;
                 client.send("END-");
             });
         }
 
         //Use power Up
         Button powerUps = new Button("Use PowerUps");
-        gridButtons.add(powerUps,5,4);
-        GridPane.setHalignment(powerUps,HPos.CENTER);
-        GridPane.setValignment(powerUps,VPos.CENTER);
+        gridButtons.add(powerUps, 5, 4);
+        GridPane.setHalignment(powerUps, HPos.CENTER);
+        GridPane.setValignment(powerUps, VPos.CENTER);
         Button backButton = new Button("BACK");
-        powerUps.setOnAction(e->{
+        powerUps.setOnAction(e -> {
             GridPane powerUpGrid = new GridPane();
             Rectangle rectangle = new Rectangle();
-            rectangleStandard(rectangle,pane);
+            rectangleStandard(rectangle, pane);
 
-            int j=0;
-            if(!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
+            int j = 0;
+            if (!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
                 for (String powerups : gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
                     String realPowerUp = powerUpSwitch(powerups);
                     ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
                     powerUpGrid.add(powerUp, j, 0);
-                    final int pu=j;
+                    final int pu = j;
                     powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
                         pane.getChildren().remove(powerUpGrid);
                         pane.getChildren().remove(rectangle);
                         pane.getChildren().remove(backButton);
-                        client.send(("GMC-UPU-")+(pu));
+                        client.send(("GMC-UPU-") + (pu));
                         typeOfFire = "upu";
                         handPosition = Integer.toString(pu);
                     });
                     j++;
                 }
             }
-            if(j==0) {
+            if (j == 0) {
                 j = 1;
             }
-            powerUpGrid.add(backButton,0,1,j,1);
+            powerUpGrid.add(backButton, 0, 1, j, 1);
             pane.getChildren().add(rectangle);
             pane.getChildren().add(powerUpGrid);
             powerUpGrid.setHgap(40);
             powerUpGrid.setVgap(50);
-            GridPane.setHalignment(backButton,HPos.CENTER);
-            GridPane.setValignment(backButton,VPos.CENTER);
+            GridPane.setHalignment(backButton, HPos.CENTER);
+            GridPane.setValignment(backButton, VPos.CENTER);
             powerUpGrid.setAlignment(Pos.CENTER);
             backButton.setOnAction(ev -> {
                 pane.getChildren().remove(powerUpGrid);
                 pane.getChildren().remove(rectangle);
             });
         });
-
         pane.getChildren().add(gridButtons);
     }
 
-    public void spawn(Stage stage){
-        StackPane pane = (StackPane)stage.getScene().getRoot();
+    public void spawn(Stage stage) {
+        StackPane pane = (StackPane) stage.getScene().getRoot();
 
         StackPane pane2 = new StackPane();
 
@@ -956,28 +968,28 @@ public class GameGUI {
         text.setStyle("-fx-font: 35 Helvetica;");
         text.setEffect(new DropShadow());
         text.setAlignment(Pos.CENTER);
-        rectangleStandard(rectangle,pane);
+        rectangleStandard(rectangle, pane);
 
         GridPane grid2 = new GridPane();
-        grid2.add(text,0,0, numberPowerup, 1);
-        GridPane.setHalignment(text,HPos.CENTER);
-        GridPane.setValignment(text,VPos.CENTER);
+        grid2.add(text, 0, 0, numberPowerup, 1);
+        GridPane.setHalignment(text, HPos.CENTER);
+        GridPane.setValignment(text, VPos.CENTER);
 
-        for(int i=0;i<numberPowerup;i++) {
+        for (int i = 0; i < numberPowerup; i++) {
             ColumnConstraints col = new ColumnConstraints();
             col.setHgrow(Priority.ALWAYS);
             col.setPercentWidth(20);
             grid2.getColumnConstraints().add(col);
         }
-        int i=0;
-        for(String powerups: gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
+        int i = 0;
+        for (String powerups : gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
 
             String realPowerUp = powerUpSwitch(powerups);
 
             ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
             grid2.add(powerUp, i, 1);
-            GridPane.setHalignment(powerUp,HPos.CENTER);
-            GridPane.setValignment(powerUp,VPos.CENTER);
+            GridPane.setHalignment(powerUp, HPos.CENTER);
+            GridPane.setValignment(powerUp, VPos.CENTER);
             int pU = i;
             powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
                 client.send("SPW-".concat(Integer.toString(pU)));
@@ -991,11 +1003,10 @@ public class GameGUI {
         pane2.getChildren().add(rectangle);
         pane2.getChildren().add(grid2);
         pane.getChildren().add(pane2);
-
     }
 
-    protected void reload(Stage stage,String msg){
-        StackPane pane = (StackPane)stage.getScene().getRoot();
+    protected void reload(Stage stage, String msg) {
+        StackPane pane = (StackPane) stage.getScene().getRoot();
         StackPane pane2 = new StackPane();
 
         GridPane reloadGrid = new GridPane();
@@ -1012,7 +1023,7 @@ public class GameGUI {
         reloadGrid.getRowConstraints().add(row2);
 
         Rectangle rectangle = new Rectangle();
-        rectangleStandard(rectangle,pane);
+        rectangleStandard(rectangle, pane);
         Button ignore = new Button("IGNORE");
         Button done = new Button("DONE ");
 
@@ -1020,19 +1031,19 @@ public class GameGUI {
         String toSend = "RLD-";
         String[] weapons = msg.split("'");
         boolean[] consumed = new boolean[weapons.length];
-        for(i=0; i< weapons.length; i++){
-            consumed[i]=false;
+        for (i = 0; i < weapons.length; i++) {
+            consumed[i] = false;
             String weaponName = weapons[i].toLowerCase();
-            weaponName = weaponName.replace(" ","").concat(".png");
-            ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName),pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false));
-            reloadGrid.add(weaponIV,i,1);
+            weaponName = weaponName.replace(" ", "").concat(".png");
+            ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
+            reloadGrid.add(weaponIV, i, 1);
             int w = i;
-            weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e->{
-                if(!consumed[w]){
+            weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
+                if (!consumed[w]) {
                     toSend.concat(Integer.toString(w)).concat(",");
-                    consumed[w]=true;
-                    weaponIV.setFitWidth(pane.getWidth()/(N_COLUMN*2));
-                    weaponIV.setFitHeight(pane.getHeight()/(NUMBER_OF_WEAPON*2));
+                    consumed[w] = true;
+                    weaponIV.setFitWidth(pane.getWidth() / (N_COLUMN * 2));
+                    weaponIV.setFitHeight(pane.getHeight() / (NUMBER_OF_WEAPON * 2));
                 }
             });
         }
@@ -1080,21 +1091,21 @@ public class GameGUI {
             }
         }
 
-        reloadGrid.add(done,0,2);
-        done.setOnAction(e-> client.send(toSend));
-        GridPane.setHalignment(done,HPos.CENTER);
-        GridPane.setValignment(done,VPos.CENTER);
+        reloadGrid.add(done, 0, 2);
+        done.setOnAction(e -> client.send(toSend));
+        GridPane.setHalignment(done, HPos.CENTER);
+        GridPane.setValignment(done, VPos.CENTER);
 
-        reloadGrid.add(ignore,1,2);
-        ignore.setOnAction(e-> client.send("RLD-ignore"));
-        GridPane.setHalignment(ignore,HPos.CENTER);
-        GridPane.setValignment(ignore,VPos.CENTER);
+        reloadGrid.add(ignore, 1, 2);
+        ignore.setOnAction(e -> client.send("RLD-ignore"));
+        GridPane.setHalignment(ignore, HPos.CENTER);
+        GridPane.setValignment(ignore, VPos.CENTER);
 
         Label infoText = new Label("You can reload more than one Weapon at time");
         label40Helvetica(infoText, "#ffffff", 0.8);
-        reloadGrid.add(infoText, 0, 0,weapons.length+2,1);
-        GridPane.setHalignment(infoText,HPos.CENTER);
-        GridPane.setValignment(infoText,VPos.CENTER);
+        reloadGrid.add(infoText, 0, 0, weapons.length + 2, 1);
+        GridPane.setHalignment(infoText, HPos.CENTER);
+        GridPane.setValignment(infoText, VPos.CENTER);
 
         reloadGrid.setHgap(50);
         reloadGrid.setVgap(30);
@@ -1103,59 +1114,55 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-    protected void buildTarget(Stage stage, String msg, String movement){
-        StackPane pane = (StackPane)stage.getScene().getRoot();
+    protected void buildTarget(Stage stage, String msg, String movement) {
+        StackPane pane = (StackPane) stage.getScene().getRoot();
         StackPane targetPane = new StackPane();
         GridPane targetGrid = new GridPane();
-        columnConstraint(targetGrid,N_COLUMN);
-        rowConstraint(targetGrid,N_ROW);
+        columnConstraint(targetGrid, N_COLUMN);
+        rowConstraint(targetGrid, N_ROW);
 
         Rectangle rectangle = new Rectangle();
-        rectangleStandard(rectangle,pane);
+        rectangleStandard(rectangle, pane);
 
         Label text = new Label("");
         label40Helvetica(text, "#ffffff", 0.8);
-        targetGrid.add(text,0,3,4,1);
-        GridPane.setHalignment(text,HPos.CENTER);
-        GridPane.setValignment(text,VPos.CENTER);
+        targetGrid.add(text, 0, 3, 4, 1);
+        GridPane.setHalignment(text, HPos.CENTER);
+        GridPane.setValignment(text, VPos.CENTER);
 
         ArrayList<ArrayList<String>> targetParameters = new ArrayList<>();
-        int i=0;
-        for(String targetParameter: msg.split(";")){
+        int i = 0;
+        for (String targetParameter : msg.split(";")) {
             targetParameters.add(new ArrayList<>());
-            for (String singleTarget: targetParameter.split(",")){
+            for (String singleTarget : targetParameter.split(",")) {
                 targetParameters.get(i).add(singleTarget);
             }
             i++;
         }
 
-        targetDescription(targetParameters.get(0).get(0),text);
+        targetDescription(targetParameters.get(0).get(0), text);
 
         final int[] j = {0};
         final int[] k = {0};
         String fireType = "";
         final String[] targetString = {"TRG-"};
-        if(typeOfFire.equals("upu")){
+        if (typeOfFire.equals("upu")) {
             //caso powerup
-
             targetString[0] = targetString[0].concat("POU-").concat(handPosition).concat("'");
             fireType = " ";
-        }
-        else {
+        } else {
             //caso armi
-
             targetString[0] = targetString[0].concat("WPN-").concat(handPosition).concat("'").concat(movement).concat("'");
             fireType = typeOfFire;
         }
-        final String[] target = {" "," "," "," "};
+        final String[] target = {" ", " ", " ", " "};
         final boolean[] success = {false};
 
         String finalFireType = fireType;
         EventHandler clickEvent = (EventHandler<MouseEvent>) event -> {
-            if(j[0] >= targetParameters.size()){
+            if (j[0] >= targetParameters.size()) {
                 event.consume();
-            }
-            else {
+            } else {
                 double pixelX = event.getScreenX();
                 double pixelY = event.getScreenY();
 
@@ -1198,7 +1205,6 @@ public class GameGUI {
                                     break;
                                 }
                                 default: {
-                                    System.out.println("Invalid Player");
                                 }
                             }
                             if (!color.equals("")) {
@@ -1227,12 +1233,12 @@ public class GameGUI {
                             success[0] = true;
                             break;
                         }
-                        default:{
+                        default: {
                         }
                     }
                 }
                 if (success[0]) {
-                    success[0]=false;
+                    success[0] = false;
                     k[0]++;
                     if (k[0] >= targetParameters.get(j[0]).size()) {
                         k[0] = 0;
@@ -1245,8 +1251,8 @@ public class GameGUI {
                             client.send(targetString[0]);
                         }
                     }
-                    if(j[0] < targetParameters.size()){
-                        targetDescription(targetParameters.get(j[0]).get(k[0]),text);
+                    if (j[0] < targetParameters.size()) {
+                        targetDescription(targetParameters.get(j[0]).get(k[0]), text);
                     }
 
                 }
@@ -1256,14 +1262,14 @@ public class GameGUI {
         targetPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
         targetPane.getChildren().add(rectangle);
         targetPane.getChildren().add(boardGrid);
-        storeButtons(targetGrid,targetPane);
+        storeButtons(targetGrid, targetPane);
         targetPane.getChildren().add(targetGrid);
 
         pane.getChildren().add(targetPane);
     }
 
-    public void preShootShow(Stage stage, String msg){
-        StackPane pane = (StackPane)stage.getScene().getRoot();
+    public void preShootShow(Stage stage, String msg) {
+        StackPane pane = (StackPane) stage.getScene().getRoot();
         StackPane preShootPane = new StackPane();
         GridPane preShootGrid = new GridPane();
 
@@ -1272,68 +1278,68 @@ public class GameGUI {
         preShootGrid.getRowConstraints().add(row);
 
         Rectangle rectangle = new Rectangle();
-        rectangleStandard(rectangle,pane);
+        rectangleStandard(rectangle, pane);
 
         Label text = new Label("Choose the type of fire");
         label40Helvetica(text, "#ffffff", 0.8);
-        preShootGrid.add(text,0,0,2,1);
-        GridPane.setHalignment(text,HPos.CENTER);
-        GridPane.setValignment(text,VPos.CENTER);
+        preShootGrid.add(text, 0, 0, 2, 1);
+        GridPane.setHalignment(text, HPos.CENTER);
+        GridPane.setValignment(text, VPos.CENTER);
 
         String[] effect = msg.split("'");
 
-        int j=1;
+        int j = 1;
         ArrayList<String> target = new ArrayList<>();
-        for(String trg: effect){
+        for (String trg : effect) {
             Button effectButton = new Button();
             String[] meaning = trg.split("-");
             final String fire = trg;
-            final int w = j-1;
-            effectButton.setOnAction(e->{
+            final int w = j - 1;
+            effectButton.setOnAction(e -> {
                 this.typeOfFire = fire;
-                shootMovement(stage,target.get(w));
+                shootMovement(stage, target.get(w));
                 pane.getChildren().remove(preShootPane);
             });
-            switch (meaning[0]){
-                case "Base":{
+            switch (meaning[0]) {
+                case "Base": {
                     effectButton.setText("BASE");
-                    preShootGrid.add(effectButton,1,j);
+                    preShootGrid.add(effectButton, 1, j);
                     j++;
                     break;
                 }
-                case "Optional":{
-                    effectButton.setText("OPT. ".concat(Integer.toString(Integer.valueOf(meaning[1])+1)));
-                    preShootGrid.add(effectButton,1,j);
+                case "Optional": {
+                    effectButton.setText("OPT. ".concat(Integer.toString(Integer.valueOf(meaning[1]) + 1)));
+                    preShootGrid.add(effectButton, 1, j);
                     j++;
                     break;
                 }
-                case "Alternative":{
+                case "Alternative": {
                     effectButton.setText("ALT.");
-                    preShootGrid.add(effectButton,1,j);
+                    preShootGrid.add(effectButton, 1, j);
                     j++;
                     break;
                 }
-                default:{
+                default: {
                     target.add(trg);
                 }
             }
-            GridPane.setHalignment(effectButton,HPos.CENTER);
-            GridPane.setValignment(effectButton,VPos.CENTER);
+            GridPane.setHalignment(effectButton, HPos.CENTER);
+            GridPane.setValignment(effectButton, VPos.CENTER);
         }
 
         String weaponName = this.nameWeapon;
-        for(String trg: effect){
-            if(trg.startsWith("Optional-")){
+        for (String trg : effect) {
+            if (trg.startsWith("Optional-")) {
                 weaponName = this.nameWeapon.concat("Info");
                 break;
             }
         }
         ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName).concat(".png"), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
-        preShootGrid.add(weaponIV, 0, 1,1,j-1);
+        preShootGrid.add(weaponIV, 0, 1, 1, j - 1);
 
-        for(int i=0;i<(j-1);i++){
+        for (int i = 0; i < (j - 1); i++) {
             RowConstraints buttonRow = new RowConstraints();
-            buttonRow.setPrefHeight(pane.getHeight() / (NUMBER_OF_WEAPON*(j-1)));
+            buttonRow.setPrefHeight(pane.getHeight() / (NUMBER_OF_WEAPON * (j - 1)));
             preShootGrid.getRowConstraints().add(buttonRow);
         }
 
@@ -1345,28 +1351,28 @@ public class GameGUI {
         pane.getChildren().add(preShootPane);
     }
 
-    private void shootMovement(Stage stage, String msg){
-        if(gui.getYouRepresentation().get(PLAYER_DAMAGE).split("'").length >= SHOOT_ADRENALINE){
-            StackPane pane = (StackPane)stage.getScene().getRoot();
+    private void shootMovement(Stage stage, String msg) {
+        if (gui.getYouRepresentation().get(PLAYER_DAMAGE).split("'").length >= SHOOT_ADRENALINE) {
+            StackPane pane = (StackPane) stage.getScene().getRoot();
             StackPane movementPane = new StackPane();
             GridPane movementGrid = new GridPane();
-            rowConstraint(movementGrid,N_ROW);
-            columnConstraint(movementGrid,N_COLUMN);
+            rowConstraint(movementGrid, N_ROW);
+            columnConstraint(movementGrid, N_COLUMN);
 
             Rectangle rectangle = new Rectangle();
-            rectangleStandard(rectangle,pane);
+            rectangleStandard(rectangle, pane);
 
             Label text = new Label("Where do you want to move?");
             label40Helvetica(text, "#ffffff", 0.8);
-            movementGrid.add(text,0,3,4,1);
-            GridPane.setHalignment(text,HPos.CENTER);
-            GridPane.setValignment(text,VPos.CENTER);
+            movementGrid.add(text, 0, 3, 4, 1);
+            GridPane.setHalignment(text, HPos.CENTER);
+            GridPane.setValignment(text, VPos.CENTER);
 
             EventHandler clickEvent = (EventHandler<MouseEvent>) event -> {
                 String cellX = Integer.toString(1 + (int) (event.getScreenX() / (pane.getWidth() / N_COLUMN)));
                 String cellY = Integer.toString(1 + (int) (event.getScreenY() / (pane.getHeight() / N_ROW)));
-                if((Integer.valueOf(cellX) <= 4) && (Integer.valueOf(cellY) <= 3)){
-                    buildTarget(stage,msg,cellX.concat(":").concat(cellY));
+                if ((Integer.valueOf(cellX) <= 4) && (Integer.valueOf(cellY) <= 3)) {
+                    buildTarget(stage, msg, cellX.concat(":").concat(cellY));
                     pane.getChildren().remove(movementPane);
                 }
             };
@@ -1376,46 +1382,44 @@ public class GameGUI {
             movementPane.getChildren().add(boardGrid);
             movementPane.getChildren().add(movementGrid);
             pane.getChildren().add(movementPane);
-        }
-        else {
-            buildTarget(stage,msg,"");
+        } else {
+            buildTarget(stage, msg, "");
         }
     }
 
-    private void storeButtons(GridPane gridButtons, StackPane pane){
-        for (ArrayList<ArrayList<String>> room: gui.getBoardRepresentation()) {
+    private void storeButtons(GridPane gridButtons, StackPane pane) {
+        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
-                if(cell.get(CELL_TYPE).equals("SpawnPoint")){
+                if (cell.get(CELL_TYPE).equals("SpawnPoint")) {
                     int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
                     int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
                     Button storeButton = new Button("Store");
-                    gridButtons.add(storeButton,xPos,yPos);
-                    GridPane.setHalignment(storeButton,HPos.CENTER);
-                    GridPane.setValignment(storeButton,VPos.CENTER);
-                    storeButton.setOnAction(e ->{
+                    gridButtons.add(storeButton, xPos, yPos);
+                    GridPane.setHalignment(storeButton, HPos.CENTER);
+                    GridPane.setValignment(storeButton, VPos.CENTER);
+                    storeButton.setOnAction(e -> {
                         GridPane grid4 = new GridPane();
                         Rectangle rectangle = new Rectangle();
-                        rectangleStandard(rectangle,pane);
+                        rectangleStandard(rectangle, pane);
                         String[] weapon = cell.get(CELL_INSIDE).split("'");
-                        for(int i=0; i<NUMBER_OF_WEAPON; i++){
-                            if(i<weapon.length){
+                        for (int i = 0; i < NUMBER_OF_WEAPON; i++) {
+                            if (i < weapon.length) {
                                 String weaponName = weapon[i].toLowerCase();
-                                weaponName = weaponName.replace(" ","").concat(".png");
-                                grid4.add(new ImageView(new Image("/images/game/weapons/".concat(weaponName),pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false)),i,0);
-                            }
-                            else{
-                                grid4.add(new ImageView(new Image("/images/game/weapons/weaponBack.png",pane.getWidth()/N_COLUMN,pane.getHeight()/NUMBER_OF_WEAPON,false,false)),i,0);
+                                weaponName = weaponName.replace(" ", "").concat(".png");
+                                grid4.add(new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false)), i, 0);
+                            } else {
+                                grid4.add(new ImageView(new Image("/images/game/weapons/weaponBack.png", pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false)), i, 0);
                             }
                         }
 
                         Button backButton = new Button("BACK");
-                        grid4.add(backButton,1,1);
+                        grid4.add(backButton, 1, 1);
                         pane.getChildren().add(rectangle);
                         pane.getChildren().add(grid4);
                         grid4.setHgap(40);
                         grid4.setVgap(50);
-                        GridPane.setHalignment(backButton,HPos.CENTER);
-                        GridPane.setValignment(backButton,VPos.CENTER);
+                        GridPane.setHalignment(backButton, HPos.CENTER);
+                        GridPane.setValignment(backButton, VPos.CENTER);
                         grid4.setAlignment(Pos.CENTER);
                         backButton.setOnAction(ev -> {
                             pane.getChildren().remove(grid4);
@@ -1427,73 +1431,71 @@ public class GameGUI {
         }
     }
 
-    private void targetDescription(String msg, Label infoText){
+    private void targetDescription(String msg, Label infoText) {
         String info = "";
-        switch(msg){
-            case "Movement:enemy":{
+        switch (msg) {
+            case "Movement:enemy": {
                 info = "Choose a square where you want to move the enemy player";
                 break;
             }
-            case "Movement:self":{
+            case "Movement:self": {
                 info = "Choose a square where you want to move";
                 break;
             }
-            case "Player":{
+            case "Player": {
                 info = "Choose an enemy player";
                 break;
             }
-            case "Room":{
+            case "Room": {
                 info = "Choose a square to select the room";
                 break;
             }
-            case "Square":{
+            case "Square": {
                 info = "Choose a square";
                 break;
             }
-            default:{
-
+            default: {
             }
         }
         infoText.setText(info);
     }
 
-    private void powerUpPay(Pane pane){//TODO CONTROLLARE QUANDO VIENE CHIAMATA
+    private void powerUpPay(Pane pane) {//TODO CONTROLLARE QUANDO VIENE CHIAMATA
         Pane payPane = new Pane();
 
         GridPane payGrid = new GridPane();
 
         Label title = new Label("Do you want to pay with power ups?");
         label40Helvetica(title, "#ffffff", 0.8);
-        payGrid.add(title,0,0);
-        GridPane.setHalignment(title,HPos.CENTER);
-        GridPane.setValignment(title,VPos.CENTER);
+        payGrid.add(title, 0, 0);
+        GridPane.setHalignment(title, HPos.CENTER);
+        GridPane.setValignment(title, VPos.CENTER);
 
         Button yes = new Button("YES");
-        payGrid.add(yes,0,1);
-        GridPane.setHalignment(yes,HPos.CENTER);
-        GridPane.setValignment(yes,VPos.CENTER);
-        yes.setOnAction(e->{
+        payGrid.add(yes, 0, 1);
+        GridPane.setHalignment(yes, HPos.CENTER);
+        GridPane.setValignment(yes, VPos.CENTER);
+        yes.setOnAction(e -> {
             payPane.getChildren().remove(payGrid);
 
             GridPane gridPowerUp = new GridPane();
 
-            if(!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
-                String [] powerUps = gui.getYouRepresentation().get(YOU_POWERUP).split("'");
+            if (!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
+                String[] powerUps = gui.getYouRepresentation().get(YOU_POWERUP).split("'");
                 boolean[] consumed = new boolean[powerUps.length];
-                for (int j=0;j<powerUps.length;j++) {
+                for (int j = 0; j < powerUps.length; j++) {
                     consumed[j] = false;
                     String realPowerUp = powerUpSwitch(powerUps[j]);
                     ImageView powerUpIV = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
                     gridPowerUp.add(powerUpIV, j, 0);
-                    final int pu=j;
+                    final int pu = j;
                     powerUpIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
-                        if(!consumed[pu]) {
+                        if (!consumed[pu]) {
                             consumed[pu] = true;
                             this.powerUpPay = this.powerUpPay.concat(Integer.toString(pu).concat(","));
                             powerUpIV.setFitWidth(pane.getWidth() / (N_COLUMN * 2));
                             powerUpIV.setFitHeight(pane.getHeight() / (NUMBER_OF_WEAPON * 2));
-                        }
-                        else{
+                        } else {
                             ev.consume();
                         }
                     });
@@ -1501,10 +1503,10 @@ public class GameGUI {
             }
 
             Button done = new Button("DONE");
-            gridPowerUp.add(done,0,1);
-            GridPane.setHalignment(done,HPos.CENTER);
-            GridPane.setValignment(done,VPos.CENTER);
-            done.setOnAction(ev->{
+            gridPowerUp.add(done, 0, 1);
+            GridPane.setHalignment(done, HPos.CENTER);
+            GridPane.setValignment(done, VPos.CENTER);
+            done.setOnAction(ev -> {
                 //TODO cosa bisogna mandare qui così
                 pane.getChildren().remove(payPane);
             });
@@ -1513,31 +1515,30 @@ public class GameGUI {
         });
 
         Button no = new Button("NO");
-        payGrid.add(no,1,1);
-        GridPane.setHalignment(no,HPos.CENTER);
-        GridPane.setValignment(no,VPos.CENTER);
-        no.setOnAction(e->{
-            this.powerUpPay=" ";
+        payGrid.add(no, 1, 1);
+        GridPane.setHalignment(no, HPos.CENTER);
+        GridPane.setValignment(no, VPos.CENTER);
+        no.setOnAction(e -> {
+            this.powerUpPay = " ";
             pane.getChildren().remove(payPane);
         });
 
         Rectangle rectangle = new Rectangle();
-        rectangleStandard(rectangle,pane);
+        rectangleStandard(rectangle, pane);
 
         payGrid.setAlignment(Pos.CENTER);
         payPane.getChildren().add(rectangle);
         payPane.getChildren().add(payGrid);
         pane.getChildren().add(payPane);
-
     }
 
-    public void chooseWeapon(Stage stage, String msg){
-        StackPane pane = (StackPane)stage.getScene().getRoot();
+    public void chooseWeapon(Stage stage, String msg) {
+        StackPane pane = (StackPane) stage.getScene().getRoot();
         StackPane pane2 = new StackPane();
         GridPane grid = new GridPane();
 
         Rectangle rectangle = new Rectangle();
-        rectangleStandard(rectangle,pane);
+        rectangleStandard(rectangle, pane);
 
         String[] message = msg.split(":");
 
@@ -1545,19 +1546,19 @@ public class GameGUI {
         label40Helvetica(text, "#ffffff", 0.8);
 
         int j = 0;
-        int notLoaded=1;
+        int notLoaded = 1;
         for (String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")) {
             if (!weapon.equals("")) {
                 String[] playerWeapon = weapon.split(":");
                 String weaponName = playerWeapon[0].toLowerCase().replace(" ", "").concat(".png");
 
-                if(playerWeapon[1].equals("false")) {
-                    notLoaded=2;
+                if (playerWeapon[1].equals("false")) {
+                    notLoaded = 2;
                 }
-                ImageView weaponIV= new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / (N_COLUMN*notLoaded), pane.getHeight() / (NUMBER_OF_WEAPON*notLoaded), false, false));
+                ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / (N_COLUMN * notLoaded), pane.getHeight() / (NUMBER_OF_WEAPON * notLoaded), false, false));
                 grid.add(weaponIV, j, 1);
-                final int wpn=j;
-                weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED,e->{
+                final int wpn = j;
+                weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
                     client.send("WPN-".concat(Integer.toString(wpn)));
                     pane.getChildren().remove(pane2);
                 });
@@ -1565,9 +1566,9 @@ public class GameGUI {
             j++;
         }
 
-        grid.add(text,0,0,j,1);
-        GridPane.setHalignment(text,HPos.CENTER);
-        GridPane.setValignment(text,VPos.CENTER);
+        grid.add(text, 0, 0, j, 1);
+        GridPane.setHalignment(text, HPos.CENTER);
+        GridPane.setValignment(text, VPos.CENTER);
 
         grid.setAlignment(Pos.CENTER);
         grid.setVgap(30);
@@ -1576,6 +1577,84 @@ public class GameGUI {
         pane2.getChildren().add(rectangle);
         pane2.getChildren().add(grid);
         pane.getChildren().add(pane2);
+    }
+
+    public void drawBloodOnYou(Pane pane) {
+        String[] blood = gui.getYouRepresentation().get(PLAYER_DAMAGE).split("'");
+
+        for(int i=0;i<blood.length;i++){
+            ImageView bloodIV = new ImageView(new Image("/images/game/blood/".concat(blood[i]).concat("Blood.png"),pane.getWidth()/25,pane.getHeight()/15,false,false));
+            bloodIV.setX(pane.getWidth()/21.3333 + (i * pane.getWidth()/31.4754));
+            bloodIV.setY(pane.getHeight()/1.1489);
+            pane.getChildren().add(bloodIV);
+        }
+    }
+
+    public void drawSkullOnYou(Pane pane) {
+        String[] skull = gui.getYouRepresentation().get(PLAYER_SKULL).split(":");
+
+        for (int i = 0; i < Integer.valueOf(skull[1]); i++) {
+            ImageView skullIV = new ImageView(new Image("/images/game/blood/redSkull.png",pane.getWidth()/35,pane.getHeight()/20,false,false));
+            skullIV.setX(pane.getWidth() / 8.3478 + (i * pane.getWidth() / 33.6842));
+            skullIV.setY(pane.getHeight() / 1.0588);
+            pane.getChildren().add(skullIV);
+        }
+    }
+
+    public void drawMarkOnYou(Pane pane){
+        String[] mark = gui.getYouRepresentation().get(PLAYER_MARK).split("'");
+
+        for(int i=0;i<mark.length;i++){
+            ImageView markIV = new ImageView(new Image("/images/game/blood/".concat(mark[i]).concat("Blood.png"),pane.getWidth()/40,pane.getHeight()/25,false,false));
+            markIV.setX(pane.getWidth()/2.4303 - (i * pane.getWidth()/76.8));
+            markIV.setY(pane.getHeight()/1.2485);
+            pane.getChildren().add(markIV);
+        }
+    }
+
+    public void drawBloodOnPlayer(Pane pane){
+        int j=0;
+        for(ArrayList<String> player : gui.getPlayersRepresentation()) {
+            String[] blood = player.get(PLAYER_SKULL).split("'");
+
+            for(int i=0;i<blood.length;i++){
+                ImageView bloodIV = new ImageView(new Image("/images/game/blood/".concat(blood[i]).concat("Blood.png"),pane.getWidth()/25,pane.getHeight()/15,false,false));
+                bloodIV.setX(pane.getWidth()/1.6666 + (i * pane.getWidth()/40.8510));
+                bloodIV.setY(pane.getHeight()/14.4 + (j*pane.getHeight()/N_ROW));
+                pane.getChildren().add(bloodIV);
+            }
+            j++;
+        }
+    }
+
+    public void drawSkullOnPlayer(Pane pane){
+        int j=0;
+        for(ArrayList<String> player : gui.getPlayersRepresentation()){
+            String[] skull = player.get(PLAYER_SKULL).split(":");
+
+            for (int i = 0; i < Integer.valueOf(skull[1]); i++) {
+                ImageView skullIV = new ImageView(new Image("/images/game/blood/redSkull.png", pane.getWidth() / 35, pane.getHeight() / 20, false, false));
+                skullIV.setX(pane.getWidth() / 1.5238 + (i * pane.getWidth() / 42.6666));
+                skullIV.setY(pane.getHeight() / 6.75 + (j*pane.getHeight()/N_ROW));
+                pane.getChildren().add(skullIV);
+            }
+            j++;
+        }
+    }
+
+    public void drawMarkOnPlayer(Pane pane){
+        int j=0;
+        for(ArrayList<String> player : gui.getPlayersRepresentation()) {
+            String[] mark = player.get(PLAYER_MARK).split("'");
+
+            for(int i=0;i<mark.length;i++){
+                ImageView markIV = new ImageView(new Image("/images/game/blood/".concat(mark[i]).concat("Blood.png"),pane.getWidth()/40,pane.getHeight()/25,false,false));
+                markIV.setX(pane.getWidth()/1.1428 - (i * pane.getWidth()/106.6666));
+                markIV.setY(pane.getHeight()/360 + (j*pane.getHeight()/N_ROW));
+                pane.getChildren().add(markIV);
+            }
+            j++;
+        }
     }
 
     public void informationMessage(Stage stage,String msg){
@@ -1667,112 +1746,4 @@ public class GameGUI {
         }
         return realPowerUp;
     }
-
-    /*
-    public void drawYellowPlayer(Pane pane){
-        drawBloodOnYellow(pane);
-        drawMarkOnYellow(pane);
-        drawSkullOnYellow(pane);
-    }
-
-    public void drawSkullOnYellow(Pane pane){
-        //skull
-        Image skull = new Image("/images/game/blood/redSkull.png",pane.getWidth()/35,pane.getHeight()/20,false,false);
-
-        //pane
-        Pane pane2 = new Pane();
-
-        for(int i=0;i<6;i++){
-            ImageView skullIV = new ImageView(skull);
-            skullIV.setX(pane.getWidth()/1.5238 + (i * pane.getWidth()/42.6666));
-            skullIV.setY(pane.getHeight()/6.75);
-            pane2.getChildren().add(skullIV);
-        }
-        pane.getChildren().add(pane2);
-    }
-
-    public void drawMarkOnYellow(Pane pane){
-        //blood
-        Image greyMark = new Image("/images/game/blood/greyBlood.png",pane.getWidth()/40,pane.getHeight()/25,false,false);
-
-        //pane
-        Pane pane2 = new Pane();
-
-        for(int i=0;i<12;i++){
-            ImageView greyMarkIV = new ImageView(greyMark);
-            greyMarkIV.setX(pane.getWidth()/1.1428 - (i * pane.getWidth()/106.6666));
-            greyMarkIV.setY(pane.getHeight()/360);
-            pane2.getChildren().add(greyMarkIV);
-        }
-        pane.getChildren().add(pane2);
-    }
-
-    public void drawBloodOnYellow(Pane pane){
-        //blood
-        Image greenBlood = new Image("/images/game/blood/greenBlood.png",pane.getWidth()/25,pane.getHeight()/15,false,false);
-
-        Pane pane2 = new Pane();
-
-        for(int i=0;i<12;i++){
-            ImageView greenBloodIV = new ImageView(greenBlood);
-            greenBloodIV.setX(pane.getWidth()/1.6666 + (i * pane.getWidth()/40.8510));
-            greenBloodIV.setY(pane.getHeight()/14.4);
-            pane2.getChildren().add(greenBloodIV);
-        }
-        pane.getChildren().add(pane2);
-    }
-
-    public void drawBluePlayer(Pane pane){
-        drawBloodOnBlue(pane);
-        drawMarkOnBlue(pane);
-        drawSkullOnBlue(pane);
-    }
-
-    public void drawSkullOnBlue(Pane pane){
-        //skull
-        Image skull = new Image("/images/game/blood/redSkull.png",pane.getWidth()/35,pane.getHeight()/20,false,false);
-
-        //pane
-        Pane pane2 = new Pane();
-
-        for(int i=0;i<6;i++){
-            ImageView skullIV = new ImageView(skull);
-            skullIV.setX(pane.getWidth()/8.3478 + (i * pane.getWidth()/33.6842));
-            skullIV.setY(pane.getHeight()/1.0588);
-            pane2.getChildren().add(skullIV);
-        }
-        pane.getChildren().add(pane2);
-    }
-
-    public void drawMarkOnBlue(Pane pane){
-        //blood
-        Image yellowMark = new Image("/images/game/blood/yellowBlood.png",pane.getWidth()/40,pane.getHeight()/25,false,false);
-
-        //pane
-        Pane pane2 = new Pane();
-
-        for(int i=0;i<12;i++){
-            ImageView yellowMarkIV = new ImageView(yellowMark);
-            yellowMarkIV.setX(pane.getWidth()/2.4303 - (i * pane.getWidth()/76.8));
-            yellowMarkIV.setY(pane.getHeight()/1.2485);
-            pane2.getChildren().add(yellowMarkIV);
-        }
-        pane.getChildren().add(pane2);
-    }
-
-    public void drawBloodOnBlue(Pane pane){
-        //blood
-        Image purpleBlood = new Image("/images/game/blood/purpleBlood.png",pane.getWidth()/25,pane.getHeight()/15,false,false);
-
-        Pane pane2 = new Pane();
-
-        for(int i=0;i<12;i++){
-            ImageView purpleBloodIV = new ImageView(purpleBlood);
-            purpleBloodIV.setX(pane.getWidth()/21.3333 + (i * pane.getWidth()/31.4754));
-            purpleBloodIV.setY(pane.getHeight()/1.1489);
-            pane2.getChildren().add(purpleBloodIV);
-        }
-        pane.getChildren().add(pane2);
-    }
-*/
 }
