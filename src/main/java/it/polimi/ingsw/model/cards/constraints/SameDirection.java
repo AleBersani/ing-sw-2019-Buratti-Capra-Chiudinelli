@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class SameDirection extends Constraint {
     /**
-     * constructor class of SameDirection
+     * constructor of SameDirection
      * @param level of the previousTarget control
      */
     public SameDirection(int level) {

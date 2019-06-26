@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class AdjacentRoom extends Constraint {
     /**
-     * constructor class of AdjacentRoom
+     * constructor of AdjacentRoom
      * @param level of the previousTarget control
      */
     public AdjacentRoom(int level) {

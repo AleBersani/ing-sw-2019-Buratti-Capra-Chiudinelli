@@ -21,7 +21,7 @@ public class MinimumDistance extends Constraint {
     private boolean concatenate;
 
     /**
-     * constructor class of AdjacentRoom
+     * constructor of AdjacentRoom
      * @param distance is the distance of shooting
      * @param concatenate true if is needed to verify the distance between the Target and the previous Targets, false if is needed to verify the distance between the Owner and the Target
      * @param level of the previousTarget control

@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class SamePlayer extends Constraint {
     /**
-     * constructor class of SamePlayer
+     * constructor of SamePlayer
      * @param level of the previousTarget control
      */
     public SamePlayer(int level) {

@@ -7,15 +7,33 @@ import it.polimi.ingsw.model.TargetParameter;
 
 import java.util.ArrayList;
 
+/**
+ * this class check if the Owner can see the target
+ */
 public class See extends Constraint {
+    /**
+     * true if there must be a chain of players that can see one each others
+     */
+    private boolean concatenate;
 
-    boolean concatenate;
-
+    /**
+     * constructor of See
+     * @param concatenate true if there must be a chain of players that can see one each others
+     * @param level of the previousTarget control
+     */
     public See(boolean concatenate, int level) {
         super(level);
         this.concatenate = concatenate;
     }
 
+    /**
+     * this method evaluates if the Owner can see the enemy or the first of the previous target
+     * @param target contains Square or Player
+     * @param constraintPositivity true if the Owner must see the target, false if the Owner must not see the target
+     * @param previousTarget is the list of targets of the previous effects
+     * @return true if the player can shoot, false if the player can't shoot
+     * @throws NoOwnerException when in target there isn't the owner or the owner position
+     */
     @Override
     public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<ArrayList<Player>> previousTarget) throws NoOwnerException {
 
@@ -51,5 +69,4 @@ public class See extends Constraint {
         }
         return true;
     }
-    //fare i due casi per concatenazione oppure no, per renderla in modo safe anche se ci fossero previous target ma me ne frega solo di un bersaglio finale
 }
