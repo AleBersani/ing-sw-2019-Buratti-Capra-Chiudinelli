@@ -953,11 +953,73 @@ public class GameGUI {
         else{
             //continue shooting optional
             Button keepOptionalButton = new Button("KEEP SHOOTING");
-            gridButtons.add(keepOptionalButton, 4, 4);
+            if(!gui.getOpz().equals("")) {
+                gridButtons.add(keepOptionalButton, 4, 4);
+            }
             GridPane.setHalignment(keepOptionalButton, HPos.CENTER);
             GridPane.setValignment(keepOptionalButton, VPos.CENTER);
             keepOptionalButton.setOnAction(event -> {
-                //TODO continuare poi settare optional a false
+
+                StackPane opzShootPane = new StackPane();
+                GridPane opzShootGrid = new GridPane();
+                Rectangle rectangle = new Rectangle();
+                rectangleStandard(rectangle,opzShootPane);
+
+                RowConstraints row = new RowConstraints();
+                row.setPercentHeight(20);
+                opzShootGrid.getRowConstraints().add(row);
+
+                Label text = new Label("Choose the type of fire");
+                label40Helvetica(text, "#ffffff", 0.8);
+                opzShootGrid.add(text, 0, 0, 2, 1);
+                GridPane.setHalignment(text, HPos.CENTER);
+                GridPane.setValignment(text, VPos.CENTER);
+
+                ArrayList<String> effects = new ArrayList<>();
+                for(String option: gui.getOpz().split(";")){
+                    option = option.substring(0,1);
+                    if(!effects.isEmpty()){
+                        if(!effects.contains(option)){
+                            effects.add(option);
+                        }
+                    }
+                    else {
+                        effects.add(option);
+                    }
+                }
+
+                int j=1;
+                String[] requestedTarget = gui.getInfoTarget().split("'");
+                for(String singleEffect: effects){
+                    Button effectButton = new Button();
+                    opzShootGrid.add(effectButton, 1, j);
+                    String type = "";
+                    if(singleEffect.equals("0")){
+                        type = "Base";
+                        effectButton.setText("BASE");
+                    }
+                    else{
+                        type = "Optional-".concat(Integer.toString((Integer.parseInt(singleEffect))-1));
+                        effectButton.setText("OPT-".concat(singleEffect));
+                    }
+                    final String fire = type;
+                    final int w = ((Integer.parseInt(singleEffect))*2)+1;
+                    effectButton.setOnAction(e -> {
+                        this.typeOfFire = fire;
+                        buildTarget(stage,requestedTarget[w]," ");
+                        pane.getChildren().remove(opzShootPane);
+                    });
+
+                    j++;
+                }
+
+                String weaponName = this.nameWeapon.concat("Info");
+                ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName).concat(".png"), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
+                opzShootGrid.add(weaponIV, 0, 1, 1, j - 1);
+
+                opzShootPane.getChildren().add(opzShootGrid);
+                pane.getChildren().add(opzShootPane);
+                //TODO da controllare
             });
 
             //stop shooting

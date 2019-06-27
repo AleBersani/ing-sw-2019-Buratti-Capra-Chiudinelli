@@ -28,6 +28,7 @@ public class GUI extends Application implements ViewInterface {
     private String killShotTrackData;
     private String infoString;
     private String infoTarget;
+    private String opz;
     private String discard;
     private ArrayList<ArrayList<ArrayList<String>>> boardRepresentation;
     private ArrayList<ArrayList<String>> playersRepresentation;
@@ -39,8 +40,15 @@ public class GUI extends Application implements ViewInterface {
     private static final int SQUARE_BRACKET= 1;
     private static final int POSSIBLE_SPACE= 1;
 
+    protected String getInfoTarget() {
+        return infoTarget;
+    }
 
-    public boolean isMessageToShow() {
+    public String getOpz() {
+        return opz;
+    }
+
+    protected boolean isMessageToShow() {
         return messageToShow;
     }
 
@@ -48,11 +56,11 @@ public class GUI extends Application implements ViewInterface {
         this.client = client;
     }
 
-    public String getInfoString() {
+    protected String getInfoString() {
         return infoString;
     }
 
-    public boolean isSendable() {
+    protected boolean isSendable() {
         return sendable;
     }
 
@@ -316,6 +324,7 @@ public class GUI extends Application implements ViewInterface {
 
     @Override
     public void optionalShoot(String msg) {
+        this.opz = msg;
         this.gameGUI.optionalShoot = true;
         Platform.runLater(this::reShow);
     }
