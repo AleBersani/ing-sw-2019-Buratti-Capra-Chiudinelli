@@ -315,6 +315,12 @@ public class GUI extends Application implements ViewInterface {
     }
 
     @Override
+    public void optionalShoot(String msg) {
+        this.gameGUI.optionalShoot = true;
+        Platform.runLater(this::reShow);
+    }
+
+    @Override
     public void gameReShow() {
         Platform.runLater(this::reShow);
     }

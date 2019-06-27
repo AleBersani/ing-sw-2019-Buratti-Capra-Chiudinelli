@@ -143,7 +143,7 @@ public class MessageHandler {
                 break;
             }
             case "OWS-":{
-                //TODO aggiungere metodo in view
+                view.optionalShoot(msg.substring(NAME_ETIQUETTE));
             }
             default:
         }

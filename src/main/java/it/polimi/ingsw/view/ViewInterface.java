@@ -28,5 +28,7 @@ public interface ViewInterface {
 
     void preShoot(String msg);
 
+    void optionalShoot(String msg);
+
     void gameReShow();
 }

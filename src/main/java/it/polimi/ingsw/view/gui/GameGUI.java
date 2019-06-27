@@ -866,7 +866,7 @@ public class GameGUI {
                                         pane.getChildren().remove(rectangle);
                                         this.nameWeapon = weaponName;
                                         this.handPosition = Integer.toString(wpn);
-                                        //TODO AGGIUNGERE PAGAMENTO POWER UP E POSIZIONE ADRENALINA
+                                        //TODO AGGIUNGERE PAGAMENTO POWER UP
                                     });
                                 }
                             }
@@ -968,6 +968,8 @@ public class GameGUI {
             GridPane.setHalignment(stopButton, HPos.CENTER);
             GridPane.setValignment(stopButton, VPos.CENTER);
             stopButton.setOnAction(e -> {
+                client.send("ESH-");
+                this.optionalShoot = false;
                 //TODO mandare ESH- per finire e settare OptionalWeapon a false
             });
         }
