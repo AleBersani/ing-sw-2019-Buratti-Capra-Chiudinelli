@@ -126,7 +126,7 @@ public class MessageHandler {
                     view.reloadShow(msg.substring(NAME_ETIQUETTE));
                 }
                 else {
-                    client.send("RLD-ignore");
+                    client.send("RLD-");
                 }
                 break;
             }

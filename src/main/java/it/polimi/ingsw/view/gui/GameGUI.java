@@ -962,13 +962,12 @@ public class GameGUI {
                 //TODO continuare poi settare optional a false
             });
 
-            //Use power Up
-            Button powerUps = new Button("Use PowerUps");
-            gridButtons.add(powerUps, 5, 4);
-            GridPane.setHalignment(powerUps, HPos.CENTER);
-            GridPane.setValignment(powerUps, VPos.CENTER);
-            Button backButton = new Button("BACK");
-            powerUps.setOnAction(e -> {
+            //stop shooting
+            Button stopButton = new Button("STOP");
+            gridButtons.add(stopButton, 5, 4);
+            GridPane.setHalignment(stopButton, HPos.CENTER);
+            GridPane.setValignment(stopButton, VPos.CENTER);
+            stopButton.setOnAction(e -> {
                 //TODO mandare ESH- per finire e settare OptionalWeapon a false
             });
         }
@@ -1119,7 +1118,7 @@ public class GameGUI {
         GridPane.setValignment(done, VPos.CENTER);
 
         reloadGrid.add(ignore, 1, 2);
-        ignore.setOnAction(e -> client.send("RLD-ignore"));
+        ignore.setOnAction(e -> client.send("RLD-"));
         GridPane.setHalignment(ignore, HPos.CENTER);
         GridPane.setValignment(ignore, VPos.CENTER);
 
