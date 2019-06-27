@@ -1106,32 +1106,69 @@ public class GameGUI {
         grid2.setHgap(70);
         grid2.setVgap(50);
 
-        Button blueStore = new Button("Blue");
-        blueStore.setTranslateX(pane.getWidth()/5);
-        blueStore.setTranslateY(pane.getHeight()/5);
-        blueStore.setOnAction(e->{
-            //TODO JOIN WITH THE BLUE SPAWN POINT
-        });
-
-        Button redStore = new Button("Red");
-        redStore.setTranslateX(-pane.getWidth()/5);
-        redStore.setTranslateY(pane.getHeight()/5);
-        redStore.setOnAction(e->{
-            //TODO JOIN WITH THE RED SPAWN POINT
-        });
-
-        Button yellowStore = new Button("Yellow");
-        yellowStore.setTranslateX(0);
-        yellowStore.setTranslateY(pane.getHeight()/5);
-        yellowStore.setOnAction(e->{
-            //TODO JOIN WITH THE YELLOW SPAWN POINT
-        });
-
         pane2.getChildren().add(rectangle);
         pane2.getChildren().add(grid2);
-        pane2.getChildren().add(blueStore);
-        pane2.getChildren().add(redStore);
-        pane2.getChildren().add(yellowStore);
+
+        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
+            for (ArrayList<String> cell : room) {
+                if (cell.get(CELL_TYPE).equals("SpawnPoint")) {
+                    Button storeButton = new Button();
+
+                    if(cell.get(CELL_COLOR).equals(YELLOW)){
+                        storeButton.setText("Yellow");
+                        storeButton.setTranslateX(0);
+                        storeButton.setTranslateY(pane.getHeight()/5);
+                    }
+                    else {
+                        if(cell.get(CELL_COLOR).equals(BLUE)){
+                            storeButton.setText("Blue");
+                            storeButton.setTranslateX(pane.getWidth()/5);
+                            storeButton.setTranslateY(pane.getHeight()/5);
+                        }
+                        else {
+                            if(cell.get(CELL_COLOR).equals("red")){
+                                storeButton.setText("Red");
+                                storeButton.setTranslateX(-pane.getWidth()/5);
+                                storeButton.setTranslateY(pane.getHeight()/5);
+                            }
+                        }
+                    }
+
+                    storeButton.setOnAction(e -> {
+                        GridPane grid4 = new GridPane();
+                        String[] weapon = cell.get(CELL_INSIDE).split("'");
+                        for (int j = 0; j < NUMBER_OF_WEAPON; j++) {
+                            if (j < weapon.length) {
+                                String weaponName = weapon[j].toLowerCase();
+                                weaponName = weaponName.replace(" ", "").concat(".png");
+                                grid4.add(new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false)), j, 0);
+                            } else {
+                                grid4.add(new ImageView(new Image("/images/game/weapons/weaponBack.png", pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false)), j, 0);
+                            }
+                        }
+
+                        Button backButton = new Button("BACK");
+                        grid4.add(backButton, 1, 1);
+                        Rectangle secondRectangle = new Rectangle();
+                        rectangleStandard(secondRectangle,pane);
+                        pane.getChildren().add(secondRectangle);
+                        pane.getChildren().add(grid4);
+                        grid4.setHgap(40);
+                        grid4.setVgap(50);
+                        GridPane.setHalignment(backButton, HPos.CENTER);
+                        GridPane.setValignment(backButton, VPos.CENTER);
+                        grid4.setAlignment(Pos.CENTER);
+                        backButton.setOnAction(ev -> {
+                            pane.getChildren().remove(grid4);
+                            pane.getChildren().remove(secondRectangle);
+                        });
+                    });
+
+                    pane2.getChildren().add(storeButton);
+                }
+            }
+        }
+
         pane.getChildren().add(pane2);
     }
 
