@@ -1105,8 +1105,33 @@ public class GameGUI {
         grid2.setAlignment(Pos.CENTER);
         grid2.setHgap(70);
         grid2.setVgap(50);
+
+        Button blueStore = new Button("Blue");
+        blueStore.setTranslateX(pane.getWidth()/5);
+        blueStore.setTranslateY(pane.getHeight()/5);
+        blueStore.setOnAction(e->{
+            //TODO JOIN WITH THE BLUE SPAWN POINT
+        });
+
+        Button redStore = new Button("Red");
+        redStore.setTranslateX(-pane.getWidth()/5);
+        redStore.setTranslateY(pane.getHeight()/5);
+        redStore.setOnAction(e->{
+            //TODO JOIN WITH THE RED SPAWN POINT
+        });
+
+        Button yellowStore = new Button("Yellow");
+        yellowStore.setTranslateX(0);
+        yellowStore.setTranslateY(pane.getHeight()/5);
+        yellowStore.setOnAction(e->{
+            //TODO JOIN WITH THE YELLOW SPAWN POINT
+        });
+
         pane2.getChildren().add(rectangle);
         pane2.getChildren().add(grid2);
+        pane2.getChildren().add(blueStore);
+        pane2.getChildren().add(redStore);
+        pane2.getChildren().add(yellowStore);
         pane.getChildren().add(pane2);
     }
 
