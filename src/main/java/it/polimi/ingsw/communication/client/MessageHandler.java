@@ -142,6 +142,9 @@ public class MessageHandler {
                 view.discardWeapon(msg.substring(NAME_ETIQUETTE));
                 break;
             }
+            case "OWS-":{
+                //TODO aggiungere metodo in view
+            }
             default:
         }
     }

@@ -23,6 +23,7 @@ public class GameGUI {
     private GUI gui;
     private Client client;
     private GridPane boardGrid;
+    protected boolean optionalShoot = false;
     protected boolean endTurn = false;
     private String handPosition;
     private String typeOfFire;
@@ -661,294 +662,317 @@ public class GameGUI {
             });
         });
 
-        if (!endTurn) {
-            //Actions
-            Button actions = new Button("Actions");
-            gridButtons.add(actions, 4, 4);
-            GridPane.setHalignment(actions, HPos.CENTER);
-            GridPane.setValignment(actions, VPos.CENTER);
-            actions.setOnAction(event -> {
-                GridPane grid4 = new GridPane();
-                Rectangle rectangle = new Rectangle();
-                Button shoot = new Button("SHOOT");
-                Button run = new Button("RUN");
-                Button grab = new Button("GRAB");
-                Button back = new Button("BACK");
-                rectangleStandard(rectangle, pane);
-                grid4.add(shoot, 0, 0);
-                grid4.add(run, 1, 0);
-                grid4.add(grab, 2, 0);
-                grid4.add(back, 1, 1);
-                pane.getChildren().add(rectangle);
-                pane.getChildren().add(grid4);
-                grid4.setHgap(70);
-                grid4.setVgap(50);
-                GridPane.setHalignment(back, HPos.CENTER);
-                GridPane.setValignment(back, VPos.CENTER);
-                grid4.setAlignment(Pos.CENTER);
+        if(!optionalShoot) {
+            if (!endTurn) {
+                //Actions
+                Button actions = new Button("Actions");
+                gridButtons.add(actions, 4, 4);
+                GridPane.setHalignment(actions, HPos.CENTER);
+                GridPane.setValignment(actions, VPos.CENTER);
+                actions.setOnAction(event -> {
+                    GridPane grid4 = new GridPane();
+                    Rectangle rectangle = new Rectangle();
+                    Button shoot = new Button("SHOOT");
+                    Button run = new Button("RUN");
+                    Button grab = new Button("GRAB");
+                    Button back = new Button("BACK");
+                    rectangleStandard(rectangle, pane);
+                    grid4.add(shoot, 0, 0);
+                    grid4.add(run, 1, 0);
+                    grid4.add(grab, 2, 0);
+                    grid4.add(back, 1, 1);
+                    pane.getChildren().add(rectangle);
+                    pane.getChildren().add(grid4);
+                    grid4.setHgap(70);
+                    grid4.setVgap(50);
+                    GridPane.setHalignment(back, HPos.CENTER);
+                    GridPane.setValignment(back, VPos.CENTER);
+                    grid4.setAlignment(Pos.CENTER);
 
-                //back
-                back.setOnAction(e -> {
-                    pane.getChildren().remove(grid4);
-                    pane.getChildren().remove(rectangle);
-                });
-
-                //run
-                run.setOnAction(e -> {
-                    pane.getChildren().remove(grid4);
-                    pane.getChildren().remove(boardGrid);
-                    pane.getChildren().add(boardGrid);
-
-                    GridPane grid5 = new GridPane();
-                    columnConstraint(grid5, N_COLUMN);
-                    rowConstraint(grid5, N_ROW);
-                    storeButtons(grid5, pane);
-
-                    Button backRun = new Button("BACK");
-                    grid5.add(backRun, 4, 3);
-                    GridPane.setHalignment(backRun, HPos.CENTER);
-                    GridPane.setValignment(backRun, VPos.CENTER);
-
-                    Label text = new Label("Choose a square where you want to move");
-                    text.setTextFill(Color.web("#ffffff", 0.8));
-                    text.setStyle("-fx-font: 40 Helvetica;");
-                    text.setEffect(new DropShadow());
-                    grid5.add(text, 0, 3, 4, 1);
-                    GridPane.setHalignment(text, HPos.CENTER);
-                    GridPane.setValignment(text, VPos.CENTER);
-
-                    EventHandler clickEvent = (EventHandler<MouseEvent>) event1 -> {
-                        int cellX = 1 + (int) (event1.getScreenX() / (pane.getWidth() / N_COLUMN));
-                        int cellY = 1 + (int) (event1.getScreenY() / (pane.getHeight() / N_ROW));
-
-                        if ((cellX < 5) && (cellY < 4)) {
-                            client.send("GMC-RUN-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)));
-                        }
-                    };
-
-                    //Click event
-                    pane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
-
-                    //Back
-                    backRun.setOnAction(ev -> {
-                        pane.getChildren().remove(grid5);
+                    //back
+                    back.setOnAction(e -> {
+                        pane.getChildren().remove(grid4);
                         pane.getChildren().remove(rectangle);
-                        buildButtons(stage);
-                        actions.fire();
-                        pane.removeEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
                     });
 
-                    pane.getChildren().add(grid5);
-                });
+                    //run
+                    run.setOnAction(e -> {
+                        pane.getChildren().remove(grid4);
+                        pane.getChildren().remove(boardGrid);
+                        pane.getChildren().add(boardGrid);
 
-                //Grab
-                grab.setOnAction(e -> {
-                    pane.getChildren().remove(grid4);
-                    pane.getChildren().remove(boardGrid);
-                    pane.getChildren().add(boardGrid);
+                        GridPane grid5 = new GridPane();
+                        columnConstraint(grid5, N_COLUMN);
+                        rowConstraint(grid5, N_ROW);
+                        storeButtons(grid5, pane);
 
-                    GridPane grid5 = new GridPane();
-                    columnConstraint(grid5, N_COLUMN);
-                    rowConstraint(grid5, N_ROW);
-                    storeButtons(grid5, pane);
+                        Button backRun = new Button("BACK");
+                        grid5.add(backRun, 4, 3);
+                        GridPane.setHalignment(backRun, HPos.CENTER);
+                        GridPane.setValignment(backRun, VPos.CENTER);
 
-                    Button backRun = new Button("BACK");
-                    grid5.add(backRun, 4, 3);
-                    GridPane.setHalignment(backRun, HPos.CENTER);
-                    GridPane.setValignment(backRun, VPos.CENTER);
+                        Label text = new Label("Choose a square where you want to move");
+                        text.setTextFill(Color.web("#ffffff", 0.8));
+                        text.setStyle("-fx-font: 40 Helvetica;");
+                        text.setEffect(new DropShadow());
+                        grid5.add(text, 0, 3, 4, 1);
+                        GridPane.setHalignment(text, HPos.CENTER);
+                        GridPane.setValignment(text, VPos.CENTER);
 
-                    Label text = new Label("Choose a square where you want to move and grab");
-                    text.setTextFill(Color.web("#ffffff", 0.8));
-                    text.setStyle("-fx-font: 40 Helvetica;");
-                    text.setEffect(new DropShadow());
-                    grid5.add(text, 0, 3, 4, 1);
-                    GridPane.setHalignment(text, HPos.CENTER);
-                    GridPane.setValignment(text, VPos.CENTER);
+                        EventHandler clickEvent = (EventHandler<MouseEvent>) event1 -> {
+                            int cellX = 1 + (int) (event1.getScreenX() / (pane.getWidth() / N_COLUMN));
+                            int cellY = 1 + (int) (event1.getScreenY() / (pane.getHeight() / N_ROW));
 
-                    final boolean[] cancelClickEvent = new boolean[1];
-                    cancelClickEvent[0] = true;
+                            if ((cellX < 5) && (cellY < 4)) {
+                                client.send("GMC-RUN-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)));
+                            }
+                        };
 
-                    EventHandler clickEvent = (EventHandler<MouseEvent>) event1 -> {
-                        int cellX = 1 + (int) (event1.getScreenX() / (pane.getWidth() / N_COLUMN));
-                        int cellY = 1 + (int) (event1.getScreenY() / (pane.getHeight() / N_ROW));
+                        //Click event
+                        pane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
 
-                        if ((cellX < 5) && (cellY < 4) && (cancelClickEvent[0])) {
-                            for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
-                                for (ArrayList<String> cell : room) {
-                                    if ((cell.get(CELL_X).equals(Integer.toString(cellX))) && (cell.get(CELL_Y).equals(Integer.toString(cellY)))) {
-                                        if (cell.get(CELL_TYPE).equals("AmmoPoint")) {
-                                            client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)));
-                                        } else {
-                                            text.setText("");
-                                            cancelClickEvent[0] = false;
-                                            GridPane grid = new GridPane();
-                                            String[] weapon = cell.get(CELL_INSIDE).split("'");
-                                            for (int j = 0; j < NUMBER_OF_WEAPON; j++) {
-                                                if (j < weapon.length) {
-                                                    String weaponName = weapon[j].toLowerCase();
-                                                    weaponName = weaponName.replace(" ", "").concat(".png");
-                                                    ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
-                                                    grid.add(weaponIV, j, 0);
-                                                    int w = j;
-                                                    weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
-                                                        client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)
-                                                                .concat(",").concat(Integer.toString(w))));
-                                                        pane.getChildren().remove(grid);
-                                                        pane.getChildren().remove(rectangle);
-                                                    });
-                                                } else {
-                                                    grid.add(new ImageView(new Image("/images/game/weapons/weaponBack.png", pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false)), j, 0);
+                        //Back
+                        backRun.setOnAction(ev -> {
+                            pane.getChildren().remove(grid5);
+                            pane.getChildren().remove(rectangle);
+                            buildButtons(stage);
+                            actions.fire();
+                            pane.removeEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
+                        });
+
+                        pane.getChildren().add(grid5);
+                    });
+
+                    //Grab
+                    grab.setOnAction(e -> {
+                        pane.getChildren().remove(grid4);
+                        pane.getChildren().remove(boardGrid);
+                        pane.getChildren().add(boardGrid);
+
+                        GridPane grid5 = new GridPane();
+                        columnConstraint(grid5, N_COLUMN);
+                        rowConstraint(grid5, N_ROW);
+                        storeButtons(grid5, pane);
+
+                        Button backRun = new Button("BACK");
+                        grid5.add(backRun, 4, 3);
+                        GridPane.setHalignment(backRun, HPos.CENTER);
+                        GridPane.setValignment(backRun, VPos.CENTER);
+
+                        Label text = new Label("Choose a square where you want to move and grab");
+                        text.setTextFill(Color.web("#ffffff", 0.8));
+                        text.setStyle("-fx-font: 40 Helvetica;");
+                        text.setEffect(new DropShadow());
+                        grid5.add(text, 0, 3, 4, 1);
+                        GridPane.setHalignment(text, HPos.CENTER);
+                        GridPane.setValignment(text, VPos.CENTER);
+
+                        final boolean[] cancelClickEvent = new boolean[1];
+                        cancelClickEvent[0] = true;
+
+                        EventHandler clickEvent = (EventHandler<MouseEvent>) event1 -> {
+                            int cellX = 1 + (int) (event1.getScreenX() / (pane.getWidth() / N_COLUMN));
+                            int cellY = 1 + (int) (event1.getScreenY() / (pane.getHeight() / N_ROW));
+
+                            if ((cellX < 5) && (cellY < 4) && (cancelClickEvent[0])) {
+                                for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
+                                    for (ArrayList<String> cell : room) {
+                                        if ((cell.get(CELL_X).equals(Integer.toString(cellX))) && (cell.get(CELL_Y).equals(Integer.toString(cellY)))) {
+                                            if (cell.get(CELL_TYPE).equals("AmmoPoint")) {
+                                                client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)));
+                                            } else {
+                                                text.setText("");
+                                                cancelClickEvent[0] = false;
+                                                GridPane grid = new GridPane();
+                                                String[] weapon = cell.get(CELL_INSIDE).split("'");
+                                                for (int j = 0; j < NUMBER_OF_WEAPON; j++) {
+                                                    if (j < weapon.length) {
+                                                        String weaponName = weapon[j].toLowerCase();
+                                                        weaponName = weaponName.replace(" ", "").concat(".png");
+                                                        ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
+                                                        grid.add(weaponIV, j, 0);
+                                                        int w = j;
+                                                        weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
+                                                            client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)
+                                                                    .concat(",").concat(Integer.toString(w))));
+                                                            pane.getChildren().remove(grid);
+                                                            pane.getChildren().remove(rectangle);
+                                                        });
+                                                    } else {
+                                                        grid.add(new ImageView(new Image("/images/game/weapons/weaponBack.png", pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false)), j, 0);
+                                                    }
                                                 }
-                                            }
 
-                                            Button backButton = new Button("BACK");
-                                            grid.add(backButton, 1, 1);
-                                            pane.getChildren().remove(rectangle);
-                                            pane.getChildren().add(rectangle);
-                                            pane.getChildren().add(grid);
-                                            grid.setHgap(40);
-                                            grid.setVgap(50);
-                                            GridPane.setHalignment(backButton, HPos.CENTER);
-                                            GridPane.setValignment(backButton, VPos.CENTER);
-                                            grid.setAlignment(Pos.CENTER);
-                                            backButton.setOnAction(ev -> {
-                                                pane.getChildren().remove(grid);
+                                                Button backButton = new Button("BACK");
+                                                grid.add(backButton, 1, 1);
                                                 pane.getChildren().remove(rectangle);
-                                                pane.getChildren().remove(grid5);
-                                                pane.getChildren().remove(boardGrid);
-                                                pane.getChildren().add(boardGrid);
-                                                pane.getChildren().remove(gridButtons);
-                                                pane.getChildren().add(gridButtons);
-                                                actions.fire();
-                                            });
+                                                pane.getChildren().add(rectangle);
+                                                pane.getChildren().add(grid);
+                                                grid.setHgap(40);
+                                                grid.setVgap(50);
+                                                GridPane.setHalignment(backButton, HPos.CENTER);
+                                                GridPane.setValignment(backButton, VPos.CENTER);
+                                                grid.setAlignment(Pos.CENTER);
+                                                backButton.setOnAction(ev -> {
+                                                    pane.getChildren().remove(grid);
+                                                    pane.getChildren().remove(rectangle);
+                                                    pane.getChildren().remove(grid5);
+                                                    pane.getChildren().remove(boardGrid);
+                                                    pane.getChildren().add(boardGrid);
+                                                    pane.getChildren().remove(gridButtons);
+                                                    pane.getChildren().add(gridButtons);
+                                                    actions.fire();
+                                                });
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
 
-                    };
+                        };
 
-                    //Click event
-                    pane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
+                        //Click event
+                        pane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
 
-                    //Back
-                    backRun.setOnAction(ev -> {
-                        pane.getChildren().remove(grid5);
-                        pane.getChildren().remove(rectangle);
-                        buildButtons(stage);
-                        actions.fire();
-                        pane.removeEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
+                        //Back
+                        backRun.setOnAction(ev -> {
+                            pane.getChildren().remove(grid5);
+                            pane.getChildren().remove(rectangle);
+                            buildButtons(stage);
+                            actions.fire();
+                            pane.removeEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
+                        });
+
+                        pane.getChildren().add(grid5);
                     });
 
-                    pane.getChildren().add(grid5);
-                });
+                    //shoot
+                    shoot.setOnAction(e -> {
+                        GridPane gridWeapons = new GridPane();
+                        Button backShoot = new Button("BACK");
 
-                //shoot
-                shoot.setOnAction(e -> {
-                    GridPane gridWeapons = new GridPane();
-                    Button backShoot = new Button("BACK");
-
-                    int j = 0;
-                    for (String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")) {
-                        if (!weapon.equals("")) {
-                            String[] playerWeapon = weapon.split(":");
-                            if (playerWeapon[1].equals("true")) {
-                                String weaponName = playerWeapon[0].toLowerCase().replace(" ", "");
-                                ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName).concat(".png"), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
-                                gridWeapons.add(weaponIV, j, 0);
-                                final int wpn = j;
-                                weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
-                                    client.send("GMC-SHT-".concat(Integer.toString(wpn)));
-                                    pane.getChildren().remove(gridWeapons);
-                                    pane.getChildren().remove(rectangle);
-                                    this.nameWeapon = weaponName;
-                                    this.handPosition = Integer.toString(wpn);
-                                    //TODO AGGIUNGERE PAGAMENTO POWER UP E POSIZIONE ADRENALINA
-                                });
+                        int j = 0;
+                        for (String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")) {
+                            if (!weapon.equals("")) {
+                                String[] playerWeapon = weapon.split(":");
+                                if (playerWeapon[1].equals("true")) {
+                                    String weaponName = playerWeapon[0].toLowerCase().replace(" ", "");
+                                    ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName).concat(".png"), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
+                                    gridWeapons.add(weaponIV, j, 0);
+                                    final int wpn = j;
+                                    weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
+                                        client.send("GMC-SHT-".concat(Integer.toString(wpn)));
+                                        pane.getChildren().remove(gridWeapons);
+                                        pane.getChildren().remove(rectangle);
+                                        this.nameWeapon = weaponName;
+                                        this.handPosition = Integer.toString(wpn);
+                                        //TODO AGGIUNGERE PAGAMENTO POWER UP E POSIZIONE ADRENALINA
+                                    });
+                                }
                             }
+                            j++;
                         }
+
+                        if (j == 0) {
+                            j = 1;
+                        }
+                        gridWeapons.add(backShoot, 0, 1, j, 1);
+                        GridPane.setHalignment(backShoot, HPos.CENTER);
+                        GridPane.setValignment(backShoot, VPos.CENTER);
+
+                        backShoot.setOnAction(ev -> {
+                            pane.getChildren().remove(gridWeapons);
+                            pane.getChildren().remove(rectangle);
+                            actions.fire();
+                        });
+
+                        gridWeapons.setHgap(40);
+                        gridWeapons.setVgap(50);
+                        gridWeapons.setAlignment(Pos.CENTER);
+                        pane.getChildren().remove(grid4);
+                        pane.getChildren().add(gridWeapons);
+                    });
+
+                });
+            } else {
+                //end turn
+                Button endTurnButton = new Button("END TURN");
+                gridButtons.add(endTurnButton, 4, 4);
+                GridPane.setHalignment(endTurnButton, HPos.CENTER);
+                GridPane.setValignment(endTurnButton, VPos.CENTER);
+                endTurnButton.setOnAction(event -> {
+                    this.endTurn = false;
+                    client.send("END-");
+                });
+            }
+
+            //Use power Up
+            Button powerUps = new Button("Use PowerUps");
+            gridButtons.add(powerUps, 5, 4);
+            GridPane.setHalignment(powerUps, HPos.CENTER);
+            GridPane.setValignment(powerUps, VPos.CENTER);
+            Button backButton = new Button("BACK");
+            powerUps.setOnAction(e -> {
+                GridPane powerUpGrid = new GridPane();
+                Rectangle rectangle = new Rectangle();
+                rectangleStandard(rectangle, pane);
+
+                int j = 0;
+                if (!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
+                    for (String powerups : gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
+                        String realPowerUp = powerUpSwitch(powerups);
+                        ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
+                        powerUpGrid.add(powerUp, j, 0);
+                        final int pu = j;
+                        powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
+                            pane.getChildren().remove(powerUpGrid);
+                            pane.getChildren().remove(rectangle);
+                            pane.getChildren().remove(backButton);
+                            client.send(("GMC-UPU-") + (pu));
+                            typeOfFire = "upu";
+                            handPosition = Integer.toString(pu);
+                        });
                         j++;
                     }
-
-                    if (j == 0) {
-                        j = 1;
-                    }
-                    gridWeapons.add(backShoot, 0, 1, j, 1);
-                    GridPane.setHalignment(backShoot, HPos.CENTER);
-                    GridPane.setValignment(backShoot, VPos.CENTER);
-
-                    backShoot.setOnAction(ev -> {
-                        pane.getChildren().remove(gridWeapons);
-                        pane.getChildren().remove(rectangle);
-                        actions.fire();
-                    });
-
-                    gridWeapons.setHgap(40);
-                    gridWeapons.setVgap(50);
-                    gridWeapons.setAlignment(Pos.CENTER);
-                    pane.getChildren().remove(grid4);
-                    pane.getChildren().add(gridWeapons);
+                }
+                if (j == 0) {
+                    j = 1;
+                }
+                powerUpGrid.add(backButton, 0, 1, j, 1);
+                pane.getChildren().add(rectangle);
+                pane.getChildren().add(powerUpGrid);
+                powerUpGrid.setHgap(40);
+                powerUpGrid.setVgap(50);
+                GridPane.setHalignment(backButton, HPos.CENTER);
+                GridPane.setValignment(backButton, VPos.CENTER);
+                powerUpGrid.setAlignment(Pos.CENTER);
+                backButton.setOnAction(ev -> {
+                    pane.getChildren().remove(powerUpGrid);
+                    pane.getChildren().remove(rectangle);
                 });
-
             });
-        } else {
-            //end turn
-            Button endTurnButton = new Button("END TURN");
-            gridButtons.add(endTurnButton, 4, 4);
-            GridPane.setHalignment(endTurnButton, HPos.CENTER);
-            GridPane.setValignment(endTurnButton, VPos.CENTER);
-            endTurnButton.setOnAction(event -> {
-                this.endTurn = false;
-                client.send("END-");
+        }
+        else{
+            //continue shooting optional
+            Button keepOptionalButton = new Button("KEEP SHOOTING");
+            gridButtons.add(keepOptionalButton, 4, 4);
+            GridPane.setHalignment(keepOptionalButton, HPos.CENTER);
+            GridPane.setValignment(keepOptionalButton, VPos.CENTER);
+            keepOptionalButton.setOnAction(event -> {
+                //TODO continuare poi settare optional a false
+            });
+
+            //Use power Up
+            Button powerUps = new Button("Use PowerUps");
+            gridButtons.add(powerUps, 5, 4);
+            GridPane.setHalignment(powerUps, HPos.CENTER);
+            GridPane.setValignment(powerUps, VPos.CENTER);
+            Button backButton = new Button("BACK");
+            powerUps.setOnAction(e -> {
+                //TODO mandare ESH- per finire e settare OptionalWeapon a false
             });
         }
 
-        //Use power Up
-        Button powerUps = new Button("Use PowerUps");
-        gridButtons.add(powerUps, 5, 4);
-        GridPane.setHalignment(powerUps, HPos.CENTER);
-        GridPane.setValignment(powerUps, VPos.CENTER);
-        Button backButton = new Button("BACK");
-        powerUps.setOnAction(e -> {
-            GridPane powerUpGrid = new GridPane();
-            Rectangle rectangle = new Rectangle();
-            rectangleStandard(rectangle, pane);
-
-            int j = 0;
-            if (!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
-                for (String powerups : gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
-                    String realPowerUp = powerUpSwitch(powerups);
-                    ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
-                    powerUpGrid.add(powerUp, j, 0);
-                    final int pu = j;
-                    powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
-                        pane.getChildren().remove(powerUpGrid);
-                        pane.getChildren().remove(rectangle);
-                        pane.getChildren().remove(backButton);
-                        client.send(("GMC-UPU-") + (pu));
-                        typeOfFire = "upu";
-                        handPosition = Integer.toString(pu);
-                    });
-                    j++;
-                }
-            }
-            if (j == 0) {
-                j = 1;
-            }
-            powerUpGrid.add(backButton, 0, 1, j, 1);
-            pane.getChildren().add(rectangle);
-            pane.getChildren().add(powerUpGrid);
-            powerUpGrid.setHgap(40);
-            powerUpGrid.setVgap(50);
-            GridPane.setHalignment(backButton, HPos.CENTER);
-            GridPane.setValignment(backButton, VPos.CENTER);
-            powerUpGrid.setAlignment(Pos.CENTER);
-            backButton.setOnAction(ev -> {
-                pane.getChildren().remove(powerUpGrid);
-                pane.getChildren().remove(rectangle);
-            });
-        });
         pane.getChildren().add(gridButtons);
     }
 
@@ -1026,7 +1050,7 @@ public class GameGUI {
         Button done = new Button("DONE ");
 
         int i;
-        String toSend = "RLD-";
+        final String[] toSend = {"RLD-"};
         String[] weapons = msg.split("'");
         boolean[] consumed = new boolean[weapons.length];
         for (i = 0; i < weapons.length; i++) {
@@ -1038,7 +1062,7 @@ public class GameGUI {
             int w = i;
             weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
                 if (!consumed[w]) {
-                    toSend.concat(Integer.toString(w)).concat(",");
+                    toSend[0] = toSend[0].concat(Integer.toString(w)).concat(",");
                     consumed[w] = true;
                     weaponIV.setFitWidth(pane.getWidth() / (N_COLUMN * 2));
                     weaponIV.setFitHeight(pane.getHeight() / (NUMBER_OF_WEAPON * 2));
@@ -1090,7 +1114,7 @@ public class GameGUI {
         }
 
         reloadGrid.add(done, 0, 2);
-        done.setOnAction(e -> client.send(toSend));
+        done.setOnAction(e -> client.send(toSend[0]));
         GridPane.setHalignment(done, HPos.CENTER);
         GridPane.setValignment(done, VPos.CENTER);
 
@@ -1253,7 +1277,13 @@ public class GameGUI {
                         if (k[0] >= targetParameters.get(j[0]).size()) {
                             k[0] = 0;
                             j[0]++;
-                            targetString[0] = targetString[0].concat(target[0]).concat(",").concat(target[1]).concat(",").concat(target[2]).concat(",").concat(target[3]).concat(",").concat(finalFireType).concat(";");
+                            String exist = "false";
+                            for (int z = 0; z < target.length; z++) {
+                                if(!target[z].equals(" ")){
+                                    exist = "true";
+                                }
+                            }
+                            targetString[0] = targetString[0].concat(target[0]).concat(",").concat(target[1]).concat(",").concat(target[2]).concat(",").concat(target[3]).concat(",").concat(finalFireType).concat(",").concat(exist).concat(";");
                             for (int z = 0; z < target.length; z++) {
                                 target[z] = " ";
                             }
@@ -1278,7 +1308,7 @@ public class GameGUI {
             pane.getChildren().add(targetPane);
         }
         else{
-            client.send("TRG-WPN-".concat(handPosition).concat("'").concat(movement).concat("' , , , ,").concat(typeOfFire).concat(";"));
+            client.send("TRG-WPN-".concat(handPosition).concat("'").concat(movement).concat("' , , , ,").concat(typeOfFire).concat(",").concat("true").concat(";"));
         }
     }
 
