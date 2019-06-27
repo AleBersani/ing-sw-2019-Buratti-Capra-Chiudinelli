@@ -124,7 +124,7 @@ public class Controller {
                             reload(clientHandler);
                         }
                         else if(msg.startsWith("RLD-")) {
-                            if (!msg.substring(ETIQUETTE).equals("ignore")) {
+                            if (!msg.substring(ETIQUETTE).equals("")) {
                                 try {
                                     for (String weapon : msg.substring(ETIQUETTE).split(",")) {
                                         playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(weapon)).reload();
@@ -459,8 +459,10 @@ public class Controller {
 
     private void powerUpAction(ClientHandler clientHandler, String msg){
         try {
-            playerFromNickname(clientHandler.getName()).usePowerUp(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.split("'")[0])),
-                    generateTarget(msg.split("'")[1], clientHandler,this.match));
+            TargetParameter target = generateTarget(msg.split("'")[1].replace(";",""), clientHandler,this.match);
+            if(target!=null) {
+                playerFromNickname(clientHandler.getName()).usePowerUp(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.split("'")[0])), target);
+            }
             updateBackground(this.match);
         } catch (InvalidTargetException e) {
             updateBackground(this.match);

@@ -248,13 +248,15 @@ public class Player implements Serializable {
      */
     public void shoot(Weapon weapon, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, NotThisKindOfWeapon, NoAmmoException, NoOwnerException {
         if(isOnAdrenalineShoot()) {
-            if (this.position.calcDist(destination) <= 1)
+            if (this.position.calcDist(destination) <= 1) {
+                this.position.leaves(this);
+                this.position = destination;
+                destination.arrives(this);
                 shootType(weapon, target);
-            else
+            }
+            else {
                 throw new InvalidDestinationException();
-            this.position.leaves(this);
-            this.position = destination;
-            destination.arrives(this);
+            }
         }
         else {
             shootType(weapon,target);
