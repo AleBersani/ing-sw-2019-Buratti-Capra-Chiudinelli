@@ -111,6 +111,7 @@ public class Controller {
                     if (msg.startsWith("WPN-")){
                         layWeapon(Integer.parseInt(msg.substring(ETIQUETTE)), clientHandler);
                         updateBackground(this.match);
+                        lifeCycle(clientHandler);
                     }
                     else {
                         sendString("Wrong Etiquette, this is LAY WEAPON", clientHandler);
