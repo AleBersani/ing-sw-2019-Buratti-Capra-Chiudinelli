@@ -1033,6 +1033,7 @@ public class GameGUI {
         StackPane pane2 = new StackPane();
 
         GridPane reloadGrid = new GridPane();
+
         RowConstraints row1 = new RowConstraints();
         row1.setVgrow(Priority.ALWAYS);
         double dimension1 = 100 / 10;
@@ -1114,6 +1115,13 @@ public class GameGUI {
             }
         }
 
+        for(int j=0;j<=weapons.length;j++){
+            ColumnConstraints col = new ColumnConstraints();
+            col.setHgrow(Priority.ALWAYS);
+            col.setPrefWidth(pane.getWidth()/N_COLUMN);
+            reloadGrid.getColumnConstraints().add(col);
+        }
+
         reloadGrid.add(done, 0, 2);
         done.setOnAction(e -> client.send(toSend[0]));
         GridPane.setHalignment(done, HPos.CENTER);
@@ -1132,6 +1140,8 @@ public class GameGUI {
 
         reloadGrid.setHgap(50);
         reloadGrid.setVgap(30);
+        reloadGrid.setAlignment(Pos.CENTER);
+
         pane2.getChildren().add(rectangle);
         pane2.getChildren().add(reloadGrid);
         pane.getChildren().add(pane2);

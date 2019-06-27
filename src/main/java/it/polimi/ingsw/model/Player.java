@@ -429,11 +429,14 @@ public class Player implements Serializable {
             }
         }
         for (i = 0; i < this.mark.size(); i++) {
-            if (this.mark.get(i) == shooter && this.damage.size() < 12) {
-                this.damage.add(shooter);
-                this.damageCounter++;
+            if (this.mark.get(i) == shooter) {
+                if(this.damage.size() < 12){
+                    this.damage.add(shooter);
+                    this.damageCounter++;
+                }
+                this.mark.remove(i);
+                i--;
             }
-            this.mark.remove(i);
         }
         if (this.damageCounter > 10)
             this.dead();
