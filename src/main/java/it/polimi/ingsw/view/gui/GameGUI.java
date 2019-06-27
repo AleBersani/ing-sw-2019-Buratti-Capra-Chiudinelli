@@ -23,6 +23,7 @@ public class GameGUI {
     private GUI gui;
     private Client client;
     private GridPane boardGrid;
+    private boolean stopClickStore = false;
     protected boolean optionalShoot = false;
     protected boolean endTurn = false;
     private String handPosition;
@@ -399,8 +400,11 @@ public class GameGUI {
         columnConstraint(gridButtons, N_COLUMN);
         rowConstraint(gridButtons, N_ROW);
 
+        Button stopClick = new Button();
+        Button startClick = new Button();
+
         //store button
-        storeButtons(gridButtons, pane);
+        storeButtons(gridButtons, pane, stopClick, startClick);
 
         //info button enemy
         int i = 0;
@@ -702,7 +706,7 @@ public class GameGUI {
                         GridPane grid5 = new GridPane();
                         columnConstraint(grid5, N_COLUMN);
                         rowConstraint(grid5, N_ROW);
-                        storeButtons(grid5, pane);
+                        storeButtons(grid5, pane, stopClick, startClick);
 
                         Button backRun = new Button("BACK");
                         grid5.add(backRun, 4, 3);
@@ -729,6 +733,10 @@ public class GameGUI {
                         //Click event
                         pane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
 
+                        stopClick.setOnAction(ev -> pane.removeEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent));
+
+                        startClick.setOnAction(ev -> pane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent));
+
                         //Back
                         backRun.setOnAction(ev -> {
                             pane.getChildren().remove(grid5);
@@ -750,7 +758,7 @@ public class GameGUI {
                         GridPane grid5 = new GridPane();
                         columnConstraint(grid5, N_COLUMN);
                         rowConstraint(grid5, N_ROW);
-                        storeButtons(grid5, pane);
+                        storeButtons(grid5, pane, stopClick, startClick);
 
                         Button backRun = new Button("BACK");
                         grid5.add(backRun, 4, 3);
@@ -794,7 +802,7 @@ public class GameGUI {
                                                             client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)
                                                                     .concat(",").concat(Integer.toString(w))));
                                                             pane.getChildren().remove(grid);
-                                                            pane.getChildren().remove(rectangle);
+                                                            backRun.fire();
                                                         });
                                                     } else {
                                                         grid.add(new ImageView(new Image("/images/game/weapons/weaponBack.png", pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false)), j, 0);
@@ -831,6 +839,10 @@ public class GameGUI {
 
                         //Click event
                         pane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
+
+                        stopClick.setOnAction(ev -> pane.removeEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent));
+
+                        startClick.setOnAction(ev -> pane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent));
 
                         //Back
                         backRun.setOnAction(ev -> {
@@ -1262,6 +1274,9 @@ public class GameGUI {
             }
             final String[] target = {" ", " ", " ", " "};
 
+            Button clickstop = new Button();
+            Button startClick = new Button();
+
             String finalFireType = fireType;
             EventHandler clickEvent = (EventHandler<MouseEvent>) event -> {
                 if (j[0] >= targetParameters.size()) {
@@ -1372,10 +1387,12 @@ public class GameGUI {
                 }
             };
 
+            startClick.setOnAction(ev -> pane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent));
+            clickstop.setOnAction(ev -> targetPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent));
             targetPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
             targetPane.getChildren().add(rectangle);
             targetPane.getChildren().add(boardGrid);
-            storeButtons(targetGrid, targetPane);
+            storeButtons(targetGrid, targetPane, clickstop, startClick);
             targetPane.getChildren().add(targetGrid);
 
             pane.getChildren().add(targetPane);
@@ -1533,7 +1550,7 @@ public class GameGUI {
         }
     }
 
-    private void storeButtons(GridPane gridButtons, StackPane pane) {
+    private void storeButtons(GridPane gridButtons, StackPane pane, Button stopClick, Button startClick) {
         for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
                 if (cell.get(CELL_TYPE).equals("SpawnPoint")) {
@@ -1544,6 +1561,7 @@ public class GameGUI {
                     GridPane.setHalignment(storeButton, HPos.CENTER);
                     GridPane.setValignment(storeButton, VPos.CENTER);
                     storeButton.setOnAction(e -> {
+                        stopClick.fire();
                         GridPane grid4 = new GridPane();
                         Rectangle rectangle = new Rectangle();
                         rectangleStandard(rectangle, pane);
@@ -1568,6 +1586,7 @@ public class GameGUI {
                         GridPane.setValignment(backButton, VPos.CENTER);
                         grid4.setAlignment(Pos.CENTER);
                         backButton.setOnAction(ev -> {
+                            startClick.fire();
                             pane.getChildren().remove(grid4);
                             pane.getChildren().remove(rectangle);
                         });

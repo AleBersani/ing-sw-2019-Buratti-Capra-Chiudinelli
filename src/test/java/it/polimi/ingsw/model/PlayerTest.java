@@ -348,7 +348,9 @@ class PlayerTest {
         guest.setTurn(turn);
         turn.setActionCounter(1);
         guest.endShoot(lockRifle);
-        assertEquals(0,lockRifle.getPreviousTarget().size());
+        for(ArrayList<Player> previosTargets: lockRifle.getPreviousTarget()){
+            assertEquals(0,previosTargets.size());
+        }
         assertFalse(lockRifle.isLoad());
         assertEquals(2,turn.getActionCounter());
     }

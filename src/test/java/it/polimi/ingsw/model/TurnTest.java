@@ -45,9 +45,11 @@ class TurnTest {
         turn.setMatch(testMatch);
         testMatch.setBoard(board);
         turn.endTurn();
-        for(int i=0;i<this.turn.getMatch().getBoard().getRooms().size();i++)
-            for(int j=0;j<this.turn.getMatch().getBoard().getRooms().get(i).getSquares().size();j++)
+        for(int i=0;i<this.turn.getMatch().getBoard().getRooms().size();i++) {
+            for (int j = 0; j < this.turn.getMatch().getBoard().getRooms().get(i).getSquares().size(); j++) {
                 assertFalse(this.turn.getMatch().getBoard().getRooms().get(i).getSquares().get(j).require());
+            }
+        }
     }
 
     @Test
