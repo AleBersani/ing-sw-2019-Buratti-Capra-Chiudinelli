@@ -1583,9 +1583,15 @@ public class GameGUI {
                 }
             };
 
+            Button clickStop = new Button();
+            Button clickStart = new Button();
+            clickStart.setOnAction(e-> movementPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent));
+            clickStop.setOnAction(e-> movementPane.removeEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent));
+
             movementPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
             movementPane.getChildren().add(rectangle);
             movementPane.getChildren().add(boardGrid);
+            storeButtons(movementGrid,movementPane,clickStop,clickStart);
             movementPane.getChildren().add(movementGrid);
             pane.getChildren().add(movementPane);
         } else {
