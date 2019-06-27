@@ -39,6 +39,7 @@ public class Controller {
     private final Object nicknameListLock;
     private static final int ETIQUETTE = 4;
     private static final int MAX_PLAYERS_NUMBER = 5;
+    private boolean respawning;
 
     public Controller(){
         Gson gSon= new Gson();
@@ -54,6 +55,7 @@ public class Controller {
         this.availableColors=configuration.availableColors;
         this.gameStarted=false;
         this.nicknameListLock = new Object();
+        this.respawning=false;
     }
 
     private void sendString(String msg, ClientHandler clientHandler) {
@@ -109,6 +111,7 @@ public class Controller {
                     if (msg.startsWith("WPN-")){
                         layWeapon(Integer.parseInt(msg.substring(ETIQUETTE)), clientHandler);
                         updateBackground(this.match);
+                        lifeCycle(clientHandler);
                     }
                     else {
                         sendString("Wrong Etiquette, this is LAY WEAPON", clientHandler);
@@ -137,20 +140,24 @@ public class Controller {
                             respawn();
                             match.getTurn().endTurn();
                             clientHandler.setYourTurn(false);
-                            for (ClientInfo clientInfo : nicknameList.values()) {
-                                if(clientInfo.clientHandler.getName().equals(match.getTurn().getCurrent().getNickname())){
-                                    clientInfo.clientHandler.setYourTurn(true);
-                                    if(clientInfo.clientHandler.isFirstSpawn()){
-                                        clientInfo.setState(ClientInfo.State.SPAWN);
-                                        startingSpawn(clientInfo.clientHandler,match.getTurn().getCurrent());
-                                    }
-                                    else {
-                                        clientInfo.setState(ClientInfo.State.GAME);
-                                        updateBackground(this.match);
-                                        sendString(">>>Now is your turn", clientInfo.clientHandler);
-                                        lifeCycle(clientInfo.clientHandler);
+                            if(!respawning){
+                                for (ClientInfo clientInfo : nicknameList.values()) {
+                                    if (clientInfo.clientHandler.getName().equals(match.getTurn().getCurrent().getNickname())) {
+                                        clientInfo.clientHandler.setYourTurn(true);
+                                        if (clientInfo.clientHandler.isFirstSpawn()) {
+                                            clientInfo.setState(ClientInfo.State.SPAWN);
+                                            startingSpawn(clientInfo.clientHandler, match.getTurn().getCurrent());
+                                        } else if (!clientInfo.state.equals(ClientInfo.State.SPAWN)) {
+                                            clientInfo.setState(ClientInfo.State.GAME);
+                                            updateBackground(this.match);
+                                           sendString(">>>Now is your turn", clientInfo.clientHandler);
+                                         lifeCycle(clientInfo.clientHandler);
+                                        }
                                     }
                                 }
+                            }
+                            else {
+                                //TODO aspettare tutti i respawn prima di agire
                             }
                         }
                         else {
@@ -178,6 +185,7 @@ public class Controller {
                 }
                 case OPTIONAL_WEAPON_SHOOTING:{
                     if (msg.startsWith("TRG-WPN-")){
+                        //TODO mandare solo i possibili
                         try {
                             shootingAction(clientHandler,clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting + "'" + msg.substring(ETIQUETTE*2).split("'")[1]);
                         } catch (NotFoundException e) {
@@ -200,18 +208,23 @@ public class Controller {
     private void endOptionalShooting(ClientHandler clientHandler) {
         boolean ok=false;
         try {
+            ClientInfo clientInfo = clientInfoFromClientHandeler(clientHandler);
             for (String order :((WeaponOptional)playerFromNickname(clientHandler.getName()).getWeapons().get(clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting)).getOrder()){
-                if(order.equals(clientInfoFromClientHandeler(clientHandler).shootingOptionals.substring(0,order.length()-1))){
-                    playerFromNickname(clientHandler.getName()).endShoot(playerFromNickname(clientHandler.getName()).getWeapons().get(clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting));
-                    clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
-                    clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting= null;
-                    clientInfoFromClientHandeler(clientHandler).shootingOptionals="";
-                    this.match=clientInfoFromClientHandeler(clientHandler).simulation;
-                    clientInfoFromClientHandeler(clientHandler).simulation=null;
-                    updateBackground(this.match);
-                    lifeCycle(clientHandler);
+                String actualOrder=clientInfo.shootingOptionals.substring(0,clientInfo.shootingOptionals.length()-1);
+                if(order.equals(actualOrder)){
                     ok=true;
                 }
+            }
+
+            if(ok){
+                playerFromNickname(clientHandler.getName()).endShoot(playerFromNickname(clientHandler.getName()).getWeapons().get(clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting));
+                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+                clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting= null;
+                clientInfoFromClientHandeler(clientHandler).shootingOptionals="";
+                this.match=clientInfoFromClientHandeler(clientHandler).simulation;
+                clientInfoFromClientHandeler(clientHandler).simulation=null;
+                updateBackground(this.match);
+                lifeCycle(clientHandler);
             }
             if(!ok){
                 clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
@@ -334,10 +347,12 @@ public class Controller {
             if(!clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])).isOptional()) {
                 clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().endShoot(clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])));
                 match = clientInfoFromClientHandeler(clientHandler).simulation;
+                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
                 updateBackground(this.match);
                 lifeCycle(clientHandler);
             }
             else{
+                clientInfoFromClientHandeler(clientHandler).shootingOptionals=
                 clientInfoFromClientHandeler(clientHandler).shootingOptionals.concat(
                         targetParameters.get(0).getTypeOfFire().contains("-")?
                                 Integer.toString(Integer.parseInt(targetParameters.get(0).getTypeOfFire().split("-")[1]+1)) :
@@ -533,6 +548,7 @@ public class Controller {
                         player.forceDraw();
                     }
                     sendString("SPW-Select a power up for spawning:"+ powerUps(player),clientInfo.clientHandler);
+                    respawning=true;
                 }
             }
         }
@@ -798,7 +814,7 @@ public class Controller {
     }
 
     private String killshotTrackDescriptor(Match match) {
-        String killshotTrackDescriptor= "BGD-KLL-".concat(Integer.toString(match.getSkulls())).concat(";");
+        String killshotTrackDescriptor= "BGD-KLL-".concat(Integer.toString(skulls)).concat(";");
         for (Player p : match.getKillShotTrack()) {
             killshotTrackDescriptor = killshotTrackDescriptor.concat(p.getColor()).concat("'");
         }
