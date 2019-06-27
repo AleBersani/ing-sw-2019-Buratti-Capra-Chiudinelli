@@ -96,7 +96,6 @@ public class Controller {
                     if (msg.startsWith("SPW-")) {
                         try {
                             spawn(clientHandler, playerFromNickname(clientHandler.getName()), Integer.parseInt(msg.substring(ETIQUETTE)));
-                            getNicknameList().get(clientHandler.getName()).setState(ClientInfo.State.GAME);
                         } catch (NotFoundException e) {
                             sendString("error", clientHandler);
                         }
@@ -141,23 +140,7 @@ public class Controller {
                             match.getTurn().endTurn();
                             clientHandler.setYourTurn(false);
                             if(!respawning){
-                                for (ClientInfo clientInfo : nicknameList.values()) {
-                                    if (clientInfo.clientHandler.getName().equals(match.getTurn().getCurrent().getNickname())) {
-                                        clientInfo.clientHandler.setYourTurn(true);
-                                        if (clientInfo.clientHandler.isFirstSpawn()) {
-                                            clientInfo.setState(ClientInfo.State.SPAWN);
-                                            startingSpawn(clientInfo.clientHandler, match.getTurn().getCurrent());
-                                        } else if (!clientInfo.state.equals(ClientInfo.State.SPAWN)) {
-                                            clientInfo.setState(ClientInfo.State.GAME);
-                                            updateBackground(this.match);
-                                           sendString(">>>Now is your turn", clientInfo.clientHandler);
-                                         lifeCycle(clientInfo.clientHandler);
-                                        }
-                                    }
-                                }
-                            }
-                            else {
-                                //TODO aspettare tutti i respawn prima di agire
+                                nextTurn();
                             }
                         }
                         else {
@@ -205,6 +188,23 @@ public class Controller {
         }
     }
 
+    private void nextTurn() {
+        for (ClientInfo clientInfo : nicknameList.values()) {
+            if (clientInfo.clientHandler.getName().equals(match.getTurn().getCurrent().getNickname())) {
+                clientInfo.clientHandler.setYourTurn(true);
+                if (clientInfo.clientHandler.isFirstSpawn()) {
+                    clientInfo.setState(ClientInfo.State.SPAWN);
+                    startingSpawn(clientInfo.clientHandler, match.getTurn().getCurrent());
+                } else if (!clientInfo.state.equals(ClientInfo.State.SPAWN)) {
+                    clientInfo.setState(ClientInfo.State.GAME);
+                    updateBackground(this.match);
+                    sendString(">>>Now is your turn", clientInfo.clientHandler);
+                    lifeCycle(clientInfo.clientHandler);
+                }
+            }
+        }
+    }
+
     private void endOptionalShooting(ClientHandler clientHandler) {
         boolean ok=false;
         try {
@@ -217,11 +217,11 @@ public class Controller {
             }
 
             if(ok){
+                this.match=clientInfoFromClientHandeler(clientHandler).simulation;
                 playerFromNickname(clientHandler.getName()).endShoot(playerFromNickname(clientHandler.getName()).getWeapons().get(clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting));
                 clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
                 clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting= null;
                 clientInfoFromClientHandeler(clientHandler).shootingOptionals="";
-                this.match=clientInfoFromClientHandeler(clientHandler).simulation;
                 clientInfoFromClientHandeler(clientHandler).simulation=null;
                 updateBackground(this.match);
                 lifeCycle(clientHandler);
@@ -788,6 +788,7 @@ public class Controller {
     }
 
     public void spawn(ClientHandler actual, Player player,int powerUpPosition) {
+        int counter=0;
         if(!actual.isFirstSpawn()) {
             actual.setYourTurn(false);
         }
@@ -799,6 +800,7 @@ public class Controller {
 
             try {
                 player.spawn(powerUp);
+                getNicknameList().get(actual.getName()).setState(ClientInfo.State.GAME);
             } catch (NotFoundException e) {
                 sendString("SpawnPoint not found", actual);
             }
@@ -810,6 +812,14 @@ public class Controller {
         else {
             sendString(">>>Invalid powerUp", actual);
             sendString("SPW-Discard a power up for spawning" +powerUps(player), actual);
+        }
+        for (ClientInfo clientInfo : getNicknameList().values()){
+            if(!clientInfo.state.equals(ClientInfo.State.SPAWN) && !clientInfo.clientHandler.isFirstSpawn()){
+                counter++;
+            }
+        }
+        if(counter == getNicknameList().size()){
+            nextTurn();
         }
     }
 

@@ -404,6 +404,7 @@ public class Player implements Serializable {
      * @throws NotFoundException This exception means that is not found the spawn point
      */
     public void spawn(PowerUp powerUp) throws NotFoundException {
+        this.position.leaves(this);
         this.position = turn.getMatch().getBoard().findSpawnPoint(powerUp.getColor());
         turn.getMatch().getBoard().findSpawnPoint(powerUp.getColor()).arrives(this);
         discard(powerUp);
