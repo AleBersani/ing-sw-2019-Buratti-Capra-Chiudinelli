@@ -306,7 +306,9 @@ public class Player implements Serializable {
      * @param weapon This parameter is the weapon that will be unloaded
      */
     public void endShoot(Weapon weapon){
-        weapon.getPreviousTarget().clear();
+        for(ArrayList<Player> target : weapon.getPreviousTarget()){
+            target.clear();
+        }
         weapon.setLoad(false);
         this.turn.setActionCounter(this.turn.getActionCounter()+1);
     }

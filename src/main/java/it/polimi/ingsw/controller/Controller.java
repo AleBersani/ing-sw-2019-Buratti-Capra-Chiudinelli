@@ -789,12 +789,7 @@ public class Controller {
 
     public void spawn(ClientHandler actual, Player player,int powerUpPosition) {
         int counter=0;
-        if(!actual.isFirstSpawn()) {
-            actual.setYourTurn(false);
-        }
-        else {
-            actual.setFirstSpawn(false);
-        }
+
         if(powerUpPosition<player.getPowerUps().size() && powerUpPosition>=0) {
             PowerUp powerUp = player.getPowerUps().get(powerUpPosition);
 
@@ -805,22 +800,33 @@ public class Controller {
                 sendString("SpawnPoint not found", actual);
             }
             updateBackground(this.match);
+
+
+            for (ClientInfo clientInfo : getNicknameList().values()){
+                if(!clientInfo.state.equals(ClientInfo.State.SPAWN) && !clientInfo.clientHandler.isFirstSpawn()){
+                    counter++;
+                }
+            }
+            if(counter == getNicknameList().size()) {
+                nextTurn();
+            }
+
+            if(!actual.isFirstSpawn()) {
+                actual.setYourTurn(false);
+            }
+            else {
+                actual.setFirstSpawn(false);
+            }
             if(actual.isYourTurn()){
                 lifeCycle(actual);
             }
+
         }
         else {
             sendString(">>>Invalid powerUp", actual);
             sendString("SPW-Discard a power up for spawning" +powerUps(player), actual);
         }
-        for (ClientInfo clientInfo : getNicknameList().values()){
-            if(!clientInfo.state.equals(ClientInfo.State.SPAWN) && !clientInfo.clientHandler.isFirstSpawn()){
-                counter++;
-            }
-        }
-        if(counter == getNicknameList().size()){
-            nextTurn();
-        }
+
     }
 
     private String killshotTrackDescriptor(Match match) {
