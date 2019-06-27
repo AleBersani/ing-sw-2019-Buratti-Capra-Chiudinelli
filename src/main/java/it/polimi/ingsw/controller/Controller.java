@@ -323,7 +323,10 @@ public class Controller {
         try {
             clientInfoFromClientHandeler(clientHandler).simulation = deepClone(match);
             for (String target : data[2].split(";")) {
-                targetParameters.add(generateTarget(target, clientHandler, clientInfoFromClientHandeler(clientHandler).simulation));
+                TargetParameter temp =generateTarget(target, clientHandler, clientInfoFromClientHandeler(clientHandler).simulation);
+                if(temp != null) {
+                    targetParameters.add(temp);
+                }
             }
             clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().shoot(clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])),
                     data[1].equals(" ") ? null : clientInfoFromClientHandeler(clientHandler).simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]), Integer.parseInt(data[1].split(":")[1])),
@@ -332,6 +335,7 @@ public class Controller {
                 clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().endShoot(clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])));
                 match = clientInfoFromClientHandeler(clientHandler).simulation;
                 updateBackground(this.match);
+                lifeCycle(clientHandler);
             }
             else{
                 clientInfoFromClientHandeler(clientHandler).shootingOptionals.concat(
@@ -344,7 +348,15 @@ public class Controller {
                 sendString("OWS-",clientHandler);
             }
         } catch (InvalidTargetException e) {
+            updateBackground(this.match);
             sendString(">>>Invalid target", clientHandler);
+            try {
+                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+            } catch (NotFoundException e1) {
+                sendString("error", clientHandler);
+            }
+            lifeCycle(clientHandler);
+
         } catch (NoOwnerException e) {
             sendString("error", clientHandler);
         } catch (IOException e) {
@@ -352,13 +364,35 @@ public class Controller {
         } catch (ClassNotFoundException e) {
             sendString("error", clientHandler);
         } catch (NotLoadedException e) {
-            sendString(">>>This weapon is unload", clientHandler);
+            updateBackground(this.match);
+            sendString(">>>This weapon is unloaded", clientHandler);
+            try {
+                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+            } catch (NotFoundException e1) {
+                sendString("error", clientHandler);
+            }
+            lifeCycle(clientHandler);
+
         } catch (InvalidDestinationException e) {
+            updateBackground(this.match);
             sendString(">>>Invalid destination", clientHandler);
+            try {
+                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+            } catch (NotFoundException e1) {
+                sendString("error", clientHandler);
+            }
+            lifeCycle(clientHandler);
         } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
             sendString("error", clientHandler);
         } catch (NoAmmoException e) {
+            updateBackground(this.match);
             sendString(">>>You don't have enough ammo", clientHandler);
+            try {
+                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+            } catch (NotFoundException e1) {
+                sendString("error", clientHandler);
+            }
+            lifeCycle(clientHandler);
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
         }
@@ -429,13 +463,26 @@ public class Controller {
                     generateTarget(msg.split("'")[1], clientHandler,this.match));
             updateBackground(this.match);
         } catch (InvalidTargetException e) {
-            sendString(">>>Invalid Target", clientHandler);
+            updateBackground(this.match);
+            sendString(">>>Invalid target ", clientHandler);
+            try {
+                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+            } catch (NotFoundException e1) {
+                sendString("error", clientHandler);
+            }
         } catch (NoOwnerException e) {
             sendString("error", clientHandler);
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
         } catch (OnResponseException e) {
+            updateBackground(this.match);
             sendString(">>>This power up can be used only on response of another action", clientHandler);
+            try {
+                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+            } catch (NotFoundException e1) {
+                sendString("error", clientHandler);
+            }
+            lifeCycle(clientHandler);
         }
 
         try {
@@ -451,14 +498,19 @@ public class Controller {
         String[] parameters = target.split(",");
         TargetParameter targetParameter= null;
         try {
-            targetParameter = new TargetParameter(
-                    parameters[0].equals(" ")? null : match.getBoard().find(Integer.parseInt(parameters[0].split(":")[0]),Integer.parseInt(parameters[0].split(":")[1])),
-                    match.getTurn().getCurrent(),
-                    parameters[1].equals(" ")? null : playerFromColor(parameters[1], match),
-                    parameters[2].equals(" ")? null : match.getBoard().find(Integer.parseInt(parameters[2].split(":")[0]),Integer.parseInt(parameters[2].split(":")[1])).getRoom(),
-                    parameters[3].equals(" ")? null : match.getBoard().find(Integer.parseInt(parameters[3].split(":")[0]),Integer.parseInt(parameters[3].split(":")[1])),
-                    parameters[4].equals(" ")? null : parameters[4]
-            );
+            if(parameters[5].equals("true")) {
+                targetParameter = new TargetParameter(
+                        parameters[0].equals(" ") ? null : match.getBoard().find(Integer.parseInt(parameters[0].split(":")[0]), Integer.parseInt(parameters[0].split(":")[1])),
+                        match.getTurn().getCurrent(),
+                        parameters[1].equals(" ") ? null : playerFromColor(parameters[1], match),
+                        parameters[2].equals(" ") ? null : match.getBoard().find(Integer.parseInt(parameters[2].split(":")[0]), Integer.parseInt(parameters[2].split(":")[1])).getRoom(),
+                        parameters[3].equals(" ") ? null : match.getBoard().find(Integer.parseInt(parameters[3].split(":")[0]), Integer.parseInt(parameters[3].split(":")[1])),
+                        parameters[4].equals(" ") ? null : parameters[4]
+                );
+            }
+            else {
+                return null;
+            }
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
         }
