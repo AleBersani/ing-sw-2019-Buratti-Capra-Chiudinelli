@@ -531,8 +531,8 @@ public class GameGUI {
 
             //weapons
             int j = 0;
-            int notLoaded = 1;
             for (String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")) {
+                int notLoaded = 1;
                 if (!weapon.equals("")) {
                     String[] playerWeapon = weapon.split(":");
                     String weaponName = playerWeapon[0].toLowerCase().replace(" ", "").concat(".png");
@@ -1059,6 +1059,8 @@ public class GameGUI {
             weaponName = weaponName.replace(" ", "").concat(".png");
             ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
             reloadGrid.add(weaponIV, i, 1);
+            GridPane.setHalignment(weaponIV, HPos.CENTER);
+            GridPane.setValignment(weaponIV, VPos.CENTER);
             int w = i;
             weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
                 if (!consumed[w]) {
@@ -1076,36 +1078,36 @@ public class GameGUI {
                 case "R": {
                     ImageView redAmmoIV = new ImageView(new Image("/images/game/ammo/redAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
                     reloadGrid.add(redAmmoIV, i, 1);
-                    GridPane.setHalignment(redAmmoIV, HPos.LEFT);
+                    GridPane.setHalignment(redAmmoIV, HPos.RIGHT);
                     GridPane.setValignment(redAmmoIV, VPos.TOP);
                     Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
                     label40Helvetica(numberAmmo, "#ffffff", 0.8);
                     reloadGrid.add(numberAmmo, i + 1, 1);
-                    GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                    GridPane.setHalignment(numberAmmo, HPos.LEFT);
                     GridPane.setValignment(numberAmmo, VPos.TOP);
                     break;
                 }
                 case "Y": {
                     ImageView yellowAmmoIV = new ImageView(new Image("/images/game/ammo/yellowAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
                     reloadGrid.add(yellowAmmoIV, i, 1);
-                    GridPane.setHalignment(yellowAmmoIV, HPos.LEFT);
+                    GridPane.setHalignment(yellowAmmoIV, HPos.RIGHT);
                     GridPane.setValignment(yellowAmmoIV, VPos.CENTER);
                     Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
                     label40Helvetica(numberAmmo, "#ffffff", 0.8);
                     reloadGrid.add(numberAmmo, i + 1, 1);
-                    GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                    GridPane.setHalignment(numberAmmo, HPos.LEFT);
                     GridPane.setValignment(numberAmmo, VPos.CENTER);
                     break;
                 }
                 case "B": {
                     ImageView blueAmmoIV = new ImageView(new Image("/images/game/ammo/blueAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
                     reloadGrid.add(blueAmmoIV, i, 1);
-                    GridPane.setHalignment(blueAmmoIV, HPos.LEFT);
+                    GridPane.setHalignment(blueAmmoIV, HPos.RIGHT);
                     GridPane.setValignment(blueAmmoIV, VPos.BOTTOM);
                     Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
                     label40Helvetica(numberAmmo, "#ffffff", 0.8);
                     reloadGrid.add(numberAmmo, i + 1, 1);
-                    GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                    GridPane.setHalignment(numberAmmo, HPos.LEFT);
                     GridPane.setValignment(numberAmmo, VPos.BOTTOM);
                     break;
                 }
@@ -1116,7 +1118,7 @@ public class GameGUI {
         for(int j=0;j<weapons.length;j++){
             ColumnConstraints col = new ColumnConstraints();
             col.setHgrow(Priority.ALWAYS);
-            col.setPrefWidth(pane.getWidth() / N_COLUMN);
+            col.setPercentWidth(100 / N_COLUMN);
             reloadGrid.getColumnConstraints().add(col);
         }
 
@@ -1591,6 +1593,18 @@ public class GameGUI {
         StackPane pane2 = new StackPane();
         GridPane grid = new GridPane();
 
+        RowConstraints row1 = new RowConstraints();
+        row1.setVgrow(Priority.ALWAYS);
+        double dimension1 = 100 / 10;
+        row1.setPercentHeight(dimension1);
+        grid.getRowConstraints().add(row1);
+
+        RowConstraints row2 = new RowConstraints();
+        row2.setVgrow(Priority.ALWAYS);
+        double dimension2 = 100 / NUMBER_OF_WEAPON;
+        row2.setPercentHeight(dimension2);
+        grid.getRowConstraints().add(row2);
+
         Rectangle rectangle = new Rectangle();
         rectangleStandard(rectangle, pane);
 
@@ -1600,17 +1614,18 @@ public class GameGUI {
         label40Helvetica(text, "#ffffff", 0.8);
 
         int j = 0;
-        int notLoaded = 1;
         for (String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")) {
             if (!weapon.equals("")) {
                 String[] playerWeapon = weapon.split(":");
                 String weaponName = playerWeapon[0].toLowerCase().replace(" ", "").concat(".png");
-
+                int notLoaded = 1;
                 if (playerWeapon[1].equals("false")) {
                     notLoaded = 2;
                 }
                 ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / (N_COLUMN * notLoaded), pane.getHeight() / (NUMBER_OF_WEAPON * notLoaded), false, false));
                 grid.add(weaponIV, j, 1);
+                GridPane.setHalignment(weaponIV, HPos.CENTER);
+                GridPane.setValignment(weaponIV, VPos.CENTER);
                 final int wpn = j;
                 weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
                     client.send("WPN-".concat(Integer.toString(wpn)));

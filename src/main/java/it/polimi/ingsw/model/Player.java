@@ -195,8 +195,9 @@ public class Player implements Serializable {
             this.position = destination;
             destination.arrives(this);
             this.turn.setActionCounter((this.turn.getActionCounter() + 1));
-            if (this.weapons.size() == 4)
+            if (this.weapons.size() == 4) {
                 throw new MaxHandWeaponSizeException();
+            }
         }
         else
             throw new NoAmmoException();
