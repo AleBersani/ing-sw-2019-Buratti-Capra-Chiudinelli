@@ -372,7 +372,7 @@ public class GameGUI {
 
         Pane pane2 = new Pane();
         String[] damage = gui.getKillShotRepresentation().get(1).split("'");
-        String[] doubleDamage = gui.getKillShotRepresentation().get(2).split(",");
+        String[] doubleDamage = gui.getKillShotRepresentation().get(2).substring(1,gui.getKillShotRepresentation().get(2).length()-1).split(",");
         int totalSkull = Integer.parseInt(gui.getKillShotRepresentation().get(KILL_TOT_SKULL));
         for (int i = 0; i < totalSkull; i++) {
             String bloodString = "";
@@ -389,8 +389,6 @@ public class GameGUI {
             blood.setY(pane.getHeight() / 1.5);
             pane2.getChildren().add(blood);
         }
-
-
         pane.getChildren().add(pane2);
     }
 
@@ -1115,26 +1113,26 @@ public class GameGUI {
             }
         }
 
-        for(int j=0;j<=weapons.length;j++){
+        for(int j=0;j<weapons.length;j++){
             ColumnConstraints col = new ColumnConstraints();
             col.setHgrow(Priority.ALWAYS);
-            col.setPrefWidth(pane.getWidth()/N_COLUMN);
+            col.setPrefWidth(pane.getWidth() / N_COLUMN);
             reloadGrid.getColumnConstraints().add(col);
         }
 
-        reloadGrid.add(done, 0, 2);
+        reloadGrid.add(done, 0, 2,i+2,1);
         done.setOnAction(e -> client.send(toSend[0]));
         GridPane.setHalignment(done, HPos.CENTER);
         GridPane.setValignment(done, VPos.CENTER);
 
-        reloadGrid.add(ignore, 1, 2);
+        reloadGrid.add(ignore, 0, 3,i+2,1);
         ignore.setOnAction(e -> client.send("RLD-"));
         GridPane.setHalignment(ignore, HPos.CENTER);
         GridPane.setValignment(ignore, VPos.CENTER);
 
         Label infoText = new Label("You can reload more than one Weapon at time");
         label40Helvetica(infoText, "#ffffff", 0.8);
-        reloadGrid.add(infoText, 0, 0, weapons.length + 2, 1);
+        reloadGrid.add(infoText, 0, 0, i + 2, 1);
         GridPane.setHalignment(infoText, HPos.CENTER);
         GridPane.setValignment(infoText, VPos.CENTER);
 
