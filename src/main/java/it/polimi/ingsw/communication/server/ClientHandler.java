@@ -58,7 +58,11 @@ public class ClientHandler implements Runnable{
                 }
             }
         }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         finally {
+
             if ((os != null)&&(is != null)) {
                 os.close();
                 is.close();
