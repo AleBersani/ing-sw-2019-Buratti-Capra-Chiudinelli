@@ -142,6 +142,9 @@ public class Controller {
                             if(!respawning){
                                 nextTurn();
                             }
+                            else {
+                                sendString(">>>Wait for the respawn", clientHandler);
+                            }
                         }
                         else {
                             sendString("Wrong Etiquette, this is END", clientHandler);
@@ -195,7 +198,8 @@ public class Controller {
                 if (clientInfo.clientHandler.isFirstSpawn()) {
                     clientInfo.setState(ClientInfo.State.SPAWN);
                     startingSpawn(clientInfo.clientHandler, match.getTurn().getCurrent());
-                } else if (!clientInfo.state.equals(ClientInfo.State.SPAWN)) {
+                }
+                else{
                     clientInfo.setState(ClientInfo.State.GAME);
                     updateBackground(this.match);
                     sendString(">>>Now is your turn", clientInfo.clientHandler);
@@ -807,9 +811,6 @@ public class Controller {
                     counter++;
                 }
             }
-            if(counter == getNicknameList().size()) {
-                nextTurn();
-            }
 
             if(!actual.isFirstSpawn()) {
                 actual.setYourTurn(false);
@@ -817,6 +818,12 @@ public class Controller {
             else {
                 actual.setFirstSpawn(false);
             }
+
+            if(counter == getNicknameList().size()) {
+                this.respawning=false;
+                nextTurn();
+            }
+
             if(actual.isYourTurn()){
                 lifeCycle(actual);
             }

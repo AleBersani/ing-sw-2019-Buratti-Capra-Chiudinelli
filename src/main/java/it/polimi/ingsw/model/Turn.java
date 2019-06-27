@@ -132,6 +132,7 @@ public class Turn implements Serializable {
             this.deads.get(i).getDamage().clear();
             this.deads.remove(i);
         }
+        this.dead=false;
     }
 
     /**

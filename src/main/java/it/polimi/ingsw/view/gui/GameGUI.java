@@ -536,15 +536,25 @@ public class GameGUI {
             //weapons
             int j = 0;
             for (String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")) {
-                int notLoaded = 1;
+                double notLoaded = 1;
                 if (!weapon.equals("")) {
                     String[] playerWeapon = weapon.split(":");
                     String weaponName = playerWeapon[0].toLowerCase().replace(" ", "").concat(".png");
 
                     if (playerWeapon[1].equals("false")) {
-                        notLoaded = 2;
+                        notLoaded = 1.2;
                     }
                     gridInfo.add(new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / (N_COLUMN * notLoaded), pane.getHeight() / (NUMBER_OF_WEAPON * notLoaded), false, false)), j, 0);
+
+                    if(notLoaded==1.2) {
+                        Label unload = new Label("Unload");
+                        unload.setTextFill(Color.web("#ffffff", 0.8));
+                        unload.setStyle("-fx-font: 20 Helvetica;");
+                        unload.setEffect(new DropShadow());
+                        gridInfo.add(unload, j, 0);
+                        GridPane.setHalignment(unload,HPos.CENTER);
+                        GridPane.setValignment(unload,VPos.TOP);
+                    }
                 }
                 j++;
             }
@@ -1140,8 +1150,16 @@ public class GameGUI {
                 if (!consumed[w]) {
                     toSend[0] = toSend[0].concat(Integer.toString(w)).concat(",");
                     consumed[w] = true;
-                    weaponIV.setFitWidth(pane.getWidth() / (N_COLUMN * 2));
-                    weaponIV.setFitHeight(pane.getHeight() / (NUMBER_OF_WEAPON * 2));
+                    weaponIV.setFitWidth(pane.getWidth() / (N_COLUMN * 1.2));
+                    weaponIV.setFitHeight(pane.getHeight() / (NUMBER_OF_WEAPON * 1.2));
+
+                    Label reload = new Label("Reloading");
+                    reload.setTextFill(Color.web("#ffffff", 0.8));
+                    reload.setStyle("-fx-font: 20 Helvetica;");
+                    reload.setEffect(new DropShadow());
+                    reloadGrid.add(reload, w, 1);
+                    GridPane.setHalignment(reload, HPos.CENTER);
+                    GridPane.setValignment(reload, VPos.TOP);
                 }
             });
         }
@@ -1189,7 +1207,7 @@ public class GameGUI {
             }
         }
 
-        for(int j=0;j<weapons.length;j++){
+        for(int j=0;j<weapons.length+2;j++){
             ColumnConstraints col = new ColumnConstraints();
             col.setHgrow(Priority.ALWAYS);
             col.setPercentWidth(100 / N_COLUMN);
@@ -1699,14 +1717,23 @@ public class GameGUI {
             if (!weapon.equals("")) {
                 String[] playerWeapon = weapon.split(":");
                 String weaponName = playerWeapon[0].toLowerCase().replace(" ", "").concat(".png");
-                int notLoaded = 1;
+                double notLoaded = 1;
                 if (playerWeapon[1].equals("false")) {
-                    notLoaded = 2;
+                    notLoaded = 1.2;
                 }
                 ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / (N_COLUMN * notLoaded), pane.getHeight() / (NUMBER_OF_WEAPON * notLoaded), false, false));
                 grid.add(weaponIV, j, 1);
                 GridPane.setHalignment(weaponIV, HPos.CENTER);
                 GridPane.setValignment(weaponIV, VPos.CENTER);
+                if(notLoaded==1.2){
+                    Label unload = new Label("Unload");
+                    unload.setTextFill(Color.web("#ffffff", 0.8));
+                    unload.setStyle("-fx-font: 20 Helvetica;");
+                    unload.setEffect(new DropShadow());
+                    grid.add(unload, j, 1);
+                    GridPane.setHalignment(unload, HPos.CENTER);
+                    GridPane.setValignment(unload, VPos.TOP);
+                }
                 final int wpn = j;
                 weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
                     client.send("WPN-".concat(Integer.toString(wpn)));
