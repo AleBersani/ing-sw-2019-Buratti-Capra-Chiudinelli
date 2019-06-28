@@ -1207,11 +1207,21 @@ public class GameGUI {
             reloadGrid.add(weaponIV, i, 1);
             GridPane.setHalignment(weaponIV, HPos.CENTER);
             GridPane.setValignment(weaponIV, VPos.CENTER);
-            int w = i;
+            int h=0;
+            int w = 0;
+            for(String handWeapon: gui.getYouRepresentation().get(YOU_WEAPON).split("'")){
+                String[] onlyWeapon = handWeapon.split(":");
+                if(onlyWeapon[0].equals(weapons[i])){
+                    w = h;
+                }
+                h++;
+            }
+            int finalW = w;
+            int finalI = i;
             weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
-                if (!consumed[w]) {
-                    toSend[0] = toSend[0].concat(Integer.toString(w)).concat(",");
-                    consumed[w] = true;
+                if (!consumed[finalI]) {
+                    toSend[0] = toSend[0].concat(Integer.toString(finalW)).concat(",");
+                    consumed[finalI] = true;
                     weaponIV.setFitWidth(pane.getWidth() / (N_COLUMN * 1.2));
                     weaponIV.setFitHeight(pane.getHeight() / (NUMBER_OF_WEAPON * 1.2));
 
@@ -1219,7 +1229,7 @@ public class GameGUI {
                     reload.setTextFill(Color.web("#ffffff", 0.8));
                     reload.setStyle("-fx-font: 20 Helvetica;");
                     reload.setEffect(new DropShadow());
-                    reloadGrid.add(reload, w, 1);
+                    reloadGrid.add(reload, finalI, 1);
                     GridPane.setHalignment(reload, HPos.CENTER);
                     GridPane.setValignment(reload, VPos.TOP);
                 }
