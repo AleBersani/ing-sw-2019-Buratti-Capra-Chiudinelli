@@ -117,15 +117,26 @@ public class Turn implements Serializable {
                         max = damageCounter.get(j);
                         index = j;
                     }
-                damagePlayer.get(index).setPoints(damagePlayer.get(index).getPoints() + calcPoints(this.deads.get(i).getSkull() + k));
+                int calc;
+                if(!this.deads.get(i).isTurnedPlank()){
+                    calc =calcPoints(this.deads.get(i).getSkull() + k); //CALC POINTS IF TURNED PLANK IS FALSE
+                }
+                else{
+                    calc =calcPointsTurned(this.deads.get(i).getSkull() + k); //CALC POINTS IF TURNED PLANK IS TRUE
+                }
+                damagePlayer.get(index).setPoints(damagePlayer.get(index).getPoints() + calc);
                 damageCounter.remove(index);
                 damagePlayer.remove(index);
             }
             if(!this.deads.get(i).isTurnedPlank()) {
                 this.deads.get(i).getDamage().get(0).setPoints(this.deads.get(i).getDamage().get(0).getPoints() + 1); //FIRSTBLOOD
-                this.deads.get(i).setSkull(this.deads.get(i).getSkull() + 1);
             }
+            this.deads.get(i).setSkull(this.deads.get(i).getSkull() + 1);
+
             getMatch().setSkulls(getMatch().getSkulls()-1);
+            if(getMatch().getSkulls()<0){
+                getMatch().setSkulls(0);
+            }
         }
 
         for(i=0;!this.deads.isEmpty();) {
@@ -154,6 +165,18 @@ public class Turn implements Serializable {
                     if(skulls==3)
                         return 2;
         return 1;
+    }
+
+    /**
+     * This method calculates the right points the player has earned
+     * @param skulls This parameter is the number of skulls that the player owns
+     * @return The amount of points that the player has earned
+     */
+    int calcPointsTurned(int skulls){
+        if(skulls==0)
+            return 2;
+        else
+            return 1;
     }
 
     /**

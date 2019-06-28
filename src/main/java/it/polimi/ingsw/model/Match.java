@@ -105,7 +105,7 @@ public class Match implements Serializable {
         i++;
         if(frenzy){
             for(Player player : this.players){
-                if(player.getDamageCounter()==0){
+                if(player.getDamageCounter()==0 && !player.isTurnedPlank()){
                     player.setTurnedPlank(true);
                     player.setSkull(0);
                 }
