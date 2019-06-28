@@ -776,7 +776,7 @@ public class Controller {
             public void run() {
                 clientInfo.suspended=true;
                 clientInfo.setState(ClientInfo.State.END);
-                understandMessage("RLD- ", clientInfo.clientHandler);
+                understandMessage("RLD-", clientInfo.clientHandler);
             }
         }, timerTurn*1000);
     }
