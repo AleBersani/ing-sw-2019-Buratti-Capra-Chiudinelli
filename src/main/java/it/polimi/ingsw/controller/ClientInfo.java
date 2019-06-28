@@ -9,11 +9,13 @@ public class ClientInfo {
     Integer optionalWeaponShooting;
     ClientHandler clientHandler;
     State state;
+    boolean suspended;
 
     ClientInfo(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
         this.state = State.LOGIN;
         this.shootingOptionals="";
+        this.suspended=false;
     }
 
     ClientInfo(ClientHandler clientHandler, State state) {

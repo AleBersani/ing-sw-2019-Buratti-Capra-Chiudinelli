@@ -12,5 +12,6 @@
     "yellow",
     "grey",
     "purple"
-  ]
+  ],
+  "timerTurn": 10000
 }

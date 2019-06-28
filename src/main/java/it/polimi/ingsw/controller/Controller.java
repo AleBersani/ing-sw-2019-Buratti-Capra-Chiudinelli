@@ -15,9 +15,7 @@ import it.polimi.ingsw.model.cards.effects.Effect;
 import it.polimi.ingsw.model.map.SpawnPoint;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Controller {
@@ -40,6 +38,8 @@ public class Controller {
     private static final int ETIQUETTE = 4;
     private static final int MAX_PLAYERS_NUMBER = 5;
     private boolean respawning;
+    private int timerTurn;
+    private Timer suspending;
 
     public Controller(){
         Gson gSon= new Gson();
@@ -53,6 +53,7 @@ public class Controller {
         this.availableBoards=configuration.availableBoards;
         this.availableSkulls=configuration.availableSkulls;
         this.availableColors=configuration.availableColors;
+        this.timerTurn=configuration.timerTurn;
         this.gameStarted=false;
         this.nicknameListLock = new Object();
         this.respawning=false;
@@ -139,6 +140,7 @@ public class Controller {
                             respawn();
                             match.getTurn().endTurn();
                             clientHandler.setYourTurn(false);
+                            suspending.cancel();
                             if(!respawning){
                                 nextTurn();
                             }
@@ -190,15 +192,21 @@ public class Controller {
         for (ClientInfo clientInfo : nicknameList.values()) {
             if (clientInfo.clientHandler.getName().equals(match.getTurn().getCurrent().getNickname())) {
                 clientInfo.clientHandler.setYourTurn(true);
-                if (clientInfo.clientHandler.isFirstSpawn()) {
-                    clientInfo.setState(ClientInfo.State.SPAWN);
-                    startingSpawn(clientInfo.clientHandler, match.getTurn().getCurrent());
+                if(clientInfo.suspended){
+                    clientInfo.setState(ClientInfo.State.END);
+                    understandMessage("END-",clientInfo.clientHandler);
                 }
-                else{
-                    clientInfo.setState(ClientInfo.State.GAME);
-                    updateBackground(this.match);
-                    sendString(">>>Now is your turn", clientInfo.clientHandler);
-                    lifeCycle(clientInfo.clientHandler);
+                else {
+                    timerTurn(clientInfo);
+                    if (clientInfo.clientHandler.isFirstSpawn()) {
+                        clientInfo.setState(ClientInfo.State.SPAWN);
+                        startingSpawn(clientInfo.clientHandler, match.getTurn().getCurrent());
+                    } else {
+                        clientInfo.setState(ClientInfo.State.GAME);
+                        updateBackground(this.match);
+                        sendString(">>>Now is your turn", clientInfo.clientHandler);
+                        lifeCycle(clientInfo.clientHandler);
+                    }
                 }
             }
         }
@@ -384,11 +392,10 @@ public class Controller {
             updateBackground(this.match);
             sendString(">>>Invalid target", clientHandler);
             try {
-                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+                revert(clientInfoFromClientHandeler(clientHandler));
             } catch (NotFoundException e1) {
                 sendString("error", clientHandler);
             }
-            lifeCycle(clientHandler);
 
         } catch (NoOwnerException e) {
             sendString("error", clientHandler);
@@ -400,36 +407,42 @@ public class Controller {
             updateBackground(this.match);
             sendString(">>>This weapon is unloaded", clientHandler);
             try {
-                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
-            } catch (NotFoundException e1) {
+                revert(clientInfoFromClientHandeler(clientHandler));
+            }
+            catch (NotFoundException e1) {
                 sendString("error", clientHandler);
             }
-            lifeCycle(clientHandler);
 
         } catch (InvalidDestinationException e) {
             updateBackground(this.match);
             sendString(">>>Invalid destination", clientHandler);
             try {
-                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
-            } catch (NotFoundException e1) {
+                revert(clientInfoFromClientHandeler(clientHandler));
+            }
+            catch (NotFoundException e1) {
                 sendString("error", clientHandler);
             }
-            lifeCycle(clientHandler);
         } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
             sendString("error", clientHandler);
         } catch (NoAmmoException e) {
             updateBackground(this.match);
             sendString(">>>You don't have enough ammo", clientHandler);
             try {
-                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
-            } catch (NotFoundException e1) {
+                revert(clientInfoFromClientHandeler(clientHandler));
+            }
+            catch (NotFoundException e1) {
                 sendString("error", clientHandler);
             }
-            lifeCycle(clientHandler);
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
         }
 
+    }
+
+    private void revert(ClientInfo clientInfo){
+            clientInfo.simulation=null;
+            clientInfo.setState(ClientInfo.State.GAME);
+        lifeCycle(clientInfo.clientHandler);
     }
 
     private void runningAction(ClientHandler clientHandler, String msg){
@@ -750,11 +763,24 @@ public class Controller {
                 clientInfo.clientHandler.setYourTurn(true);
                 clientInfo.setState(ClientInfo.State.SPAWN);
                 startingSpawn(clientInfo.clientHandler, match.getTurn().getCurrent());
+                timerTurn(clientInfo);
             }
         }
 
     }
 
+    private void timerTurn(ClientInfo clientInfo){
+        suspending=new Timer();
+        suspending.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                clientInfo.suspended=true;
+                clientInfo.setState(ClientInfo.State.END);
+                understandMessage("END-", clientInfo.clientHandler);
+            }
+        }, timerTurn*1000);
+        //TODO sospensione
+    }
     private void startingSpawn(ClientHandler actual, Player player){
         try {
             player.draw();
@@ -798,10 +824,15 @@ public class Controller {
 
     private void updateBackground(Match match){
         for (ClientInfo clientInfo: getNicknameList().values()){
-            sendString(boardDescriptor(match),clientInfo.clientHandler);
-            sendString(playersDescriptor(clientInfo.clientHandler, match),(clientInfo.clientHandler));
-            sendString(youDescriptor(clientInfo.clientHandler, match),clientInfo.clientHandler);
-            sendString(killshotTrackDescriptor(match),clientInfo.clientHandler);
+            if(!clientInfo.suspended) {
+                sendString(boardDescriptor(match), clientInfo.clientHandler);
+                sendString(playersDescriptor(clientInfo.clientHandler, match), (clientInfo.clientHandler));
+                sendString(youDescriptor(clientInfo.clientHandler, match), clientInfo.clientHandler);
+                sendString(killshotTrackDescriptor(match), clientInfo.clientHandler);
+            }
+            else {
+                sendString("SPD-", clientInfo.clientHandler);
+            }
         }
     }
 
@@ -938,6 +969,7 @@ public class Controller {
         private ArrayList<Integer> availableSkulls;
         private String mode;
         private ArrayList<String> availableColors;
+        private int timerTurn;
     }
 
     public Map<String, ClientInfo> getNicknameList() {

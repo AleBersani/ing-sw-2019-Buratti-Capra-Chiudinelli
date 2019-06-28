@@ -50,6 +50,9 @@ public class ClientHandler implements Runnable{
                 if(msg.equals("quit")){
                     controller.quit(this);
                 }
+                if(msg.equals("SPD-")){
+                    //TODO riprendere
+                }
                 if(yourTurn){
                     controller.understandMessage(msg,this);
                 }
