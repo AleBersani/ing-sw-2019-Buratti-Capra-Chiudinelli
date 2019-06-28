@@ -22,6 +22,7 @@ public class GUI extends Application implements ViewInterface {
     private MessageHandler messageHandler;
     private boolean sendable;
     private boolean messageToShow;
+    protected boolean persistenShow;
     private String boardData;
     private String playersData;
     private String youData;
@@ -150,6 +151,7 @@ public class GUI extends Application implements ViewInterface {
                 break;
             }
             case GAME: {
+                this.persistenShow = true;
                 gameGUI.informationMessage(stage,messageHandler.getToShow().substring(3));
                 break;
             }
@@ -234,6 +236,13 @@ public class GUI extends Application implements ViewInterface {
         gameGUI.chooseWeapon(stage, this.discard);
     }
 
+    private void insertCommand(){
+        reShow();
+        if(this.persistenShow){
+            gameGUI.informationMessage(stage,messageHandler.getToShow().substring(3));
+        }
+    }
+
     @Override
     public void spawn(String msg) {
         this.infoSpawn = msg;
@@ -295,6 +304,7 @@ public class GUI extends Application implements ViewInterface {
 
     @Override
     public void endTurnShow() {
+        this.gameGUI.optionalShoot = false;
         this.gameGUI.endTurn=true;
         Platform.runLater(this::reShow);
     }
@@ -332,7 +342,8 @@ public class GUI extends Application implements ViewInterface {
 
     @Override
     public void gameReShow() {
-        Platform.runLater(this::reShow);
+        this.gameGUI.optionalShoot = false;
+        Platform.runLater(this::insertCommand);
     }
 
     public ArrayList<ArrayList<ArrayList<String>>> getBoardRepresentation() {

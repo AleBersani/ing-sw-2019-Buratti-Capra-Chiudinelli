@@ -35,6 +35,9 @@ public class SameSquare extends Constraint {
      */
     @Override
     public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<ArrayList<Player>> previousTarget) throws NoOwnerException {
+        if(target.getConstraintSquare() == null){
+            return false;
+        }
         ArrayList<Square> allTarget = new ArrayList<Square>();
         allTarget.add(target.getConstraintSquare());
         if(controlEnemy){

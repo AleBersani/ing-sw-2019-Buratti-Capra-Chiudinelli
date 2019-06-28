@@ -987,6 +987,8 @@ public class GameGUI {
                 Rectangle rectangle = new Rectangle();
                 rectangleStandard(rectangle,opzShootPane);
 
+                opzShootPane.getChildren().add(rectangle);
+
                 RowConstraints row = new RowConstraints();
                 row.setPercentHeight(20);
                 opzShootGrid.getRowConstraints().add(row);
@@ -1967,7 +1969,10 @@ public class GameGUI {
         Button ok = new Button("OK");
         GridPane.setHalignment(ok,HPos. CENTER);
         GridPane.setValignment(ok,VPos. CENTER);
-        ok.setOnAction(e-> pane.getChildren().remove(pane2));
+        ok.setOnAction(e-> {
+            pane.getChildren().remove(pane2);
+            gui.persistenShow = false;
+        });
 
         grid.setVgap(50);
 

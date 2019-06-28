@@ -25,6 +25,9 @@ public class SamePlayer extends Constraint {
      */
     @Override
     public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<ArrayList<Player>> previousTarget) {
+        if(target.getEnemyPlayer() == null){
+            return false;
+        }
         if(previousTarget.get(getLevel()).contains(target.getEnemyPlayer())==constraintPositivity){
             return true;
         }

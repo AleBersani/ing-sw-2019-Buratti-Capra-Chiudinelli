@@ -63,7 +63,10 @@ public class EffectVsSquare extends Effect {
      * @param targetParameter is a target
      */
     @Override
-    protected void constraintSquareGenerator(TargetParameter targetParameter) {
+    protected void constraintSquareGenerator(TargetParameter targetParameter) throws InvalidTargetException {
+        if(targetParameter.getTargetSquare() == null){
+            throw new InvalidTargetException();
+        }
         targetParameter.setConstraintSquare(targetParameter.getTargetSquare());
     }
 }

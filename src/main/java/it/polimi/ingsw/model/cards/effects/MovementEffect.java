@@ -88,14 +88,22 @@ public class MovementEffect extends Effect {
             player=target.getOwner();
         }
         else{
-            if(target.getEnemyPlayer().equals(target.getOwner())){
+            if(target.getEnemyPlayer()==null) {
                 throw new InvalidTargetException();
             }
             else {
-                player=target.getEnemyPlayer();
+                if (target.getEnemyPlayer().equals(target.getOwner())) {
+                    throw new InvalidTargetException();
+                }
+                else {
+                    player = target.getEnemyPlayer();
+                }
             }
         }
 
+        if(target.getMovement() == null){
+            throw new InvalidTargetException();
+        }
         if(player.getPosition().calcDist(target.getMovement())>this.distance){
             throw new InvalidTargetException();
         }
@@ -127,7 +135,10 @@ public class MovementEffect extends Effect {
      * @param targetParameter is a target
      */
     @Override
-    protected void constraintSquareGenerator(TargetParameter targetParameter) {
+    protected void constraintSquareGenerator(TargetParameter targetParameter) throws InvalidTargetException {
+        if(targetParameter.getMovement() == null){
+            throw new InvalidTargetException();
+        }
         targetParameter.setConstraintSquare(targetParameter.getMovement());
     }
 }

@@ -74,7 +74,7 @@ public abstract class Effect implements Serializable {
      * generate the constraintSquare for the constraints
      * @param targetParameter is a target
      */
-    abstract protected void constraintSquareGenerator(TargetParameter targetParameter);
+    abstract protected void constraintSquareGenerator(TargetParameter targetParameter) throws InvalidTargetException;
 
     /**
      * this method check if all of the constraint are verified
@@ -83,7 +83,7 @@ public abstract class Effect implements Serializable {
      * @return true if the effect can be applied
      * @throws NoOwnerException when in target there isn't the owner or the owner position
      */
-    public boolean constraintsCheck(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget) throws NoOwnerException {
+    public boolean constraintsCheck(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget) throws NoOwnerException, InvalidTargetException {
         int i;
         if(constraints.isEmpty()){
             return true;

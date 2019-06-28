@@ -29,6 +29,9 @@ public class AdjacentRoom extends Constraint {
      */
     @Override
     public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<ArrayList<Player>> previousTarget)throws NoOwnerException {
+        if(target.getTargetRoom() == null){
+            return false;
+        }
         if((target.getOwner()==null)||(target.getOwner().getPosition()==null)){
             throw new NoOwnerException();
         }

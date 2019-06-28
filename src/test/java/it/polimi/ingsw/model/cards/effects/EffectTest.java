@@ -85,7 +85,7 @@ class EffectTest {
         previousTarget.get(0).add(enemy);
         try {
             assertTrue(effect.constraintsCheck(target,previousTarget));
-        } catch (NoOwnerException e) {
+        } catch (NoOwnerException | InvalidTargetException e) {
             e.printStackTrace();
         }
     }
@@ -110,7 +110,7 @@ class EffectTest {
         target.setConstraintSquare(enemy.getPosition());
         try {
             assertTrue(effect.constraintsCheck(target,previousTarget));
-        } catch (NoOwnerException e) {
+        } catch (NoOwnerException | InvalidTargetException e) {
             e.printStackTrace();
         }
     }
@@ -135,7 +135,7 @@ class EffectTest {
         target.setConstraintSquare(enemy.getPosition());
         try {
             assertFalse(effect.constraintsCheck(target,previousTarget));
-        } catch (NoOwnerException e) {
+        } catch (NoOwnerException | InvalidTargetException e) {
             e.printStackTrace();
         }
     }
@@ -167,7 +167,7 @@ class EffectTest {
         target.setConstraintSquare(enemy.getPosition());
         try {
             assertTrue(effect.constraintsCheck(target,previousTarget));
-        } catch (NoOwnerException e) {
+        } catch (NoOwnerException | InvalidTargetException e) {
             e.printStackTrace();
         }
     }
@@ -212,7 +212,7 @@ class EffectTest {
         target.setConstraintSquare(enemy.getPosition());
         try {
             assertTrue(effect.constraintsCheck(target,previousTarget));
-        } catch (NoOwnerException e) {
+        } catch (NoOwnerException | InvalidTargetException e) {
             e.printStackTrace();
         }
     }

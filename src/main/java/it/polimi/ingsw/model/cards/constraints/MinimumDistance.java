@@ -43,6 +43,9 @@ public class MinimumDistance extends Constraint {
     @Override
     public boolean canShoot(TargetParameter target, boolean constraintPositivity, ArrayList<ArrayList<Player>> previousTarget) throws NoOwnerException {
         ArrayList<Square> allTarget = new ArrayList<Square>();
+        if(target.getConstraintSquare() == null){
+            return false;
+        }
         allTarget.add(target.getConstraintSquare());
         if(!concatenate){
             if((target.getOwner()==null)||(target.getOwner().getPosition()==null)){

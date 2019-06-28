@@ -144,6 +144,11 @@ public class MessageHandler {
             }
             case "OWS-":{
                 view.optionalShoot(msg.substring(NAME_ETIQUETTE));
+                break;
+            }
+            case "INS-":{
+                view.gameReShow();
+                break;
             }
             default:
         }

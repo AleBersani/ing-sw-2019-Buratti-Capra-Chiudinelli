@@ -32,6 +32,9 @@ public class SameDirection extends Constraint {
         if((target.getOwner()==null)||(target.getOwner().getPosition()==null)){
             throw new NoOwnerException();
         }
+        if(target.getConstraintSquare() == null){
+            return false;
+        }
         ArrayList<Integer> positions = new ArrayList<Integer>();
         ArrayList<Square> allTarget = new ArrayList<Square>();
         for(Player previousPlayer: previousTarget.get(getLevel())){

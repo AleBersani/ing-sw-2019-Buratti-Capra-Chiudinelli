@@ -74,4 +74,18 @@ class AdjacentRoomTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    void noRoom(){
+        try {
+            owner.setPosition(board.find(1,1));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            assertFalse(test.canShoot(target,true,previousTarget));
+        } catch (NoOwnerException e) {
+            e.printStackTrace();
+        }
+    }
 }
