@@ -52,8 +52,10 @@ public class Turn implements Serializable {
      * @param dead This parameter is the player that is dead in this turn
      */
     public void addDead(Player dead){
+        if(!this.deads.contains(dead)){
             this.deads.add(dead);
             this.dead=true;
+        }
     }
 
     /**
