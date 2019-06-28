@@ -42,6 +42,10 @@ public class GUI extends Application implements ViewInterface {
     private static final int SQUARE_BRACKET= 1;
     private static final int POSSIBLE_SPACE= 1;
 
+    public MessageHandler getMessageHandler() {
+        return messageHandler;
+    }
+
     protected String getInfoTarget() {
         return infoTarget;
     }
@@ -243,6 +247,10 @@ public class GUI extends Application implements ViewInterface {
         }
     }
 
+    private void suspance(){
+        this.gameGUI.suspended(stage);
+    }
+
     @Override
     public void spawn(String msg) {
         this.infoSpawn = msg;
@@ -344,6 +352,11 @@ public class GUI extends Application implements ViewInterface {
     public void gameReShow() {
         this.gameGUI.optionalShoot = false;
         Platform.runLater(this::insertCommand);
+    }
+
+    @Override
+    public void suspend() {
+        Platform.runLater(this::suspance);
     }
 
     public ArrayList<ArrayList<ArrayList<String>>> getBoardRepresentation() {

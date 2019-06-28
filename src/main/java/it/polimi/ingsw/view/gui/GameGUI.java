@@ -1987,6 +1987,42 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
+    public void suspended(Stage stage){
+        StackPane pane = (StackPane)stage.getScene().getRoot();
+        StackPane pane2 = new StackPane();
+
+        GridPane grid = new GridPane();
+
+        Rectangle rectangle = new Rectangle();
+        rectangleStandard(rectangle,pane);
+
+        Label text = new Label("YOU ARE SUSPENDED");
+        text.setTextFill(Color.web("#ffffff", 0.8));
+        text.setStyle("-fx-font: 50 Helvetica;");
+        text.setEffect(new DropShadow());
+        GridPane.setHalignment(text,HPos. CENTER);
+        GridPane.setValignment(text,VPos. CENTER);
+
+        Button ok = new Button("OK");
+        GridPane.setHalignment(ok,HPos. CENTER);
+        GridPane.setValignment(ok,VPos. CENTER);
+        ok.setOnAction(e-> {
+            gui.getMessageHandler().setSuspend(false);
+            client.send("SPD-");
+            pane.getChildren().remove(pane2);
+        });
+
+        grid.setVgap(50);
+
+        grid.add(text,0,0);
+        grid.add(ok,0,1);
+        grid.setAlignment(Pos.CENTER);
+
+        pane2.getChildren().add(rectangle);
+        pane2.getChildren().add(grid);
+        pane.getChildren().add(pane2);
+    }
+
     public void buildWinner(Stage stage){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         //TODO MESSAGE HANDLER NEED TO CALL TO THE BACKGROUND IMAGE OF THE LOGIN GUI

@@ -11,6 +11,7 @@ public class MessageHandler {
     private ViewInterface view;
     private Client client;
     private State state;
+    private boolean suspend = false;
     private static final int TO_SHOW_ETIQUETTE = 3;
     private static final int NAME_ETIQUETTE = 4;
 
@@ -25,27 +26,28 @@ public class MessageHandler {
     }
 
     protected synchronized void understandMessage(String msg){
-        if(msg.startsWith(">>>")){
-            this.toShow = msg;
-            view.showMessage();
-        }
-        else {
-            switch (this.state) {
-                case LOGIN: {
-                    loginUnderstand(msg);
-                    break;
-                }
-                case MENU: {
-                    menuUnderstand(msg);
-                    break;
-                }
-                case WAIT: {
-                    waitUnderstand(msg);
-                    break;
-                }
-                case GAME: {
-                    gameUnderstand(msg);
-                    break;
+        if(!suspend) {
+            if (msg.startsWith(">>>")) {
+                this.toShow = msg;
+                view.showMessage();
+            } else {
+                switch (this.state) {
+                    case LOGIN: {
+                        loginUnderstand(msg);
+                        break;
+                    }
+                    case MENU: {
+                        menuUnderstand(msg);
+                        break;
+                    }
+                    case WAIT: {
+                        waitUnderstand(msg);
+                        break;
+                    }
+                    case GAME: {
+                        gameUnderstand(msg);
+                        break;
+                    }
                 }
             }
         }
@@ -150,6 +152,11 @@ public class MessageHandler {
                 view.gameReShow();
                 break;
             }
+            case "SPD-":{
+                suspend = true;
+                view.suspend();
+                break;
+            }
             default:
         }
     }
@@ -172,5 +179,9 @@ public class MessageHandler {
 
     public String getToShow() {
         return toShow;
+    }
+
+    public void setSuspend(boolean suspend) {
+        this.suspend = suspend;
     }
 }

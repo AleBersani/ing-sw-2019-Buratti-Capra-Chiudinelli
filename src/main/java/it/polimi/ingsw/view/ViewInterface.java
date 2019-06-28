@@ -31,4 +31,6 @@ public interface ViewInterface {
     void optionalShoot(String msg);
 
     void gameReShow();
+
+    void suspend();
 }
