@@ -112,9 +112,9 @@ class TurnTest {
         loser.setSkull(3);
         turn.addDead(loser);
         turn.setPoint();
-        assertEquals(10,guest.getPoints());
+        assertEquals(9,guest.getPoints());
         assertEquals(8,test.getPoints());
-        assertEquals(3,loser.getSkull());
+        assertEquals(4,loser.getSkull());
         assertEquals(0,turn.getDeads().size());
         assertEquals(0,loser.getDamage().size());
     }
