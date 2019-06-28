@@ -776,10 +776,9 @@ public class Controller {
             public void run() {
                 clientInfo.suspended=true;
                 clientInfo.setState(ClientInfo.State.END);
-                understandMessage("END-", clientInfo.clientHandler);
+                understandMessage("RLD- ", clientInfo.clientHandler);
             }
         }, timerTurn*1000);
-        //TODO sospensione
     }
     private void startingSpawn(ClientHandler actual, Player player){
         try {
