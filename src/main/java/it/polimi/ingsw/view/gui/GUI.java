@@ -27,6 +27,7 @@ public class GUI extends Application implements ViewInterface {
     private String youData;
     private String killShotTrackData;
     private String infoString;
+    private String infoSpawn;
     private String infoTarget;
     private String opz;
     private String discard;
@@ -157,7 +158,7 @@ public class GUI extends Application implements ViewInterface {
     }
 
     private void spawnView(){
-        gameGUI.spawn(stage);
+        gameGUI.spawn(stage,infoSpawn);
     }
 
     private void showGameBoard(){
@@ -235,7 +236,7 @@ public class GUI extends Application implements ViewInterface {
 
     @Override
     public void spawn(String msg) {
-        this.infoString = msg;
+        this.infoSpawn = msg;
         Platform.runLater(this::spawnView);
     }
 

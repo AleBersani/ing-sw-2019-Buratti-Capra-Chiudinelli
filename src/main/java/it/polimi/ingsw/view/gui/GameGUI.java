@@ -1059,15 +1059,15 @@ public class GameGUI {
         pane.getChildren().add(gridButtons);
     }
 
-    public void spawn(Stage stage) {
+    public void spawn(Stage stage, String msg) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
 
         StackPane pane2 = new StackPane();
-
-        String[] powerupNumber = gui.getYouRepresentation().get(PLAYER_POWER_UP).split(":");
-        int numberPowerup = Integer.parseInt(powerupNumber[1]);
+        String[] toShow = msg.split(",");
+        String[] powerupNumber = toShow[1].split("'");
+        int numberPowerup = powerupNumber.length;
         Rectangle rectangle = new Rectangle();
-        String[] toShow = gui.getInfoString().split(":");
+
         Label text = new Label(toShow[0]);
         text.setTextFill(Color.web("#ffffff", 0.8));
         text.setStyle("-fx-font: 35 Helvetica;");
@@ -1087,7 +1087,7 @@ public class GameGUI {
             grid2.getColumnConstraints().add(col);
         }
         int i = 0;
-        for (String powerups : gui.getYouRepresentation().get(YOU_POWERUP).split("'")) {
+        for (String powerups : powerupNumber) {
 
             String realPowerUp = powerUpSwitch(powerups);
 

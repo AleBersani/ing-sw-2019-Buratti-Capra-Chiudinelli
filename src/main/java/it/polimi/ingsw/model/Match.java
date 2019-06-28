@@ -100,8 +100,16 @@ public class Match implements Serializable {
      * This method starts the turn
      */
     public void startTurn() {
-        this.turn.reset(this.skulls == 0, players.get(i));
+        boolean frenzy = setFrenzy();
+        this.turn.reset(frenzy, players.get(i));
         i++;
+        if(frenzy){
+            for(Player player : this.players){
+                if(player.getDamageCounter()==0){
+                    player.setTurnedPlank(true);
+                }
+            }
+        }
     }
 
     /**

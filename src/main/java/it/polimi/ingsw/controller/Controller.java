@@ -551,7 +551,7 @@ public class Controller {
                     } catch (MaxHandSizeException e) {
                         player.forceDraw();
                     }
-                    sendString("SPW-Select a power up for spawning:"+ powerUps(player),clientInfo.clientHandler);
+                    sendString("SPW-Select a power up for spawning,"+ powerUps(player),clientInfo.clientHandler);
                     respawning=true;
                 }
             }
@@ -717,7 +717,7 @@ public class Controller {
             p.setColor(availableColors.get(0));
             availableColors.remove(availableColors.get(0));
         }
-        System.out.println("Match started");
+         System.out.println("Match started");
         gameStarted=true;
         match = new Match(players, getNicknameList().size(), skulls, frenzyEn, mode, board);
         match.start();
@@ -753,7 +753,7 @@ public class Controller {
             player.forceDraw();
         }
         updateBackground(this.match);
-        sendString("SPW-Discard a power up for spawning:" +powerUps(player), actual);
+        sendString("SPW-Discard a power up for spawning," +powerUps(player), actual);
     }
 
     private void lifeCycle(ClientHandler actual) {
@@ -776,8 +776,8 @@ public class Controller {
         String powerUps="";
         for(int i=0; i<player.getPowerUps().size();i++) {
             powerUps=powerUps.concat(player.getPowerUps().get(i).getName())
-                    .concat(",").concat(player.getPowerUps().get(i).getColor())
-                    .concat(" ");
+                    .concat(":").concat(player.getPowerUps().get(i).getColor())
+                    .concat("'");
         }
         return powerUps;
     }
@@ -831,7 +831,7 @@ public class Controller {
         }
         else {
             sendString(">>>Invalid powerUp", actual);
-            sendString("SPW-Discard a power up for spawning" +powerUps(player), actual);
+            sendString("SPW-Discard a power up for spawning," +powerUps(player), actual);
         }
 
     }
