@@ -171,7 +171,6 @@ public class Controller {
                 }
                 case OPTIONAL_WEAPON_SHOOTING:{
                     if (msg.startsWith("TRG-WPN-")){
-                        //TODO mandare solo i possibili
                         shootingAction(clientHandler,msg.substring(ETIQUETTE*2));
                     }
 
@@ -343,39 +342,43 @@ public class Controller {
                     targetParameters.add(temp);
                 }
             }
-            clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().shoot(clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])),
-                    data[1].equals(" ") ? null : clientInfoFromClientHandeler(clientHandler).simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]), Integer.parseInt(data[1].split(":")[1])),
-                    targetParameters);
-            if(!clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])).isOptional()) {
-                clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().endShoot(clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])));
-                match = clientInfoFromClientHandeler(clientHandler).simulation;
-                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
-                updateBackground(this.match);
-                lifeCycle(clientHandler);
-            }
-            else{
-                clientInfoFromClientHandeler(clientHandler).shootingOptionals=
-                clientInfoFromClientHandeler(clientHandler).shootingOptionals.concat(
-                        targetParameters.get(0).getTypeOfFire().contains("-")?
-                                Integer.toString(Integer.parseInt(targetParameters.get(0).getTypeOfFire().split("-")[1])+1) :
-                                "0").concat("-");
-                clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting = Integer.parseInt(data[0]);
-                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.OPTIONAL_WEAPON_SHOOTING);
-                updateBackground(clientInfoFromClientHandeler(clientHandler).simulation);
-                String possibleOrder="OWS-";
-                boolean ok=false;
-                for (String order :((WeaponOptional)playerFromNickname(clientHandler.getName()).getWeapons().get(clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting)).getOrder()){
-                    if (order.startsWith(clientInfoFromClientHandeler(clientHandler).shootingOptionals)){
-                        possibleOrder=possibleOrder.concat(order.substring(clientInfoFromClientHandeler(clientHandler).shootingOptionals.length())).concat(";");
-                        ok=true;
-                    }
-                }
-                if(!ok){
-                    endOptionalShooting(clientHandler);
+            if(!targetParameters.isEmpty()){
+                clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().shoot(clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])),
+                        data[1].equals(" ") ? null : clientInfoFromClientHandeler(clientHandler).simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]), Integer.parseInt(data[1].split(":")[1])),
+                        targetParameters);
+                if(!clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])).isOptional()) {
+                    clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().endShoot(clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])));
+                    match = clientInfoFromClientHandeler(clientHandler).simulation;
+                    clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+                    updateBackground(this.match);
+                 lifeCycle(clientHandler);
                 }
                 else {
-                    sendString(possibleOrder,clientHandler);
+                    clientInfoFromClientHandeler(clientHandler).shootingOptionals =
+                            clientInfoFromClientHandeler(clientHandler).shootingOptionals.concat(
+                                    targetParameters.get(0).getTypeOfFire().contains("-") ?
+                                            Integer.toString(Integer.parseInt(targetParameters.get(0).getTypeOfFire().split("-")[1]) + 1) :
+                                            "0").concat("-");
+                    clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting = Integer.parseInt(data[0]);
+                    clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.OPTIONAL_WEAPON_SHOOTING);
+                    updateBackground(clientInfoFromClientHandeler(clientHandler).simulation);
+                 String possibleOrder = "OWS-";
+                    boolean ok = false;
+                    for (String order : ((WeaponOptional) playerFromNickname(clientHandler.getName()).getWeapons().get(clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting)).getOrder()) {
+                        if (order.startsWith(clientInfoFromClientHandeler(clientHandler).shootingOptionals)) {
+                            possibleOrder = possibleOrder.concat(order.substring(clientInfoFromClientHandeler(clientHandler).shootingOptionals.length())).concat(";");
+                         ok = true;
+                        }
+                    }
+                    if (!ok) {
+                        endOptionalShooting(clientHandler);
+                    } else {
+                        sendString(possibleOrder, clientHandler);
+                    }
                 }
+            }
+            else {
+                throw new InvalidTargetException();
             }
         } catch (InvalidTargetException e) {
             updateBackground(this.match);
@@ -769,7 +772,7 @@ public class Controller {
 
     private void lifeCycle(ClientHandler actual) {
         if(match.getTurn().getActionCounter()<MAX_ACTIONS) {
-            sendString("Insert a command", actual);
+            sendString("INS-", actual);
         }
         else {
             sendString("END-Use a powerUp or end turn", actual);
