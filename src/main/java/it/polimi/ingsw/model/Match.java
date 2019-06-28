@@ -107,6 +107,7 @@ public class Match implements Serializable {
             for(Player player : this.players){
                 if(player.getDamageCounter()==0){
                     player.setTurnedPlank(true);
+                    player.setSkull(0);
                 }
             }
         }

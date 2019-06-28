@@ -130,6 +130,7 @@ public class Turn implements Serializable {
 
         for(i=0;!this.deads.isEmpty();) {
             this.deads.get(i).getDamage().clear();
+            this.deads.get(i).setDamageCounter(0);
             this.deads.remove(i);
         }
         this.dead=false;
