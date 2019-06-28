@@ -1840,8 +1840,15 @@ public class GameGUI {
         for(int i=0;i<blood.length;i++){
             if(!blood[i].equals("")) {
                 ImageView bloodIV = new ImageView(new Image("/images/game/blood/".concat(blood[i]).concat("Blood.png"), pane.getWidth() / 25, pane.getHeight() / 15, false, false));
-                bloodIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 14.8837 + (i * pane.getWidth() / (2.8318*11)));
-                bloodIV.setTranslateY(-pane.getHeight()/2 + pane.getHeight() / 1.1106);
+                String [] turned = gui.getYouRepresentation().get(PLAYER_TURNED).split(":");
+                if(turned[1].equals("false")){
+                    bloodIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 14.8837 + (i * pane.getWidth() / (2.8318*11)));
+                    bloodIV.setTranslateY(-pane.getHeight()/2 + pane.getHeight() / 1.1106);
+                }
+                else{
+                    bloodIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 13.9130 + (i * pane.getWidth() / (2.8893*11)));
+                    bloodIV.setTranslateY(-pane.getHeight()/2 + pane.getHeight() / 1.1106);
+                }
                 pane.getChildren().add(bloodIV);
             }
         }
@@ -1851,9 +1858,16 @@ public class GameGUI {
         String[] skull = gui.getYouRepresentation().get(PLAYER_SKULL).split(":");
 
         for (int i = 0; i < Integer.valueOf(skull[1]); i++) {
-            ImageView skullIV = new ImageView(new Image("/images/game/blood/redSkull.png",pane.getWidth()/35,pane.getHeight()/20,false,false));
-            skullIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 7.4418 + (i * pane.getWidth() / (6.5641*5)));
-            skullIV.setTranslateY(-pane.getHeight()/2 + pane.getHeight() / 1.0312);
+            ImageView skullIV = new ImageView(new Image("/images/game/blood/redSkull.png", pane.getWidth() / 35, pane.getHeight() / 20, false, false));
+            String [] turned = gui.getYouRepresentation().get(PLAYER_TURNED).split(":");
+            if(turned[1].equals("false")) {
+                skullIV.setTranslateX(-pane.getWidth() / 2 + pane.getWidth() / 7.4418 + (i * pane.getWidth() / (6.5641 * 5)));
+                skullIV.setTranslateY(-pane.getHeight() / 2 + pane.getHeight() / 1.0312);
+            }
+            else{
+                skullIV.setTranslateX(-pane.getWidth() / 2 + pane.getWidth() / 5.8986 + (i * pane.getWidth() / (10.9401 * 3)));
+                skullIV.setTranslateY(-pane.getHeight() / 2 + pane.getHeight() / 1.0301);
+            }
             pane.getChildren().add(skullIV);
         }
     }
@@ -1879,10 +1893,15 @@ public class GameGUI {
             for(int i=0;i<blood.length;i++){
                 if(!blood[i].equals("")) {
                     ImageView bloodIV = new ImageView(new Image("/images/game/blood/".concat(blood[i]).concat("Blood.png"), pane.getWidth() / 25, pane.getHeight() / 15, false, false));
-
-                    bloodIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 1.6120 + (i * pane.getWidth() / (3.7647*11)));
-                    bloodIV.setTranslateY(-pane.getHeight()/2 + pane.getHeight() / 9.8461 + (j * pane.getHeight() / N_ROW));
-
+                    String [] turned = player.get(PLAYER_TURNED).split(":");
+                    if(turned[1].equals("false")) {
+                        bloodIV.setTranslateX(-pane.getWidth() / 2 + pane.getWidth() / 1.6120 + (i * pane.getWidth() / (3.7647 * 11)));
+                        bloodIV.setTranslateY(-pane.getHeight() / 2 + pane.getHeight() / 9.8461 + (j * pane.getHeight() / N_ROW));
+                    }
+                    else{
+                        bloodIV.setTranslateX(-pane.getWidth() / 2 + pane.getWidth() / 1.6 + (i * pane.getWidth() / (3.8323 * 11)));
+                        bloodIV.setTranslateY(-pane.getHeight() / 2 + pane.getHeight() / 9.8461 + (j * pane.getHeight() / N_ROW));
+                    }
                     pane.getChildren().add(bloodIV);
                 }
             }
@@ -1897,8 +1916,15 @@ public class GameGUI {
 
             for (int i = 0; i < Integer.valueOf(skull[1]); i++) {
                 ImageView skullIV = new ImageView(new Image("/images/game/blood/redSkull.png", pane.getWidth() / 35, pane.getHeight() / 20, false, false));
-                skullIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 1.4901 + (i * pane.getWidth() / (8.7671*5)));
-                skullIV.setTranslateY(-pane.getHeight()/2 + pane.getHeight() / 5.9534 + (j*pane.getHeight()/N_ROW));
+                String [] turned = player.get(PLAYER_TURNED).split(":");
+                if(turned[1].equals("false")) {
+                    skullIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 1.4901 + (i * pane.getWidth() / (8.7671*5)));
+                    skullIV.setTranslateY(-pane.getHeight()/2 + pane.getHeight() / 5.9534 + (j*pane.getHeight()/N_ROW));
+                }
+                else{
+                    skullIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 1.4317 + (i * pane.getWidth() / (14.3820*3)));
+                    skullIV.setTranslateY(-pane.getHeight()/2 + pane.getHeight() / 5.9190 + (j*pane.getHeight()/N_ROW));
+                }
                 pane.getChildren().add(skullIV);
             }
             j++;
