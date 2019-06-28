@@ -984,9 +984,10 @@ public class GameGUI {
 
                 StackPane opzShootPane = new StackPane();
                 GridPane opzShootGrid = new GridPane();
+                opzShootGrid.setAlignment(Pos.CENTER);
+
                 Rectangle rectangle = new Rectangle();
                 rectangleStandard(rectangle,opzShootPane);
-
                 opzShootPane.getChildren().add(rectangle);
 
                 RowConstraints row = new RowConstraints();
@@ -1016,6 +1017,8 @@ public class GameGUI {
                 String[] requestedTarget = gui.getInfoTarget().split("'");
                 for(String singleEffect: effects){
                     Button effectButton = new Button();
+                    GridPane.setHalignment(effectButton, HPos.CENTER);
+                    GridPane.setValignment(effectButton, VPos.CENTER);
                     opzShootGrid.add(effectButton, 1, j);
                     String type = "";
                     if(singleEffect.equals("0")){
@@ -1054,7 +1057,6 @@ public class GameGUI {
             stopButton.setOnAction(e -> {
                 client.send("ESH-");
                 this.optionalShoot = false;
-                //TODO mandare ESH- per finire e settare OptionalWeapon a false
             });
         }
 
