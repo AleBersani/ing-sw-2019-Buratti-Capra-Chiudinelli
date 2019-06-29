@@ -18,25 +18,51 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class LoginGUI {
+/**
+ * class that contains all needed to show the Login section of the game
+ */
+class LoginGUI {
+    /**
+     * reference to GUI
+     */
     private GUI gui;
+    /**
+     * reference to MessageHandler
+     */
     private MessageHandler messageHandler;
+    /**
+     * reference to Client
+     */
     private Client client;
+    /**
+     * Red color for text
+     */
     private static final String REDCOLOR = "#ff0000";
+    /**
+     * Yellow color for text
+     */
     private static final String YELLOWCOLOR = "#ffd938";
 
-
-    public LoginGUI(GUI gui, MessageHandler messageHandler, Client client) {
+    /**
+     * constructor method of LoginGUI
+     * @param gui reference to GUI
+     * @param messageHandler reference to MessageHandler
+     * @param client reference to Client
+     */
+    LoginGUI(GUI gui, MessageHandler messageHandler, Client client) {
         this.gui = gui;
         this.messageHandler = messageHandler;
         this.client = client;
     }
 
-    public void loginImageSetting(Stage stage){
+    /**
+     * set the backGround Image
+     * @param stage the stage where to show everything
+     */
+    void loginImageSetting(Stage stage){
         Image image = new Image("/images/login/loginForm.jpg");
         ImageView mv = new ImageView(image);
         Rectangle rectangle = new Rectangle(500,400);
@@ -61,7 +87,11 @@ public class LoginGUI {
         stage.setScene(stage.getScene());
     }
 
-    public void loginGridSetting(Stage stage){
+    /**
+     * show the textField where the user are going to write and send his nickname
+     * @param stage the stage where to show everything
+     */
+    void loginGridSetting(Stage stage){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         Button button = new Button();
@@ -131,6 +161,11 @@ public class LoginGUI {
         fullScreenButton(stage,pane);
     }
 
+    /**
+     * behavior of Login button
+     * @param username is the textField
+     * @param infoText label for error text
+     */
     private void loginButtonAction(TextField username, Label infoText){
         if(gui.isSendable()){
             if (username.getText().equals("quit") || username.getText().equals("") || username.getText().contains("-")) {
@@ -146,7 +181,13 @@ public class LoginGUI {
         }
     }
 
-    public void menuGridSetting(Stage stage,ArrayList<String> array,String msg){
+    /**
+     * show game settings
+     * @param stage the stage where to show everything
+     * @param array choosable datas of the game
+     * @param msg message to show
+     */
+    void menuGridSetting(Stage stage, ArrayList<String> array, String msg){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         GridPane grid = new GridPane();
@@ -236,7 +277,11 @@ public class LoginGUI {
         fullScreenButton(stage,pane);
     }
 
-    public void roomGridSetting(Stage stage){
+    /**
+     * show the waiting room
+     * @param stage the stage where to show everything
+     */
+    void roomGridSetting(Stage stage){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         GridPane grid = new GridPane();
@@ -296,6 +341,11 @@ public class LoginGUI {
         fullScreenButton(stage,pane);
     }
 
+    /**
+     * behavior of fullscreen button
+     * @param stage the stage where to show everything
+     * @param pane the stackPane of the stage
+     */
     private void fullScreenButton(Stage stage, StackPane pane){
         Button fullScreen = new Button("FS");
 
@@ -316,6 +366,16 @@ public class LoginGUI {
         pane.getChildren().add(fullScreen);
     }
 
+    /**
+     * utility setting of button's dimension and alignment
+     * @param pane the stackPane of the stage
+     * @param button the button to set
+     * @param width the percentage width of the button
+     * @param height the percentage height of the button
+     * @param text the text of the button
+     * @param alignment the alignment of the button
+     * @param gridHalignment the horizontal alignment of the button
+     */
     private void buttonSetting(StackPane pane, Button button, int width, int height, String text, Pos alignment, HPos gridHalignment){
         GridPane.setHalignment(button, gridHalignment);
         button.setAlignment(alignment);
