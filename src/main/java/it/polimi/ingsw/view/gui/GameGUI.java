@@ -1190,6 +1190,56 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
+    protected void interuptPowerUpUses(Stage stage, String msg){
+        StackPane pane = (StackPane) stage.getScene().getRoot();
+
+        StackPane pane2 = new StackPane();
+        String[] powerupNumber = msg.split(";");
+        int numberPowerup = powerupNumber.length;
+        Rectangle rectangle = new Rectangle();
+
+        Label text = new Label("Which one do you want tu use?");
+        text.setTextFill(Color.web("#ffffff", 0.8));
+        text.setStyle("-fx-font: 35 Helvetica;");
+        text.setEffect(new DropShadow());
+        text.setAlignment(Pos.CENTER);
+        rectangleStandard(rectangle, pane);
+
+        GridPane grid2 = new GridPane();
+        grid2.add(text, 0, 0, numberPowerup, 1);
+        GridPane.setHalignment(text, HPos.CENTER);
+        GridPane.setValignment(text, VPos.CENTER);
+
+        for (int i = 0; i < numberPowerup; i++) {
+            ColumnConstraints col = new ColumnConstraints();
+            col.setHgrow(Priority.ALWAYS);
+            col.setPercentWidth(20);
+            grid2.getColumnConstraints().add(col);
+        }
+        int i = 0;
+        for (String powerups : powerupNumber) {
+            String realPowerUp = powerUpSwitch(powerups);
+
+            ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
+            grid2.add(powerUp, i, 1);
+            GridPane.setHalignment(powerUp, HPos.CENTER);
+            GridPane.setValignment(powerUp, VPos.CENTER);
+            int pU = i;
+            powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+                client.send("RPU-".concat(Integer.toString(pU)));
+                pane.getChildren().remove(pane2);
+            });
+            i++;
+        }
+        grid2.setAlignment(Pos.CENTER);
+        grid2.setHgap(70);
+        grid2.setVgap(50);
+
+        pane2.getChildren().add(rectangle);
+        pane2.getChildren().add(grid2);
+        pane.getChildren().add(pane2);
+    }
+
     protected void reload(Stage stage, String msg) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         StackPane pane2 = new StackPane();

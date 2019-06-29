@@ -157,6 +157,10 @@ public class MessageHandler {
                 view.suspend();
                 break;
             }
+            case "RPU-":{
+                view.interruptPowerUp(msg.substring(NAME_ETIQUETTE));
+                break;
+            }
             default:
         }
     }

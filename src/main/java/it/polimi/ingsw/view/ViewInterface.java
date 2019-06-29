@@ -32,5 +32,7 @@ public interface ViewInterface {
 
     void gameReShow();
 
+    void interruptPowerUp(String msg);
+
     void suspend();
 }

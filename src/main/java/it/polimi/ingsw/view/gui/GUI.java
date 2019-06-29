@@ -253,6 +253,10 @@ public class GUI extends Application implements ViewInterface {
         this.gameGUI.suspended(stage);
     }
 
+    private void interuptPower(){
+        this.gameGUI.interuptPowerUpUses(stage,infoSpawn);
+    }
+
     @Override
     public void spawn(String msg) {
         this.infoSpawn = msg;
@@ -356,6 +360,12 @@ public class GUI extends Application implements ViewInterface {
     public void gameReShow() {
         this.gameGUI.optionalShoot = false;
         Platform.runLater(this::insertCommand);
+    }
+
+    @Override
+    public void interruptPowerUp(String msg) {
+        this.infoSpawn = msg;
+        Platform.runLater(this::interuptPower);
     }
 
     @Override
