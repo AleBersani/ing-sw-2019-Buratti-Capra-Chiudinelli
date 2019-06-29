@@ -22,6 +22,7 @@ public class GUI extends Application implements ViewInterface {
     private MessageHandler messageHandler;
     private boolean sendable;
     private boolean messageToShow;
+    protected boolean noUpdate = false;
     protected boolean persistenShow;
     private String boardData;
     private String playersData;
@@ -164,6 +165,7 @@ public class GUI extends Application implements ViewInterface {
     }
 
     private void spawnView(){
+        this.noUpdate = true;
         gameGUI.spawn(stage,infoSpawn);
     }
 
@@ -264,26 +266,28 @@ public class GUI extends Application implements ViewInterface {
 
     @Override
     public void gameShow(String msg) {
-        switch (msg.substring(0,SECOND_ETIQUETTE)){
-            case "BRD-":{
-                this.boardData = msg.substring(SECOND_ETIQUETTE);
-                Platform.runLater(this::showGameBoard);
-                break;
-            }
-            case "PLR-":{
-                this.playersData = msg.substring(SECOND_ETIQUETTE);
-                Platform.runLater(this::showPlayers);
-                break;
-            }
-            case "YOU-":{
-                this.youData = msg.substring(SECOND_ETIQUETTE);
-                Platform.runLater(this::showYou);
-                break;
-            }
-            case "KLL-":{
-                this.killShotTrackData = msg.substring(SECOND_ETIQUETTE);
-                Platform.runLater(this::showKillShot);
-                break;
+        if(!noUpdate) {
+            switch (msg.substring(0, SECOND_ETIQUETTE)) {
+                case "BRD-": {
+                    this.boardData = msg.substring(SECOND_ETIQUETTE);
+                    Platform.runLater(this::showGameBoard);
+                    break;
+                }
+                case "PLR-": {
+                    this.playersData = msg.substring(SECOND_ETIQUETTE);
+                    Platform.runLater(this::showPlayers);
+                    break;
+                }
+                case "YOU-": {
+                    this.youData = msg.substring(SECOND_ETIQUETTE);
+                    Platform.runLater(this::showYou);
+                    break;
+                }
+                case "KLL-": {
+                    this.killShotTrackData = msg.substring(SECOND_ETIQUETTE);
+                    Platform.runLater(this::showKillShot);
+                    break;
+                }
             }
         }
     }

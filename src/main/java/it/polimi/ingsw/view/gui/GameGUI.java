@@ -379,6 +379,7 @@ public class GameGUI {
             String bloodString = "";
             if ((i < damage.length) && (!damage[i].equals(""))) {
                 bloodString = damage[i].concat("Blood");
+                doubleDamage[i] = doubleDamage[i].replace(" ","");
                 if (doubleDamage[i].equals("true")) {
                     bloodString = bloodString.concat("X2");
                 }
@@ -1101,6 +1102,7 @@ public class GameGUI {
             GridPane.setValignment(powerUp, VPos.CENTER);
             int pU = i;
             powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+                gui.noUpdate = false;
                 client.send("SPW-".concat(Integer.toString(pU)));
                 pane.getChildren().remove(pane2);
             });
