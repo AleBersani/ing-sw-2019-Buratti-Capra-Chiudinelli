@@ -395,11 +395,12 @@ public class GameGUI {
         for(;i<damage.length;i++){
             String bloodString = "";
             bloodString = damage[i].concat("Blood");
+            doubleDamage[i] = doubleDamage[i].replace(" ","");
             if (doubleDamage[i].equals("true")) {
                 bloodString = bloodString.concat("X2");
             }
             ImageView blood = new ImageView(new Image("/images/game/blood/".concat(bloodString).concat(".png"), pane.getWidth() / 30, pane.getHeight() / 15, false, false));
-            blood.setX(pane.getWidth() / 3.02 + (i * pane.getWidth() / 21.5));
+            blood.setX(pane.getWidth() / 2.9 + (i * pane.getWidth() / 60));
             blood.setY(pane.getHeight() / 1.5);
             pane2.getChildren().add(blood);
         }
