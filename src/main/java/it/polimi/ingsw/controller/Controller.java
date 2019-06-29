@@ -194,7 +194,7 @@ public class Controller {
                 clientInfo.clientHandler.setYourTurn(true);
                 if(clientInfo.suspended){
                     clientInfo.setState(ClientInfo.State.END);
-                    understandMessage("END-",clientInfo.clientHandler);
+                    understandMessage("RLD-",clientInfo.clientHandler);
                 }
                 else {
                     timerTurn(clientInfo);
@@ -352,14 +352,13 @@ public class Controller {
             }
             if(!targetParameters.isEmpty()){
                 clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().shoot(clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])),
-                        data[1].equals(" ") ? null : clientInfoFromClientHandeler(clientHandler).simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]), Integer.parseInt(data[1].split(":")[1])),
+                        data[1].equals(" ") ? playerFromNickname(clientHandler.getName()).getPosition() : clientInfoFromClientHandeler(clientHandler).simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]), Integer.parseInt(data[1].split(":")[1])),
                         targetParameters);
                 if(!clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])).isOptional()) {
                     clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().endShoot(clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])));
                     match = clientInfoFromClientHandeler(clientHandler).simulation;
-                    clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
                     updateBackground(this.match);
-                 lifeCycle(clientHandler);
+                    cleanSimulation(clientInfoFromClientHandeler(clientHandler));
                 }
                 else {
                     clientInfoFromClientHandeler(clientHandler).shootingOptionals =
@@ -392,7 +391,7 @@ public class Controller {
             updateBackground(this.match);
             sendString(">>>Invalid target", clientHandler);
             try {
-                revert(clientInfoFromClientHandeler(clientHandler));
+                cleanSimulation(clientInfoFromClientHandeler(clientHandler));
             } catch (NotFoundException e1) {
                 sendString("error", clientHandler);
             }
@@ -407,7 +406,7 @@ public class Controller {
             updateBackground(this.match);
             sendString(">>>This weapon is unloaded", clientHandler);
             try {
-                revert(clientInfoFromClientHandeler(clientHandler));
+                cleanSimulation(clientInfoFromClientHandeler(clientHandler));
             }
             catch (NotFoundException e1) {
                 sendString("error", clientHandler);
@@ -417,7 +416,7 @@ public class Controller {
             updateBackground(this.match);
             sendString(">>>Invalid destination", clientHandler);
             try {
-                revert(clientInfoFromClientHandeler(clientHandler));
+                cleanSimulation(clientInfoFromClientHandeler(clientHandler));
             }
             catch (NotFoundException e1) {
                 sendString("error", clientHandler);
@@ -428,7 +427,7 @@ public class Controller {
             updateBackground(this.match);
             sendString(">>>You don't have enough ammo", clientHandler);
             try {
-                revert(clientInfoFromClientHandeler(clientHandler));
+                cleanSimulation(clientInfoFromClientHandeler(clientHandler));
             }
             catch (NotFoundException e1) {
                 sendString("error", clientHandler);
@@ -439,9 +438,10 @@ public class Controller {
 
     }
 
-    private void revert(ClientInfo clientInfo){
-            clientInfo.simulation=null;
-            clientInfo.setState(ClientInfo.State.GAME);
+    private void cleanSimulation(ClientInfo clientInfo){
+        clientInfo.simulation=null;
+        clientInfo.shootingOptionals= "";
+        clientInfo.setState(ClientInfo.State.GAME);
         lifeCycle(clientInfo.clientHandler);
     }
 
