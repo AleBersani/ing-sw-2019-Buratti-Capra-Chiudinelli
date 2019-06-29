@@ -216,8 +216,9 @@ class LoginGUI {
 
         //choice box
         ChoiceBox<String> choicebox = new ChoiceBox<>();
-        for(int i=0 ;i<array.size();i++)
-            choicebox.getItems().add(array.get(i));
+        for (String s : array) {
+            choicebox.getItems().add(s);
+        }
         choicebox.getSelectionModel().selectFirst();
 
         //done Button
