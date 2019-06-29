@@ -375,7 +375,8 @@ public class GameGUI {
         String[] damage = gui.getKillShotRepresentation().get(1).split("'");
         String[] doubleDamage = gui.getKillShotRepresentation().get(2).substring(1,gui.getKillShotRepresentation().get(2).length()-1).split(",");
         int totalSkull = Integer.parseInt(gui.getKillShotRepresentation().get(KILL_TOT_SKULL));
-        for (int i = 0; i < totalSkull; i++) {
+        int i;
+        for (i = 0; i < totalSkull; i++) {
             String bloodString = "";
             if ((i < damage.length) && (!damage[i].equals(""))) {
                 bloodString = damage[i].concat("Blood");
@@ -388,6 +389,17 @@ public class GameGUI {
             }
             ImageView blood = new ImageView(new Image("/images/game/blood/".concat(bloodString).concat(".png"), pane.getWidth() / 30, pane.getHeight() / 15, false, false));
             blood.setX(pane.getWidth() / 3.02 - ((totalSkull - 1 - i) * pane.getWidth() / 21.5));
+            blood.setY(pane.getHeight() / 1.5);
+            pane2.getChildren().add(blood);
+        }
+        for(;i<damage.length;i++){
+            String bloodString = "";
+            bloodString = damage[i].concat("Blood");
+            if (doubleDamage[i].equals("true")) {
+                bloodString = bloodString.concat("X2");
+            }
+            ImageView blood = new ImageView(new Image("/images/game/blood/".concat(bloodString).concat(".png"), pane.getWidth() / 30, pane.getHeight() / 15, false, false));
+            blood.setX(pane.getWidth() / 3.02 + (i * pane.getWidth() / 21.5));
             blood.setY(pane.getHeight() / 1.5);
             pane2.getChildren().add(blood);
         }
