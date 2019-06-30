@@ -4,6 +4,7 @@ import it.polimi.ingsw.view.ViewInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class MessageHandler {
     private String toShow;
@@ -25,7 +26,7 @@ public class MessageHandler {
         this.state = State.LOGIN;
     }
 
-    protected synchronized void understandMessage(String msg){
+    synchronized void understandMessage(String msg){
         if(!suspend) {
             if (msg.startsWith(">>>")) {
                 this.toShow = msg;
@@ -167,9 +168,7 @@ public class MessageHandler {
 
     private ArrayList<String> stringToArrayList(String msg){
         ArrayList<String> data = new ArrayList<>();
-        for(String s: msg.substring(1,msg.length()-1).split(",")){
-            data.add(s);
-        }
+        Collections.addAll(data, msg.substring(1, msg.length() - 1).split(","));
         return data;
     }
 

@@ -12,6 +12,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GUI extends Application implements ViewInterface {
 
@@ -22,8 +23,8 @@ public class GUI extends Application implements ViewInterface {
     private MessageHandler messageHandler;
     private boolean sendable;
     private boolean messageToShow;
-    protected boolean noUpdate = false;
-    protected boolean persistenShow;
+    boolean noUpdate = false;
+    boolean persistenShow;
     private String boardData;
     private String playersData;
     private String youData;
@@ -43,19 +44,19 @@ public class GUI extends Application implements ViewInterface {
     private static final int SQUARE_BRACKET= 1;
     private static final int POSSIBLE_SPACE= 1;
 
-    public MessageHandler getMessageHandler() {
+    MessageHandler getMessageHandler() {
         return messageHandler;
     }
 
-    protected String getInfoTarget() {
+    String getInfoTarget() {
         return infoTarget;
     }
 
-    public String getOpz() {
+    String getOpz() {
         return opz;
     }
 
-    protected boolean isMessageToShow() {
+    boolean isMessageToShow() {
         return messageToShow;
     }
 
@@ -63,11 +64,7 @@ public class GUI extends Application implements ViewInterface {
         this.client = client;
     }
 
-    protected String getInfoString() {
-        return infoString;
-    }
-
-    protected boolean isSendable() {
+    boolean isSendable() {
         return sendable;
     }
 
@@ -95,9 +92,7 @@ public class GUI extends Application implements ViewInterface {
         stage.setScene(scene);
 
         //stage
-        stage.setOnCloseRequest(e -> {
-            client.send("quit");
-        });
+        stage.setOnCloseRequest(e -> client.send("quit"));
         stage.setTitle("Adrenaline");
         stage.getIcons().add(new Image("/images/login/adrenalineLogo.png"));
         stage.setResizable(true);
@@ -107,7 +102,7 @@ public class GUI extends Application implements ViewInterface {
         stage.show();
     }
 
-    protected void reShow(){
+    void reShow(){
         clearPane();
         this.gameGUI.backGround(stage);
         this.gameGUI.buildBoard(stage);
@@ -211,17 +206,13 @@ public class GUI extends Application implements ViewInterface {
     private void showYou(){
         youRepresentation.clear();
         this.youData = this.youData.concat(" ");
-        for(String info: this.youData.split(";")){
-            youRepresentation.add(info);
-        }
+        Collections.addAll(youRepresentation, this.youData.split(";"));
         this.gameGUI.buildYou(stage);
     }
 
     private void showKillShot(){
         killShotRepresentation.clear();
-        for(String info: this.killShotTrackData.split(";")){
-            killShotRepresentation.add(info);
-        }
+        Collections.addAll(killShotRepresentation, this.killShotTrackData.split(";"));
         this.gameGUI.buildKillShotTrack(stage);
         this.gameGUI.buildButtons(stage);
     }
@@ -292,6 +283,8 @@ public class GUI extends Application implements ViewInterface {
                     Platform.runLater(this::showKillShot);
                     break;
                 }
+                default:
+
             }
         }
     }
@@ -373,19 +366,19 @@ public class GUI extends Application implements ViewInterface {
         Platform.runLater(this::suspance);
     }
 
-    public ArrayList<ArrayList<ArrayList<String>>> getBoardRepresentation() {
+    ArrayList<ArrayList<ArrayList<String>>> getBoardRepresentation() {
         return boardRepresentation;
     }
 
-    public ArrayList<ArrayList<String>> getPlayersRepresentation() {
+    ArrayList<ArrayList<String>> getPlayersRepresentation() {
         return playersRepresentation;
     }
 
-    public ArrayList<String> getYouRepresentation() {
+    ArrayList<String> getYouRepresentation() {
         return youRepresentation;
     }
 
-    public ArrayList<String> getKillShotRepresentation() {
+    ArrayList<String> getKillShotRepresentation() {
         return killShotRepresentation;
     }
 }

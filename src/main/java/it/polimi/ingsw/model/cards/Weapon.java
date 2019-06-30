@@ -15,14 +15,52 @@ import java.util.ArrayList;
  * this class represent a single weapon
  */
 public abstract class Weapon implements Serializable {
-
-    private String color,name;
-    private int costBlue,costRed,costYellow;
+    /**
+     * color of the weapon
+     */
+    private String color;
+    /**
+     * name of the weapon
+     */
+    private String name;
+    /**
+     * blue cost of the weapon
+     */
+    private int costBlue;
+    /**
+     * red cost of the weapon
+     */
+    private int costRed;
+    /**
+     * yellow cost of the weapon
+     */
+    private int costYellow;
+    /**
+     * if the weapon is loaded or not
+     */
     private boolean load;
+    /**
+     * list of weapon's effects
+     */
     private ArrayList<Effect> effect;
+    /**
+     * list of previous target shooted with this weapon in this turn
+     */
     private ArrayList<ArrayList<Player>> previousTarget;
+    /**
+     * reference to the owner of this weapon
+     */
     private Player owner;
 
+    /**
+     * constructor method of Weapon
+     * @param color color of the weapon
+     * @param name name of the weapon
+     * @param costBlue blue cost of the weapon
+     * @param costRed red cost of the weapon
+     * @param costYellow yellow cost of the weapon
+     * @param effect list of weapon's effects
+     */
     public Weapon(String color, String name, int costBlue, int costRed, int costYellow, ArrayList<Effect> effect) {
         this.color = color;
         this.name = name;
@@ -32,7 +70,7 @@ public abstract class Weapon implements Serializable {
         this.effect = effect;
         load=true;
         owner=null;
-        previousTarget= new ArrayList<ArrayList<Player>>();
+        previousTarget= new ArrayList<>();
         previousTarget.add(new ArrayList<Player>());
         previousTarget.add(new ArrayList<Player>());
     }
@@ -48,10 +86,16 @@ public abstract class Weapon implements Serializable {
         for(int i=0;i<min;i++){
                 effect.get(i).apply(target.get(i), this.previousTarget);
         }
-        return;
     }
 
-    protected int calcMinim(ArrayList<TargetParameter> target, int effectSize) throws InvalidTargetException {
+    /**
+     * utility method for measure the minimum between the targets and the effects
+     * @param target are the targets of the fire
+     * @param effectSize the number of effects
+     * @return minimum between the targets and the effects
+     * @throws InvalidTargetException when there is no targets
+     */
+    int calcMinim(ArrayList<TargetParameter> target, int effectSize) throws InvalidTargetException {
         int min = effectSize;
         if(target==null){
             throw new InvalidTargetException();
@@ -62,7 +106,7 @@ public abstract class Weapon implements Serializable {
         return min;
     }
 
-    protected void pay(Player owner,int red, int yellow, int blue, ArrayList<PowerUp> powerUps, int which) throws NoAmmoException {
+    void pay(Player owner, int red, int yellow, int blue, ArrayList<PowerUp> powerUps, int which) throws NoAmmoException {
         ArrayList<Integer> payment;
         payment=powerUpToPayment(powerUps,red,yellow,blue);
         if (canPay(payment,which)) {
@@ -75,19 +119,23 @@ public abstract class Weapon implements Serializable {
         }
     }
 
-    protected ArrayList<Integer> powerUpToPayment(ArrayList<PowerUp> powerUps, int red,int yellow, int blue){
+    private ArrayList<Integer> powerUpToPayment(ArrayList<PowerUp> powerUps, int red, int yellow, int blue){
         ArrayList<Integer> payment=new ArrayList<>();
         for (PowerUp p : powerUps){
             switch (p.getColor()) {
-                case "red":
+                case "red": {
                     red++;
                     break;
-                case "yellow":
+                }
+                case "yellow": {
                     yellow++;
                     break;
-                case "blue":
+                }
+                case "blue":{
                     blue++;
                     break;
+                }
+                default:
             }
         }
         payment.add(red);
@@ -100,7 +148,6 @@ public abstract class Weapon implements Serializable {
 
     public void reload(){
         this.load=true;
-        return;
     }
 
     public String getColor() {
