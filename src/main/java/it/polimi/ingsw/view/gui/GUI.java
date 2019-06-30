@@ -110,7 +110,7 @@ public class GUI extends Application implements ViewInterface {
         this.backGraphicsGUI.buildBoard(stage);
         this.backGraphicsGUI.buildPlayers(stage);
         this.backGraphicsGUI.buildYou(stage);
-        this.gameGUI.buildKillShotTrack(stage);
+        this.backGraphicsGUI.buildKillShotTrack(stage);
         this.gameGUI.buildButtons(stage);
     }
 
@@ -215,7 +215,7 @@ public class GUI extends Application implements ViewInterface {
     private void showKillShot(){
         killShotRepresentation.clear();
         Collections.addAll(killShotRepresentation, this.killShotTrackData.split(";"));
-        this.gameGUI.buildKillShotTrack(stage);
+        this.backGraphicsGUI.buildKillShotTrack(stage);
         this.gameGUI.buildButtons(stage);
     }
 
