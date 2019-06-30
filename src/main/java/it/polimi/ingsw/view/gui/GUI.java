@@ -79,7 +79,7 @@ public class GUI extends Application implements ViewInterface {
         this.killShotRepresentation = new ArrayList<>();
         this.loginGUI = new LoginGUI(this,messageHandler,client);
         this.gameGUI = new GameGUI(this,client);
-        this.backGraphicsGUI = new BackGraphicsGUI (this,client);
+        this.backGraphicsGUI = new BackGraphicsGUI (this,gameGUI);
         client.setMessageHandler(messageHandler);
         client.init();
         client.start();
@@ -107,7 +107,7 @@ public class GUI extends Application implements ViewInterface {
     void reShow(){
         clearPane();
         this.backGraphicsGUI.backGround(stage);
-        this.gameGUI.buildBoard(stage);
+        this.backGraphicsGUI.buildBoard(stage);
         this.gameGUI.buildPlayers(stage);
         this.gameGUI.buildYou(stage);
         this.gameGUI.buildKillShotTrack(stage);
@@ -186,7 +186,7 @@ public class GUI extends Application implements ViewInterface {
         this.stage.setFullScreen(true);
         this.clearPane();
         this.backGraphicsGUI.backGround(stage);
-        this.gameGUI.buildBoard(stage);
+        this.backGraphicsGUI.buildBoard(stage);
     }
 
     private void showPlayers(){

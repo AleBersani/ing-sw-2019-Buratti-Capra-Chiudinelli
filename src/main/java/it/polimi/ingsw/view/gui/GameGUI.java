@@ -22,33 +22,33 @@ import java.util.ArrayList;
 public class GameGUI {
     private GUI gui;
     private Client client;
-    private GridPane boardGrid;
+    GridPane boardGrid;
     private boolean stopClickStore = false;
-    protected boolean optionalShoot = false;
-    protected boolean endTurn = false;
+    boolean optionalShoot = false;
+    boolean endTurn = false;
     private String handPosition;
     private String typeOfFire;
     private String powerUpPay;
     private String nameWeapon;
 
-    private static final String PURPLE = "purple";
-    private static final String BLUE = "blue";
-    private static final String GREEN = "green";
-    private static final String YELLOW = "yellow";
-    private static final String GREY = "grey";
+    static final String PURPLE = "purple";
+    static final String BLUE = "blue";
+    static final String GREEN = "green";
+    static final String YELLOW = "yellow";
+    static final String GREY = "grey";
     private static final int SHOOT_ADRENALINE = 6;
-    private static final int N_INNER_COLUMN = 3;
-    private static final int N_COLUMN = 7;
-    private static final int N_INNER_ROW = 3;
-    private static final int N_ROW = 5;
-    private static final int CELL_X = 0;
-    private static final int CELL_Y = 1;
-    private static final int CELL_COLOR = 2;
-    private static final int CELL_TYPE = 3;
-    private static final int CELL_INSIDE = 4;
-    private static final int CELL_PLAYER_ON_ME = 6;
-    private static final int CELL_DOORS = 8;
-    private static final int CELL_WALLS = 10;
+    static final int N_INNER_COLUMN = 3;
+    static final int N_COLUMN = 7;
+    static final int N_INNER_ROW = 3;
+    static final int N_ROW = 5;
+    static final int CELL_X = 0;
+    static final int CELL_Y = 1;
+    static final int CELL_COLOR = 2;
+    static final int CELL_TYPE = 3;
+    static final int CELL_INSIDE = 4;
+    static final int CELL_PLAYER_ON_ME = 6;
+    static final int CELL_DOORS = 8;
+    static final int CELL_WALLS = 10;
     private static final int PLAYER_SKULL = 0;
     private static final int PLAYER_ROW_SPAN = 1;
     private static final int PLAYER_AMMO = 1;
@@ -77,175 +77,6 @@ public class GameGUI {
     public GameGUI(GUI gui, Client client) {
         this.gui = gui;
         this.client = client;
-    }
-
-    public void buildBoard(Stage stage) {
-        StackPane pane = (StackPane) stage.getScene().getRoot();
-        stage.getScene().setRoot(pane);
-        stage.setResizable(false);
-        GridPane grid = new GridPane();
-
-        //grid column constraint
-        columnConstraint(grid, N_COLUMN);
-
-        //grid row constraint
-        rowConstraint(grid, N_ROW);
-
-        //cells
-        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
-            for (ArrayList<String> cell : room) {
-                if (!cell.isEmpty()) {
-                    int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
-                    int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
-                    String color = cell.get(CELL_COLOR);
-                    if ((color.equals(BLUE)) || (color.equals(GREEN)) || (color.equals(PURPLE)) || (color.equals("red")) || (color.equals("white")) || (color.equals(YELLOW))) {
-                        grid.add(new ImageView(new Image("/images/game/cell/".concat(color).concat("Cell.png"), pane.getWidth() / N_COLUMN, pane.getHeight() / N_ROW, false, false)), xPos, yPos);
-                    }
-                }
-            }
-        }
-
-        //walls
-        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
-            for (ArrayList<String> cell : room) {
-                int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
-                int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
-                for (String s : cell.get(CELL_WALLS).split("'")) {
-                    String wall = "wall".concat(s).concat(".png");
-                    if ((wall.equals("wallN.png")) || (wall.equals("wallS.png")) || (wall.equals("wallW.png")) || (wall.equals("wallE.png"))) {
-                        grid.add(new ImageView(new Image("/images/game/cell/wall/".concat(wall), pane.getWidth() / N_COLUMN, pane.getHeight() / N_ROW, false, false)), xPos, yPos);
-                    }
-                }
-            }
-        }
-
-        //doors
-        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
-            for (ArrayList<String> cell : room) {
-                if (!cell.get(CELL_DOORS).isEmpty()) {
-                    for (String singleDoor : cell.get(CELL_DOORS).split(":")) {
-                        int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
-                        int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
-                        String[] door = singleDoor.split("'");
-                        int xDoor = Integer.parseInt(door[CELL_X]);
-                        int yDoor = Integer.parseInt(door[CELL_Y]);
-                        String doorDirection = "";
-                        if (xPos + 1 == xDoor) {
-                            if (yPos + 1 > yDoor) {
-                                doorDirection = "doorN.png";
-                            }
-                            if (yPos + 1 < yDoor) {
-                                doorDirection = "doorS.png";
-                            }
-                        } else {
-                            if (xPos + 1 > xDoor) {
-                                doorDirection = "doorW.png";
-                            }
-                            if (xPos + 1 < xDoor) {
-                                doorDirection = "doorE.png";
-                            }
-                        }
-                        grid.add(new ImageView(new Image("/images/game/cell/door/".concat(doorDirection), pane.getWidth() / N_COLUMN, pane.getHeight() / N_ROW, false, false)), xPos, yPos);
-                    }
-                }
-            }
-        }
-
-        //Ammopoint
-        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
-            for (ArrayList<String> cell : room) {
-                int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
-                int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
-                if (cell.get(CELL_TYPE).equals("AmmoPoint")) {
-                    String ammoName = "";
-                    if (!cell.get(CELL_INSIDE).equals("")) {
-                        for (String s : cell.get(CELL_INSIDE).split("'")) {
-                            String[] difi = s.split(":");
-                            if (s.startsWith("Y:")) {
-                                if (!difi[1].equals("0")) {
-                                    ammoName = ammoName.concat("y").concat(difi[1]);
-                                }
-                            } else {
-                                if (s.startsWith("R:")) {
-                                    if (!difi[1].equals("0")) {
-                                        ammoName = ammoName.concat("r").concat(difi[1]);
-                                    }
-                                } else {
-                                    if (s.startsWith("B:")) {
-                                        if (!difi[1].equals("0")) {
-                                            ammoName = ammoName.concat("b").concat(difi[1]);
-                                        }
-                                    } else {
-                                        if (s.startsWith("PU:")) {
-                                            if (!difi[1].equals("0")) {
-                                                ammoName = ammoName.concat("pu").concat(difi[1]);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        ImageView ammoTile = new ImageView(new Image("/images/game/ammo/tiles/".concat(ammoName).concat(".png"), pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
-                        grid.add(ammoTile, xPos, yPos);
-                        GridPane.setHalignment(ammoTile, HPos.CENTER);
-                        GridPane.setValignment(ammoTile, VPos.CENTER);
-                    }
-                }
-            }
-        }
-
-        //playersToken
-        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
-            for (ArrayList<String> cell : room) {
-                int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
-                int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
-                for (String player : cell.get(CELL_PLAYER_ON_ME).split("'")) {
-                    switch (player) {
-                        case PURPLE: {
-                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/purpleToken.png", pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
-                            grid.add(playerToken, xPos, yPos);
-                            GridPane.setHalignment(playerToken, HPos.RIGHT);
-                            GridPane.setValignment(playerToken, VPos.CENTER);
-                            break;
-                        }
-                        case BLUE: {
-                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/blueToken.png", pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
-                            grid.add(playerToken, xPos, yPos);
-                            GridPane.setHalignment(playerToken, HPos.LEFT);
-                            GridPane.setValignment(playerToken, VPos.CENTER);
-                            break;
-                        }
-                        case GREEN: {
-                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/greenToken.png", pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
-                            grid.add(playerToken, xPos, yPos);
-                            GridPane.setHalignment(playerToken, HPos.CENTER);
-                            GridPane.setValignment(playerToken, VPos.BOTTOM);
-                            break;
-                        }
-                        case YELLOW: {
-                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/yellowToken.png", pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
-                            grid.add(playerToken, xPos, yPos);
-                            GridPane.setHalignment(playerToken, HPos.LEFT);
-                            GridPane.setValignment(playerToken, VPos.BOTTOM);
-                            break;
-                        }
-                        case GREY: {
-                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/greyToken.png", pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
-                            grid.add(playerToken, xPos, yPos);
-                            GridPane.setHalignment(playerToken, HPos.RIGHT);
-                            GridPane.setValignment(playerToken, VPos.BOTTOM);
-                            break;
-                        }
-                        default:
-                    }
-                }
-            }
-        }
-
-        //pane.add
-        pane.getChildren().add(grid);
-        boardGrid = grid;
     }
 
     public void buildPlayers(Stage stage) {
@@ -2124,7 +1955,7 @@ public class GameGUI {
         pane.getChildren().add(winnerGrid);
     }
 
-    private void columnConstraint(GridPane grid, double nColumn){
+    void columnConstraint(GridPane grid, double nColumn){
         for (int j = 0 ; j < nColumn; j++) {
             ColumnConstraints col = new ColumnConstraints();
             col.setHgrow(Priority.ALWAYS);
@@ -2134,7 +1965,7 @@ public class GameGUI {
         }
     }
 
-    private void rowConstraint(GridPane grid, double nRow){
+    void rowConstraint(GridPane grid, double nRow){
         for (int i = 0 ; i < nRow; i++) {
             RowConstraints row = new RowConstraints();
             row.setVgrow(Priority.ALWAYS);
@@ -2144,14 +1975,14 @@ public class GameGUI {
         }
     }
 
-    private void rectangleStandard(Rectangle rectangle, Pane pane){
+    void rectangleStandard(Rectangle rectangle, Pane pane){
         rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
         rectangle.setEffect(new BoxBlur());
         rectangle.widthProperty().bind(pane.widthProperty());
         rectangle.heightProperty().bind(pane.heightProperty());
     }
 
-    private void label40Helvetica(Label label, String color, double opacity){
+    void label40Helvetica(Label label, String color, double opacity){
         label.setTextFill(Color.web(color, opacity));
         label.setStyle("-fx-font: 40 Helvetica;");
         label.setEffect(new DropShadow());
