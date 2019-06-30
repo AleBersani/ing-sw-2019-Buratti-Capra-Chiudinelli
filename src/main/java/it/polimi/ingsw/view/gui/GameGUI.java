@@ -49,22 +49,22 @@ public class GameGUI {
     static final int CELL_PLAYER_ON_ME = 6;
     static final int CELL_DOORS = 8;
     static final int CELL_WALLS = 10;
-    private static final int PLAYER_SKULL = 0;
-    private static final int PLAYER_ROW_SPAN = 1;
+    static final int PLAYER_SKULL = 0;
+    static final int PLAYER_ROW_SPAN = 1;
     private static final int PLAYER_AMMO = 1;
-    private static final int PLAYER_COL_SPAN = 3;
-    private static final int PLAYER_DAMAGE = 3;
-    private static final int PLAYER_XPOS = 4;
-    private static final int PLAYER_MARK = 5;
+    static final int PLAYER_COL_SPAN = 3;
+    static final int PLAYER_DAMAGE = 3;
+    static final int PLAYER_XPOS = 4;
+    static final int PLAYER_MARK = 5;
     private static final int PLAYER_POWER_UP = 6;
     private static final int PLAYER_WEAPON = 8;
-    private static final int PLAYER_COLOR = 9;
-    private static final int PLAYER_TURNED = 10;
-    private static final int PLAYER_FRENZY = 11;
-    private static final int YOU_XPOS = 0;
-    private static final int YOU_COL_SPAN = 4;
-    private static final int YOU_YPOS = 4;
-    private static final int YOU_POINT = 12;
+    static final int PLAYER_COLOR = 9;
+    static final int PLAYER_TURNED = 10;
+    static final int PLAYER_FRENZY = 11;
+    static final int YOU_XPOS = 0;
+    static final int YOU_COL_SPAN = 4;
+    static final int YOU_YPOS = 4;
+    static final int YOU_POINT = 12;
     private static final int YOU_WEAPON = 14;
     private static final int YOU_POWERUP = 16;
     private static final int KILL_ROW = 3;
@@ -74,109 +74,9 @@ public class GameGUI {
     private static final int KILL_COL_SPAN = 3;
     private static final int NUMBER_OF_WEAPON = 3;
 
-    public GameGUI(GUI gui, Client client) {
+    GameGUI(GUI gui, Client client) {
         this.gui = gui;
         this.client = client;
-    }
-
-    public void buildPlayers(Stage stage) {
-        StackPane pane = (StackPane) stage.getScene().getRoot();
-        stage.getScene().setRoot(pane);
-        GridPane grid = new GridPane();
-
-        //grid column constraint
-        columnConstraint(grid, N_COLUMN);
-
-        //grid row constraint
-        rowConstraint(grid, N_ROW);
-
-        int i = 0;
-        for (ArrayList<String> player : gui.getPlayersRepresentation()) {
-            String[] color = player.get(PLAYER_COLOR).split(":");
-            String playerPlance = color[1];
-            String[] turned = player.get(PLAYER_TURNED).split(":");
-            String playerTurned = turned[1];
-            String[] frenzy = player.get(PLAYER_FRENZY).split(":");
-            String turnFrenzy = frenzy[1];
-            String declaration = "/images/game/plance/";
-
-            if ((playerPlance.equals(PURPLE)) || (playerPlance.equals(BLUE)) || (playerPlance.equals(GREEN)) || (playerPlance.equals(YELLOW)) || (playerPlance.equals(GREY))) {
-                if (turnFrenzy.equals("false")) { //frenzy false
-                    grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("Player.png"), pane.getWidth() / N_COLUMN * PLAYER_COL_SPAN, pane.getHeight() / N_ROW, false, false)), PLAYER_XPOS, i, PLAYER_COL_SPAN, PLAYER_ROW_SPAN);
-                } else {
-                    if (playerTurned.equals("false")) {   //turned false
-                        grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedActionPlayer.png"), pane.getWidth() / N_COLUMN * PLAYER_COL_SPAN, pane.getHeight() / N_ROW, false, false)), PLAYER_XPOS, i, PLAYER_COL_SPAN, PLAYER_ROW_SPAN);
-                    } else {   //frenzy true and turned true
-                        grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedPlayer.png"), pane.getWidth() / N_COLUMN * PLAYER_COL_SPAN, pane.getHeight() / N_ROW, false, false)), PLAYER_XPOS, i, PLAYER_COL_SPAN, PLAYER_ROW_SPAN);
-                    }
-                }
-            }
-            i++;
-        }
-        pane.getChildren().add(grid);
-
-        for (ArrayList<String> player : gui.getPlayersRepresentation()){
-            if(!player.get(PLAYER_SKULL).equals("")){
-                drawSkullOnPlayer(pane);
-            }
-            if(!player.get(PLAYER_DAMAGE).equals("")){
-                drawBloodOnPlayer(pane);
-            }
-            if(!player.get(PLAYER_MARK).equals("")){
-                drawMarkOnPlayer(pane);
-            }
-        }
-    }
-
-    public void buildYou(Stage stage) {
-        StackPane pane = (StackPane) stage.getScene().getRoot();
-        stage.getScene().setRoot(pane);
-        stage.setResizable(false);
-        GridPane grid = new GridPane();
-
-        //grid column constraint
-        columnConstraint(grid, N_COLUMN);
-
-        //grid row constraint
-        rowConstraint(grid, N_ROW);
-
-        String[] color = gui.getYouRepresentation().get(PLAYER_COLOR).split(":");
-        String playerPlance = color[1];
-        String[] turned = gui.getYouRepresentation().get(PLAYER_TURNED).split(":");
-        String playerTurned = turned[1];
-        String[] frenzy = gui.getYouRepresentation().get(PLAYER_FRENZY).split(":");
-        String turnFrenzy = frenzy[1];
-        String declaration = "/images/game/plance/";
-
-        if ((playerPlance.equals(PURPLE)) || (playerPlance.equals(BLUE)) || (playerPlance.equals(GREEN)) || (playerPlance.equals(YELLOW)) || (playerPlance.equals(GREY))) {
-            if (turnFrenzy.equals("false")) {
-                grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("Player.png"), pane.getWidth() / N_COLUMN * YOU_COL_SPAN, pane.getHeight() / N_ROW, false, false)), YOU_XPOS, YOU_YPOS, YOU_COL_SPAN, PLAYER_ROW_SPAN);
-            } else {
-                if (playerTurned.equals("false")) {
-                    grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedActionPlayer.png"), pane.getWidth() / N_COLUMN * YOU_COL_SPAN, pane.getHeight() / N_ROW, false, false)), YOU_XPOS, YOU_YPOS, YOU_COL_SPAN, PLAYER_ROW_SPAN);
-                } else {
-                    grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedPlayer.png"), pane.getWidth() / N_COLUMN * YOU_COL_SPAN, pane.getHeight() / N_ROW, false, false)), YOU_XPOS, YOU_YPOS, YOU_COL_SPAN, PLAYER_ROW_SPAN);
-                }
-            }
-        }
-        Label points = new Label(gui.getYouRepresentation().get(YOU_POINT));
-        grid.add(points, 3, 3);
-        points.setTextFill(Color.web("#ffffff", 0.8));
-        points.setStyle("-fx-font: 30 Helvetica;");
-        points.setEffect(new DropShadow());
-        GridPane.setHalignment(points, HPos.CENTER);
-
-        pane.getChildren().add(grid);
-
-        if(!gui.getYouRepresentation().get(PLAYER_SKULL).equals("")){
-            drawSkullOnYou(pane);
-        }
-        if(!gui.getYouRepresentation().get(PLAYER_DAMAGE).equals("")){
-            drawBloodOnYou(pane);
-        }
-        if(!gui.getYouRepresentation().get(PLAYER_MARK).equals("")){
-            drawMarkOnYou(pane);
-        }
     }
 
     public void buildKillShotTrack(Stage stage) {
@@ -1052,7 +952,7 @@ public class GameGUI {
                 this.typeOfFire = "interupt";
                 buildTarget(stage,"Player;"," ");
                 pane.getChildren().remove(pane2);
-                //TODO mandare RPU-Numero del powerup ' su chi lo vado ad usare
+                //TODO caso io non voglia mandare RPU-no
             });
             i++;
         }
@@ -1946,9 +1846,7 @@ public class GameGUI {
         winnerGrid.add(exit,0,2);
         GridPane.setHalignment(exit,HPos.CENTER);
         GridPane.setValignment(exit,VPos.CENTER);
-        exit.setOnAction(e->{
-            client.send("quit");
-        });
+        exit.setOnAction(e-> client.send("quit"));
 
         winnerGrid.setVgap(50);
 
@@ -1975,14 +1873,14 @@ public class GameGUI {
         }
     }
 
-    void rectangleStandard(Rectangle rectangle, Pane pane){
+    private void rectangleStandard(Rectangle rectangle, Pane pane){
         rectangle.setFill(Color.rgb(0, 0, 0, 0.8));
         rectangle.setEffect(new BoxBlur());
         rectangle.widthProperty().bind(pane.widthProperty());
         rectangle.heightProperty().bind(pane.heightProperty());
     }
 
-    void label40Helvetica(Label label, String color, double opacity){
+    private void label40Helvetica(Label label, String color, double opacity){
         label.setTextFill(Color.web(color, opacity));
         label.setStyle("-fx-font: 40 Helvetica;");
         label.setEffect(new DropShadow());

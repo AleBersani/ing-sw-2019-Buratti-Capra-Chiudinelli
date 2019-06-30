@@ -108,8 +108,8 @@ public class GUI extends Application implements ViewInterface {
         clearPane();
         this.backGraphicsGUI.backGround(stage);
         this.backGraphicsGUI.buildBoard(stage);
-        this.gameGUI.buildPlayers(stage);
-        this.gameGUI.buildYou(stage);
+        this.backGraphicsGUI.buildPlayers(stage);
+        this.backGraphicsGUI.buildYou(stage);
         this.gameGUI.buildKillShotTrack(stage);
         this.gameGUI.buildButtons(stage);
     }
@@ -202,14 +202,14 @@ public class GUI extends Application implements ViewInterface {
             }
             i++;
         }
-        this.gameGUI.buildPlayers(stage);
+        this.backGraphicsGUI.buildPlayers(stage);
     }
 
     private void showYou(){
         youRepresentation.clear();
         this.youData = this.youData.concat(" ");
         Collections.addAll(youRepresentation, this.youData.split(";"));
-        this.gameGUI.buildYou(stage);
+        this.backGraphicsGUI.buildYou(stage);
     }
 
     private void showKillShot(){
