@@ -1417,6 +1417,7 @@ public class GameGUI {
             final String[] targetString = {"TRG-"};
             if(typeOfFire.equals("interupt")){
                 targetString[0] = "RPU-".concat(handPosition).concat("'");
+                fireType = " ";
             }
             else {
                 if (typeOfFire.equals("upu")) {
