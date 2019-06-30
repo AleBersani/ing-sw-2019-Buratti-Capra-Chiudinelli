@@ -79,16 +79,6 @@ public class GameGUI {
         this.client = client;
     }
 
-    public void backGround(Stage stage) {
-        //backGround image
-        StackPane pane = (StackPane) stage.getScene().getRoot();
-        stage.getScene().setRoot(pane);
-        ImageView screen = new ImageView(new Image("/images/game/metallicScreen.png"));
-        screen.fitWidthProperty().bind(pane.widthProperty());
-        screen.fitHeightProperty().bind(pane.heightProperty());
-        pane.getChildren().add(screen);
-    }
-
     public void buildBoard(Stage stage) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
@@ -1227,8 +1217,11 @@ public class GameGUI {
             GridPane.setValignment(powerUp, VPos.CENTER);
             int pU = i;
             powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
-                client.send("RPU-".concat(Integer.toString(pU)));
+                this.handPosition = String.valueOf(pU);
+                this.typeOfFire = "interupt";
+                buildTarget(stage,"Player;"," ");
                 pane.getChildren().remove(pane2);
+                //TODO mandare RPU-Numero del powerup ' su chi lo vado ad usare
             });
             i++;
         }
@@ -1422,14 +1415,19 @@ public class GameGUI {
             final int[] k = {0};
             String fireType = "";
             final String[] targetString = {"TRG-"};
-            if (typeOfFire.equals("upu")) {
-                //caso powerup
-                targetString[0] = targetString[0].concat("POU-").concat(handPosition).concat("'");
-                fireType = " ";
-            } else {
-                //caso armi
-                targetString[0] = targetString[0].concat("WPN-").concat(handPosition).concat("'").concat(movement).concat("'");
-                fireType = typeOfFire;
+            if(typeOfFire.equals("interupt")){
+                targetString[0] = "RPU-".concat(handPosition).concat("'");
+            }
+            else {
+                if (typeOfFire.equals("upu")) {
+                    //caso powerup
+                    targetString[0] = targetString[0].concat("POU-").concat(handPosition).concat("'");
+                    fireType = " ";
+                } else {
+                    //caso armi
+                    targetString[0] = targetString[0].concat("WPN-").concat(handPosition).concat("'").concat(movement).concat("'");
+                    fireType = typeOfFire;
+                }
             }
             final String[] target = {" ", " ", " ", " "};
 

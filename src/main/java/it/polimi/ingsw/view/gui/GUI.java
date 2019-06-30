@@ -20,6 +20,7 @@ public class GUI extends Application implements ViewInterface {
     private Stage stage;
     private LoginGUI loginGUI;
     private GameGUI gameGUI;
+    private BackGraphicsGUI backGraphicsGUI;
     private MessageHandler messageHandler;
     private boolean sendable;
     private boolean messageToShow;
@@ -78,6 +79,7 @@ public class GUI extends Application implements ViewInterface {
         this.killShotRepresentation = new ArrayList<>();
         this.loginGUI = new LoginGUI(this,messageHandler,client);
         this.gameGUI = new GameGUI(this,client);
+        this.backGraphicsGUI = new BackGraphicsGUI (this,client);
         client.setMessageHandler(messageHandler);
         client.init();
         client.start();
@@ -104,7 +106,7 @@ public class GUI extends Application implements ViewInterface {
 
     void reShow(){
         clearPane();
-        this.gameGUI.backGround(stage);
+        this.backGraphicsGUI.backGround(stage);
         this.gameGUI.buildBoard(stage);
         this.gameGUI.buildPlayers(stage);
         this.gameGUI.buildYou(stage);
@@ -183,7 +185,7 @@ public class GUI extends Application implements ViewInterface {
         }
         this.stage.setFullScreen(true);
         this.clearPane();
-        this.gameGUI.backGround(stage);
+        this.backGraphicsGUI.backGround(stage);
         this.gameGUI.buildBoard(stage);
     }
 
@@ -241,6 +243,7 @@ public class GUI extends Application implements ViewInterface {
     }
 
     private void suspance(){
+        reShow();
         this.gameGUI.suspended(stage);
     }
 
