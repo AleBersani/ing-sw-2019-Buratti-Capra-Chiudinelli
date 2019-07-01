@@ -22,379 +22,60 @@ import java.util.ArrayList;
 public class GameGUI {
     private GUI gui;
     private Client client;
-    private GridPane boardGrid;
-    private boolean stopClickStore = false;
-    protected boolean optionalShoot = false;
-    protected boolean endTurn = false;
+    GridPane boardGrid;
+    boolean optionalShoot = false;
+    boolean endTurn = false;
     private String handPosition;
     private String typeOfFire;
     private String powerUpPay;
     private String nameWeapon;
 
-    private static final String PURPLE = "purple";
-    private static final String BLUE = "blue";
-    private static final String GREEN = "green";
-    private static final String YELLOW = "yellow";
-    private static final String GREY = "grey";
+    static final String PURPLE = "purple";
+    static final String BLUE = "blue";
+    static final String GREEN = "green";
+    static final String YELLOW = "yellow";
+    static final String GREY = "grey";
     private static final int SHOOT_ADRENALINE = 6;
-    private static final int N_INNER_COLUMN = 3;
-    private static final int N_COLUMN = 7;
-    private static final int N_INNER_ROW = 3;
-    private static final int N_ROW = 5;
-    private static final int CELL_X = 0;
-    private static final int CELL_Y = 1;
-    private static final int CELL_COLOR = 2;
-    private static final int CELL_TYPE = 3;
-    private static final int CELL_INSIDE = 4;
-    private static final int CELL_PLAYER_ON_ME = 6;
-    private static final int CELL_DOORS = 8;
-    private static final int CELL_WALLS = 10;
-    private static final int PLAYER_SKULL = 0;
-    private static final int PLAYER_ROW_SPAN = 1;
+    static final int N_INNER_COLUMN = 3;
+    static final int N_COLUMN = 7;
+    static final int N_INNER_ROW = 3;
+    static final int N_ROW = 5;
+    static final int CELL_X = 0;
+    static final int CELL_Y = 1;
+    static final int CELL_COLOR = 2;
+    static final int CELL_TYPE = 3;
+    static final int CELL_INSIDE = 4;
+    static final int CELL_PLAYER_ON_ME = 6;
+    static final int CELL_DOORS = 8;
+    static final int CELL_WALLS = 10;
+    static final int PLAYER_SKULL = 0;
+    static final int PLAYER_ROW_SPAN = 1;
     private static final int PLAYER_AMMO = 1;
-    private static final int PLAYER_COL_SPAN = 3;
-    private static final int PLAYER_DAMAGE = 3;
-    private static final int PLAYER_XPOS = 4;
-    private static final int PLAYER_MARK = 5;
+    static final int PLAYER_COL_SPAN = 3;
+    static final int PLAYER_DAMAGE = 3;
+    static final int PLAYER_XPOS = 4;
+    static final int PLAYER_MARK = 5;
     private static final int PLAYER_POWER_UP = 6;
     private static final int PLAYER_WEAPON = 8;
-    private static final int PLAYER_COLOR = 9;
-    private static final int PLAYER_TURNED = 10;
-    private static final int PLAYER_FRENZY = 11;
-    private static final int YOU_XPOS = 0;
-    private static final int YOU_COL_SPAN = 4;
-    private static final int YOU_YPOS = 4;
-    private static final int YOU_POINT = 12;
+    static final int PLAYER_COLOR = 9;
+    static final int PLAYER_TURNED = 10;
+    static final int PLAYER_FRENZY = 11;
+    static final int YOU_XPOS = 0;
+    static final int YOU_COL_SPAN = 4;
+    static final int YOU_YPOS = 4;
+    static final int YOU_POINT = 12;
     private static final int YOU_WEAPON = 14;
     private static final int YOU_POWERUP = 16;
-    private static final int KILL_ROW = 3;
-    private static final int KILL_COL = 0;
-    private static final int KILL_TOT_SKULL = 0;
-    private static final int KILL_ROW_SPAN = 1;
-    private static final int KILL_COL_SPAN = 3;
+    static final int KILL_ROW = 3;
+    static final int KILL_COL = 0;
+    static final int KILL_TOT_SKULL = 0;
+    static final int KILL_ROW_SPAN = 1;
+    static final int KILL_COL_SPAN = 3;
     private static final int NUMBER_OF_WEAPON = 3;
 
-    public GameGUI(GUI gui, Client client) {
+    GameGUI(GUI gui, Client client) {
         this.gui = gui;
         this.client = client;
-    }
-
-    public void buildBoard(Stage stage) {
-        StackPane pane = (StackPane) stage.getScene().getRoot();
-        stage.getScene().setRoot(pane);
-        stage.setResizable(false);
-        GridPane grid = new GridPane();
-
-        //grid column constraint
-        columnConstraint(grid, N_COLUMN);
-
-        //grid row constraint
-        rowConstraint(grid, N_ROW);
-
-        //cells
-        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
-            for (ArrayList<String> cell : room) {
-                if (!cell.isEmpty()) {
-                    int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
-                    int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
-                    String color = cell.get(CELL_COLOR);
-                    if ((color.equals(BLUE)) || (color.equals(GREEN)) || (color.equals(PURPLE)) || (color.equals("red")) || (color.equals("white")) || (color.equals(YELLOW))) {
-                        grid.add(new ImageView(new Image("/images/game/cell/".concat(color).concat("Cell.png"), pane.getWidth() / N_COLUMN, pane.getHeight() / N_ROW, false, false)), xPos, yPos);
-                    }
-                }
-            }
-        }
-
-        //walls
-        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
-            for (ArrayList<String> cell : room) {
-                int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
-                int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
-                for (String s : cell.get(CELL_WALLS).split("'")) {
-                    String wall = "wall".concat(s).concat(".png");
-                    if ((wall.equals("wallN.png")) || (wall.equals("wallS.png")) || (wall.equals("wallW.png")) || (wall.equals("wallE.png"))) {
-                        grid.add(new ImageView(new Image("/images/game/cell/wall/".concat(wall), pane.getWidth() / N_COLUMN, pane.getHeight() / N_ROW, false, false)), xPos, yPos);
-                    }
-                }
-            }
-        }
-
-        //doors
-        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
-            for (ArrayList<String> cell : room) {
-                if (!cell.get(CELL_DOORS).isEmpty()) {
-                    for (String singleDoor : cell.get(CELL_DOORS).split(":")) {
-                        int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
-                        int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
-                        String[] door = singleDoor.split("'");
-                        int xDoor = Integer.parseInt(door[CELL_X]);
-                        int yDoor = Integer.parseInt(door[CELL_Y]);
-                        String doorDirection = "";
-                        if (xPos + 1 == xDoor) {
-                            if (yPos + 1 > yDoor) {
-                                doorDirection = "doorN.png";
-                            }
-                            if (yPos + 1 < yDoor) {
-                                doorDirection = "doorS.png";
-                            }
-                        } else {
-                            if (xPos + 1 > xDoor) {
-                                doorDirection = "doorW.png";
-                            }
-                            if (xPos + 1 < xDoor) {
-                                doorDirection = "doorE.png";
-                            }
-                        }
-                        grid.add(new ImageView(new Image("/images/game/cell/door/".concat(doorDirection), pane.getWidth() / N_COLUMN, pane.getHeight() / N_ROW, false, false)), xPos, yPos);
-                    }
-                }
-            }
-        }
-
-        //Ammopoint
-        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
-            for (ArrayList<String> cell : room) {
-                int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
-                int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
-                if (cell.get(CELL_TYPE).equals("AmmoPoint")) {
-                    String ammoName = "";
-                    if (!cell.get(CELL_INSIDE).equals("")) {
-                        for (String s : cell.get(CELL_INSIDE).split("'")) {
-                            String[] difi = s.split(":");
-                            if (s.startsWith("Y:")) {
-                                if (!difi[1].equals("0")) {
-                                    ammoName = ammoName.concat("y").concat(difi[1]);
-                                }
-                            } else {
-                                if (s.startsWith("R:")) {
-                                    if (!difi[1].equals("0")) {
-                                        ammoName = ammoName.concat("r").concat(difi[1]);
-                                    }
-                                } else {
-                                    if (s.startsWith("B:")) {
-                                        if (!difi[1].equals("0")) {
-                                            ammoName = ammoName.concat("b").concat(difi[1]);
-                                        }
-                                    } else {
-                                        if (s.startsWith("PU:")) {
-                                            if (!difi[1].equals("0")) {
-                                                ammoName = ammoName.concat("pu").concat(difi[1]);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        ImageView ammoTile = new ImageView(new Image("/images/game/ammo/tiles/".concat(ammoName).concat(".png"), pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
-                        grid.add(ammoTile, xPos, yPos);
-                        GridPane.setHalignment(ammoTile, HPos.CENTER);
-                        GridPane.setValignment(ammoTile, VPos.CENTER);
-                    }
-                }
-            }
-        }
-
-        //playersToken
-        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
-            for (ArrayList<String> cell : room) {
-                int xPos = Integer.valueOf(cell.get(CELL_X)) - 1;
-                int yPos = Integer.valueOf(cell.get(CELL_Y)) - 1;
-                for (String player : cell.get(CELL_PLAYER_ON_ME).split("'")) {
-                    switch (player) {
-                        case PURPLE: {
-                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/purpleToken.png", pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
-                            grid.add(playerToken, xPos, yPos);
-                            GridPane.setHalignment(playerToken, HPos.RIGHT);
-                            GridPane.setValignment(playerToken, VPos.CENTER);
-                            break;
-                        }
-                        case BLUE: {
-                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/blueToken.png", pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
-                            grid.add(playerToken, xPos, yPos);
-                            GridPane.setHalignment(playerToken, HPos.LEFT);
-                            GridPane.setValignment(playerToken, VPos.CENTER);
-                            break;
-                        }
-                        case GREEN: {
-                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/greenToken.png", pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
-                            grid.add(playerToken, xPos, yPos);
-                            GridPane.setHalignment(playerToken, HPos.CENTER);
-                            GridPane.setValignment(playerToken, VPos.BOTTOM);
-                            break;
-                        }
-                        case YELLOW: {
-                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/yellowToken.png", pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
-                            grid.add(playerToken, xPos, yPos);
-                            GridPane.setHalignment(playerToken, HPos.LEFT);
-                            GridPane.setValignment(playerToken, VPos.BOTTOM);
-                            break;
-                        }
-                        case GREY: {
-                            ImageView playerToken = new ImageView(new Image("/images/game/tokens/greyToken.png", pane.getWidth() / N_COLUMN / N_INNER_COLUMN, pane.getHeight() / N_ROW / N_INNER_ROW, false, false));
-                            grid.add(playerToken, xPos, yPos);
-                            GridPane.setHalignment(playerToken, HPos.RIGHT);
-                            GridPane.setValignment(playerToken, VPos.BOTTOM);
-                            break;
-                        }
-                        default:
-                    }
-                }
-            }
-        }
-
-        //pane.add
-        pane.getChildren().add(grid);
-        boardGrid = grid;
-    }
-
-    public void buildPlayers(Stage stage) {
-        StackPane pane = (StackPane) stage.getScene().getRoot();
-        stage.getScene().setRoot(pane);
-        GridPane grid = new GridPane();
-
-        //grid column constraint
-        columnConstraint(grid, N_COLUMN);
-
-        //grid row constraint
-        rowConstraint(grid, N_ROW);
-
-        int i = 0;
-        for (ArrayList<String> player : gui.getPlayersRepresentation()) {
-            String[] color = player.get(PLAYER_COLOR).split(":");
-            String playerPlance = color[1];
-            String[] turned = player.get(PLAYER_TURNED).split(":");
-            String playerTurned = turned[1];
-            String[] frenzy = player.get(PLAYER_FRENZY).split(":");
-            String turnFrenzy = frenzy[1];
-            String declaration = "/images/game/plance/";
-
-            if ((playerPlance.equals(PURPLE)) || (playerPlance.equals(BLUE)) || (playerPlance.equals(GREEN)) || (playerPlance.equals(YELLOW)) || (playerPlance.equals(GREY))) {
-                if (turnFrenzy.equals("false")) { //frenzy false
-                    grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("Player.png"), pane.getWidth() / N_COLUMN * PLAYER_COL_SPAN, pane.getHeight() / N_ROW, false, false)), PLAYER_XPOS, i, PLAYER_COL_SPAN, PLAYER_ROW_SPAN);
-                } else {
-                    if (playerTurned.equals("false")) {   //turned false
-                        grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedActionPlayer.png"), pane.getWidth() / N_COLUMN * PLAYER_COL_SPAN, pane.getHeight() / N_ROW, false, false)), PLAYER_XPOS, i, PLAYER_COL_SPAN, PLAYER_ROW_SPAN);
-                    } else {   //frenzy true and turned true
-                        grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedPlayer.png"), pane.getWidth() / N_COLUMN * PLAYER_COL_SPAN, pane.getHeight() / N_ROW, false, false)), PLAYER_XPOS, i, PLAYER_COL_SPAN, PLAYER_ROW_SPAN);
-                    }
-                }
-            }
-            i++;
-        }
-        pane.getChildren().add(grid);
-
-        for (ArrayList<String> player : gui.getPlayersRepresentation()){
-            if(!player.get(PLAYER_SKULL).equals("")){
-                drawSkullOnPlayer(pane);
-            }
-            if(!player.get(PLAYER_DAMAGE).equals("")){
-                drawBloodOnPlayer(pane);
-            }
-            if(!player.get(PLAYER_MARK).equals("")){
-                drawMarkOnPlayer(pane);
-            }
-        }
-    }
-
-    public void buildYou(Stage stage) {
-        StackPane pane = (StackPane) stage.getScene().getRoot();
-        stage.getScene().setRoot(pane);
-        stage.setResizable(false);
-        GridPane grid = new GridPane();
-
-        //grid column constraint
-        columnConstraint(grid, N_COLUMN);
-
-        //grid row constraint
-        rowConstraint(grid, N_ROW);
-
-        String[] color = gui.getYouRepresentation().get(PLAYER_COLOR).split(":");
-        String playerPlance = color[1];
-        String[] turned = gui.getYouRepresentation().get(PLAYER_TURNED).split(":");
-        String playerTurned = turned[1];
-        String[] frenzy = gui.getYouRepresentation().get(PLAYER_FRENZY).split(":");
-        String turnFrenzy = frenzy[1];
-        String declaration = "/images/game/plance/";
-
-        if ((playerPlance.equals(PURPLE)) || (playerPlance.equals(BLUE)) || (playerPlance.equals(GREEN)) || (playerPlance.equals(YELLOW)) || (playerPlance.equals(GREY))) {
-            if (turnFrenzy.equals("false")) {
-                grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("Player.png"), pane.getWidth() / N_COLUMN * YOU_COL_SPAN, pane.getHeight() / N_ROW, false, false)), YOU_XPOS, YOU_YPOS, YOU_COL_SPAN, PLAYER_ROW_SPAN);
-            } else {
-                if (playerTurned.equals("false")) {
-                    grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedActionPlayer.png"), pane.getWidth() / N_COLUMN * YOU_COL_SPAN, pane.getHeight() / N_ROW, false, false)), YOU_XPOS, YOU_YPOS, YOU_COL_SPAN, PLAYER_ROW_SPAN);
-                } else {
-                    grid.add(new ImageView(new Image(declaration.concat(playerPlance).concat("TurnedPlayer.png"), pane.getWidth() / N_COLUMN * YOU_COL_SPAN, pane.getHeight() / N_ROW, false, false)), YOU_XPOS, YOU_YPOS, YOU_COL_SPAN, PLAYER_ROW_SPAN);
-                }
-            }
-        }
-        Label points = new Label(gui.getYouRepresentation().get(YOU_POINT));
-        grid.add(points, 3, 3);
-        points.setTextFill(Color.web("#ffffff", 0.8));
-        points.setStyle("-fx-font: 30 Helvetica;");
-        points.setEffect(new DropShadow());
-        GridPane.setHalignment(points, HPos.CENTER);
-
-        pane.getChildren().add(grid);
-
-        if(!gui.getYouRepresentation().get(PLAYER_SKULL).equals("")){
-            drawSkullOnYou(pane);
-        }
-        if(!gui.getYouRepresentation().get(PLAYER_DAMAGE).equals("")){
-            drawBloodOnYou(pane);
-        }
-        if(!gui.getYouRepresentation().get(PLAYER_MARK).equals("")){
-            drawMarkOnYou(pane);
-        }
-    }
-
-    public void buildKillShotTrack(Stage stage) {
-        StackPane pane = (StackPane) stage.getScene().getRoot();
-        stage.getScene().setRoot(pane);
-        stage.setResizable(false);
-        GridPane grid = new GridPane();
-
-        columnConstraint(grid, N_COLUMN);
-
-        rowConstraint(grid, N_ROW);
-
-        grid.add(new ImageView(new Image("/images/game/killshotTrack.png", pane.getWidth() / N_COLUMN * KILL_COL_SPAN, pane.getHeight() / N_COLUMN, false, false)), KILL_COL, KILL_ROW, KILL_COL_SPAN, KILL_ROW_SPAN);
-        pane.getChildren().add(grid);
-
-        Pane pane2 = new Pane();
-        String[] damage = gui.getKillShotRepresentation().get(1).split("'");
-        String[] doubleDamage = gui.getKillShotRepresentation().get(2).substring(1,gui.getKillShotRepresentation().get(2).length()-1).split(",");
-        int totalSkull = Integer.parseInt(gui.getKillShotRepresentation().get(KILL_TOT_SKULL));
-        int i;
-        for (i = 0; i < totalSkull; i++) {
-            String bloodString = "";
-            if ((i < damage.length) && (!damage[i].equals(""))) {
-                bloodString = damage[i].concat("Blood");
-                doubleDamage[i] = doubleDamage[i].replace(" ","");
-                if (doubleDamage[i].equals("true")) {
-                    bloodString = bloodString.concat("X2");
-                }
-            } else {
-                bloodString = "redSkull";
-            }
-            ImageView blood = new ImageView(new Image("/images/game/blood/".concat(bloodString).concat(".png"), pane.getWidth() / 30, pane.getHeight() / 15, false, false));
-            blood.setX(pane.getWidth() / 3.02 - ((totalSkull - 1 - i) * pane.getWidth() / 21.5));
-            blood.setY(pane.getHeight() / 1.5);
-            pane2.getChildren().add(blood);
-        }
-        for(;i<damage.length;i++){
-            String bloodString = "";
-            bloodString = damage[i].concat("Blood");
-            doubleDamage[i] = doubleDamage[i].replace(" ","");
-            if (doubleDamage[i].equals("true")) {
-                bloodString = bloodString.concat("X2");
-            }
-            ImageView blood = new ImageView(new Image("/images/game/blood/".concat(bloodString).concat(".png"), pane.getWidth() / 30, pane.getHeight() / 15, false, false));
-            blood.setX(pane.getWidth() / 2.9 + (i * pane.getWidth() / 60));
-            blood.setY(pane.getHeight() / 1.5);
-            pane2.getChildren().add(blood);
-        }
-        pane.getChildren().add(pane2);
     }
 
     public void buildButtons(Stage stage) {
@@ -1044,6 +725,12 @@ public class GameGUI {
                     j++;
                 }
 
+                for (int k = 0; k < (j - 1); k++) {
+                    RowConstraints buttonRow = new RowConstraints();
+                    buttonRow.setPrefHeight(pane.getHeight() / (NUMBER_OF_WEAPON * (j - 1)));
+                    opzShootGrid.getRowConstraints().add(buttonRow);
+                }
+
                 String weaponName = this.nameWeapon.concat("Info");
                 ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName).concat(".png"), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
                 opzShootGrid.add(weaponIV, 0, 1, 1, j - 1);
@@ -1201,12 +888,15 @@ public class GameGUI {
         GridPane.setHalignment(text, HPos.CENTER);
         GridPane.setValignment(text, VPos.CENTER);
 
+        //TODO vedere se davvero sono questi che tagliano la scritta
+        /*
         for (int i = 0; i < numberPowerup; i++) {
             ColumnConstraints col = new ColumnConstraints();
             col.setHgrow(Priority.ALWAYS);
             col.setPercentWidth(20);
             grid2.getColumnConstraints().add(col);
         }
+        */
         int i = 0;
         for (String powerups : powerupNumber) {
             String realPowerUp = powerUpSwitch(powerups);
@@ -1221,13 +911,22 @@ public class GameGUI {
                 this.typeOfFire = "interupt";
                 buildTarget(stage,"Player;"," ");
                 pane.getChildren().remove(pane2);
-                //TODO mandare RPU-Numero del powerup ' su chi lo vado ad usare
+                //TODO caso io non voglia mandare RPU-no
             });
             i++;
         }
         grid2.setAlignment(Pos.CENTER);
         grid2.setHgap(70);
         grid2.setVgap(50);
+
+        Button nope = new Button("IGNORE");
+        grid2.add(nope, 0, 2, numberPowerup, 1);
+        GridPane.setHalignment(nope, HPos.CENTER);
+        GridPane.setValignment(nope, VPos.CENTER);
+        nope.setOnAction(e -> {
+            client.send("RPU-no");
+            pane.getChildren().remove(pane2);
+        });
 
         pane2.getChildren().add(rectangle);
         pane2.getChildren().add(grid2);
@@ -1902,120 +1601,6 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-    public void drawBloodOnYou(StackPane pane) {
-        String[] blood = gui.getYouRepresentation().get(PLAYER_DAMAGE).split("'");
-
-        for(int i=0;i<blood.length;i++){
-            if(!blood[i].equals("")) {
-                ImageView bloodIV = new ImageView(new Image("/images/game/blood/".concat(blood[i]).concat("Blood.png"), pane.getWidth() / 25, pane.getHeight() / 15, false, false));
-                String [] turned = gui.getYouRepresentation().get(PLAYER_TURNED).split(":");
-                if(turned[1].equals("false")){
-                    bloodIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 14.8837 + (i * pane.getWidth() / (2.8318*11)));
-                    bloodIV.setTranslateY(-pane.getHeight()/2 + pane.getHeight() / 1.1106);
-                }
-                else{
-                    bloodIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 13.9130 + (i * pane.getWidth() / (2.8893*11)));
-                    bloodIV.setTranslateY(-pane.getHeight()/2 + pane.getHeight() / 1.1106);
-                }
-                pane.getChildren().add(bloodIV);
-            }
-        }
-    }
-
-    public void drawSkullOnYou(StackPane pane) {
-        String[] skull = gui.getYouRepresentation().get(PLAYER_SKULL).split(":");
-
-        for (int i = 0; i < Integer.valueOf(skull[1]); i++) {
-            ImageView skullIV = new ImageView(new Image("/images/game/blood/redSkull.png", pane.getWidth() / 35, pane.getHeight() / 20, false, false));
-            String [] turned = gui.getYouRepresentation().get(PLAYER_TURNED).split(":");
-            if(turned[1].equals("false")) {
-                skullIV.setTranslateX(-pane.getWidth() / 2 + pane.getWidth() / 7.4418 + (i * pane.getWidth() / (6.5641 * 5)));
-                skullIV.setTranslateY(-pane.getHeight() / 2 + pane.getHeight() / 1.0312);
-            }
-            else{
-                skullIV.setTranslateX(-pane.getWidth() / 2 + pane.getWidth() / 5.8986 + (i * pane.getWidth() / (10.9401 * 3)));
-                skullIV.setTranslateY(-pane.getHeight() / 2 + pane.getHeight() / 1.0301);
-            }
-            pane.getChildren().add(skullIV);
-        }
-    }
-
-    public void drawMarkOnYou(StackPane pane){
-        String[] mark = gui.getYouRepresentation().get(PLAYER_MARK).split("'");
-
-        for(int i=0;i<mark.length;i++){
-            if(!mark[i].equals("")) {
-                ImageView markIV = new ImageView(new Image("/images/game/blood/".concat(mark[i]).concat("Blood.png"), pane.getWidth() / 40, pane.getHeight() / 25, false, false));
-                markIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 2.3572 - (i * pane.getWidth() / (6.7724*11)));
-                markIV.setTranslateY(-pane.getHeight()/2 + pane.getHeight() / 1.2161);
-                pane.getChildren().add(markIV);
-            }
-        }
-    }
-
-    public void drawBloodOnPlayer(StackPane pane){
-        int j=0;
-        for(ArrayList<String> player : gui.getPlayersRepresentation()) {
-            String[] blood = player.get(PLAYER_DAMAGE).split("'");
-
-            for(int i=0;i<blood.length;i++){
-                if(!blood[i].equals("")) {
-                    ImageView bloodIV = new ImageView(new Image("/images/game/blood/".concat(blood[i]).concat("Blood.png"), pane.getWidth() / 25, pane.getHeight() / 15, false, false));
-                    String [] turned = player.get(PLAYER_TURNED).split(":");
-                    if(turned[1].equals("false")) {
-                        bloodIV.setTranslateX(-pane.getWidth() / 2 + pane.getWidth() / 1.6120 + (i * pane.getWidth() / (3.7647 * 11)));
-                        bloodIV.setTranslateY(-pane.getHeight() / 2 + pane.getHeight() / 9.8461 + (j * pane.getHeight() / N_ROW));
-                    }
-                    else{
-                        bloodIV.setTranslateX(-pane.getWidth() / 2 + pane.getWidth() / 1.6 + (i * pane.getWidth() / (3.8323 * 11)));
-                        bloodIV.setTranslateY(-pane.getHeight() / 2 + pane.getHeight() / 9.8461 + (j * pane.getHeight() / N_ROW));
-                    }
-                    pane.getChildren().add(bloodIV);
-                }
-            }
-            j++;
-        }
-    }
-
-    public void drawSkullOnPlayer(StackPane pane){
-        int j=0;
-        for(ArrayList<String> player : gui.getPlayersRepresentation()){
-            String[] skull = player.get(PLAYER_SKULL).split(":");
-
-            for (int i = 0; i < Integer.valueOf(skull[1]); i++) {
-                ImageView skullIV = new ImageView(new Image("/images/game/blood/redSkull.png", pane.getWidth() / 35, pane.getHeight() / 20, false, false));
-                String [] turned = player.get(PLAYER_TURNED).split(":");
-                if(turned[1].equals("false")) {
-                    skullIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 1.4901 + (i * pane.getWidth() / (8.7671*5)));
-                    skullIV.setTranslateY(-pane.getHeight()/2 + pane.getHeight() / 5.9534 + (j*pane.getHeight()/N_ROW));
-                }
-                else{
-                    skullIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 1.4317 + (i * pane.getWidth() / (14.3820*3)));
-                    skullIV.setTranslateY(-pane.getHeight()/2 + pane.getHeight() / 5.9190 + (j*pane.getHeight()/N_ROW));
-                }
-                pane.getChildren().add(skullIV);
-            }
-            j++;
-        }
-    }
-
-    public void drawMarkOnPlayer(StackPane pane){
-        int j=0;
-        for(ArrayList<String> player : gui.getPlayersRepresentation()) {
-            String[] mark = player.get(PLAYER_MARK).split("'");
-
-            for(int i=0;i<mark.length;i++){
-                if(!mark[i].equals("")) {
-                    ImageView markIV = new ImageView(new Image("/images/game/blood/".concat(mark[i]).concat("Blood.png"), pane.getWidth() / 40, pane.getHeight() / 25, false, false));
-                    markIV.setTranslateX(-pane.getWidth()/2 + pane.getWidth() / 1.1188 - (i * pane.getWidth() / (8.5906*11)));
-                    markIV.setTranslateY(-pane.getHeight()/2 + pane.getHeight() / 42.6666 + (j * pane.getHeight() / N_ROW));
-                    pane.getChildren().add(markIV);
-                }
-            }
-            j++;
-        }
-    }
-
     public void informationMessage(Stage stage,String msg){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         StackPane pane2 = new StackPane();
@@ -2115,16 +1700,14 @@ public class GameGUI {
         winnerGrid.add(exit,0,2);
         GridPane.setHalignment(exit,HPos.CENTER);
         GridPane.setValignment(exit,VPos.CENTER);
-        exit.setOnAction(e->{
-            client.send("quit");
-        });
+        exit.setOnAction(e-> client.send("quit"));
 
         winnerGrid.setVgap(50);
 
         pane.getChildren().add(winnerGrid);
     }
 
-    private void columnConstraint(GridPane grid, double nColumn){
+    void columnConstraint(GridPane grid, double nColumn){
         for (int j = 0 ; j < nColumn; j++) {
             ColumnConstraints col = new ColumnConstraints();
             col.setHgrow(Priority.ALWAYS);
@@ -2134,7 +1717,7 @@ public class GameGUI {
         }
     }
 
-    private void rowConstraint(GridPane grid, double nRow){
+    void rowConstraint(GridPane grid, double nRow){
         for (int i = 0 ; i < nRow; i++) {
             RowConstraints row = new RowConstraints();
             row.setVgrow(Priority.ALWAYS);

@@ -79,7 +79,7 @@ public class GUI extends Application implements ViewInterface {
         this.killShotRepresentation = new ArrayList<>();
         this.loginGUI = new LoginGUI(this,messageHandler,client);
         this.gameGUI = new GameGUI(this,client);
-        this.backGraphicsGUI = new BackGraphicsGUI (this,client);
+        this.backGraphicsGUI = new BackGraphicsGUI (this,gameGUI);
         client.setMessageHandler(messageHandler);
         client.init();
         client.start();
@@ -107,10 +107,10 @@ public class GUI extends Application implements ViewInterface {
     void reShow(){
         clearPane();
         this.backGraphicsGUI.backGround(stage);
-        this.gameGUI.buildBoard(stage);
-        this.gameGUI.buildPlayers(stage);
-        this.gameGUI.buildYou(stage);
-        this.gameGUI.buildKillShotTrack(stage);
+        this.backGraphicsGUI.buildBoard(stage);
+        this.backGraphicsGUI.buildPlayers(stage);
+        this.backGraphicsGUI.buildYou(stage);
+        this.backGraphicsGUI.buildKillShotTrack(stage);
         this.gameGUI.buildButtons(stage);
     }
 
@@ -186,7 +186,7 @@ public class GUI extends Application implements ViewInterface {
         this.stage.setFullScreen(true);
         this.clearPane();
         this.backGraphicsGUI.backGround(stage);
-        this.gameGUI.buildBoard(stage);
+        this.backGraphicsGUI.buildBoard(stage);
     }
 
     private void showPlayers(){
@@ -202,20 +202,20 @@ public class GUI extends Application implements ViewInterface {
             }
             i++;
         }
-        this.gameGUI.buildPlayers(stage);
+        this.backGraphicsGUI.buildPlayers(stage);
     }
 
     private void showYou(){
         youRepresentation.clear();
         this.youData = this.youData.concat(" ");
         Collections.addAll(youRepresentation, this.youData.split(";"));
-        this.gameGUI.buildYou(stage);
+        this.backGraphicsGUI.buildYou(stage);
     }
 
     private void showKillShot(){
         killShotRepresentation.clear();
         Collections.addAll(killShotRepresentation, this.killShotTrackData.split(";"));
-        this.gameGUI.buildKillShotTrack(stage);
+        this.backGraphicsGUI.buildKillShotTrack(stage);
         this.gameGUI.buildButtons(stage);
     }
 
