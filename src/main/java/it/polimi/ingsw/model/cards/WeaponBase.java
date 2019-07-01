@@ -23,17 +23,6 @@ public class WeaponBase extends Weapon {
     }
 
     /**
-     * in the base weapons there is no extra cost
-     * @param payment the cost in the different ammo amounts
-     * @param which which effect
-     * @return true
-     */
-    @Override
-    protected boolean canPay(ArrayList<Integer> payment, int which) {
-        return true;
-    }
-
-    /**
      * throw an exception because this isn't an optional weapon
      * @param target are the targets of the fire
      * @param which which optional effect is going to be apply

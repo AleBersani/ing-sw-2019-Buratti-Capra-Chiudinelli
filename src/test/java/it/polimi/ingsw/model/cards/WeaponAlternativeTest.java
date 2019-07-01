@@ -169,10 +169,6 @@ class WeaponAlternativeTest {
         }
         assertThrows(InvalidTargetException.class,()->weapon.fireAlternative(target));
 
-        owner.setYellowAmmo(0);
-        owner.setBlueAmmo(0);
-        owner.setRedAmmo(0);
-        assertThrows(NoAmmoException.class,()->weapon.pay(owner,0,0,0,owner.getPowerUps(),0));
     }
 
     @Test

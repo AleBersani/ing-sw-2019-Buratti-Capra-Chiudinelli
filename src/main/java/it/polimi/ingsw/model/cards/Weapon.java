@@ -106,53 +106,6 @@ public abstract class Weapon implements Serializable {
         return min;
     }
 
-//TODO questi metodi sono da revisionare
-    void pay(Player owner, int red, int yellow, int blue, ArrayList<PowerUp> powerUps, int which) throws NoAmmoException {
-        ArrayList<Integer> payment;
-        payment=powerUpToPayment(powerUps,red,yellow,blue);
-        if (canPay(payment,which)) {
-            owner.setRedAmmo(owner.getRedAmmo() - red);
-            owner.setBlueAmmo(owner.getBlueAmmo() - blue);
-            owner.setYellowAmmo(owner.getYellowAmmo() - yellow);
-        }
-        else {
-            throw new NoAmmoException();
-        }
-    }
-
-    private ArrayList<Integer> powerUpToPayment(ArrayList<PowerUp> powerUps, int red, int yellow, int blue){
-        ArrayList<Integer> payment=new ArrayList<>();
-        for (PowerUp p : powerUps){
-            switch (p.getColor()) {
-                case "red": {
-                    red++;
-                    break;
-                }
-                case "yellow": {
-                    yellow++;
-                    break;
-                }
-                case "blue":{
-                    blue++;
-                    break;
-                }
-                default:
-            }
-        }
-        payment.add(red);
-        payment.add(yellow);
-        payment.add(blue);
-        return payment;
-    }
-
-    /**
-     * abstract method to verify if owner can pay the payment
-     * @param payment the cost in the different ammo amounts
-     * @param which which effect
-     * @return true if the owner can pay
-     */
-    protected abstract boolean canPay(ArrayList<Integer> payment, int which);
-
     /**
      * set load to true
      */
