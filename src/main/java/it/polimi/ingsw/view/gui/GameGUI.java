@@ -888,15 +888,6 @@ public class GameGUI {
         GridPane.setHalignment(text, HPos.CENTER);
         GridPane.setValignment(text, VPos.CENTER);
 
-        //TODO vedere se davvero sono questi che tagliano la scritta
-        /*
-        for (int i = 0; i < numberPowerup; i++) {
-            ColumnConstraints col = new ColumnConstraints();
-            col.setHgrow(Priority.ALWAYS);
-            col.setPercentWidth(20);
-            grid2.getColumnConstraints().add(col);
-        }
-        */
         int i = 0;
         for (String powerups : powerupNumber) {
             String realPowerUp = powerUpSwitch(powerups);
@@ -911,7 +902,6 @@ public class GameGUI {
                 this.typeOfFire = "interupt";
                 buildTarget(stage,"Player;"," ");
                 pane.getChildren().remove(pane2);
-                //TODO caso io non voglia mandare RPU-no
             });
             i++;
         }
@@ -1048,7 +1038,10 @@ public class GameGUI {
         }
 
         reloadGrid.add(done, 0, 2,i+2,1);
-        done.setOnAction(e -> client.send(toSend[0]));
+        done.setOnAction(e -> {
+            client.send(toSend[0]);
+            pane.getChildren().remove(pane2);
+        });
         GridPane.setHalignment(done, HPos.CENTER);
         GridPane.setValignment(done, VPos.CENTER);
 

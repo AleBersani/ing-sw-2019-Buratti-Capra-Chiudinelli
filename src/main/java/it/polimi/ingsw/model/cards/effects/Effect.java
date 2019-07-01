@@ -104,7 +104,7 @@ public abstract class Effect implements Serializable {
      * @param addToList addToList true if the enemy is needed to be added to the previous target list at level 0
      * @param removeFromList true if the enemy is needed to be removed from the previous target list at level 0, and added at level 1
      */
-    protected void previousMan(ArrayList<ArrayList<Player>> previousTarget,Player enemy,boolean addToList,boolean removeFromList){
+    void previousMan(ArrayList<ArrayList<Player>> previousTarget, Player enemy, boolean addToList, boolean removeFromList){
         if(addToList){
             previousTarget.get(0).add(enemy);
         }
@@ -113,15 +113,16 @@ public abstract class Effect implements Serializable {
             previousTarget.get(1).add(enemy);
         }
     }
-//TODO sistemare javadoc
+
     /**
      * utility method to apply the damages and marks on the targets
      * @param owner owner of the weapon
      * @param enemy player who was shot
      * @param damage the amount of damage to apply
      * @param mark the amount of mark to apply
+     * @param previousTarget is the list of targets of the previous effects
      */
-    protected void doRealDamage(Player owner,Player enemy,int damage,int mark, ArrayList<ArrayList<Player>> previousTarget){
+    void doRealDamage(Player owner, Player enemy, int damage, int mark, ArrayList<ArrayList<Player>> previousTarget){
         if(enemy!=owner){
             if(damage!=0){
                 previousTarget.get(2).add(enemy);

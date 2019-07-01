@@ -471,7 +471,7 @@ class PlayerTest {
         }
         assertEquals(1,guest.getPowerUps().size());
     }
-    /*
+
     //TODO rifare
     //TESTED THE TARGETING SCOPE POWER UP
     @Test
@@ -482,9 +482,16 @@ class PlayerTest {
         testingPowerUp.clear();
         testingPowerUp.add(targetingScope);
         guest.setPowerUps(testingPowerUp);
+        for(Weapon i : board.getWeaponsListCopy()) {
+            if (i.getName().equals("Lock rifle")) {
+                lockRifle = i;
+            }
+        }
+        guest.getWeapons().add(lockRifle);
+        lockRifle.getPreviousTarget().get(2).add(test);
         targetParameterTargetingScope = new TargetParameter(null,guest,test,null,null,null);
         try {
-            guest.usePowerUp(targetingScope,targetParameterTargetingScope);
+            targetingScope.useEffect(targetParameterTargetingScope,lockRifle.getPreviousTarget());
         } catch (InvalidTargetException e) {
             e.printStackTrace();
         } catch (NoOwnerException e) {
@@ -492,10 +499,9 @@ class PlayerTest {
         }
         assertEquals(1,test.getDamageCounter());
         assertEquals(guest,test.getDamage().get(0));
-        assertEquals(0,guest.getPowerUps().size());
         targetParameterTargetingScope = new TargetParameter(null,guest,guest,null,null,null);
         try {
-            guest.usePowerUp(targetingScope,targetParameterTargetingScope);
+            targetingScope.useEffect(targetParameterTargetingScope,lockRifle.getPreviousTarget());
         } catch (InvalidTargetException e) {
             assertThrows(InvalidTargetException.class,()->guest.usePowerUp(targetingScope,targetParameterTargetingScope));
         } catch (NoOwnerException e) {
@@ -503,7 +509,7 @@ class PlayerTest {
         }
     }
 
-
+/*
     //TESTED THE TAGBACK GRENADE POWER UP
     @Test
     public void testUsePowerUp5(){
@@ -532,8 +538,8 @@ class PlayerTest {
             e.printStackTrace();
         }
     }
+*/
 
-    */
     @Test
     public void testCanSee() {
         guest.setTurn(turn);

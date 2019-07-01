@@ -69,6 +69,10 @@ public class MessageHandler {
                 this.state = State.MENU;
                 break;
             }
+            case "Match started":{
+                this.state = State.GAME;
+                break;
+            }
             default:
         }
     }
@@ -95,6 +99,7 @@ public class MessageHandler {
             }
             case "Match started":{
                 this.state = State.GAME;
+                break;
             }
             default:
         }
