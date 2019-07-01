@@ -21,9 +21,9 @@ public class ClientInfo {
         weapon=null;
     }
 
-    ClientInfo(ClientHandler clientHandler, State state) {
-        this.clientHandler = clientHandler;
-        this.state = state;
+    public void suspend(){
+        this.suspended=true;
+        this.clientHandler.getController().numberCheck();
     }
 
     protected enum State{

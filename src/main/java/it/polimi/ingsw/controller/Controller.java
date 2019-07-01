@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Controller {
 
     private static final int MAX_ACTIONS = 2;
+    private static final int MINIMUM_PLAYER = 1; //TODO modificare
     private Map<String,ClientInfo> nicknameList = new ConcurrentHashMap<>();
     private ArrayList<String> disconnected = new ArrayList<>();
     private MultiServer server;
@@ -213,13 +214,14 @@ public class Controller {
                         else {
                             ArrayList<PowerUp> usable = new ArrayList<>();
                             try {
-                                for (PowerUp powerUp : playerFromNickname(clientHandler.getName(), this.match).getPowerUps()) {
+                                for (PowerUp powerUp : playerFromNickname(clientHandler.getName(), clientInfoFromClientHandeler(clientHandler).simulation).getPowerUps()) {
                                     if (powerUp.getOnResponse() && powerUp.getName().equals("targeting scope")) {
                                         usable.add(powerUp);
                                     }
                                 }
                                 usable.get(Integer.parseInt(msg.substring(ETIQUETTE).split("'")[0])).useEffect(generateTarget(msg.split("'")[1].substring(0, msg.split("'")[1].length() - 1), clientHandler, clientInfoFromClientHandeler(clientHandler).simulation),
                                         clientInfoFromClientHandeler(clientHandler).weapon.getPreviousTarget());
+                                playerFromNickname(clientHandler.getName(), clientInfoFromClientHandeler(clientHandler).simulation).discard(usable.get(Integer.parseInt(msg.substring(ETIQUETTE).split("'")[0])));
                                 if (clientInfoFromClientHandeler(clientHandler).weapon.isOptional()) {
                                     endOptionalShooting(clientHandler);
                                 } else {
@@ -681,8 +683,17 @@ public class Controller {
     private void login(String command, ClientHandler clientHandler) {
         if (gameStarted) {
             if (this.disconnected.contains(command)) {
+                clientHandler.setName(command);
                 this.disconnected.remove(command);
-                this.nicknameList.put(command, new ClientInfo(clientHandler, ClientInfo.State.GAME));
+                for (ClientInfo clientInfo : getNicknameList().values()){
+                    if(clientInfo.clientHandler.getName().equals(command)){
+                        clientInfo.clientHandler = clientHandler;
+                        clientInfo.clientHandler.setYourTurn(false);
+                        clientInfo.suspended = false;
+                    }
+                }
+                sendString("Match started", clientHandler);
+                updateBackground(this.match);
             }
             else {
                 sendString(">>> Game already started",clientHandler);
@@ -813,7 +824,13 @@ public class Controller {
         if(gameStarted) {
             disconnected.add(clientHandler.getName());
         }
-        getNicknameList().remove(clientHandler.getName());
+        try {
+            clientInfoFromClientHandeler(clientHandler).suspend();
+            clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.END);
+            understandMessage("RLD-", clientHandler);
+        } catch (NotFoundException e) {
+            sendString("error", clientHandler);
+        }
         for (ClientInfo clientInfo : getNicknameList().values()){
             sendString(">>>" + clientHandler.getName() + " disconnected", clientInfo.clientHandler);
             if(clientInfo.state.equals(ClientInfo.State.WAIT)){
@@ -867,7 +884,7 @@ public class Controller {
         suspending.schedule(new TimerTask() {
             @Override
             public void run() {
-                clientInfo.suspended=true;
+                clientInfo.suspend();
                 clientInfo.setState(ClientInfo.State.END);
                 understandMessage("RLD-", clientInfo.clientHandler);
             }
@@ -1058,6 +1075,19 @@ public class Controller {
             clientInfo.suspended=false;
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
+        }
+    }
+
+    void numberCheck() {
+        int activePlayers=getNicknameList().size();
+        for (ClientInfo clientInfo : getNicknameList().values()){
+            if(clientInfo.suspended){
+                activePlayers--;
+            }
+        }
+        if(activePlayers<MINIMUM_PLAYER){
+            this.match.endGame();
+            //TODO mandare messaggio
         }
     }
 
