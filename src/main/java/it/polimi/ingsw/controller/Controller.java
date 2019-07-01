@@ -131,7 +131,15 @@ public class Controller {
                             if (!msg.substring(ETIQUETTE).equals("")) {
                                 try {
                                     for (String weapon : msg.substring(ETIQUETTE).split(",")) {
-                                        playerFromNickname(clientHandler.getName(), this.match).reload(playerFromNickname(clientHandler.getName(),this.match).getWeapons().get(Integer.parseInt(weapon)));
+                                        Weapon realWepon = playerFromNickname(clientHandler.getName(),this.match).getWeapons().get(Integer.parseInt(weapon));
+                                        playerFromNickname(clientHandler.getName(), this.match).pay(
+                                                realWepon.getCostBlue(),
+                                                realWepon.getCostRed(),
+                                                realWepon.getCostYellow(),
+                                                null
+                                                //TODO generare powerUp
+                                        );
+                                        playerFromNickname(clientHandler.getName(), this.match).reload(realWepon);
                                     }
                                 } catch (NotFoundException e) {
                                     sendString("error", clientHandler);
@@ -140,6 +148,10 @@ public class Controller {
                                 } catch (NoAmmoException e) {
                                     reload(clientHandler);
                                     sendString(">>>You don't have enough ammo", clientHandler);
+                                    return;
+                                } catch (WrongPowerUpException e) {
+                                    reload(clientHandler);
+                                    sendString(">>>Wrong PowerUps", clientHandler);
                                     return;
                                 }
                                 updateBackground(this.match);
@@ -562,7 +574,7 @@ public class Controller {
 
     private void grabbingAction(ClientHandler clientHandler, String msg){
         try {
-            String[] stringo =msg.substring(ETIQUETTE).split(",");
+            String[] stringo =msg.substring(ETIQUETTE).split("/")[0].split(",");
             playerFromNickname(clientHandler.getName(), this.match).grab(match.getBoard().find(Integer.parseInt(stringo[0]),
                     Integer.parseInt(stringo[1])));
             updateBackground(this.match);
@@ -576,17 +588,25 @@ public class Controller {
         }
         catch (ElementNotFoundException e) {
             try {
+                Weapon weapon =((SpawnPoint)match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1]))).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[2]));
+                playerFromNickname(clientHandler.getName(), this.match).pay(
+                        weapon.getColor().equals("blue")? weapon.getCostBlue()-1 : weapon.getCostBlue(),
+                        weapon.getColor().equals("red")? weapon.getCostRed()-1 : weapon.getCostRed(),
+                        weapon.getColor().equals("yellow")? weapon.getCostYellow()-1 : weapon.getCostYellow(),
+                null);//TODO generare i power Ups
                 playerFromNickname(clientHandler.getName(), this.match).grabWeapon(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
                         Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])),Integer.parseInt(msg.substring(ETIQUETTE).split(",")[2]));
                 updateBackground(this.match);
                 lifeCycle(clientHandler);
-                //TODO richiamare grabWeapon con powerUp
             } catch (ElementNotFoundException e1) {
                 sendString(">>>Nothing to grab", clientHandler);
             }catch (NoAmmoException e1) {
                 sendString(">>>You don't have enough ammo", clientHandler);
             } catch (NotFoundException e1) {
                 sendString("error", clientHandler);
+            }
+            catch (WrongPowerUpException e1) {
+                sendString(">>>Wrong powerUps", clientHandler);
             }
             catch (MaxHandWeaponSizeException e1) {
                 try {

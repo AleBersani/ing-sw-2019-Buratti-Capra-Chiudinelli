@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.exception.InvalidTargetException;
-import it.polimi.ingsw.exception.NoAmmoException;
 import it.polimi.ingsw.exception.NoOwnerException;
 import it.polimi.ingsw.exception.NotThisKindOfWeapon;
 import it.polimi.ingsw.model.TargetParameter;
 import it.polimi.ingsw.model.cards.effects.Effect;
+
 import java.util.ArrayList;
 
 /**
@@ -79,18 +79,6 @@ public class WeaponOptional extends Weapon {
     @Override
     public boolean isAlternative() {
         return false;
-    }
-
-    /**
-     * method to verify if the owner can pay the optional effects
-     * @param payment the cost in the different ammo amounts
-     * @param which which effect
-     * @return true if the player can pay
-     */
-    @Override
-    protected boolean canPay(ArrayList<Integer> payment, int which){
-        return this.optionalEffect.get(which).get(0).getCostBlue()==payment.get(2) && this.optionalEffect.get(which).get(0).getCostRed()==payment.get(0) && this.optionalEffect.get(which).get(0).getCostYellow()==payment.get(1);
-
     }
 
     /**

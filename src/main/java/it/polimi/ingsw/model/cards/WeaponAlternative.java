@@ -79,11 +79,6 @@ public class WeaponAlternative extends Weapon {
      * @param which which effect
      * @return true if the player can pay
      */
-    @Override
-    protected boolean canPay(ArrayList<Integer> payment, int which){
-        return this.alternativeEffect.get(0).getCostBlue()==payment.get(2) && this.alternativeEffect.get(0).getCostRed()==payment.get(0) && this.alternativeEffect.get(0).getCostYellow()==payment.get(1);
-
-    }
 
     /**
      * getter method of the alternative effects

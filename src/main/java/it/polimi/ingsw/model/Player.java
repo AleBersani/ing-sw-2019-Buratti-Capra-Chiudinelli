@@ -4,7 +4,6 @@ import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.map.AmmoTile;
-import it.polimi.ingsw.model.map.SpawnPoint;
 import it.polimi.ingsw.model.map.Square;
 
 import java.io.Serializable;
@@ -182,58 +181,19 @@ public class Player implements Serializable {
      * @throws MaxHandWeaponSizeException This exception means that the player has already reached the maximum number of weapons in a hand
      * @throws NoAmmoException This exception means that the player doesn't have enough ammo to buy a weapon
      */
-    public void grabWeapon(Square destination, int position) throws ElementNotFoundException, MaxHandWeaponSizeException, NoAmmoException {
+    public void grabWeapon(Square destination, int position) throws ElementNotFoundException, MaxHandWeaponSizeException {
         Weapon weapon;
-        weapon= ((SpawnPoint)destination).getWeapons().get(position);
-        if (weapon.getCostRed() - isRed(weapon) <= this.redAmmo && weapon.getCostBlue() - isBlue(weapon) <= this.blueAmmo && weapon.getCostYellow() - isYellow(weapon) <= this.yellowAmmo){
-            this.redAmmo=this.redAmmo - (weapon.getCostRed() - isRed(weapon));
-            this.blueAmmo=this.blueAmmo - (weapon.getCostBlue() - isBlue(weapon));
-            this.yellowAmmo=this.yellowAmmo - (weapon.getCostYellow() - isYellow(weapon));
-            weapon=destination.grabWeapon(position);
-            this.weapons.add(weapon);
-            this.position.leaves(this);
-            this.position = destination;
-            destination.arrives(this);
-            this.turn.setActionCounter((this.turn.getActionCounter() + 1));
-            if (this.weapons.size() == 4) {
-                throw new MaxHandWeaponSizeException();
-            }
+        weapon=destination.grabWeapon(position);
+        this.weapons.add(weapon);
+        this.position.leaves(this);
+        this.position = destination;
+        destination.arrives(this);
+        this.turn.setActionCounter((this.turn.getActionCounter() + 1));
+        if (this.weapons.size() == 4) {
+            throw new MaxHandWeaponSizeException();
         }
-        else
-            throw new NoAmmoException();
     }
 
-    public void grabWeapon(Square destination, int position,ArrayList<PowerUp> payment) throws ElementNotFoundException, MaxHandWeaponSizeException, NoAmmoException {
-        Weapon weapon;
-        int discountRed=0;
-        int discountBlue=0;
-        int discountYellow=0;
-        weapon= ((SpawnPoint)destination).getWeapons().get(position);
-        for(PowerUp powerUp: payment){
-            switch (powerUp.getColor()){
-                case "red":
-                    discountRed++;
-                    break;
-                case "blue":
-                    discountBlue++;
-                    break;
-                case "yellow":
-                    discountYellow++;
-                    break;
-            }
-        }
-        if(weapon.getCostRed()<=this.redAmmo-discountRed && weapon.getCostBlue()<=this.blueAmmo-discountBlue && weapon.getCostYellow()<= this.yellowAmmo-discountYellow){
-            this.redAmmo=redAmmo+discountRed;
-            this.blueAmmo=blueAmmo+discountBlue;
-            this.yellowAmmo=yellowAmmo+discountYellow;
-            for(PowerUp powerUp: payment){
-                this.discard(powerUp);
-            }
-            grabWeapon(destination,position);
-        }
-        throw new NoAmmoException();
-
-    }
 
     /**
      * This method define the shoot action that the player can do on a not-frenzy turn
@@ -350,17 +310,13 @@ public class Player implements Serializable {
      * @throws LoadedException This exception means that the weapon is already load
      * @throws NoAmmoException This exception means that the player doesn't have the ammo to reload
      */
-    public void reload(Weapon weapon) throws LoadedException, NoAmmoException {
-        if (!weapon.isLoad())
-            if ((weapon.getCostBlue() <= this.blueAmmo) && (weapon.getCostRed() <= this.redAmmo) && (weapon.getCostYellow() <= this.yellowAmmo)) {
-                this.blueAmmo = this.blueAmmo - weapon.getCostBlue();
-                this.redAmmo = this.redAmmo - weapon.getCostRed();
-                this.yellowAmmo = this.yellowAmmo - weapon.getCostYellow();
+    public void reload(Weapon weapon) throws LoadedException{
+        if (!weapon.isLoad()){
                 weapon.reload();
-            } else
-                throw new NoAmmoException();
-        else
+            }
+        else{
             throw new LoadedException();
+        }
     }
 
     /**
@@ -799,6 +755,36 @@ public class Player implements Serializable {
      */
     public void setFirst(boolean first) {
         this.first = first;
+    }
+
+    public void pay(int costBlue, int costRed, int costYellow, ArrayList<PowerUp> powerUps) throws WrongPowerUpException, NoAmmoException {
+        if(powerUps!= null && !powerUps.isEmpty()) {
+            for (PowerUp powerUp : powerUps) {
+                switch (powerUp.getColor()) {
+                    case "blue": {
+                        costBlue--;
+                        break;
+                    }
+                    case "red": {
+                        costRed--;
+                        break;
+                    }
+                    case "yellow": {
+                        costYellow--;
+                        break;
+                    }
+                }
+            }
+        }
+        if(costBlue<0 || costRed<0 || costYellow<0){
+            throw new WrongPowerUpException();
+        }
+        if(this.blueAmmo<costBlue || this.redAmmo<costRed || this.yellowAmmo<costYellow){
+            throw new NoAmmoException();
+        }
+        this.blueAmmo= this.blueAmmo-costBlue;
+        this.redAmmo= this.redAmmo-costRed;
+        this.yellowAmmo= this.yellowAmmo-costYellow;
     }
 
     @Override
