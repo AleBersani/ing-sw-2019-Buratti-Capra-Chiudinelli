@@ -96,7 +96,7 @@ public class Controller {
                 case SPAWN: {
                     if (msg.startsWith("SPW-")) {
                         try {
-                            spawn(clientHandler, playerFromNickname(clientHandler.getName()), Integer.parseInt(msg.substring(ETIQUETTE)));
+                            spawn(clientHandler, playerFromNickname(clientHandler.getName(), this.match), Integer.parseInt(msg.substring(ETIQUETTE)));
                         } catch (NotFoundException e) {
                             sendString("error", clientHandler);
                         }
@@ -130,10 +130,16 @@ public class Controller {
                             if (!msg.substring(ETIQUETTE).equals("")) {
                                 try {
                                     for (String weapon : msg.substring(ETIQUETTE).split(",")) {
-                                        playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(weapon)).reload();
+                                        playerFromNickname(clientHandler.getName(), this.match).reload(playerFromNickname(clientHandler.getName(),this.match).getWeapons().get(Integer.parseInt(weapon)));
                                     }
                                 } catch (NotFoundException e) {
                                     sendString("error", clientHandler);
+                                } catch (LoadedException e) {
+                                    sendString(">>>This weapon is already load", clientHandler);
+                                } catch (NoAmmoException e) {
+                                    reload(clientHandler);
+                                    sendString(">>>You don't have enough ammo", clientHandler);
+                                    return;
                                 }
                                 updateBackground(this.match);
                             }
@@ -177,7 +183,56 @@ public class Controller {
                     }
 
                     else if (msg.equals("ESH-")){
-                        endOptionalShooting(clientHandler);
+                        try {
+                            offensivePowerUpResponse(clientInfoFromClientHandeler(clientHandler),
+                                    clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting));
+                        } catch (NotFoundException e) {
+                            sendString("error", clientHandler);
+                        } catch (NoResponeException e) {
+                            endOptionalShooting(clientHandler);
+                        }
+                    }
+                    else {
+                        sendString("Wrong Etiquette, this is OPTIONAL_WEAPON_SHOOTING", clientHandler);
+                    }
+                    break;
+                }
+                case RESPONSE_PU:{
+                    if(msg.startsWith("RPU-")){
+                        if(msg.substring(ETIQUETTE).equals("no")){
+                            try {
+                                if (clientInfoFromClientHandeler(clientHandler).weapon.isOptional()) {
+                                    endOptionalShooting(clientHandler);
+                                } else {
+                                    endShooting(clientHandler, clientInfoFromClientHandeler(clientHandler).weapon);
+                                }
+                            } catch (NotFoundException e) {
+                                sendString("error", clientHandler);
+                            }
+                        }
+                        else {
+                            ArrayList<PowerUp> usable = new ArrayList<>();
+                            try {
+                                for (PowerUp powerUp : playerFromNickname(clientHandler.getName(), this.match).getPowerUps()) {
+                                    if (powerUp.getOnResponse() && powerUp.getName().equals("targeting scope")) {
+                                        usable.add(powerUp);
+                                    }
+                                }
+                                usable.get(Integer.parseInt(msg.substring(ETIQUETTE).split("'")[0])).useEffect(generateTarget(msg.split("'")[1].substring(0, msg.split("'")[1].length() - 1), clientHandler, clientInfoFromClientHandeler(clientHandler).simulation),
+                                        clientInfoFromClientHandeler(clientHandler).weapon.getPreviousTarget());
+                                if (clientInfoFromClientHandeler(clientHandler).weapon.isOptional()) {
+                                    endOptionalShooting(clientHandler);
+                                } else {
+                                    endShooting(clientHandler, clientInfoFromClientHandeler(clientHandler).weapon);
+                                }
+                            } catch (NotFoundException e) {
+                                sendString("error", clientHandler);
+                            } catch (InvalidTargetException e) {
+                                invalidTarget(clientHandler);
+                            } catch (NoOwnerException e) {
+                                sendString("error", clientHandler);
+                            }
+                        }
                     }
                     else {
                         sendString("Wrong Etiquette, this is OPTIONAL_WEAPON_SHOOTING", clientHandler);
@@ -185,6 +240,38 @@ public class Controller {
                     break;
                 }
             }
+        }
+    }
+
+    private void invalidTarget(ClientHandler clientHandler){
+        updateBackground(this.match);
+        sendString(">>>Invalid target", clientHandler);
+        try {
+            cleanSimulation(clientInfoFromClientHandeler(clientHandler));
+        } catch (NotFoundException e1) {
+            sendString("error", clientHandler);
+        }
+    }
+
+    private void offensivePowerUpResponse(ClientInfo clientInfo, Weapon weapon) throws NoResponeException {
+        clientInfo.weapon= weapon;
+        ArrayList<PowerUp> powerUps= new ArrayList<>();
+        String responseRequest="RPU-";
+        try {
+            for(PowerUp p : playerFromNickname(clientInfo.clientHandler.getName(), this.match).getPowerUps()){
+                if(p.getOnResponse() && p.getName().equals("targeting scope")){
+                    powerUps.add(p);
+                    responseRequest=responseRequest.concat(p.getName()).concat(":").concat(p.getColor()).concat(";");
+                }
+            }
+            if(responseRequest.equals("RPU-")){
+                throw new NoResponeException();
+            }
+            clientInfo.setState(ClientInfo.State.RESPONSE_PU);
+            sendString(responseRequest,clientInfo.clientHandler);
+
+        } catch (NotFoundException e) {
+            sendString("error", clientInfo.clientHandler);
         }
     }
 
@@ -216,7 +303,7 @@ public class Controller {
         boolean ok=false;
         try {
             ClientInfo clientInfo = clientInfoFromClientHandeler(clientHandler);
-            for (String order :((WeaponOptional)playerFromNickname(clientHandler.getName()).getWeapons().get(clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting)).getOrder()){
+            for (String order :((WeaponOptional)playerFromNickname(clientHandler.getName(), this.match).getWeapons().get(clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting)).getOrder()){
                 String actualOrder=clientInfo.shootingOptionals.substring(0,clientInfo.shootingOptionals.length()-1);
                 if(order.equals(actualOrder)){
                     ok=true;
@@ -225,7 +312,7 @@ public class Controller {
 
             if(ok){
                 this.match=clientInfoFromClientHandeler(clientHandler).simulation;
-                playerFromNickname(clientHandler.getName()).endShoot(playerFromNickname(clientHandler.getName()).getWeapons().get(clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting));
+                playerFromNickname(clientHandler.getName(), this.match).endShoot(playerFromNickname(clientHandler.getName(), this.match).getWeapons().get(clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting));
                 clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
                 clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting= null;
                 clientInfoFromClientHandeler(clientHandler).shootingOptionals="";
@@ -250,7 +337,7 @@ public class Controller {
     private void reload(ClientHandler clientHandler) {
         try {
             String toLoad="";
-            for (Weapon weapon : playerFromNickname(clientHandler.getName()).getWeapons()){
+            for (Weapon weapon : playerFromNickname(clientHandler.getName(), this.match).getWeapons()){
                 if(!weapon.isLoad()){
                     toLoad=toLoad.concat(weapon.getName()).concat("'");
                 }
@@ -263,8 +350,8 @@ public class Controller {
 
     private void layWeapon(int weaponPos, ClientHandler clientHandler) {
         try {
-            if(weaponPos<playerFromNickname(clientHandler.getName()).getWeapons().size()-1) {
-                Player player = playerFromNickname(clientHandler.getName());
+            if(weaponPos<playerFromNickname(clientHandler.getName(), this.match).getWeapons().size()-1) {
+                Player player = playerFromNickname(clientHandler.getName(), this.match);
                 Weapon weapon = player.getWeapons().get(weaponPos);
                 player.getWeapons().remove(weapon);
                 weapon.reload();
@@ -301,12 +388,12 @@ public class Controller {
         try {
             clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.TARGETING);
             targetRequest=targetRequest.concat("Base'");
-            for(Effect effect : playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE))).getEffect()){
+            for(Effect effect : playerFromNickname(clientHandler.getName(), this.match).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE))).getEffect()){
                 targetRequest=targetRequest.concat(effect.getDescription()).concat(";");
             }
-            if (playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE))).isOptional()){
+            if (playerFromNickname(clientHandler.getName(), this.match).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE))).isOptional()){
                 int i=0;
-                WeaponOptional weaponOptional=(WeaponOptional)playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE)));
+                WeaponOptional weaponOptional=(WeaponOptional)playerFromNickname(clientHandler.getName(), this.match).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE)));
                 for (ArrayList<Effect> arrayList : weaponOptional.getOptionalEffect()){
                     targetRequest=targetRequest.concat("'Optional-"+ i +"'");
                     for (Effect effect : arrayList){
@@ -315,8 +402,8 @@ public class Controller {
                     i++;
                 }
             }
-            if (playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE))).isAlternative()){
-                WeaponAlternative weaponAlternative=(WeaponAlternative) playerFromNickname(clientHandler.getName()).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE)));
+            if (playerFromNickname(clientHandler.getName(), this.match).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE))).isAlternative()){
+                WeaponAlternative weaponAlternative=(WeaponAlternative) playerFromNickname(clientHandler.getName(), this.match).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE)));
                 targetRequest=targetRequest.concat("'Alternative'");
                 for (Effect effect : weaponAlternative.getAlternativeEffect()) {
                     targetRequest=targetRequest.concat(effect.getDescription()).concat(";");
@@ -331,7 +418,7 @@ public class Controller {
     private void targetRequestPU(ClientHandler clientHandler, String msg) {
         try {
             clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.TARGETING);
-            sendString("TRG-"+playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.substring(ETIQUETTE))).getEffect().getDescription(), clientHandler);
+            sendString("TRG-"+playerFromNickname(clientHandler.getName(), this.match).getPowerUps().get(Integer.parseInt(msg.substring(ETIQUETTE))).getEffect().getDescription(), clientHandler);
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
         }
@@ -352,13 +439,15 @@ public class Controller {
             }
             if(!targetParameters.isEmpty()){
                 clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().shoot(clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])),
-                        data[1].equals(" ") ? playerFromNickname(clientHandler.getName()).getPosition() : clientInfoFromClientHandeler(clientHandler).simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]), Integer.parseInt(data[1].split(":")[1])),
+                        data[1].equals(" ") ? playerFromNickname(clientHandler.getName(), this.match).getPosition() : clientInfoFromClientHandeler(clientHandler).simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]), Integer.parseInt(data[1].split(":")[1])),
                         targetParameters);
                 if(!clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])).isOptional()) {
-                    clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().endShoot(clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])));
-                    match = clientInfoFromClientHandeler(clientHandler).simulation;
-                    updateBackground(this.match);
-                    cleanSimulation(clientInfoFromClientHandeler(clientHandler));
+                    try {
+                        offensivePowerUpResponse(clientInfoFromClientHandeler(clientHandler),clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])));
+                    }
+                    catch (NoResponeException e) {
+                        endShooting(clientHandler, clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])));
+                    }
                 }
                 else {
                     clientInfoFromClientHandeler(clientHandler).shootingOptionals =
@@ -371,14 +460,19 @@ public class Controller {
                     updateBackground(clientInfoFromClientHandeler(clientHandler).simulation);
                  String possibleOrder = "OWS-";
                     boolean ok = false;
-                    for (String order : ((WeaponOptional) playerFromNickname(clientHandler.getName()).getWeapons().get(clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting)).getOrder()) {
+                    for (String order : ((WeaponOptional) playerFromNickname(clientHandler.getName(), this.match).getWeapons().get(clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting)).getOrder()) {
                         if (order.startsWith(clientInfoFromClientHandeler(clientHandler).shootingOptionals)) {
                             possibleOrder = possibleOrder.concat(order.substring(clientInfoFromClientHandeler(clientHandler).shootingOptionals.length())).concat(";");
                          ok = true;
                         }
                     }
                     if (!ok) {
-                        endOptionalShooting(clientHandler);
+                        try {
+                            offensivePowerUpResponse(clientInfoFromClientHandeler(clientHandler),playerFromNickname(clientHandler.getName(), this.match).getWeapons().get(clientInfoFromClientHandeler(clientHandler).optionalWeaponShooting));
+                        }
+                        catch (NoResponeException e) {
+                            endOptionalShooting(clientHandler);
+                        }
                     } else {
                         sendString(possibleOrder, clientHandler);
                     }
@@ -388,13 +482,7 @@ public class Controller {
                 throw new InvalidTargetException();
             }
         } catch (InvalidTargetException e) {
-            updateBackground(this.match);
-            sendString(">>>Invalid target", clientHandler);
-            try {
-                cleanSimulation(clientInfoFromClientHandeler(clientHandler));
-            } catch (NotFoundException e1) {
-                sendString("error", clientHandler);
-            }
+            invalidTarget(clientHandler);
 
         } catch (NoOwnerException e) {
             sendString("error", clientHandler);
@@ -437,6 +525,17 @@ public class Controller {
         }
 
     }
+    private void endShooting(ClientHandler clientHandler, Weapon weapon){
+        try {
+            clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().endShoot(weapon);
+            match = clientInfoFromClientHandeler(clientHandler).simulation;
+            updateBackground(this.match);
+            cleanSimulation(clientInfoFromClientHandeler(clientHandler));
+        }
+        catch (NotFoundException e){
+            sendString("error", clientHandler);
+        }
+    }
 
     private void cleanSimulation(ClientInfo clientInfo){
         clientInfo.simulation=null;
@@ -447,7 +546,7 @@ public class Controller {
 
     private void runningAction(ClientHandler clientHandler, String msg){
         try {
-            playerFromNickname(clientHandler.getName()).run(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
+            playerFromNickname(clientHandler.getName(), this.match).run(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
                     Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])));
             updateBackground(this.match);
         } catch (InvalidDestinationException e) {
@@ -462,7 +561,7 @@ public class Controller {
     private void grabbingAction(ClientHandler clientHandler, String msg){
         try {
             String[] stringo =msg.substring(ETIQUETTE).split(",");
-            playerFromNickname(clientHandler.getName()).grab(match.getBoard().find(Integer.parseInt(stringo[0]),
+            playerFromNickname(clientHandler.getName(), this.match).grab(match.getBoard().find(Integer.parseInt(stringo[0]),
                     Integer.parseInt(stringo[1])));
             updateBackground(this.match);
             lifeCycle(clientHandler);
@@ -475,7 +574,7 @@ public class Controller {
         }
         catch (ElementNotFoundException e) {
             try {
-                playerFromNickname(clientHandler.getName()).grabWeapon(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
+                playerFromNickname(clientHandler.getName(), this.match).grabWeapon(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
                         Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])),Integer.parseInt(msg.substring(ETIQUETTE).split(",")[2]));
                 updateBackground(this.match);
                 lifeCycle(clientHandler);
@@ -491,8 +590,8 @@ public class Controller {
                 try {
                     clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.LAY_WEAPON);
                     String toLay="WPN-Select the weapon to drop:";
-                    for (int i=0; i<playerFromNickname(clientHandler.getName()).getWeapons().size()-1;i++){
-                        toLay=toLay.concat(playerFromNickname(clientHandler.getName()).getWeapons().get(i).getName()).concat(";");
+                    for (int i=0; i<playerFromNickname(clientHandler.getName(), this.match).getWeapons().size()-1;i++){
+                        toLay=toLay.concat(playerFromNickname(clientHandler.getName(), this.match).getWeapons().get(i).getName()).concat(";");
                     }
                     sendString(toLay, clientHandler);
                 } catch (NotFoundException e2) {
@@ -507,17 +606,11 @@ public class Controller {
         try {
             TargetParameter target = generateTarget(msg.split("'")[1].replace(";",""), clientHandler,this.match);
             if(target!=null) {
-                playerFromNickname(clientHandler.getName()).usePowerUp(playerFromNickname(clientHandler.getName()).getPowerUps().get(Integer.parseInt(msg.split("'")[0])), target);
+                playerFromNickname(clientHandler.getName(), this.match).usePowerUp(playerFromNickname(clientHandler.getName(), this.match).getPowerUps().get(Integer.parseInt(msg.split("'")[0])), target);
             }
             updateBackground(this.match);
         } catch (InvalidTargetException e) {
-            updateBackground(this.match);
-            sendString(">>>Invalid target ", clientHandler);
-            try {
-                clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
-            } catch (NotFoundException e1) {
-                sendString("error", clientHandler);
-            }
+            invalidTarget(clientHandler);
         } catch (NoOwnerException e) {
             sendString("error", clientHandler);
         } catch (NotFoundException e) {
@@ -585,7 +678,7 @@ public class Controller {
         }
     }
 
-    public void login(String command, ClientHandler clientHandler) {
+    private void login(String command, ClientHandler clientHandler) {
         if (gameStarted) {
             if (this.disconnected.contains(command)) {
                 this.disconnected.remove(command);
@@ -659,7 +752,7 @@ public class Controller {
         }
     }
 
-    public void selectBoard(String msg, ClientHandler clientHandler){
+    private void selectBoard(String msg, ClientHandler clientHandler){
         if(availableBoards.contains(Integer.parseInt(msg))) {
             board = "/Board/Board" + msg + ".json";
             sendString("You selected the board number " + msg, clientHandler);
@@ -670,7 +763,7 @@ public class Controller {
         }
     }
 
-    public void setSkulls(String msg, ClientHandler clientHandler){
+    private void setSkulls(String msg, ClientHandler clientHandler){
         if(availableSkulls.contains(Integer.parseInt(msg))) {
             skulls = Integer.parseInt(msg);
             sendString("You selected " + msg + " skulls", clientHandler);
@@ -681,7 +774,7 @@ public class Controller {
         }
     }
 
-    public void setFrenzy(String msg, ClientHandler clientHandler){
+    private void setFrenzy(String msg, ClientHandler clientHandler){
         switch (msg){
             case "Y": {
                 frenzyEn = true;
@@ -705,7 +798,7 @@ public class Controller {
         }
     }
 
-    public void waitingRoom(ClientHandler clientHandler){
+    private void waitingRoom(ClientHandler clientHandler){
         String playersNames = ":::";
         String[] allNames = getNicknameList().keySet().toArray(new String[0]);
         for(String name: allNames){
@@ -923,7 +1016,7 @@ public class Controller {
         return youDescriptor;
     }
 
-    public Player playerFromNickname(String nickname) throws NotFoundException {
+    private Player playerFromNickname(String nickname, Match match) throws NotFoundException {
         for (Player player : match.getPlayers()){
             if(nickname.equals(player.getNickname())){
                 return player;
@@ -950,13 +1043,22 @@ public class Controller {
         throw new NotFoundException();
     }
 
-    public static Match deepClone(Match object) throws IOException, ClassNotFoundException {
+    static Match deepClone(Match object) throws IOException, ClassNotFoundException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
         objectOutputStream.writeObject(object);
         ByteArrayInputStream bais = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
         ObjectInputStream objectInputStream = new ObjectInputStream(bais);
         return (Match) objectInputStream.readObject();
+    }
+
+    public void revertSuspension(ClientHandler clientHandler) {
+        try {
+            ClientInfo clientInfo= clientInfoFromClientHandeler(clientHandler);
+            clientInfo.suspended=false;
+        } catch (NotFoundException e) {
+            sendString("error", clientHandler);
+        }
     }
 
     private class Configuration{

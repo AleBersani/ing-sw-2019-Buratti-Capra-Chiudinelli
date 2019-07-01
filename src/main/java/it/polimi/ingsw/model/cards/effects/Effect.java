@@ -113,7 +113,7 @@ public abstract class Effect implements Serializable {
             previousTarget.get(1).add(enemy);
         }
     }
-
+//TODO sistemare javadoc
     /**
      * utility method to apply the damages and marks on the targets
      * @param owner owner of the weapon
@@ -121,9 +121,10 @@ public abstract class Effect implements Serializable {
      * @param damage the amount of damage to apply
      * @param mark the amount of mark to apply
      */
-    protected void doRealDamage(Player owner,Player enemy,int damage,int mark){
+    protected void doRealDamage(Player owner,Player enemy,int damage,int mark, ArrayList<ArrayList<Player>> previousTarget){
         if(enemy!=owner){
             if(damage!=0){
+                previousTarget.get(2).add(enemy);
                 enemy.wound(damage,owner);
             }
             enemy.marked(mark,owner);

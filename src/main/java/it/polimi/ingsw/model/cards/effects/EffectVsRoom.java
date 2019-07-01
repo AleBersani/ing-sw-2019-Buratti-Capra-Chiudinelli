@@ -55,7 +55,7 @@ public class EffectVsRoom extends Effect {
         else{
             for(Square s: target.getTargetRoom().getSquares()){
                 for(Player p: s.getOnMe()){
-                    doRealDamage(target.getOwner(),p,this.damage,this.mark);
+                    doRealDamage(target.getOwner(),p,this.damage,this.mark, previousTarget);
                 }
             }
         }

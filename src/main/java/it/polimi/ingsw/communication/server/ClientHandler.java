@@ -51,7 +51,7 @@ public class ClientHandler implements Runnable{
                     controller.quit(this);
                 }
                 if(msg.equals("SPD-")){
-                    //TODO riprendere
+                    controller.revertSuspension(this);
                 }
                 if(yourTurn){
                     controller.understandMessage(msg,this);

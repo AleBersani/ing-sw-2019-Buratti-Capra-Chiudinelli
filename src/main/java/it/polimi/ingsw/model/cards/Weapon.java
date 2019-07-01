@@ -67,11 +67,12 @@ public abstract class Weapon implements Serializable {
         this.costRed = costRed;
         this.costYellow = costYellow;
         this.effect = effect;
-        load=true;
-        owner=null;
-        previousTarget= new ArrayList<>();
-        previousTarget.add(new ArrayList<Player>());
-        previousTarget.add(new ArrayList<Player>());
+        this.load=true;
+        this.owner=null;
+        this.previousTarget= new ArrayList<>();
+        this.previousTarget.add(new ArrayList<Player>());
+        this.previousTarget.add(new ArrayList<Player>());
+        this.previousTarget.add(new ArrayList<Player>());
     }
 
     /**

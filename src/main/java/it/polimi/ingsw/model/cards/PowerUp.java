@@ -2,10 +2,12 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.exception.InvalidTargetException;
 import it.polimi.ingsw.exception.NoOwnerException;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.effects.Effect;
 import it.polimi.ingsw.model.TargetParameter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * class of power up
@@ -44,8 +46,8 @@ public class PowerUp implements Serializable {
      * @throws InvalidTargetException when the parameters of the target are wrong for this type of power up
      * @throws NoOwnerException when in the target parameters is missing the owner
      */
-    public void useEffect(TargetParameter target) throws InvalidTargetException, NoOwnerException {
-        effect.apply(target,null);
+    public void useEffect(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget) throws InvalidTargetException, NoOwnerException {
+        effect.apply(target,previousTarget);
     }
 
     /**

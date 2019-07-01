@@ -53,7 +53,7 @@ public class EffectVsSquare extends Effect {
         }
         else{
             for (Player p: target.getTargetSquare().getOnMe()){
-                doRealDamage(target.getOwner(),p,this.damage,this.mark);
+                doRealDamage(target.getOwner(),p,this.damage,this.mark, previousTarget);
             }
         }
     }

@@ -71,7 +71,13 @@ class AreaEffectTest {
             e.printStackTrace();
         }
         try {
-            testDistance2.apply(target,null);
+            testDistance2.apply(target,new ArrayList<ArrayList<Player>>(){
+                {
+                    add(new ArrayList<>());
+                    add(new ArrayList<>());
+                    add(new ArrayList<>());
+                }
+            });
         } catch (InvalidTargetException e) {
             e.printStackTrace();
         } catch (NoOwnerException e) {

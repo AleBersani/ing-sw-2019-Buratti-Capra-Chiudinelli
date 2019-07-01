@@ -64,7 +64,7 @@
       "description": "Movement:self"
     }
   ],
-  "previousTarget": [[],[]],
+  "previousTarget": [[],[], []],
   "owner": null,
   "alternativeEffect": [
 

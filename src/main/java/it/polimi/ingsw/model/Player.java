@@ -322,20 +322,11 @@ public class Player implements Serializable {
      */
     public void usePowerUp(PowerUp powerUp, TargetParameter target) throws InvalidTargetException, NoOwnerException, OnResponseException {
         if (this.powerUps.contains(powerUp) && !powerUp.getOnResponse()) {
-            powerUp.useEffect(target);
+            powerUp.useEffect(target,null);
             discard(powerUp);
         }
         else throw new OnResponseException();
     }
-
-    public void usePowerUpOnResponse(PowerUp powerUp, TargetParameter target) throws InvalidTargetException, NoOwnerException{
-        if (this.powerUps.contains(powerUp)) {
-            powerUp.useEffect(target);
-            discard(powerUp);
-        }
-    }
-
-
 
     /**
      * This method allows to answer if the player can see another target player

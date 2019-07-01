@@ -373,8 +373,15 @@
         "costRed": 0,
         "costYellow": 0,
         "name": "targeting scope",
-       "constraints": [],
-       "constraintPositivity": [],
+       "constraints": [
+         {
+           "type": "SamePlayer",
+           "level": 2
+         }
+       ],
+       "constraintPositivity": [
+         true
+       ],
        "damage": 1,
        "mark": 0,
        "addToList": false,
@@ -392,8 +399,15 @@
         "costRed": 0,
         "costYellow": 0,
         "name": "targeting scope",
-        "constraints": [],
-        "constraintPositivity": [],
+        "constraints": [
+          {
+            "type": "SamePlayer",
+            "level": 2
+          }
+        ],
+        "constraintPositivity": [
+          true
+        ],
         "damage": 1,
         "mark": 0,
         "addToList": false,
@@ -412,8 +426,15 @@
         "costRed": 0,
         "costYellow": 0,
         "name": "targeting scope",
-        "constraints": [],
-        "constraintPositivity": [],
+        "constraints": [
+          {
+            "type": "SamePlayer",
+            "level": 2
+          }
+        ],
+        "constraintPositivity": [
+          true
+        ],
         "damage": 1,
         "mark": 0,
         "addToList": false,
@@ -431,8 +452,15 @@
         "costRed": 0,
         "costYellow": 0,
         "name": "targeting scope",
-        "constraints": [],
-        "constraintPositivity": [],
+        "constraints": [
+          {
+            "type": "SamePlayer",
+            "level": 2
+          }
+        ],
+        "constraintPositivity": [
+          true
+        ],
         "damage": 1,
         "mark": 0,
         "addToList": false,
@@ -451,8 +479,15 @@
         "costRed": 0,
         "costYellow": 0,
         "name": "targeting scope",
-        "constraints": [],
-        "constraintPositivity": [],
+        "constraints": [
+          {
+            "type": "SamePlayer",
+            "level": 2
+          }
+        ],
+        "constraintPositivity": [
+          true
+        ],
         "damage": 1,
         "mark": 0,
         "addToList": false,
@@ -470,8 +505,15 @@
         "costRed": 0,
         "costYellow": 0,
         "name": "targeting scope",
-        "constraints": [],
-        "constraintPositivity": [],
+        "constraints": [
+          {
+            "type": "SamePlayer",
+            "level": 2
+          }
+        ],
+        "constraintPositivity": [
+          true
+        ],
         "damage": 1,
         "mark": 0,
         "addToList": false,

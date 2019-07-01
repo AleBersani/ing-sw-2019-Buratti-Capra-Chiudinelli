@@ -2,8 +2,10 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.communication.server.ClientHandler;
 import it.polimi.ingsw.model.Match;
+import it.polimi.ingsw.model.cards.Weapon;
 
 public class ClientInfo {
+    Weapon weapon;
     Match simulation;
     String shootingOptionals;
     Integer optionalWeaponShooting;
@@ -16,6 +18,7 @@ public class ClientInfo {
         this.state = State.LOGIN;
         this.shootingOptionals="";
         this.suspended=false;
+        weapon=null;
     }
 
     ClientInfo(ClientHandler clientHandler, State state) {
@@ -24,7 +27,7 @@ public class ClientInfo {
     }
 
     protected enum State{
-        LOGIN, WAIT, GAME, SPAWN, LAY_WEAPON, END, TARGETING, OPTIONAL_WEAPON_SHOOTING
+        LOGIN, WAIT, GAME, SPAWN, LAY_WEAPON, END, TARGETING, OPTIONAL_WEAPON_SHOOTING, RESPONSE_PU
     }
 
 

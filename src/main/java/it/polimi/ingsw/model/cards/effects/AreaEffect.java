@@ -65,7 +65,7 @@ public class AreaEffect extends Effect {
                     if(square!=target.getOwner().getPosition()){
                         if(target.getOwner().getPosition().calcDist(square)<=this.distance){
                             for(Player enemy: square.getOnMe()){
-                                doRealDamage(target.getOwner(),enemy,this.damage,this.mark);
+                                doRealDamage(target.getOwner(),enemy,this.damage,this.mark, previousTarget);
                             }
                         }
                     }

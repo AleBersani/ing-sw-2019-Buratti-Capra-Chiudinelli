@@ -52,7 +52,13 @@ class EffectVsPlayerTest {
             e.printStackTrace();
         }
         try {
-            test.apply(target,null);
+            test.apply(target,new ArrayList<ArrayList<Player>>(){
+                {
+                    add(new ArrayList<>());
+                    add(new ArrayList<>());
+                    add(new ArrayList<>());
+                }
+            });
         } catch (InvalidTargetException e) {
             e.printStackTrace();
         } catch (NoOwnerException e) {

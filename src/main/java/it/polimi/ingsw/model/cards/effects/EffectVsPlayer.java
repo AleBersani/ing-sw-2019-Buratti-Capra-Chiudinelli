@@ -82,7 +82,7 @@ public class EffectVsPlayer extends Effect {
             if(target.getEnemyPlayer()==target.getOwner()){
                 throw new InvalidTargetException();
             }
-            doRealDamage(target.getOwner(),target.getEnemyPlayer(),this.damage,this.mark);
+            doRealDamage(target.getOwner(),target.getEnemyPlayer(),this.damage,this.mark, previousTarget);
             previousMan(previousTarget,target.getEnemyPlayer(),this.addToList,this.removeFromList);
         }
     }
