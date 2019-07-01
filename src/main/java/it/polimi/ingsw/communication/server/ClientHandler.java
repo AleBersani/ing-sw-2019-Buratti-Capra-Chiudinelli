@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.Controller;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class ClientHandler implements Runnable{
 
@@ -50,20 +51,25 @@ public class ClientHandler implements Runnable{
                 if(msg.equals("quit")){
                     controller.quit(this);
                 }
-                if(msg.equals("SPD-")){
-                    controller.revertSuspension(this);
-                }
-                if(yourTurn){
-                    controller.understandMessage(msg,this);
-                }
-                else{
-                    this.print(">>>This isn't your turn, please wait");
+                else {
+                    if (msg.equals("SPD-")) {
+                        controller.revertSuspension(this);
+                    }
+                    if (yourTurn) {
+                        controller.understandMessage(msg, this);
+                    } else {
+                        this.print(">>>This isn't your turn, please wait");
+                    }
                 }
             }
+        }
+        catch (SocketException disconnect){
+            controller.quit(this);
         }
         catch (Exception e){
             e.printStackTrace();
         }
+
         finally {
 
             if ((os != null)&&(is != null)) {
@@ -130,5 +136,9 @@ public class ClientHandler implements Runnable{
 
     public void setFirstSpawn(boolean firstSpawn) {
         this.firstSpawn = firstSpawn;
+    }
+
+    public Controller getController() {
+        return controller;
     }
 }
