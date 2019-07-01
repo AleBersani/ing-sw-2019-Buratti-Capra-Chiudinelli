@@ -21,6 +21,7 @@ public class GUI extends Application implements ViewInterface {
     private LoginGUI loginGUI;
     private GameGUI gameGUI;
     private BackGraphicsGUI backGraphicsGUI;
+    private ButtonsGUI buttonsGUI;
     private MessageHandler messageHandler;
     private boolean sendable;
     private boolean messageToShow;
@@ -80,6 +81,8 @@ public class GUI extends Application implements ViewInterface {
         this.loginGUI = new LoginGUI(this,messageHandler,client);
         this.gameGUI = new GameGUI(this,client);
         this.backGraphicsGUI = new BackGraphicsGUI (this,gameGUI);
+        this.buttonsGUI = new ButtonsGUI(this,client,gameGUI);
+        gameGUI.setButtonsGUI(buttonsGUI);
         client.setMessageHandler(messageHandler);
         client.init();
         client.start();
@@ -111,7 +114,7 @@ public class GUI extends Application implements ViewInterface {
         this.backGraphicsGUI.buildPlayers(stage);
         this.backGraphicsGUI.buildYou(stage);
         this.backGraphicsGUI.buildKillShotTrack(stage);
-        this.gameGUI.buildButtons(stage);
+        this.buttonsGUI.buildButtons(stage);
     }
 
     private void clearPane(){
@@ -216,7 +219,7 @@ public class GUI extends Application implements ViewInterface {
         killShotRepresentation.clear();
         Collections.addAll(killShotRepresentation, this.killShotTrackData.split(";"));
         this.backGraphicsGUI.buildKillShotTrack(stage);
-        this.gameGUI.buildButtons(stage);
+        this.buttonsGUI.buildButtons(stage);
     }
 
     private void reload(){
