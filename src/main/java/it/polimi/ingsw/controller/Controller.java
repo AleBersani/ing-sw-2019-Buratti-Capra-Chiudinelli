@@ -823,21 +823,33 @@ public class Controller {
         clientHandler.setDisconnect(true);
         if(gameStarted) {
             disconnected.add(clientHandler.getName());
+            try {
+                suspend(clientHandler);
+            } catch (NotFoundException e) {
+                sendString("error", clientHandler);
+            }
         }
-        try {
-            clientInfoFromClientHandeler(clientHandler).suspend();
-            clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.END);
-            understandMessage("RLD-", clientHandler);
-        } catch (NotFoundException e) {
-            sendString("error", clientHandler);
-        }
-        for (ClientInfo clientInfo : getNicknameList().values()){
+        for (ClientInfo clientInfo : getNicknameList().values()) {
             sendString(">>>" + clientHandler.getName() + " disconnected", clientInfo.clientHandler);
-            if(clientInfo.state.equals(ClientInfo.State.WAIT)){
+            if (clientInfo.state.equals(ClientInfo.State.WAIT)) {
                 this.waitingRoom(clientInfo.clientHandler);
             }
         }
+
         server.print(clientHandler.getName() + " disconnected");
+    }
+
+    private void suspend(ClientHandler clientHandler) throws NotFoundException {
+        ClientInfo clientInfo = clientInfoFromClientHandeler(clientHandler);
+        clientInfo.suspend();
+        if(clientInfo.state == ClientInfo.State.LAY_WEAPON){
+            understandMessage("WPN-0", clientHandler);
+        }
+        if (clientInfo.state == ClientInfo.State.SPAWN){
+            understandMessage("SPW-0", clientHandler);
+        }
+        clientInfo.setState(ClientInfo.State.END);
+        understandMessage("RLD-", clientHandler);
     }
 
     public void startGame() {
@@ -884,7 +896,11 @@ public class Controller {
         suspending.schedule(new TimerTask() {
             @Override
             public void run() {
-                clientInfo.suspend();
+                try {
+                    suspend(clientInfo.clientHandler);
+                } catch (NotFoundException e) {
+                    sendString("error", clientInfo.clientHandler);
+                }
                 clientInfo.setState(ClientInfo.State.END);
                 understandMessage("RLD-", clientInfo.clientHandler);
             }

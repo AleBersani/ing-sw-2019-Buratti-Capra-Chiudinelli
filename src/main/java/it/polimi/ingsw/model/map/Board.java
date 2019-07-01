@@ -321,41 +321,6 @@ public class Board implements Serializable {
     }
 
     /**
-     * This class is used for parsing the PowerUp from the json file
-     */
-    private class PowerUpGson{
-        private ArrayList<PseudoPowerUp> pseudo = new ArrayList<>();
-        private ArrayList<MovementEffect> movementEffects=new ArrayList<>();
-        private ArrayList<EffectVsPlayer> effectsVsPlayer=new ArrayList<>();
-        private ArrayList<EffectVsRoom> effectsVsRoom=new ArrayList<>();
-        private ArrayList<EffectVsSquare> effectsVsSquare= new ArrayList<>();
-        private class PseudoPowerUp{
-           String color, name;
-        }
-
-        public ArrayList<PseudoPowerUp> getPseudo() {
-            return pseudo;
-        }
-
-        public ArrayList<MovementEffect> getMovementEffects() {
-            return movementEffects;
-        }
-
-        public ArrayList<EffectVsPlayer> getEffectsVsPlayer() {
-            return effectsVsPlayer;
-        }
-
-        public ArrayList<EffectVsRoom> getEffectsVsRoom() {
-            return effectsVsRoom;
-        }
-
-        public ArrayList<EffectVsSquare> getEffectsVsSquare() {
-            return effectsVsSquare;
-        }
-
-    }
-
-    /**
      * this method is used for shuffling decks
      * @param deck is the deck that needs to be shuffled
      */
