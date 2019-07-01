@@ -161,21 +161,12 @@ public class GameGUI {
 
                     storeButton.setOnAction(e -> {
                         GridPane grid4 = new GridPane();
-                        String[] weapon = cell.get(CELL_INSIDE).split("'");
-                        for (int j = 0; j < NUMBER_OF_WEAPON; j++) {
-                            if (j < weapon.length) {
-                                String weaponName = weapon[j].toLowerCase();
-                                weaponName = weaponName.replace(" ", "").concat(".png");
-                                grid4.add(new ImageView(new Image("/images/game/weapons/".concat(weaponName), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false)), j, 0);
-                            } else {
-                                grid4.add(new ImageView(new Image("/images/game/weapons/weaponBack.png", pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false)), j, 0);
-                            }
-                        }
+                        Rectangle secondRectangle = new Rectangle();
+                        rectangleStandard(secondRectangle,pane);
+                        buttonsGUI.storeWeapon(pane, cell, grid4);
 
                         Button backButton = new Button("BACK");
                         grid4.add(backButton, 1, 1);
-                        Rectangle secondRectangle = new Rectangle();
-                        rectangleStandard(secondRectangle,pane);
                         pane.getChildren().add(secondRectangle);
                         pane.getChildren().add(grid4);
                         grid4.setHgap(40);
@@ -325,7 +316,7 @@ public class GameGUI {
                     GridPane.setHalignment(redAmmoIV, HPos.RIGHT);
                     GridPane.setValignment(redAmmoIV, VPos.TOP);
                     Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
-                    label40Helvetica(numberAmmo, "#ffffff", 0.8);
+                    labelSetting(numberAmmo, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
                     reloadGrid.add(numberAmmo, i + 1, 1);
                     GridPane.setHalignment(numberAmmo, HPos.LEFT);
                     GridPane.setValignment(numberAmmo, VPos.TOP);
@@ -337,7 +328,7 @@ public class GameGUI {
                     GridPane.setHalignment(yellowAmmoIV, HPos.RIGHT);
                     GridPane.setValignment(yellowAmmoIV, VPos.CENTER);
                     Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
-                    label40Helvetica(numberAmmo, "#ffffff", 0.8);
+                    labelSetting(numberAmmo, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
                     reloadGrid.add(numberAmmo, i + 1, 1);
                     GridPane.setHalignment(numberAmmo, HPos.LEFT);
                     GridPane.setValignment(numberAmmo, VPos.CENTER);
@@ -349,7 +340,7 @@ public class GameGUI {
                     GridPane.setHalignment(blueAmmoIV, HPos.RIGHT);
                     GridPane.setValignment(blueAmmoIV, VPos.BOTTOM);
                     Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
-                    label40Helvetica(numberAmmo, "#ffffff", 0.8);
+                    labelSetting(numberAmmo, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
                     reloadGrid.add(numberAmmo, i + 1, 1);
                     GridPane.setHalignment(numberAmmo, HPos.LEFT);
                     GridPane.setValignment(numberAmmo, VPos.BOTTOM);
@@ -380,7 +371,7 @@ public class GameGUI {
         GridPane.setValignment(ignore, VPos.CENTER);
 
         Label infoText = new Label("You can reload more than one Weapon at time");
-        label40Helvetica(infoText, "#ffffff", 0.8);
+        labelSetting(infoText, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
         reloadGrid.add(infoText, 0, 0, i + 2, 1);
         GridPane.setHalignment(infoText, HPos.CENTER);
         GridPane.setValignment(infoText, VPos.CENTER);
@@ -405,7 +396,7 @@ public class GameGUI {
         rectangleStandard(rectangle, pane);
 
         Label text = new Label("");
-        label40Helvetica(text, "#ffffff", 0.8);
+        labelSetting(text, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
         targetGrid.add(text, 0, 3, 4, 1);
         GridPane.setHalignment(text, HPos.CENTER);
         GridPane.setValignment(text, VPos.CENTER);
@@ -623,7 +614,7 @@ public class GameGUI {
         rectangleStandard(rectangle, pane);
 
         Label text = new Label("Choose the type of fire");
-        label40Helvetica(text, "#ffffff", 0.8);
+        labelSetting(text, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
         preShootGrid.add(text, 0, 0, 2, 1);
         GridPane.setHalignment(text, HPos.CENTER);
         GridPane.setValignment(text, VPos.CENTER);
@@ -705,7 +696,7 @@ public class GameGUI {
             rectangleStandard(rectangle, pane);
 
             Label text = new Label("Where do you want to move?");
-            label40Helvetica(text, "#ffffff", 0.8);
+            labelSetting(text, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
             movementGrid.add(text, 0, 3, 4, 1);
             GridPane.setHalignment(text, HPos.CENTER);
             GridPane.setValignment(text, VPos.CENTER);
@@ -743,7 +734,7 @@ public class GameGUI {
         GridPane payGrid = new GridPane();
 
         Label title = new Label("Do you want to pay with power ups?");
-        label40Helvetica(title, "#ffffff", 0.8);
+        labelSetting(title, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
         payGrid.add(title, 0, 0);
         GridPane.setHalignment(title, HPos.CENTER);
         GridPane.setValignment(title, VPos.CENTER);
@@ -832,7 +823,7 @@ public class GameGUI {
         String[] message = msg.split(":");
 
         Label text = new Label(message[0]);
-        label40Helvetica(text, "#ffffff", 0.8);
+        labelSetting(text, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
 
         int j = 0;
         for (String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")) {
@@ -849,9 +840,7 @@ public class GameGUI {
                 GridPane.setValignment(weaponIV, VPos.CENTER);
                 if(notLoaded==1.2){
                     Label unload = new Label("Unload");
-                    unload.setTextFill(Color.web("#ffffff", 0.8));
-                    unload.setStyle("-fx-font: 20 Helvetica;");
-                    unload.setEffect(new DropShadow());
+                    labelSetting(unload,"#ffffff",0.8,"-fx-font: 20 Helvetica;");
                     grid.add(unload, j, 1);
                     GridPane.setHalignment(unload, HPos.CENTER);
                     GridPane.setValignment(unload, VPos.TOP);
@@ -888,9 +877,7 @@ public class GameGUI {
         rectangleStandard(rectangle,pane);
 
         Label text = new Label(msg);
-        text.setTextFill(Color.web("#ffffff", 0.8));
-        text.setStyle("-fx-font: 50 Helvetica;");
-        text.setEffect(new DropShadow());
+        labelSetting(text,"#ffffff",0.8,"-fx-font: 50 Helvetica;");
         GridPane.setHalignment(text,HPos. CENTER);
         GridPane.setValignment(text,VPos. CENTER);
 
@@ -923,9 +910,7 @@ public class GameGUI {
         rectangleStandard(rectangle,pane);
 
         Label text = new Label("YOU ARE SUSPENDED");
-        text.setTextFill(Color.web("#ffffff", 0.8));
-        text.setStyle("-fx-font: 50 Helvetica;");
-        text.setEffect(new DropShadow());
+        labelSetting(text,"#ffffff",0.8,"-fx-font: 50 Helvetica;");
         GridPane.setHalignment(text,HPos. CENTER);
         GridPane.setValignment(text,VPos. CENTER);
 
@@ -958,17 +943,13 @@ public class GameGUI {
         winnerGrid.add(new ImageView(new Image("/images/game/crown.png",pane.getWidth()/40,pane.getHeight()/25,false,false)),0,0);
 
         Label winner = new Label();
-        winner.setTextFill(Color.web("#ffffff", 0.8));
-        winner.setStyle("-fx-font: 50 Helvetica;");
-        winner.setEffect(new DropShadow());
+        labelSetting(winner,"#ffffff",0.8,"-fx-font: 50 Helvetica;");
         winnerGrid.add(winner,0,1);
         GridPane.setHalignment(winner,HPos.CENTER);
         GridPane.setValignment(winner,VPos.CENTER);
 
         Label points = new Label();
-        points.setTextFill(Color.web("#ffffff", 0.8));
-        points.setStyle("-fx-font: 40 Helvetica;");
-        points.setEffect(new DropShadow());
+        labelSetting(points,"#ffffff",0.8,"-fx-font: 40 Helvetica;");
         winnerGrid.add(points,0,2);
         GridPane.setHalignment(points,HPos.CENTER);
         GridPane.setValignment(points,VPos.CENTER);
@@ -1011,9 +992,9 @@ public class GameGUI {
         rectangle.heightProperty().bind(pane.heightProperty());
     }
 
-    void label40Helvetica(Label label, String color, double opacity){
+    void labelSetting(Label label, String color, double opacity , String font){
         label.setTextFill(Color.web(color, opacity));
-        label.setStyle("-fx-font: 40 Helvetica;");
+        label.setStyle(font);
         label.setEffect(new DropShadow());
     }
 
