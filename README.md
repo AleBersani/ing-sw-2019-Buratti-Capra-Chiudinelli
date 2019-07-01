@@ -24,7 +24,7 @@
 [![GREEN](https://placehold.it/15/44bb44/44bb44)](#)
 -->
 
-#How to use the jar
+# How to use the jar
 
 To run the Server you need to provide the number of the port from command line.
 ex 5000
