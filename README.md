@@ -9,13 +9,13 @@
 |:-----------------------|:------------------------------------:|
 | Basic rules | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
 | Complete rules | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
-| Socket | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
+| Socket | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
 | RMI | [![RED](https://placehold.it/15/f03c15/f03c15)](#)|
 | GUI | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
-| CLI | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
+| CLI | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | Multiple games | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | Persistence | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
-| Domination or Towers modes | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
+| Domination or Towers modes | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | Terminator | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
 
 <!--
@@ -23,3 +23,10 @@
 [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#)
 [![GREEN](https://placehold.it/15/44bb44/44bb44)](#)
 -->
+
+#How to use the jar
+To run the Server you need to provide the number of the port from command line.
+ex 5000
+
+To run the Client you need to provide the IP address of the server followed by the port, separated by ' : ' .
+ex 192.168.0.3:5000
