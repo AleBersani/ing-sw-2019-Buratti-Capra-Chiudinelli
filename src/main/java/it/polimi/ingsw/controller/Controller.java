@@ -573,7 +573,7 @@ public class Controller {
 
     private ArrayList<PowerUp> generatePowerUpPayment (String msg ,ClientHandler clientHandler, Match match) {
         ArrayList<PowerUp> payment = null;
-        if (!msg.substring(ETIQUETTE).split("-")[1].equals(" ")) {
+        if (!(msg.substring(ETIQUETTE)).split("-")[1].equals(" ")) {
             payment = new ArrayList<>();
             for (String powerUp : msg.split("-")[1].split(",")) {
                 try {
@@ -608,9 +608,9 @@ public class Controller {
                         weapon.getColor().equals("blue") ? weapon.getCostBlue() - 1 : weapon.getCostBlue(),
                         weapon.getColor().equals("red") ? weapon.getCostRed() - 1 : weapon.getCostRed(),
                         weapon.getColor().equals("yellow") ? weapon.getCostYellow() - 1 : weapon.getCostYellow(),
-                        generatePowerUpPayment(msg, clientHandler, this.match));
+                        generatePowerUpPayment(msg.substring(ETIQUETTE), clientHandler, this.match));
                 playerFromNickname(clientHandler.getName(), this.match).grabWeapon(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
-                        Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])), Integer.parseInt(msg.substring(ETIQUETTE).split(",")[2]));
+                        Integer.parseInt(msg.substring(ETIQUETTE).split("-")[0].split(",")[1])), Integer.parseInt(msg.substring(ETIQUETTE).split("-")[0].split(",")[2]));
                 updateBackground(this.match);
                 lifeCycle(clientHandler);
 
