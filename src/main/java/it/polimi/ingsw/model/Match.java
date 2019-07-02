@@ -47,6 +47,11 @@ public class Match implements Serializable {
      */
     private ArrayList<Boolean> doubleOnKillShotTrack;
 
+    /**
+     * This attributes means if the game is ended or not
+     */
+    private boolean endgame;
+
     int i;
 
     /**
@@ -203,6 +208,7 @@ public class Match implements Serializable {
                     }
             }
         }
+        this.endgame = true;
     }
 
     public Match simulate() throws CloneNotSupportedException {
@@ -303,5 +309,13 @@ public class Match implements Serializable {
      */
     public void setDoubleOnKillShotTrack(ArrayList<Boolean> doubleOnKillShotTrack) {
         this.doubleOnKillShotTrack = doubleOnKillShotTrack;
+    }
+
+    /**
+     * This method return is the game is ended or not
+     * @return true if the game is ended, false otherwise
+     */
+    public boolean isEndgame() {
+        return endgame;
     }
 }
