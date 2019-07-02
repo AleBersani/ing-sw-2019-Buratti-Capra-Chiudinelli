@@ -603,7 +603,7 @@ public class Controller {
         catch (ElementNotFoundException e) {
             try {
 
-                Weapon weapon = ((SpawnPoint) match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]), Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1]))).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[2]));
+                Weapon weapon = ((SpawnPoint) match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split("-")[0].split(",")[0]), Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1]))).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[2]));
                 playerFromNickname(clientHandler.getName(), this.match).pay(
                         weapon.getColor().equals("blue") ? weapon.getCostBlue() - 1 : weapon.getCostBlue(),
                         weapon.getColor().equals("red") ? weapon.getCostRed() - 1 : weapon.getCostRed(),
