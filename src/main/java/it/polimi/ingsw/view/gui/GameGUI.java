@@ -25,7 +25,6 @@ public class GameGUI {
     boolean endTurn = false;
     String handPosition;
     String typeOfFire;
-    private String powerUpPay;
     String nameWeapon;
     private ButtonsGUI buttonsGUI;
     private ShootingGUI shootingGUI;
@@ -362,7 +361,8 @@ public class GameGUI {
 
         reloadGrid.add(done, 0, 2,i+2,1);
         done.setOnAction(e -> {
-            client.send(toSend[0]);
+            powerUpPay(pane,toSend[0]);
+            //client.send(toSend[0]); //TODO controllare
             pane.getChildren().remove(pane2);
         });
         GridPane.setHalignment(done, HPos.CENTER);
@@ -388,76 +388,81 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-    private void powerUpPay(Pane pane) {//TODO CONTROLLARE QUANDO VIENE CHIAMATA
-        Pane payPane = new Pane();
+    void powerUpPay(Pane pane, String messageToSend) {//TODO CONTROLLARE QUANDO VIENE CHIAMATA
+        if (typeOfFire.equals("upu")) {
+            client.send(messageToSend);
+        }
+        else {
+            Pane payPane = new Pane();
+            final String[] powerUpPay = new String[1];
+            GridPane payGrid = new GridPane();
 
-        GridPane payGrid = new GridPane();
+            Label title = new Label("Do you want to pay with power ups?");
+            labelSetting(title, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
+            payGrid.add(title, 0, 0);
+            GridPane.setHalignment(title, HPos.CENTER);
+            GridPane.setValignment(title, VPos.CENTER);
 
-        Label title = new Label("Do you want to pay with power ups?");
-        labelSetting(title, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
-        payGrid.add(title, 0, 0);
-        GridPane.setHalignment(title, HPos.CENTER);
-        GridPane.setValignment(title, VPos.CENTER);
+            Button yes = new Button("YES");
+            payGrid.add(yes, 0, 1);
+            GridPane.setHalignment(yes, HPos.CENTER);
+            GridPane.setValignment(yes, VPos.CENTER);
+            yes.setOnAction(e -> {
+                payPane.getChildren().remove(payGrid);
+                powerUpPay[0] = "-";
+                GridPane gridPowerUp = new GridPane();
 
-        Button yes = new Button("YES");
-        payGrid.add(yes, 0, 1);
-        GridPane.setHalignment(yes, HPos.CENTER);
-        GridPane.setValignment(yes, VPos.CENTER);
-        yes.setOnAction(e -> {
-            payPane.getChildren().remove(payGrid);
-
-            GridPane gridPowerUp = new GridPane();
-
-            if (!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
-                String[] powerUps = gui.getYouRepresentation().get(YOU_POWERUP).split("'");
-                boolean[] consumed = new boolean[powerUps.length];
-                for (int j = 0; j < powerUps.length; j++) {
-                    consumed[j] = false;
-                    String realPowerUp = powerUpSwitch(powerUps[j]);
-                    ImageView powerUpIV = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
-                    gridPowerUp.add(powerUpIV, j, 0);
-                    final int pu = j;
-                    powerUpIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
-                        if (!consumed[pu]) {
-                            consumed[pu] = true;
-                            this.powerUpPay = this.powerUpPay.concat(Integer.toString(pu).concat(","));
-                            powerUpIV.setFitWidth(pane.getWidth() / (N_COLUMN * 2));
-                            powerUpIV.setFitHeight(pane.getHeight() / (NUMBER_OF_WEAPON * 2));
-                        } else {
-                            ev.consume();
-                        }
-                    });
+                if (!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
+                    String[] powerUps = gui.getYouRepresentation().get(YOU_POWERUP).split("'");
+                    boolean[] consumed = new boolean[powerUps.length];
+                    for (int j = 0; j < powerUps.length; j++) {
+                        consumed[j] = false;
+                        String realPowerUp = powerUpSwitch(powerUps[j]);
+                        ImageView powerUpIV = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
+                        gridPowerUp.add(powerUpIV, j, 0);
+                        final int pu = j;
+                        powerUpIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
+                            if (!consumed[pu]) {
+                                consumed[pu] = true;
+                                powerUpPay[0] = powerUpPay[0].concat(Integer.toString(pu).concat(","));
+                                powerUpIV.setFitWidth(pane.getWidth() / (N_COLUMN * 2));
+                                powerUpIV.setFitHeight(pane.getHeight() / (NUMBER_OF_WEAPON * 2));
+                            } else {
+                                ev.consume();
+                            }
+                        });
+                    }
                 }
-            }
 
-            Button done = new Button("DONE");
-            gridPowerUp.add(done, 0, 1);
-            GridPane.setHalignment(done, HPos.CENTER);
-            GridPane.setValignment(done, VPos.CENTER);
-            done.setOnAction(ev -> {
-                //TODO cosa bisogna mandare qui così
+                Button done = new Button("DONE");
+                gridPowerUp.add(done, 0, 1);
+                GridPane.setHalignment(done, HPos.CENTER);
+                GridPane.setValignment(done, VPos.CENTER);
+                done.setOnAction(ev -> {
+                    client.send(messageToSend.concat(powerUpPay[0]));
+                    pane.getChildren().remove(payPane);
+                });
+
+                payPane.getChildren().add(gridPowerUp);
+            });
+
+            Button no = new Button("NO");
+            payGrid.add(no, 1, 1);
+            GridPane.setHalignment(no, HPos.CENTER);
+            GridPane.setValignment(no, VPos.CENTER);
+            no.setOnAction(e -> {
+                client.send(messageToSend.concat("- "));
                 pane.getChildren().remove(payPane);
             });
 
-            payPane.getChildren().add(gridPowerUp);
-        });
+            Rectangle rectangle = new Rectangle();
+            rectangleStandard(rectangle, pane);
 
-        Button no = new Button("NO");
-        payGrid.add(no, 1, 1);
-        GridPane.setHalignment(no, HPos.CENTER);
-        GridPane.setValignment(no, VPos.CENTER);
-        no.setOnAction(e -> {
-            this.powerUpPay = " ";
-            pane.getChildren().remove(payPane);
-        });
-
-        Rectangle rectangle = new Rectangle();
-        rectangleStandard(rectangle, pane);
-
-        payGrid.setAlignment(Pos.CENTER);
-        payPane.getChildren().add(rectangle);
-        payPane.getChildren().add(payGrid);
-        pane.getChildren().add(payPane);
+            payGrid.setAlignment(Pos.CENTER);
+            payPane.getChildren().add(rectangle);
+            payPane.getChildren().add(payGrid);
+            pane.getChildren().add(payPane);
+        }
     }
 
     void chooseWeapon(Stage stage, String msg) {

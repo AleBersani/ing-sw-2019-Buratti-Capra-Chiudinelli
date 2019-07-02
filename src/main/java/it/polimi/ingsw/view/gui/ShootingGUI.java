@@ -76,6 +76,7 @@ class ShootingGUI {
             String fireType;
             final String[] targetString = {"TRG-"};
             if(gameGUI.typeOfFire.equals("interupt")){
+                //TODO pagamento
                 targetString[0] = "RPU-".concat(gameGUI.handPosition).concat("'");
                 fireType = " ";
             }
@@ -194,7 +195,7 @@ class ShootingGUI {
                                 target[z] = " ";
                             }
                             if (j[0] >= targetParameters.size()) {
-                                client.send(targetString[0]);
+                                gameGUI.powerUpPay(pane,targetString[0]);
                                 gui.reShow();
                             }
                         }
@@ -216,7 +217,8 @@ class ShootingGUI {
             pane.getChildren().add(targetPane);
         }
         else{
-            client.send("TRG-WPN-".concat(gameGUI.handPosition).concat("'").concat(movement).concat("' , , , ,").concat(gameGUI.typeOfFire).concat(",").concat("true").concat(";"));
+            String messageToSend ="TRG-WPN-".concat(gameGUI.handPosition).concat("'").concat(movement).concat("' , , , ,").concat(gameGUI.typeOfFire).concat(",").concat("true").concat(";") ;
+            gameGUI.powerUpPay(pane,messageToSend);
         }
     }
 

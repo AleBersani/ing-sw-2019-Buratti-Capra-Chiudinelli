@@ -86,6 +86,7 @@ public class GUI extends Application implements ViewInterface {
         this.shootingGUI = new ShootingGUI(this,client,gameGUI,buttonsGUI);
         gameGUI.setButtonsGUI(buttonsGUI);
         gameGUI.setShootingGUI(shootingGUI);
+        buttonsGUI.setShootingGUI(shootingGUI);
         client.setMessageHandler(messageHandler);
         client.init();
         client.start();
