@@ -1171,9 +1171,10 @@ public class Controller {
     private void endGame() {
         String endGame= "ENG-";
         for(Player winner : this.match.getWinner()){
-            endGame =endGame.concat(winner.getNickname()).concat(",").concat(Integer.toString(winner.getPoints())).concat(";");
+            endGame =endGame.concat(winner.getNickname()).concat("-").concat(Integer.toString(winner.getPoints())).concat(";");
         }
         for (ClientInfo clientInfo : getNicknameList().values()){
+            clientInfo.setState(ClientInfo.State.WAIT);
             sendString(endGame, clientInfo.clientHandler);
         }
     }
