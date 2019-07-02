@@ -389,8 +389,9 @@ public class GameGUI {
     }
 
     void powerUpPay(Pane pane, String messageToSend) {//TODO CONTROLLARE QUANDO VIENE CHIAMATA
-        if (typeOfFire.equals("upu")) {
+        if ((typeOfFire != null)&&(typeOfFire.equals("upu"))) {
             client.send(messageToSend);
+            typeOfFire = "";
         }
         else {
             Pane payPane = new Pane();
