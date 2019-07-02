@@ -355,8 +355,10 @@ public class Player implements Serializable {
         this.blueAmmo= this.blueAmmo-costBlue;
         this.redAmmo= this.redAmmo-costRed;
         this.yellowAmmo= this.yellowAmmo-costYellow;
-        for (PowerUp powerUp : powerUps){
-            this.discard(powerUp);
+        if(powerUps!= null && !powerUps.isEmpty()) {
+            for (PowerUp powerUp : powerUps) {
+                this.discard(powerUp);
+            }
         }
     }
 

@@ -130,14 +130,15 @@ public class Controller {
                         else if(msg.startsWith("RLD-")) {
                             if (!msg.substring(ETIQUETTE).equals("")) {
                                 try {
+                                    int totalCostBlue=0;
+                                    int totalCostRed=0;
+                                    int totalCostYellow=0;
                                     for (String weapon : msg.substring(ETIQUETTE).split("-")[0].split(",")) {
                                         Weapon realWepon = playerFromNickname(clientHandler.getName(),this.match).getWeapons().get(Integer.parseInt(weapon));
-                                        playerFromNickname(clientHandler.getName(), this.match).pay(
-                                                realWepon.getCostBlue(),
-                                                realWepon.getCostRed(),
-                                                realWepon.getCostYellow(),
-                                                generatePowerUpPayment(msg, clientHandler, this.match)
-                                        );
+                                        totalCostBlue= totalCostBlue+realWepon.getCostBlue();
+                                        totalCostRed=totalCostRed+realWepon.getCostRed();
+                                        totalCostYellow=totalCostYellow+realWepon.getCostYellow();
+                                        playerFromNickname(clientHandler.getName(), this.match).pay(totalCostBlue,totalCostRed,totalCostYellow,generatePowerUpPayment(msg,clientHandler, this.match));
                                         playerFromNickname(clientHandler.getName(), this.match).reload(realWepon);
                                     }
                                 } catch (NotFoundException e) {
