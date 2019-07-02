@@ -26,7 +26,8 @@
       "mark": 0,
       "addToList": false,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": true
     }
   ],
   "previousTarget": [[],[], []],

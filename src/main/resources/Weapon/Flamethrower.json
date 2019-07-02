@@ -32,7 +32,8 @@
       "mark": 0,
       "addToList": true,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": true
     },
 
     {
@@ -79,7 +80,8 @@
       "mark": 0,
       "addToList": false,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": true
     }
   ],
   "previousTarget": [[],[], []],
@@ -110,7 +112,8 @@
       ],
       "damage": 2,
       "mark": 0,
-      "description": "Square"
+      "description": "Square",
+      "markActivator": true
     },
     {
       "type": "EffectVsSquare",
@@ -149,7 +152,8 @@
       ],
       "damage": 1,
       "mark": 0,
-      "description": "Square"
+      "description": "Square",
+      "markActivator": true
     }
   ]
 }

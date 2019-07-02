@@ -26,7 +26,8 @@
       "mark": 2,
       "addToList": false,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": true
     }
   ],
   "previousTarget": [[],[], []],
@@ -52,7 +53,8 @@
       "mark": 1,
       "addToList": true,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": false
     },
     {
       "type": "EffectVsPlayer",
@@ -79,7 +81,8 @@
       "mark": 1,
       "addToList": true,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": false
     },
     {
       "type": "EffectVsPlayer",
@@ -106,7 +109,8 @@
       "mark": 1,
       "addToList": true,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": false
     }
   ]
 }

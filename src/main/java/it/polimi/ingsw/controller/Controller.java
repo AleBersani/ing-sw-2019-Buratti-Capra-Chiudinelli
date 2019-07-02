@@ -130,14 +130,13 @@ public class Controller {
                         else if(msg.startsWith("RLD-")) {
                             if (!msg.substring(ETIQUETTE).equals("")) {
                                 try {
-                                    for (String weapon : msg.substring(ETIQUETTE).split(",")) {
+                                    for (String weapon : msg.substring(ETIQUETTE).split("-")[0].split(",")) {
                                         Weapon realWepon = playerFromNickname(clientHandler.getName(),this.match).getWeapons().get(Integer.parseInt(weapon));
                                         playerFromNickname(clientHandler.getName(), this.match).pay(
                                                 realWepon.getCostBlue(),
                                                 realWepon.getCostRed(),
                                                 realWepon.getCostYellow(),
-                                                null
-                                                //TODO generare powerUp
+                                                generatePowerUpPayment(msg, clientHandler, this.match)
                                         );
                                         playerFromNickname(clientHandler.getName(), this.match).reload(realWepon);
                                     }
@@ -227,7 +226,7 @@ public class Controller {
                             ArrayList<PowerUp> usable = new ArrayList<>();
                             try {
                                 for (PowerUp powerUp : playerFromNickname(clientHandler.getName(), clientInfoFromClientHandeler(clientHandler).simulation).getPowerUps()) {
-                                    if (powerUp.getOnResponse() && powerUp.getName().equals("targeting scope")) {
+                                    if (powerUp.getOnResponse() && powerUp.isOffensive()) {
                                         usable.add(powerUp);
                                     }
                                 }
@@ -273,7 +272,7 @@ public class Controller {
         String responseRequest="RPU-";
         try {
             for(PowerUp p : playerFromNickname(clientInfo.clientHandler.getName(), this.match).getPowerUps()){
-                if(p.getOnResponse() && p.getName().equals("targeting scope")){
+                if(p.getOnResponse() && p.isOffensive()){
                     powerUps.add(p);
                     responseRequest=responseRequest.concat(p.getName()).concat(":").concat(p.getColor()).concat(";");
                 }
@@ -440,7 +439,7 @@ public class Controller {
 
     private void shootingAction(ClientHandler clientHandler, String msg){
         ArrayList<TargetParameter> targetParameters = new ArrayList<>();
-        String[] data = msg.split("'");
+        String[] data = msg.split("-")[0].split("'");
         try {
             if(clientInfoFromClientHandeler(clientHandler).simulation == null) {
                 clientInfoFromClientHandeler(clientHandler).simulation = deepClone(match);
@@ -572,9 +571,24 @@ public class Controller {
         lifeCycle(clientHandler);
     }
 
+    private ArrayList<PowerUp> generatePowerUpPayment (String msg ,ClientHandler clientHandler, Match match) {
+        ArrayList<PowerUp> payment = null;
+        if (!msg.substring(ETIQUETTE).split("-")[1].equals(" ")) {
+            payment = new ArrayList<>();
+            for (String powerUp : msg.split("-")[1].split(",")) {
+                try {
+                    payment.add(playerFromNickname(clientHandler.getName(), match).getPowerUps().get(Integer.parseInt(powerUp)));
+                } catch (NotFoundException e) {
+                    sendString("error", clientHandler);
+                }
+            }
+        }
+        return payment;
+    }
+
     private void grabbingAction(ClientHandler clientHandler, String msg){
         try {
-            String[] stringo =msg.substring(ETIQUETTE).split("/")[0].split(",");
+            String[] stringo =msg.substring(ETIQUETTE).split("-")[0].split(",");
             playerFromNickname(clientHandler.getName(), this.match).grab(match.getBoard().find(Integer.parseInt(stringo[0]),
                     Integer.parseInt(stringo[1])));
             updateBackground(this.match);
@@ -588,16 +602,18 @@ public class Controller {
         }
         catch (ElementNotFoundException e) {
             try {
-                Weapon weapon =((SpawnPoint)match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1]))).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[2]));
+
+                Weapon weapon = ((SpawnPoint) match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]), Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1]))).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[2]));
                 playerFromNickname(clientHandler.getName(), this.match).pay(
-                        weapon.getColor().equals("blue")? weapon.getCostBlue()-1 : weapon.getCostBlue(),
-                        weapon.getColor().equals("red")? weapon.getCostRed()-1 : weapon.getCostRed(),
-                        weapon.getColor().equals("yellow")? weapon.getCostYellow()-1 : weapon.getCostYellow(),
-                null);//TODO generare i power Ups
+                        weapon.getColor().equals("blue") ? weapon.getCostBlue() - 1 : weapon.getCostBlue(),
+                        weapon.getColor().equals("red") ? weapon.getCostRed() - 1 : weapon.getCostRed(),
+                        weapon.getColor().equals("yellow") ? weapon.getCostYellow() - 1 : weapon.getCostYellow(),
+                        generatePowerUpPayment(msg, clientHandler, this.match));
                 playerFromNickname(clientHandler.getName(), this.match).grabWeapon(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
-                        Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])),Integer.parseInt(msg.substring(ETIQUETTE).split(",")[2]));
+                        Integer.parseInt(msg.substring(ETIQUETTE).split(",")[1])), Integer.parseInt(msg.substring(ETIQUETTE).split(",")[2]));
                 updateBackground(this.match);
                 lifeCycle(clientHandler);
+
             } catch (ElementNotFoundException e1) {
                 sendString(">>>Nothing to grab", clientHandler);
             }catch (NoAmmoException e1) {

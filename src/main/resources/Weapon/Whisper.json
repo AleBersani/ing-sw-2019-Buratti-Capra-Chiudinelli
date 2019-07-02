@@ -33,7 +33,8 @@
       "mark": 1,
       "addToList": false,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": true
     }
   ],
   "previousTarget": [[],[], []],

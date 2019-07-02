@@ -372,8 +372,9 @@ public class Player implements Serializable {
      * This method allows to add the damage counters to this player
      * @param damage  This parameter is the number of damage dealt by the shooter
      * @param shooter This parameter is the player who shoot
+     * @param markActivator This parameter is true if the damage should convert the marks in damages, false otherwise
      */
-    public void wound(int damage, Player shooter) {
+    public void wound(int damage, Player shooter, boolean markActivator) {
         int i;
         for (i = 0; i < damage; i++) {
             if (this.damage.size() < 12) {
@@ -381,14 +382,16 @@ public class Player implements Serializable {
                 this.damageCounter++;
             }
         }
-        for (i = 0; i < this.mark.size(); i++) {
-            if (this.mark.get(i) == shooter) {
-                if(this.damage.size() < 12){
-                    this.damage.add(shooter);
-                    this.damageCounter++;
+        if(markActivator) {
+            for (i = 0; i < this.mark.size(); i++) {
+                if (this.mark.get(i) == shooter) {
+                    if (this.damage.size() < 12) {
+                        this.damage.add(shooter);
+                        this.damageCounter++;
+                    }
+                    this.mark.remove(i);
+                    i--;
                 }
-                this.mark.remove(i);
-                i--;
             }
         }
         if (this.damageCounter > 10)

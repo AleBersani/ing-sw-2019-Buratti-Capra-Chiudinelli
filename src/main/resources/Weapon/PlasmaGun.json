@@ -26,7 +26,8 @@
       "mark": 0,
       "addToList": true,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": true
     }
 
   ],
@@ -47,7 +48,8 @@
         "self": true,
         "addToList": false,
         "removeFromList": false,
-        "description": "Movement:self"
+        "description": "Movement:self",
+        "markActivator": true
       }
     ],
     [
@@ -71,7 +73,8 @@
         "mark": 0,
         "addToList": false,
         "removeFromList": false,
-        "description": "Player"
+        "description": "Player",
+        "markActivator": true
       }
     ]
   ],

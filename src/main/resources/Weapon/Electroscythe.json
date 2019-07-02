@@ -24,7 +24,8 @@
       ],
       "damage": 1,
       "mark": 0,
-      "description": "Square"
+      "description": "Square",
+      "markActivator": true
     }
   ],
   "previousTarget": [[],[], []],
@@ -48,7 +49,8 @@
       ],
       "damage": 2,
       "mark": 0,
-      "description": "Square"
+      "description": "Square",
+      "markActivator": true
     }
   ]
 }

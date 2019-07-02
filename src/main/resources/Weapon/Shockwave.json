@@ -33,7 +33,8 @@
       "mark": 0,
       "addToList": true,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": true
     },
     {
       "type": "EffectVsPlayer",
@@ -67,7 +68,8 @@
       "mark": 0,
       "addToList": true,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": true
     },
     {
       "type": "EffectVsPlayer",
@@ -101,7 +103,8 @@
       "mark": 0,
       "addToList": true,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": true
     }
   ],
   "previousTarget": [[],[], []],
@@ -118,7 +121,8 @@
       "damage": 1,
       "mark": 0,
       "distance": 1,
-      "description": "Area"
+      "description": "Area",
+      "markActivator": true
     }
   ]
 }

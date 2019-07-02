@@ -38,7 +38,8 @@
       "mark": 2,
       "addToList": true,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": true
     },
     {
       "type": "MovementEffect",
@@ -61,7 +62,8 @@
       "self": true,
       "addToList": false,
       "removeFromList": false,
-      "description": "Movement:self"
+      "description": "Movement:self",
+      "markActivator": true
     }
   ],
   "previousTarget": [[],[], []],
@@ -100,7 +102,8 @@
       "mark": 0,
       "addToList": true,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": true
     },
     {
       "type": "MovementEffect",
@@ -123,7 +126,8 @@
       "self":true,
       "addToList": false,
       "removeFromList": false,
-      "description": "Movement:self"
+      "description": "Movement:self",
+      "markActivator": true
     },
     {
       "type": "EffectVsPlayer",
@@ -162,7 +166,8 @@
       "mark": 0,
       "addToList": true,
       "removeFromList": true,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": true
     },
     {
       "type": "MovementEffect",
@@ -185,7 +190,8 @@
       "self":true,
       "addToList": false,
       "removeFromList": false,
-      "description": "Movement:self"
+      "description": "Movement:self",
+      "markActivator": true
     }
   ]
 }

@@ -26,7 +26,8 @@
       "mark": 0,
       "addToList": false,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": true
     }
 
   ],
@@ -53,7 +54,8 @@
       "mark": 0,
       "addToList": true,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": true
     },
     {
       "type": "MovementEffect",
@@ -75,7 +77,8 @@
       "self": false,
       "addToList": false,
       "removeFromList": false,
-      "description": "Player,Movement:enemy"
+      "description": "Player,Movement:enemy",
+      "markActivator": true
     }
   ]
 }

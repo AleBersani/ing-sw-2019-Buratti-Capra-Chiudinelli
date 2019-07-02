@@ -30,6 +30,8 @@ public class PowerUp implements Serializable {
      */
     private boolean onResponse;
 
+    private boolean offensive;
+
     /**
      * constructor method of Power Up
      * @param color color of the power up
@@ -90,4 +92,7 @@ public class PowerUp implements Serializable {
         return onResponse;
     }
 
+    public boolean isOffensive() {
+        return offensive;
+    }
 }

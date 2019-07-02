@@ -42,6 +42,10 @@ public abstract class Effect implements Serializable {
      * descriptor of the effect for the client
      */
     private String description;
+    /**
+     * is true if the damage should convert the marks in damages, false otherwise
+     */
+    private boolean markActivator;
 
     /**
      * constructor method of Effect
@@ -126,7 +130,7 @@ public abstract class Effect implements Serializable {
         if(enemy!=owner){
             if(damage!=0){
                 previousTarget.get(2).add(enemy);
-                enemy.wound(damage,owner);
+                enemy.wound(damage,owner, this.markActivator);
             }
             enemy.marked(mark,owner);
         }

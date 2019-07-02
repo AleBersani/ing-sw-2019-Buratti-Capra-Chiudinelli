@@ -631,12 +631,12 @@ class PlayerTest {
 
     @Test
     public void testWound() {
-        test.wound(1, target);
+        test.wound(1, target, true);
         assertEquals(1, test.getDamageCounter());
         for (i=0;i<test.getDamage().size();i++)
             assertEquals(target, test.getDamage().get(i));
         testMarked();
-        guest.wound(1,loser);
+        guest.wound(1,loser, true);
         assertEquals(2,guest.getDamageCounter());
         for(i=0;i<guest.getDamage().size();i++)
             assertEquals(loser,guest.getDamage().get(i));

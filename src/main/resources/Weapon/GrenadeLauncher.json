@@ -26,7 +26,8 @@
       "mark": 0,
       "addToList": true,
       "removeFromList": false,
-      "description": "Player"
+      "description": "Player",
+      "markActivator": true
     }
   ],
   "previousTarget": [[],[], []],
@@ -50,7 +51,8 @@
         ],
         "damage": 1,
         "mark": 0,
-        "description": "Square"
+        "description": "Square",
+        "markActivator": true
       }
 
     ],
@@ -74,7 +76,8 @@
         "self": false,
         "addToList": false,
         "removeFromList": false,
-        "description": "Player,Movement:enemy"
+        "description": "Player,Movement:enemy",
+        "markActivator": true
       }
     ]
   ],
