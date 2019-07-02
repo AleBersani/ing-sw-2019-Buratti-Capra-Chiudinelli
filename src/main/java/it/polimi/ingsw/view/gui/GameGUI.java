@@ -402,11 +402,17 @@ public class GameGUI {
                 final String[] powerUpPay = new String[1];
                 GridPane payGrid = new GridPane();
 
-                Label title = new Label("Do you want to pay with power ups?");
-                labelSetting(title, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
-                payGrid.add(title, 0, 0, 2, 1);
-                GridPane.setHalignment(title, HPos.CENTER);
-                GridPane.setValignment(title, VPos.CENTER);
+            ColumnConstraints col1 = new ColumnConstraints();
+            col1.setPercentWidth(20);
+            ColumnConstraints col2 = new ColumnConstraints();
+            col2.setPercentWidth(20);
+            payGrid.getColumnConstraints().addAll(col1, col2);
+
+            Label title = new Label("Do you want to pay with power ups?");
+            labelSetting(title, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
+            payGrid.add(title, 0, 0,2,1);
+            GridPane.setHalignment(title, HPos.CENTER);
+            GridPane.setValignment(title, VPos.CENTER);
 
                 Button yes = new Button("YES");
                 payGrid.add(yes, 0, 1);
