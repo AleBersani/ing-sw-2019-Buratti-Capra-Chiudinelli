@@ -395,24 +395,26 @@ public class GameGUI {
         }
         else {
             if(gui.getYouRepresentation().get(PLAYER_POWER_UP).equals("PowerUp:0")){
-                client.send(messageToSend.concat("- "));
+                client.send(messageToSend.concat("> "));
             }
             else {
                 StackPane payPane = new StackPane();
                 final String[] powerUpPay = new String[1];
                 GridPane payGrid = new GridPane();
 
-            ColumnConstraints col1 = new ColumnConstraints();
-            col1.setPercentWidth(20);
-            ColumnConstraints col2 = new ColumnConstraints();
-            col2.setPercentWidth(20);
-            payGrid.getColumnConstraints().addAll(col1, col2);
+                Rectangle rectangle = new Rectangle();
+                rectangleStandard(rectangle, pane);
+                ColumnConstraints col1 = new ColumnConstraints();
+                col1.setPercentWidth(20);
+                ColumnConstraints col2 = new ColumnConstraints();
+                col2.setPercentWidth(20);
+                payGrid.getColumnConstraints().addAll(col1, col2);
 
-            Label title = new Label("Do you want to pay with power ups?");
-            labelSetting(title, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
-            payGrid.add(title, 0, 0,2,1);
-            GridPane.setHalignment(title, HPos.CENTER);
-            GridPane.setValignment(title, VPos.CENTER);
+                Label title = new Label("Do you want to pay with power ups?");
+                labelSetting(title, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
+                payGrid.add(title, 0, 0,2,1);
+                GridPane.setHalignment(title, HPos.CENTER);
+                GridPane.setValignment(title, VPos.CENTER);
 
                 Button yes = new Button("YES");
                 payGrid.add(yes, 0, 1);
@@ -422,7 +424,7 @@ public class GameGUI {
                 GridPane.setValignment(yes, VPos.CENTER);
                 yes.setOnAction(e -> {
                     payPane.getChildren().remove(payGrid);
-                    powerUpPay[0] = "-";
+                    powerUpPay[0] = ">";
                     GridPane gridPowerUp = new GridPane();
 
                     int j = 0;
@@ -453,11 +455,11 @@ public class GameGUI {
                     GridPane.setHalignment(done, HPos.CENTER);
                     GridPane.setValignment(done, VPos.CENTER);
                     done.setOnAction(ev -> {
-                        if(powerUpPay[0].equals("-")){
-                            powerUpPay[0] = "- ";
+                        if(powerUpPay[0].equals(">")){
+                            powerUpPay[0] = "> ";
                         }
                         client.send(messageToSend.concat(powerUpPay[0]));
-                        pane.getChildren().remove(payPane);
+                        gui.reShow();
                     });
 
                     gridPowerUp.setVgap(30);
@@ -471,12 +473,9 @@ public class GameGUI {
                 GridPane.setHalignment(no, HPos.CENTER);
                 GridPane.setValignment(no, VPos.CENTER);
                 no.setOnAction(e -> {
-                    client.send(messageToSend.concat("- "));
-                    pane.getChildren().remove(payPane);
+                    client.send(messageToSend.concat("> "));
+                    gui.reShow();
                 });
-
-                Rectangle rectangle = new Rectangle();
-                rectangleStandard(rectangle, pane);
 
                 payGrid.setAlignment(Pos.CENTER);
                 payPane.getChildren().add(rectangle);
