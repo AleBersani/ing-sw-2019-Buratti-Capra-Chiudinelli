@@ -358,6 +358,7 @@ public class Player implements Serializable {
         if(powerUps!= null && !powerUps.isEmpty()) {
             for (int i = 0;i<powerUps.size();) {
                 this.discard(powerUps.get(i));
+                powerUps.remove(i);
             }
         }
     }
