@@ -3,7 +3,21 @@ package it.polimi.ingsw.model.map;
 import java.io.Serializable;
 
 public class AmmoTile implements Serializable {
-    private int red, blue, yellow;
+    /**
+     * the amount of red ammo
+     */
+    private int red;
+    /**
+     * the amount of blue ammo
+     */
+    private int blue;
+    /**
+     * the amount of yellow ammo
+     */
+    private int yellow;
+    /**
+     * the amount of powerUp
+     */
     private int powerUp;
 
     /**
@@ -20,18 +34,34 @@ public class AmmoTile implements Serializable {
         this.powerUp = powerUp;
     }
 
+    /**
+     * getter method of red ammo
+     * @return red ammo quantity
+     */
     public int getRed() {
         return red;
     }
 
+    /**
+     * getter method of blue ammo
+     * @return blue ammo quantity
+     */
     public int getBlue() {
         return blue;
     }
 
+    /**
+     * getter method of yellow ammo
+     * @return yellow ammo quantity
+     */
     public int getYellow() {
         return yellow;
     }
 
+    /**
+     * getter method of the amount of powerUp
+     * @return the amount of powerUp
+     */
     public int getPowerUp() {
         return powerUp;
     }

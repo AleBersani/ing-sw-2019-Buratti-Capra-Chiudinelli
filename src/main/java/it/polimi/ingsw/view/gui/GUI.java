@@ -22,6 +22,7 @@ public class GUI extends Application implements ViewInterface {
     private GameGUI gameGUI;
     private BackGraphicsGUI backGraphicsGUI;
     private ButtonsGUI buttonsGUI;
+    private ShootingGUI shootingGUI;
     private MessageHandler messageHandler;
     private boolean sendable;
     private boolean messageToShow;
@@ -82,7 +83,10 @@ public class GUI extends Application implements ViewInterface {
         this.gameGUI = new GameGUI(this,client);
         this.backGraphicsGUI = new BackGraphicsGUI (this,gameGUI);
         this.buttonsGUI = new ButtonsGUI(this,client,gameGUI);
+        this.shootingGUI = new ShootingGUI(this,client,gameGUI,buttonsGUI);
         gameGUI.setButtonsGUI(buttonsGUI);
+        gameGUI.setShootingGUI(shootingGUI);
+        buttonsGUI.setShootingGUI(shootingGUI);
         client.setMessageHandler(messageHandler);
         client.init();
         client.start();
@@ -227,11 +231,11 @@ public class GUI extends Application implements ViewInterface {
     }
 
     private void showTarget(){
-        this.gameGUI.buildTarget(stage,infoTarget," ");
+        this.shootingGUI.buildTarget(stage,infoTarget," ");
     }
 
     private void preShowShoot(){
-        this.gameGUI.preShootShow(stage,infoTarget);
+        this.shootingGUI.preShootShow(stage,infoTarget);
     }
 
     private void weaponDiscard(){

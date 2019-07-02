@@ -9,9 +9,15 @@ import java.util.ArrayList;
  * This class represent a SpawnPoint
  */
 public class SpawnPoint extends Square {
-
+    /**
+     * list of weapon in the store
+     */
     private ArrayList<Weapon> weapons;
 
+    /**
+     * getter method of the list of weapons in the store of this square
+     * @return list of weapons in the store
+     */
     public ArrayList<Weapon> getWeapons() {
         return weapons;
     }
@@ -34,13 +40,12 @@ public class SpawnPoint extends Square {
     @Override
     public void generate(){
         weapons.add(super.getRoom().getBoard().nextWeapon());
-        return;
     }
 
     /**
      * this method throws an ElementNotFoundException
-     * @return
-     * @throws ElementNotFoundException
+     * @return an exception because in this type of square there aren't ammoTile
+     * @throws ElementNotFoundException because in this type of square there aren't ammoTile
      */
     @Override
     public AmmoTile grabAmmo() throws ElementNotFoundException {
@@ -51,10 +56,9 @@ public class SpawnPoint extends Square {
      * this method return a weapon on this
      * @param position is the index of what weapon needs to be returned
      * @return the weapon on this at the index position, if there are not weapon on that index return null
-     * @throws ElementNotFoundException
      */
     @Override
-    public Weapon grabWeapon( int position) throws ElementNotFoundException {
+    public Weapon grabWeapon( int position) {
         Weapon temp;
         temp=this.weapons.get(position);
         this.weapons.remove(position);

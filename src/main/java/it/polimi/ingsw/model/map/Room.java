@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.map;
 import it.polimi.ingsw.exception.NotFoundException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Weapon;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -11,9 +10,17 @@ import java.util.ArrayList;
  * This class represent a room
  */
 public class Room  implements Serializable {
-
+    /**
+     * size of the room
+     */
     private int size;
-    private ArrayList<Square> squares= new ArrayList<Square>();
+    /**
+     * list of squares in this room
+     */
+    private ArrayList<Square> squares= new ArrayList<>();
+    /**
+     * reference to board
+     */
     private Board board;
 
     /**
@@ -45,26 +52,42 @@ public class Room  implements Serializable {
      * @return the Square of coordinate x, when does not exist in this room a Square with coordinates x,y return null
      */
     public Square find(int x, int y)  {
-        for (int i=0; i<squares.size();i++) {
-            if (squares.get(i).getX() == x && squares.get(i).getY() == y) {
-                return squares.get(i);
+        for (Square square : squares) {
+            if (square.getX() == x && square.getY() == y) {
+                return square;
             }
         }
         return null;
     }
 
+    /**
+     * getter method of size
+     * @return the size of the room
+     */
     public int getSize() {
         return size;
     }
 
+    /**
+     * getter method of the list of squares in this room
+     * @return list of squares in this room
+     */
     public ArrayList<Square> getSquares() {
         return squares;
     }
 
+    /**
+     * getter method of board
+     * @return the board
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * descriptor method of room
+     * @return the description of the room
+     */
     @Override
     public String toString(){
         String cells="";

@@ -119,7 +119,7 @@ public class Board implements Serializable {
      * This method return the first card of the deck of Weapon and remove that Weapon from the deck
      * @return the first card of the deck of Weapons
      */
-    public Weapon nextWeapon(){
+    Weapon nextWeapon(){
         Weapon w;
         if (weaponsList.size()>0) {
             w = weaponsList.get(weaponsList.size()-1);
@@ -134,7 +134,7 @@ public class Board implements Serializable {
      * This method return the first card of the deck of AmmoTile and remove that AmmoTile from the deck
      * @return the first card of the deck of AmmoTile
      */
-    public AmmoTile nextAmmo(){
+    AmmoTile nextAmmo(){
         AmmoTile a;
         a= ammoList.get(ammoList.size()-1);
         ammoList.remove(ammoList.size()-1);
@@ -156,7 +156,7 @@ public class Board implements Serializable {
      * This method generate the deck of AmmoTiles from a json file, remove from the deck the AmmoTiles already
      * on the board and then reshuffle it
      */
-    public void reShuffleAmmo(){
+    void reShuffleAmmo(){
         Gson gSon= new Gson();
         BufferedReader br;
         int i;
@@ -184,14 +184,13 @@ public class Board implements Serializable {
             }
         }
         shuffle(ammoList);
-        return;
     }
 
     /**
      * This method generate the deck of PowerUp from a json file, remove from the deck the PowerUp already
      * in some Player hand and then reshuffle it
      */
-    public void reShufflePowerUps(){
+    private void reShufflePowerUps(){
         Gson gSon;
         BufferedReader br;
         br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/PowerUp.json")));
@@ -213,13 +212,12 @@ public class Board implements Serializable {
             }
         }
         shuffle(powerUpList);
-        return;
     }
 
     /**
      * This method generate the deck of Weapon from a json file, and then reshuffle it
      */
-    public void reShuffleWeapons(){
+    private void reShuffleWeapons(){
         Gson gSon= new Gson();
         BufferedReader br;
         int i;
@@ -255,7 +253,6 @@ public class Board implements Serializable {
         }
 
         shuffle(weaponsList);
-        return;
     }
 
     /**
@@ -265,7 +262,8 @@ public class Board implements Serializable {
      * @throws NotFoundException is thrown when there are not SpawnPoint with the color required
      */
     public Square findSpawnPoint(String color) throws NotFoundException {
-        int i,j;
+        int i;
+        int j;
         Square isThis;
         for (i=0;i<this.rooms.size();i++) {
             for (j=0;j<this.rooms.get(i).getSquares().size(); j++) {
@@ -325,13 +323,13 @@ public class Board implements Serializable {
      * @param deck is the deck that needs to be shuffled
      */
     private void shuffle( ArrayList deck){
-        int i,n;
+        int i;
+        int n;
         for (i=0; i<deck.size()*2;i++){
             n=random.nextInt(deck.size());
             deck.add(deck.get(n));
             deck.remove(deck.get(n));
         }
-        return;
     }
 
     public ArrayList<AmmoTile> getAmmoList() {

@@ -22,11 +22,16 @@ class ButtonsGUI {
     private GUI gui;
     private Client client;
     private GameGUI gameGUI;
+    private ShootingGUI shootingGUI;
 
     ButtonsGUI(GUI gui, Client client, GameGUI gameGUI) {
         this.gui = gui;
         this.client = client;
         this.gameGUI = gameGUI;
+    }
+
+    public void setShootingGUI(ShootingGUI shootingGUI) {
+        this.shootingGUI = shootingGUI;
     }
 
     void buildButtons(Stage stage) {
@@ -233,8 +238,9 @@ class ButtonsGUI {
                                             grid.add(weaponIV, j, 0);
                                             int w = j;
                                             weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
-                                                client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)
-                                                        .concat(",").concat(Integer.toString(w))));
+                                                String messageToSend = "GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY).concat(",").concat(Integer.toString(w)));
+                                                gameGUI.powerUpPay(pane,messageToSend);
+                                                //TODO client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY).concat(",").concat(Integer.toString(w))));
                                                 pane.getChildren().remove(grid);
                                                 backRun.fire();
                                             });
@@ -401,7 +407,7 @@ class ButtonsGUI {
                 final int w = ((Integer.parseInt(singleEffect))*2)+1;
                 effectButton.setOnAction(e -> {
                     gameGUI.typeOfFire = fire;
-                    gameGUI.buildTarget(stage,requestedTarget[w]," ");
+                    shootingGUI.buildTarget(stage,requestedTarget[w]," ");
                     pane.getChildren().remove(opzShootPane);
                 });
 

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.communication.client.Client;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -10,7 +9,6 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -27,16 +25,16 @@ public class GameGUI {
     boolean endTurn = false;
     String handPosition;
     String typeOfFire;
-    private String powerUpPay;
     String nameWeapon;
     private ButtonsGUI buttonsGUI;
+    private ShootingGUI shootingGUI;
 
     static final String PURPLE = "purple";
     static final String BLUE = "blue";
     static final String GREEN = "green";
     static final String YELLOW = "yellow";
     static final String GREY = "grey";
-    private static final int SHOOT_ADRENALINE = 6;
+    static final int SHOOT_ADRENALINE = 6;
     static final int N_INNER_COLUMN = 3;
     static final int N_COLUMN = 7;
     static final int N_INNER_ROW = 3;
@@ -79,11 +77,15 @@ public class GameGUI {
         this.client = client;
     }
 
-    public void setButtonsGUI(ButtonsGUI buttonsGUI) {
+    public void setShootingGUI(ShootingGUI shootingGUI) {
+        this.shootingGUI = shootingGUI;
+    }
+
+    void setButtonsGUI(ButtonsGUI buttonsGUI) {
         this.buttonsGUI = buttonsGUI;
     }
 
-    public void spawn(Stage stage, String msg) {
+    void spawn(Stage stage, String msg) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
 
         StackPane pane2 = new StackPane();
@@ -188,7 +190,7 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-    protected void interuptPowerUpUses(Stage stage, String msg){
+    void interuptPowerUpUses(Stage stage, String msg){
         StackPane pane = (StackPane) stage.getScene().getRoot();
 
         StackPane pane2 = new StackPane();
@@ -220,7 +222,7 @@ public class GameGUI {
             powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
                 this.handPosition = String.valueOf(pU);
                 this.typeOfFire = "interupt";
-                buildTarget(stage,"Player;"," ");
+                this.shootingGUI.buildTarget(stage,"Player;"," ");
                 pane.getChildren().remove(pane2);
             });
             i++;
@@ -243,7 +245,7 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-    protected void reload(Stage stage, String msg) {
+    void reload(Stage stage, String msg) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         StackPane pane2 = new StackPane();
 
@@ -359,7 +361,8 @@ public class GameGUI {
 
         reloadGrid.add(done, 0, 2,i+2,1);
         done.setOnAction(e -> {
-            client.send(toSend[0]);
+            powerUpPay(pane,toSend[0]);
+            //client.send(toSend[0]); //TODO controllare
             pane.getChildren().remove(pane2);
         });
         GridPane.setHalignment(done, HPos.CENTER);
@@ -385,422 +388,84 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-    protected void buildTarget(Stage stage, String msg, String movement) {
-        StackPane pane = (StackPane) stage.getScene().getRoot();
-        StackPane targetPane = new StackPane();
-        GridPane targetGrid = new GridPane();
-        columnConstraint(targetGrid, N_COLUMN);
-        rowConstraint(targetGrid, N_ROW);
-
-        Rectangle rectangle = new Rectangle();
-        rectangleStandard(rectangle, pane);
-
-        Label text = new Label("");
-        labelSetting(text, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
-        targetGrid.add(text, 0, 3, 4, 1);
-        GridPane.setHalignment(text, HPos.CENTER);
-        GridPane.setValignment(text, VPos.CENTER);
-
-        ArrayList<ArrayList<String>> targetParameters = new ArrayList<>();
-        ArrayList<boolean[]> success = new ArrayList<>();
-        int i = 0;
-        for (String targetParameter : msg.split(";")) {
-            targetParameters.add(new ArrayList<>());
-            success.add(new boolean[targetParameter.split(",").length]);
-            int w=0;
-            for (String singleTarget : targetParameter.split(",")) {
-                targetParameters.get(i).add(singleTarget);
-                success.get(i)[w] = false;
-                w++;
-            }
-            i++;
+    void powerUpPay(Pane pane, String messageToSend) {//TODO CONTROLLARE QUANDO VIENE CHIAMATA
+        if (typeOfFire.equals("upu")) {
+            client.send(messageToSend);
         }
-        if(!targetParameters.get(0).get(0).equals("Area")) {
-            targetDescription(targetParameters.get(0).get(0), text);
+        else {
+            Pane payPane = new Pane();
+            final String[] powerUpPay = new String[1];
+            GridPane payGrid = new GridPane();
 
-            ImageView skipIV = new ImageView(new Image("/images/game/skip.png", pane.getWidth() / 17, pane.getHeight() / 10, false, false));
-            targetGrid.add(skipIV, 4, 3);
-            GridPane.setHalignment(skipIV, HPos.CENTER);
-            GridPane.setValignment(skipIV, VPos.CENTER);
+            Label title = new Label("Do you want to pay with power ups?");
+            labelSetting(title, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
+            payGrid.add(title, 0, 0);
+            GridPane.setHalignment(title, HPos.CENTER);
+            GridPane.setValignment(title, VPos.CENTER);
 
-            final int[] j = {0};
-            final int[] k = {0};
-            String fireType = "";
-            final String[] targetString = {"TRG-"};
-            if(typeOfFire.equals("interupt")){
-                targetString[0] = "RPU-".concat(handPosition).concat("'");
-                fireType = " ";
-            }
-            else {
-                if (typeOfFire.equals("upu")) {
-                    //caso powerup
-                    targetString[0] = targetString[0].concat("POU-").concat(handPosition).concat("'");
-                    fireType = " ";
-                } else {
-                    //caso armi
-                    targetString[0] = targetString[0].concat("WPN-").concat(handPosition).concat("'").concat(movement).concat("'");
-                    fireType = typeOfFire;
-                }
-            }
-            final String[] target = {" ", " ", " ", " "};
+            Button yes = new Button("YES");
+            payGrid.add(yes, 0, 1);
+            GridPane.setHalignment(yes, HPos.CENTER);
+            GridPane.setValignment(yes, VPos.CENTER);
+            yes.setOnAction(e -> {
+                payPane.getChildren().remove(payGrid);
+                powerUpPay[0] = "-";
+                GridPane gridPowerUp = new GridPane();
 
-            Button clickstop = new Button();
-            Button startClick = new Button();
-
-            String finalFireType = fireType;
-            EventHandler clickEvent = (EventHandler<MouseEvent>) event -> {
-                if (j[0] >= targetParameters.size()) {
-                    event.consume();
-                } else {
-                    double pixelX = event.getScreenX();
-                    double pixelY = event.getScreenY();
-
-                    String cellX = Integer.toString(1 + (int) (pixelX / (pane.getWidth() / N_COLUMN)));
-                    String cellY = Integer.toString(1 + (int) (pixelY / (pane.getHeight() / N_ROW)));
-
-                    String[] type = targetParameters.get(j[0]).get(k[0]).split(":");
-                    if ((Integer.valueOf(cellX) == 5) && (Integer.valueOf(cellY) == 4)) {
-                        success.get(j[0])[k[0]] = true;
-                    } else {
-                        if ((Integer.valueOf(cellX) <= 4) && (Integer.valueOf(cellY) <= 3)) {
-                            switch (type[0]) {
-                                case "Movement": {
-                                    target[0] = cellX.concat(":").concat(cellY);
-                                    success.get(j[0])[k[0]] = true;
-                                    break;
-                                }
-                                case "Player": {
-                                    String innerCellX = Integer.toString((int) (pixelX / (pane.getWidth() / (N_COLUMN * N_INNER_COLUMN))) % N_INNER_COLUMN);
-                                    String innerCellY = Integer.toString((int) (pixelY / (pane.getHeight() / (N_ROW * N_INNER_ROW))) % N_INNER_ROW);
-                                    String pos = innerCellX.concat(innerCellY);
-                                    String color = "";
-                                    switch (pos) {
-                                        case "01": {
-                                            color = BLUE;
-                                            break;
-                                        }
-                                        case "02": {
-                                            color = YELLOW;
-                                            break;
-                                        }
-                                        case "12": {
-                                            color = GREEN;
-                                            break;
-                                        }
-                                        case "22": {
-                                            color = GREY;
-                                            break;
-                                        }
-                                        case "21": {
-                                            color = PURPLE;
-                                            break;
-                                        }
-                                        default: {
-                                        }
-                                    }
-                                    if (!color.equals("")) {
-                                        for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
-                                            for (ArrayList<String> cell : room) {
-                                                if ((cell.get(CELL_X).equals(cellX)) && (cell.get(CELL_Y).equals(cellY))) {
-                                                    for (String player : cell.get(CELL_PLAYER_ON_ME).split("'")) {
-                                                        if (player.equals(color)) {
-                                                            target[1] = color;
-                                                            success.get(j[0])[k[0]] = true;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    break;
-                                }
-                                case "Room": {
-                                    target[2] = cellX.concat(":").concat(cellY);
-                                    success.get(j[0])[k[0]] = true;
-                                    break;
-                                }
-                                case "Square": {
-                                    target[3] = cellX.concat(":").concat(cellY);
-                                    success.get(j[0])[k[0]] = true;
-                                    break;
-                                }
-                                default: {
-                                }
+                if (!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
+                    String[] powerUps = gui.getYouRepresentation().get(YOU_POWERUP).split("'");
+                    boolean[] consumed = new boolean[powerUps.length];
+                    for (int j = 0; j < powerUps.length; j++) {
+                        consumed[j] = false;
+                        String realPowerUp = powerUpSwitch(powerUps[j]);
+                        ImageView powerUpIV = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
+                        gridPowerUp.add(powerUpIV, j, 0);
+                        final int pu = j;
+                        powerUpIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
+                            if (!consumed[pu]) {
+                                consumed[pu] = true;
+                                powerUpPay[0] = powerUpPay[0].concat(Integer.toString(pu).concat(","));
+                                powerUpIV.setFitWidth(pane.getWidth() / (N_COLUMN * 2));
+                                powerUpIV.setFitHeight(pane.getHeight() / (NUMBER_OF_WEAPON * 2));
+                            } else {
+                                ev.consume();
                             }
-                        }
-                    }
-                    if (success.get(j[0])[k[0]]) {
-                        success.get(j[0])[k[0]] = false;
-                        k[0]++;
-                        if (k[0] >= targetParameters.get(j[0]).size()) {
-                            k[0] = 0;
-                            j[0]++;
-                            String exist = "false";
-                            for (int z = 0; z < target.length; z++) {
-                                if(!target[z].equals(" ")){
-                                    exist = "true";
-                                }
-                            }
-                            targetString[0] = targetString[0].concat(target[0]).concat(",").concat(target[1]).concat(",").concat(target[2]).concat(",").concat(target[3]).concat(",").concat(finalFireType).concat(",").concat(exist).concat(";");
-                            for (int z = 0; z < target.length; z++) {
-                                target[z] = " ";
-                            }
-                            if (j[0] >= targetParameters.size()) {
-                                client.send(targetString[0]);
-                                gui.reShow();
-                            }
-                        }
-                        if (j[0] < targetParameters.size()) {
-                            targetDescription(targetParameters.get(j[0]).get(k[0]), text);
-                        }
+                        });
                     }
                 }
-            };
 
-            startClick.setOnAction(ev -> pane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent));
-            clickstop.setOnAction(ev -> targetPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent));
-            targetPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
-            targetPane.getChildren().add(rectangle);
-            targetPane.getChildren().add(boardGrid);
-            this.buttonsGUI.storeButtons(targetGrid, targetPane, clickstop, startClick);
-            targetPane.getChildren().add(targetGrid);
+                Button done = new Button("DONE");
+                gridPowerUp.add(done, 0, 1);
+                GridPane.setHalignment(done, HPos.CENTER);
+                GridPane.setValignment(done, VPos.CENTER);
+                done.setOnAction(ev -> {
+                    client.send(messageToSend.concat(powerUpPay[0]));
+                    pane.getChildren().remove(payPane);
+                });
 
-            pane.getChildren().add(targetPane);
-        }
-        else{
-            client.send("TRG-WPN-".concat(handPosition).concat("'").concat(movement).concat("' , , , ,").concat(typeOfFire).concat(",").concat("true").concat(";"));
-        }
-    }
-
-    private void targetDescription(String msg, Label infoText) {
-        String info = "";
-        switch (msg) {
-            case "Movement:enemy": {
-                info = "Choose a square where you want to move the enemy player";
-                break;
-            }
-            case "Movement:self": {
-                info = "Choose a square where you want to move";
-                break;
-            }
-            case "Player": {
-                info = "Choose an enemy player";
-                break;
-            }
-            case "Room": {
-                info = "Choose a square to select the room";
-                break;
-            }
-            case "Square": {
-                info = "Choose a square";
-                break;
-            }
-            default: {
-            }
-        }
-        infoText.setText(info);
-    }
-
-    public void preShootShow(Stage stage, String msg) {
-        StackPane pane = (StackPane) stage.getScene().getRoot();
-        StackPane preShootPane = new StackPane();
-        GridPane preShootGrid = new GridPane();
-
-        RowConstraints row = new RowConstraints();
-        row.setPercentHeight(20);
-        preShootGrid.getRowConstraints().add(row);
-
-        Rectangle rectangle = new Rectangle();
-        rectangleStandard(rectangle, pane);
-
-        Label text = new Label("Choose the type of fire");
-        labelSetting(text, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
-        preShootGrid.add(text, 0, 0, 2, 1);
-        GridPane.setHalignment(text, HPos.CENTER);
-        GridPane.setValignment(text, VPos.CENTER);
-
-        String[] effect = msg.split("'");
-
-        int j = 1;
-        ArrayList<String> target = new ArrayList<>();
-        for (String trg : effect) {
-            Button effectButton = new Button();
-            String[] meaning = trg.split("-");
-            final String fire = trg;
-            final int w = j - 1;
-            effectButton.setOnAction(e -> {
-                this.typeOfFire = fire;
-                shootMovement(stage, target.get(w));
-                pane.getChildren().remove(preShootPane);
+                payPane.getChildren().add(gridPowerUp);
             });
-            switch (meaning[0]) {
-                case "Base": {
-                    effectButton.setText("BASE");
-                    preShootGrid.add(effectButton, 1, j);
-                    j++;
-                    break;
-                }
-                case "Optional": {
-                    effectButton.setText("OPT. ".concat(Integer.toString(Integer.valueOf(meaning[1]) + 1)));
-                    preShootGrid.add(effectButton, 1, j);
-                    j++;
-                    break;
-                }
-                case "Alternative": {
-                    effectButton.setText("ALT.");
-                    preShootGrid.add(effectButton, 1, j);
-                    j++;
-                    break;
-                }
-                default: {
-                    target.add(trg);
-                }
-            }
-            GridPane.setHalignment(effectButton, HPos.CENTER);
-            GridPane.setValignment(effectButton, VPos.CENTER);
-        }
 
-        String weaponName = this.nameWeapon;
-        for (String trg : effect) {
-            if (trg.startsWith("Optional-")) {
-                weaponName = this.nameWeapon.concat("Info");
-                break;
-            }
-        }
-        ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName).concat(".png"), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
-        preShootGrid.add(weaponIV, 0, 1, 1, j - 1);
-
-        for (int i = 0; i < (j - 1); i++) {
-            RowConstraints buttonRow = new RowConstraints();
-            buttonRow.setPrefHeight(pane.getHeight() / (NUMBER_OF_WEAPON * (j - 1)));
-            preShootGrid.getRowConstraints().add(buttonRow);
-        }
-
-        preShootGrid.setHgap(50);
-        preShootGrid.setAlignment(Pos.CENTER);
-
-        preShootPane.getChildren().add(rectangle);
-        preShootPane.getChildren().add(preShootGrid);
-        pane.getChildren().add(preShootPane);
-    }
-
-    private void shootMovement(Stage stage, String msg) {
-        if (gui.getYouRepresentation().get(PLAYER_DAMAGE).split("'").length >= SHOOT_ADRENALINE) {
-            StackPane pane = (StackPane) stage.getScene().getRoot();
-            StackPane movementPane = new StackPane();
-            GridPane movementGrid = new GridPane();
-            rowConstraint(movementGrid, N_ROW);
-            columnConstraint(movementGrid, N_COLUMN);
+            Button no = new Button("NO");
+            payGrid.add(no, 1, 1);
+            GridPane.setHalignment(no, HPos.CENTER);
+            GridPane.setValignment(no, VPos.CENTER);
+            no.setOnAction(e -> {
+                client.send(messageToSend.concat("- "));
+                pane.getChildren().remove(payPane);
+            });
 
             Rectangle rectangle = new Rectangle();
             rectangleStandard(rectangle, pane);
 
-            Label text = new Label("Where do you want to move?");
-            labelSetting(text, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
-            movementGrid.add(text, 0, 3, 4, 1);
-            GridPane.setHalignment(text, HPos.CENTER);
-            GridPane.setValignment(text, VPos.CENTER);
-
-            EventHandler clickEvent = (EventHandler<MouseEvent>) event -> {
-                String cellX = Integer.toString(1 + (int) (event.getScreenX() / (pane.getWidth() / N_COLUMN)));
-                String cellY = Integer.toString(1 + (int) (event.getScreenY() / (pane.getHeight() / N_ROW)));
-                if ((Integer.valueOf(cellX) <= 4) && (Integer.valueOf(cellY) <= 3)) {
-                    buildTarget(stage, msg, cellX.concat(":").concat(cellY));
-                    pane.getChildren().remove(movementPane);
-                }
-            };
-
-            Button clickStop = new Button();
-            Button clickStart = new Button();
-            clickStart.setOnAction(e-> movementPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent));
-            clickStop.setOnAction(e-> movementPane.removeEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent));
-
-            movementPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickEvent);
-            movementPane.getChildren().add(rectangle);
-            movementPane.getChildren().add(boardGrid);
-            this.buttonsGUI.storeButtons(movementGrid,movementPane,clickStop,clickStart);
-            movementPane.getChildren().add(movementGrid);
-            pane.getChildren().add(movementPane);
-        } else {
-            buildTarget(stage, msg, " ");
+            payGrid.setAlignment(Pos.CENTER);
+            payPane.getChildren().add(rectangle);
+            payPane.getChildren().add(payGrid);
+            pane.getChildren().add(payPane);
         }
     }
 
-
-
-    private void powerUpPay(Pane pane) {//TODO CONTROLLARE QUANDO VIENE CHIAMATA
-        Pane payPane = new Pane();
-
-        GridPane payGrid = new GridPane();
-
-        Label title = new Label("Do you want to pay with power ups?");
-        labelSetting(title, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
-        payGrid.add(title, 0, 0);
-        GridPane.setHalignment(title, HPos.CENTER);
-        GridPane.setValignment(title, VPos.CENTER);
-
-        Button yes = new Button("YES");
-        payGrid.add(yes, 0, 1);
-        GridPane.setHalignment(yes, HPos.CENTER);
-        GridPane.setValignment(yes, VPos.CENTER);
-        yes.setOnAction(e -> {
-            payPane.getChildren().remove(payGrid);
-
-            GridPane gridPowerUp = new GridPane();
-
-            if (!gui.getYouRepresentation().get(YOU_POWERUP).equals("")) {
-                String[] powerUps = gui.getYouRepresentation().get(YOU_POWERUP).split("'");
-                boolean[] consumed = new boolean[powerUps.length];
-                for (int j = 0; j < powerUps.length; j++) {
-                    consumed[j] = false;
-                    String realPowerUp = powerUpSwitch(powerUps[j]);
-                    ImageView powerUpIV = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
-                    gridPowerUp.add(powerUpIV, j, 0);
-                    final int pu = j;
-                    powerUpIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
-                        if (!consumed[pu]) {
-                            consumed[pu] = true;
-                            this.powerUpPay = this.powerUpPay.concat(Integer.toString(pu).concat(","));
-                            powerUpIV.setFitWidth(pane.getWidth() / (N_COLUMN * 2));
-                            powerUpIV.setFitHeight(pane.getHeight() / (NUMBER_OF_WEAPON * 2));
-                        } else {
-                            ev.consume();
-                        }
-                    });
-                }
-            }
-
-            Button done = new Button("DONE");
-            gridPowerUp.add(done, 0, 1);
-            GridPane.setHalignment(done, HPos.CENTER);
-            GridPane.setValignment(done, VPos.CENTER);
-            done.setOnAction(ev -> {
-                //TODO cosa bisogna mandare qui così
-                pane.getChildren().remove(payPane);
-            });
-
-            payPane.getChildren().add(gridPowerUp);
-        });
-
-        Button no = new Button("NO");
-        payGrid.add(no, 1, 1);
-        GridPane.setHalignment(no, HPos.CENTER);
-        GridPane.setValignment(no, VPos.CENTER);
-        no.setOnAction(e -> {
-            this.powerUpPay = " ";
-            pane.getChildren().remove(payPane);
-        });
-
-        Rectangle rectangle = new Rectangle();
-        rectangleStandard(rectangle, pane);
-
-        payGrid.setAlignment(Pos.CENTER);
-        payPane.getChildren().add(rectangle);
-        payPane.getChildren().add(payGrid);
-        pane.getChildren().add(payPane);
-    }
-
-    public void chooseWeapon(Stage stage, String msg) {
+    void chooseWeapon(Stage stage, String msg) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         StackPane pane2 = new StackPane();
         GridPane grid = new GridPane();
@@ -867,7 +532,7 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-    public void informationMessage(Stage stage,String msg){
+    void informationMessage(Stage stage, String msg){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         StackPane pane2 = new StackPane();
 
@@ -900,7 +565,7 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-    public void suspended(Stage stage){
+    void suspended(Stage stage){
         StackPane pane = (StackPane)stage.getScene().getRoot();
         StackPane pane2 = new StackPane();
 

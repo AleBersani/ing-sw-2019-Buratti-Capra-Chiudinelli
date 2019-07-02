@@ -7,7 +7,9 @@ import it.polimi.ingsw.model.cards.Weapon;
  * This class represent a square that is not a spawnPoint and with AmmoTile on it
  */
 public class AmmoPoint extends Square {
-
+    /**
+     * the ammoTile that is on this square
+     */
     private AmmoTile ammo;
 
     /**
@@ -32,7 +34,6 @@ public class AmmoPoint extends Square {
     @Override
     public void generate(){
         this.ammo=super.getRoom().getBoard().nextAmmo();
-        return;
     }
 
     /**
@@ -49,9 +50,9 @@ public class AmmoPoint extends Square {
 
     /**
      * this method throws an ElementNotFoundException
-     * @param position
-     * @return
-     * @throws ElementNotFoundException
+     * @param position is the index of what weapon needs to be returned
+     * @return an exception because in this type of square there aren't weapons
+     * @throws ElementNotFoundException because in this type of square there aren't weapons
      */
     @Override
     public Weapon grabWeapon(int position) throws ElementNotFoundException {
@@ -67,6 +68,10 @@ public class AmmoPoint extends Square {
         return this.ammo==null;
     }
 
+    /**
+     * setter method of the ammoTile
+     * @param ammo the ammoTile to place on this square
+     */
     public void setAmmo(AmmoTile ammo) {
         this.ammo = ammo;
     }

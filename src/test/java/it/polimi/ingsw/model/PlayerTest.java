@@ -552,7 +552,7 @@ class PlayerTest {
         }
         assertTrue(guest.canSee(test));
     }
-    /*
+
     @Test
     public void testReload() {
         lockRifle.setLoad(false);
@@ -561,29 +561,22 @@ class PlayerTest {
         guest.setRedAmmo(0);
         try {
             guest.reload(lockRifle);
-        } catch (LoadedException | NoAmmoException e) {
+        } catch (LoadedException e) {
             e.printStackTrace();
         }
-        assertEquals(1,guest.getBlueAmmo());
-        assertEquals(2,guest.getYellowAmmo());
-        assertEquals(0,guest.getRedAmmo());
         try {
             guest.reload(lockRifle);
         } catch (LoadedException e) {
             assertThrows(LoadedException.class,()->guest.reload(lockRifle));
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
         }
         lockRifle.setLoad(false);
         try {
             guest.reload(lockRifle);
         } catch (LoadedException e) {
             e.printStackTrace();
-        } catch (NoAmmoException e) {
-            assertThrows(NoAmmoException.class,()->guest.reload(lockRifle));
         }
     }
-    */
+
     @Test
     public void testDraw() {
         guest.setTurn(turn);
@@ -747,5 +740,42 @@ class PlayerTest {
         assertEquals(0,test.onlyFrenzyAction());
         loser.setTurn(turn);
         assertEquals(0,loser.onlyFrenzyAction());
+    }
+
+    //TESTED THE PAY WITHOUT POWER UPS
+    @Test
+    public void testPay(){
+        guest.setTurn(turn);
+        guest.setBlueAmmo(3);
+        guest.setRedAmmo(3);
+        guest.setYellowAmmo(3);
+        ArrayList<PowerUp> powerUps = new ArrayList<>();
+        try {
+            guest.pay(3,2,1,powerUps);
+        } catch (WrongPowerUpException | NoAmmoException e) {
+            e.printStackTrace();
+        }
+        assertEquals(guest.getBlueAmmo(),0);
+        assertEquals(guest.getRedAmmo(),1);
+        assertEquals(guest.getYellowAmmo(),2);
+        assertThrows(NoAmmoException.class,()->guest.pay(3,2,1,powerUps));
+    }
+
+    //TESTED THE PAY WITH POWER UPS
+    @Test
+    public void testPay2(){
+        guest.setTurn(turn);
+        guest.setBlueAmmo(3);
+        guest.setRedAmmo(3);
+        guest.setYellowAmmo(3);
+        ArrayList<PowerUp> powerUps = new ArrayList<>(Arrays.asList(teleporter,tagbackGrenade));
+        try {
+            guest.pay(3,2,1,powerUps);
+        } catch (WrongPowerUpException | NoAmmoException e) {
+            e.printStackTrace();
+        }
+        assertEquals(guest.getBlueAmmo(),1);
+        assertEquals(guest.getRedAmmo(),2);
+        assertEquals(guest.getYellowAmmo(),2);
     }
 }
