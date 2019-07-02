@@ -440,7 +440,7 @@ public class Controller {
 
     private void shootingAction(ClientHandler clientHandler, String msg){
         ArrayList<TargetParameter> targetParameters = new ArrayList<>();
-        String[] data = msg.split("-")[0].split("'");
+        String[] data = msg.substring(ETIQUETTE*2).split("-")[0].split("'");
         try {
             if(clientInfoFromClientHandeler(clientHandler).simulation == null) {
                 clientInfoFromClientHandeler(clientHandler).simulation = deepClone(match);
@@ -452,7 +452,25 @@ public class Controller {
                 }
             }
             if(!targetParameters.isEmpty()){
-                clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().shoot(clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])),
+                Weapon weapon=clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0]));
+                if(targetParameters.get(0).getTypeOfFire().equals("Alternative")){
+                    playerFromNickname(clientHandler.getName(), clientInfoFromClientHandeler(clientHandler).simulation).pay(
+                            ((WeaponAlternative)weapon).getAlternativeEffect().get(0).getCostBlue(),
+                            ((WeaponAlternative)weapon).getAlternativeEffect().get(0).getCostRed(),
+                            ((WeaponAlternative)weapon).getAlternativeEffect().get(0).getCostYellow(),
+                            generatePowerUpPayment("ADP-"+msg,clientHandler, clientInfoFromClientHandeler(clientHandler).simulation)
+                            );
+                }
+                else if(targetParameters.get(0).getTypeOfFire().startsWith("Optional-")){
+                    String typeOfFire=targetParameters.get(0).getTypeOfFire();
+                    playerFromNickname(clientHandler.getName(), clientInfoFromClientHandeler(clientHandler).simulation).pay(
+                            ((WeaponOptional)weapon).getOptionalEffect().get(Integer.parseInt(typeOfFire.split("-")[1])).get(0).getCostBlue(),
+                            ((WeaponOptional)weapon).getOptionalEffect().get(Integer.parseInt(typeOfFire.split("-")[1])).get(0).getCostRed(),
+                            ((WeaponOptional)weapon).getOptionalEffect().get(Integer.parseInt(typeOfFire.split("-")[1])).get(0).getCostYellow(),
+                            generatePowerUpPayment("ADP-"+msg,clientHandler, clientInfoFromClientHandeler(clientHandler).simulation)
+                    );
+                }
+                clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().shoot(weapon,
                         data[1].equals(" ") ? playerFromNickname(clientHandler.getName(), this.match).getPosition() : clientInfoFromClientHandeler(clientHandler).simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]), Integer.parseInt(data[1].split(":")[1])),
                         targetParameters);
                 if(!clientInfoFromClientHandeler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])).isOptional()) {
@@ -536,6 +554,15 @@ public class Controller {
             }
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
+        } catch (WrongPowerUpException e) {
+            updateBackground(this.match);
+            sendString(">>>Wrong PowerUps", clientHandler);
+            try {
+                cleanSimulation(clientInfoFromClientHandeler(clientHandler));
+            }
+            catch (NotFoundException e1) {
+                sendString("error", clientHandler);
+            }
         }
 
     }
