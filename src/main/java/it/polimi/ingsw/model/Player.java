@@ -305,10 +305,9 @@ public class Player implements Serializable {
     }
 
     /**
-     * This method allows the player to reload the weapon, if he has the minimum ammo to do
+     * This method allows the player to reload the weapon, if the weapon is not already loaded
      * @param weapon This parameter is the weapon that the player wants to reload
      * @throws LoadedException This exception means that the weapon is already load
-     * @throws NoAmmoException This exception means that the player doesn't have the ammo to reload
      */
     public void reload(Weapon weapon) throws LoadedException{
         if (!weapon.isLoad()){
@@ -317,6 +316,45 @@ public class Player implements Serializable {
         else{
             throw new LoadedException();
         }
+    }
+
+    /**
+     * This method pay the ammo for the weapon or the effect of the shoot
+     * @param costBlue This parameter is the cost blue of the effect or the weapon
+     * @param costRed This parameter is the cost red of the effect or the weapon
+     * @param costYellow This parameter is the cost yellow of the effect or the weapon
+     * @param powerUps This parameter is the list of the power ups that the player wants to use as ammo
+     * @throws WrongPowerUpException This exception means that the wrong selected power up
+     * @throws NoAmmoException This exception means that the player doesn't have the ammo
+     */
+    public void pay(int costBlue, int costRed, int costYellow, ArrayList<PowerUp> powerUps) throws WrongPowerUpException, NoAmmoException {
+        if(powerUps!= null && !powerUps.isEmpty()) {
+            for (PowerUp powerUp : powerUps) {
+                switch (powerUp.getColor()) {
+                    case "blue": {
+                        costBlue--;
+                        break;
+                    }
+                    case "red": {
+                        costRed--;
+                        break;
+                    }
+                    case "yellow": {
+                        costYellow--;
+                        break;
+                    }
+                }
+            }
+        }
+        if(costBlue<0 || costRed<0 || costYellow<0){
+            throw new WrongPowerUpException();
+        }
+        if(this.blueAmmo<costBlue || this.redAmmo<costRed || this.yellowAmmo<costYellow){
+            throw new NoAmmoException();
+        }
+        this.blueAmmo= this.blueAmmo-costBlue;
+        this.redAmmo= this.redAmmo-costRed;
+        this.yellowAmmo= this.yellowAmmo-costYellow;
     }
 
     /**
@@ -755,36 +793,6 @@ public class Player implements Serializable {
      */
     public void setFirst(boolean first) {
         this.first = first;
-    }
-
-    public void pay(int costBlue, int costRed, int costYellow, ArrayList<PowerUp> powerUps) throws WrongPowerUpException, NoAmmoException {
-        if(powerUps!= null && !powerUps.isEmpty()) {
-            for (PowerUp powerUp : powerUps) {
-                switch (powerUp.getColor()) {
-                    case "blue": {
-                        costBlue--;
-                        break;
-                    }
-                    case "red": {
-                        costRed--;
-                        break;
-                    }
-                    case "yellow": {
-                        costYellow--;
-                        break;
-                    }
-                }
-            }
-        }
-        if(costBlue<0 || costRed<0 || costYellow<0){
-            throw new WrongPowerUpException();
-        }
-        if(this.blueAmmo<costBlue || this.redAmmo<costRed || this.yellowAmmo<costYellow){
-            throw new NoAmmoException();
-        }
-        this.blueAmmo= this.blueAmmo-costBlue;
-        this.redAmmo= this.redAmmo-costRed;
-        this.yellowAmmo= this.yellowAmmo-costYellow;
     }
 
     @Override
