@@ -195,8 +195,9 @@ class ShootingGUI {
                                 target[z] = " ";
                             }
                             if (j[0] >= targetParameters.size()) {
-                                gameGUI.powerUpPay(pane,targetString[0]);
+
                                 gui.reShow();
+                                gameGUI.powerUpPay(gui.afterPane,targetString[0]);
                             }
                         }
                         if (j[0] < targetParameters.size()) {
