@@ -11,13 +11,33 @@ import java.util.ArrayList;
  * This class represent a single square on the Board
  */
 public abstract class Square implements Serializable {
-
-    private int x, y;
+    /**
+     * x coordinate of this square
+     */
+    private int x;
+    /**
+     * y coordinate of this square
+     */
+    private int y;
+    /**
+     * list of doors in this square
+     */
     private ArrayList<Square> doors =new ArrayList<>();
+    /**
+     * color of this square
+     */
     private String color;
+    /**
+     * room that contain this square
+     */
     private Room room;
-    private ArrayList<Player> onMe= new ArrayList<Player>();
-
+    /**
+     * list of player on this square
+     */
+    private ArrayList<Player> onMe= new ArrayList<>();
+    /**
+     * utility attribute for clalcDist method
+     */
     private boolean visited;
 
     /**
@@ -32,7 +52,6 @@ public abstract class Square implements Serializable {
         this.y = y;
         this.color = color;
         this.room = room;
-
     }
 
     /**
@@ -128,33 +147,59 @@ public abstract class Square implements Serializable {
      */
     public abstract Weapon grabWeapon( int position) throws ElementNotFoundException;
 
+    /**
+     * getter method of x coordinate
+     * @return x coordinate
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * getter method of y coordinate
+     * @return y coordinate
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * getter method of the list of doors
+     * @return the list of doors
+     */
     public ArrayList<Square> getDoors() {
         return doors;
     }
 
+    /**
+     * getter method of this square's color
+     * @return the color of this square
+     */
     public String getColor() {
         return color;
     }
 
+    /**
+     * getter method of the room that contains this square
+     * @return room that contains this square
+     */
     public Room getRoom() {
         return room;
     }
 
+    /**
+     * getter method of the list of player on this square
+     * @return list of player on this square
+     */
     public ArrayList<Player> getOnMe() {
         return onMe;
     }
 
-    public void setOnMe(ArrayList<Player> onMe) {
+    /**
+     * setter method of the list of player on this square
+     * @param onMe a list of player
+     */
+    void setOnMe(ArrayList<Player> onMe) {
         this.onMe = onMe;
     }
-
-
 }

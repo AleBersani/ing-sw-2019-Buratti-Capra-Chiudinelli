@@ -273,7 +273,7 @@ class BackGraphicsGUI {
         }
     }
 
-    public void buildKillShotTrack(Stage stage) {
+    void buildKillShotTrack(Stage stage) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
         stage.setResizable(false);
@@ -292,7 +292,7 @@ class BackGraphicsGUI {
         int totalSkull = Integer.parseInt(gui.getKillShotRepresentation().get(KILL_TOT_SKULL));
         int i;
         for (i = 0; i < totalSkull; i++) {
-            String bloodString = "";
+            String bloodString;
             if ((i < damage.length) && (!damage[i].equals(""))) {
                 bloodString = damage[i].concat("Blood");
                 doubleDamage[i] = doubleDamage[i].replace(" ","");
@@ -308,7 +308,7 @@ class BackGraphicsGUI {
             pane2.getChildren().add(blood);
         }
         for(;i<damage.length;i++){
-            String bloodString = "";
+            String bloodString;
             bloodString = damage[i].concat("Blood");
             doubleDamage[i] = doubleDamage[i].replace(" ","");
             if (doubleDamage[i].equals("true")) {
