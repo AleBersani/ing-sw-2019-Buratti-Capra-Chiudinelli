@@ -13,11 +13,12 @@ public class MessageHandler {
     private Client client;
     private State state;
     private boolean suspend = false;
+    private boolean endGame = false;
     private static final int TO_SHOW_ETIQUETTE = 3;
     private static final int NAME_ETIQUETTE = 4;
 
     public enum State{
-        LOGIN, MENU, WAIT, GAME
+        LOGIN, MENU, WAIT, GAME, END_GAME
     }
 
     public MessageHandler(ViewInterface view, Client client) {
@@ -28,7 +29,7 @@ public class MessageHandler {
 
     synchronized void understandMessage(String msg){
         if(!suspend) {
-            if (msg.startsWith(">>>")) {
+            if ((msg.startsWith(">>>"))&&(!endGame)) {
                 this.toShow = msg;
                 view.showMessage();
             } else {
@@ -47,6 +48,9 @@ public class MessageHandler {
                     }
                     case GAME: {
                         gameUnderstand(msg);
+                        break;
+                    }
+                    case END_GAME:{
                         break;
                     }
                 }
@@ -165,6 +169,12 @@ public class MessageHandler {
             }
             case "RPU-":{
                 view.interruptPowerUp(msg.substring(NAME_ETIQUETTE));
+                break;
+            }
+            case "ENG-":{
+                this.endGame=true;
+                this.state = State.END_GAME;
+                view.winnerShow(msg.substring(NAME_ETIQUETTE));
                 break;
             }
             default:

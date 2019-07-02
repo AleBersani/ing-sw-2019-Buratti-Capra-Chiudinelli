@@ -198,7 +198,7 @@ public class GameGUI {
         int numberPowerup = powerupNumber.length;
         Rectangle rectangle = new Rectangle();
 
-        Label text = new Label("Which one do you want tu use?");
+        Label text = new Label("Which one do you want to use?");
         text.setTextFill(Color.web("#ffffff", 0.8));
         text.setStyle("-fx-font: 35 Helvetica;");
         text.setEffect(new DropShadow());
@@ -243,6 +243,98 @@ public class GameGUI {
         pane2.getChildren().add(rectangle);
         pane2.getChildren().add(grid2);
         pane.getChildren().add(pane2);
+    }
+
+    void specialPay(StackPane pane, String msg){
+        StackPane specialPane = new StackPane();
+        GridPane specialGrid = new GridPane();
+        Rectangle rectangle = new Rectangle();
+        rectangleStandard(rectangle, pane);
+
+        int targetingScopeNumber = 0;
+        int j=0;
+        for(String powerups : gui.getYouRepresentation().get(YOU_POWERUP).split("'")){
+            String[] single = powerups.split(":");
+            if(single[0].equals("targeting scope")){
+                if(targetingScopeNumber != Integer.parseInt(this.handPosition)){
+                    String realPowerUp = powerUpSwitch(powerups);
+                    ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
+                    specialGrid.add(powerUp, j, 1);
+                    final int ammo=j;
+                    powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+                          client.send(msg.concat(">").concat(String.valueOf(ammo)));
+                    });
+                    j++;
+                }
+                targetingScopeNumber++;
+            }
+        }
+
+        for (String ammo : gui.getYouRepresentation().get(PLAYER_AMMO).split("'")) {
+            String[] ammoQuantity = ammo.split(":");
+            switch (ammoQuantity[0]) {
+                case "R": {
+                    ImageView redAmmoIV = new ImageView(new Image("/images/game/ammo/redAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
+                    specialGrid.add(redAmmoIV, j, 1);
+                    GridPane.setHalignment(redAmmoIV, HPos.LEFT);
+                    GridPane.setValignment(redAmmoIV, VPos.TOP);
+                    Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
+                    labelSetting(numberAmmo, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
+                    specialGrid.add(numberAmmo, j + 1, 1);
+                    GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                    GridPane.setValignment(numberAmmo, VPos.TOP);
+
+                    redAmmoIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+                        client.send(msg.concat(">").concat(ammoQuantity[0]));
+                    });
+                    break;
+                }
+                case "Y": {
+                    ImageView yellowAmmoIV = new ImageView(new Image("/images/game/ammo/yellowAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
+                    specialGrid.add(yellowAmmoIV, j, 1);
+                    GridPane.setHalignment(yellowAmmoIV, HPos.LEFT);
+                    GridPane.setValignment(yellowAmmoIV, VPos.CENTER);
+                    Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
+                    labelSetting(numberAmmo, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
+                    specialGrid.add(numberAmmo, j + 1, 1);
+                    GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                    GridPane.setValignment(numberAmmo, VPos.CENTER);
+
+                    yellowAmmoIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+                        client.send(msg.concat(">").concat(ammoQuantity[0]));
+                    });
+                    break;
+                }
+                case "B": {
+                    ImageView blueAmmoIV = new ImageView(new Image("/images/game/ammo/blueAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
+                    specialGrid.add(blueAmmoIV, j, 1);
+                    GridPane.setHalignment(blueAmmoIV, HPos.LEFT);
+                    GridPane.setValignment(blueAmmoIV, VPos.BOTTOM);
+                    Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
+                    labelSetting(numberAmmo, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
+                    specialGrid.add(numberAmmo, j + 1, 1);
+                    GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                    GridPane.setValignment(numberAmmo, VPos.BOTTOM);
+
+                    blueAmmoIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+                        client.send(msg.concat(">").concat(ammoQuantity[0]));
+                    });
+                    break;
+                }
+                default:
+            }
+        }
+
+        Label title = new Label("How do you want to pay?");
+        specialGrid.add(title,0,0,j+2,1);
+        GridPane.setHalignment(title, HPos.CENTER);
+        GridPane.setValignment(title, VPos.CENTER);
+
+        specialGrid.setAlignment(Pos.CENTER);
+
+        specialPane.getChildren().add(rectangle);
+        specialPane.getChildren().add(specialGrid);
+        pane.getChildren().add(specialPane);
     }
 
     void reload(Stage stage, String msg) {
@@ -388,8 +480,8 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-    void powerUpPay(Pane pane, String messageToSend) {//TODO CONTROLLARE QUANDO VIENE CHIAMATA
-        if ((typeOfFire != null)&&(typeOfFire.equals("upu"))) {
+    void powerUpPay(Pane pane, String messageToSend) {
+        if ((typeOfFire != null)&&((typeOfFire.equals("upu"))||(typeOfFire.equals("interupt")))) {
             client.send(messageToSend);
             typeOfFire = "";
         }
@@ -619,34 +711,54 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-    public void buildWinner(Stage stage){
+    public void buildWinner(Stage stage, String wario){
         StackPane pane = (StackPane)stage.getScene().getRoot();
-        //TODO MESSAGE HANDLER NEED TO CALL TO THE BACKGROUND IMAGE OF THE LOGIN GUI
         //TODO WE NEED TO KNOW ONLY THE NAME OF THE WINNER AND THE POINTS THAT HE MAKES
         GridPane winnerGrid = new GridPane();
 
-        winnerGrid.add(new ImageView(new Image("/images/game/crown.png",pane.getWidth()/40,pane.getHeight()/25,false,false)),0,0);
+        RowConstraints row = new RowConstraints();
+        row.setPercentHeight(20);
+        winnerGrid.getRowConstraints().add(row);
 
-        Label winner = new Label();
-        labelSetting(winner,"#ffffff",0.8,"-fx-font: 50 Helvetica;");
-        winnerGrid.add(winner,0,1);
-        GridPane.setHalignment(winner,HPos.CENTER);
-        GridPane.setValignment(winner,VPos.CENTER);
+        ImageView crownIV = new ImageView(new Image("/images/game/crown.png",pane.getWidth()/10,pane.getHeight()/10,false,false));
+        winnerGrid.add(crownIV,0,0,2,1);
+        GridPane.setHalignment(crownIV,HPos.CENTER);
+        GridPane.setValignment(crownIV,VPos.CENTER);
 
-        Label points = new Label();
-        labelSetting(points,"#ffffff",0.8,"-fx-font: 40 Helvetica;");
-        winnerGrid.add(points,0,2);
-        GridPane.setHalignment(points,HPos.CENTER);
-        GridPane.setValignment(points,VPos.CENTER);
+        int i=1;
+        for(String winners : wario.split(";")) {
+
+            String[] singleWinner = winners.split("-");
+
+            Label winner = new Label(singleWinner[0]);
+            labelSetting(winner, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
+            winnerGrid.add(winner, 0, i);
+            GridPane.setHalignment(winner, HPos.CENTER);
+            GridPane.setValignment(winner, VPos.CENTER);
+
+            Label points = new Label(singleWinner[1] + " points");
+            labelSetting(points, "#ffffff", 0.8, "-fx-font: 30 Helvetica;");
+            winnerGrid.add(points, 1, i);
+            GridPane.setHalignment(points, HPos.CENTER);
+            GridPane.setValignment(points, VPos.CENTER);
+
+            RowConstraints row1 = new RowConstraints();
+            row.setPercentHeight(5);
+            winnerGrid.getRowConstraints().add(row1);
+
+            i++;
+        }
 
         Button exit = new Button("EXIT");
-        winnerGrid.add(exit,0,2);
+        winnerGrid.add(exit,0,i,2,1
+        );
         GridPane.setHalignment(exit,HPos.CENTER);
         GridPane.setValignment(exit,VPos.CENTER);
         exit.setOnAction(e-> client.send("quit"));
 
-        winnerGrid.setVgap(50);
-
+        winnerGrid.setVgap(30);
+        winnerGrid.setHgap(50);
+        winnerGrid.setAlignment(Pos.CENTER);
         pane.getChildren().add(winnerGrid);
     }
 

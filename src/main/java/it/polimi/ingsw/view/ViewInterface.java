@@ -32,6 +32,8 @@ public interface ViewInterface {
 
     void gameReShow();
 
+    void winnerShow(String msg);
+
     void interruptPowerUp(String msg);
 
     void suspend();

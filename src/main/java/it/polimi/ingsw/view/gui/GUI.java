@@ -260,6 +260,11 @@ public class GUI extends Application implements ViewInterface {
         this.gameGUI.interuptPowerUpUses(stage,infoSpawn);
     }
 
+    private void showWinner(){
+        loginGUI.loginImageSetting(stage);
+        gameGUI.buildWinner(stage,this.infoString);
+    }
+
     @Override
     public void spawn(String msg) {
         this.infoSpawn = msg;
@@ -365,6 +370,12 @@ public class GUI extends Application implements ViewInterface {
     public void gameReShow() {
         this.gameGUI.optionalShoot = false;
         Platform.runLater(this::insertCommand);
+    }
+
+    @Override
+    public void winnerShow(String msg) {
+        this.infoString = msg;
+        Platform.runLater(this::showWinner);
     }
 
     @Override
