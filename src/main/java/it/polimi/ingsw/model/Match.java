@@ -53,6 +53,10 @@ public class Match implements Serializable {
     private boolean endgame;
 
     int i;
+    /**
+     * This attribute is the array list of the winner players
+     */
+    private ArrayList<Player> winner;
 
     /**
      * This class is the circular array list of players
@@ -208,11 +212,9 @@ public class Match implements Serializable {
                     }
             }
         }
-        this.endgame = true;
-    }
 
-    public Match simulate() throws CloneNotSupportedException {
-        return (Match) super.clone();
+        this.winner= winPlayer;
+        this.endgame = true;
     }
 
     /**
@@ -297,7 +299,7 @@ public class Match implements Serializable {
 
     /**
      * This method return the list of the double points of the killshot track
-     * @return
+     * @return The array list of the double points of the killshot track
      */
     public ArrayList<Boolean> getDoubleOnKillShotTrack() {
         return doubleOnKillShotTrack;
@@ -305,7 +307,7 @@ public class Match implements Serializable {
 
     /**
      * This method sets the list of the double points of the killshot track
-     * @param doubleOnKillShotTrack
+     * @param doubleOnKillShotTrack This parameter is the array list of the double points of the killshot track
      */
     public void setDoubleOnKillShotTrack(ArrayList<Boolean> doubleOnKillShotTrack) {
         this.doubleOnKillShotTrack = doubleOnKillShotTrack;
@@ -313,9 +315,17 @@ public class Match implements Serializable {
 
     /**
      * This method return is the game is ended or not
-     * @return true if the game is ended, false otherwise
+     * @return True if the game is ended, false otherwise
      */
     public boolean isEndgame() {
         return endgame;
+    }
+
+    /**
+     * This method return the array list of winner players
+     * @return The array list of winner players
+     */
+    public ArrayList<Player> getWinner() {
+        return winner;
     }
 }

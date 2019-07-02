@@ -21,7 +21,7 @@ public class ClientInfo {
         weapon=null;
     }
 
-    public void suspend(){
+    void suspend(){
         this.suspended=true;
         this.clientHandler.getController().numberCheck();
     }

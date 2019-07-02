@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Controller {
 
     private static final int MAX_ACTIONS = 2;
-    private static final int MINIMUM_PLAYER = 1; //TODO modificare
+    private int minimumPlayer;
     private Map<String,ClientInfo> nicknameList = new ConcurrentHashMap<>();
     private ArrayList<String> disconnected = new ArrayList<>();
     private MultiServer server;
@@ -55,6 +55,7 @@ public class Controller {
         this.availableSkulls=configuration.availableSkulls;
         this.availableColors=configuration.availableColors;
         this.timerTurn=configuration.timerTurn;
+        this.minimumPlayer=configuration.minimumPlayer;
         this.gameStarted=false;
         this.nicknameListLock = new Object();
         this.respawning=false;
@@ -134,12 +135,12 @@ public class Controller {
                                     int totalCostRed=0;
                                     int totalCostYellow=0;
                                     for (String weapon : msg.substring(ETIQUETTE).split(">")[0].split(",")) {
-                                        Weapon realWepon = playerFromNickname(clientHandler.getName(),this.match).getWeapons().get(Integer.parseInt(weapon));
-                                        totalCostBlue= totalCostBlue+realWepon.getCostBlue();
-                                        totalCostRed=totalCostRed+realWepon.getCostRed();
-                                        totalCostYellow=totalCostYellow+realWepon.getCostYellow();
+                                        Weapon realWeapon = playerFromNickname(clientHandler.getName(),this.match).getWeapons().get(Integer.parseInt(weapon));
+                                        totalCostBlue= totalCostBlue+realWeapon.getCostBlue();
+                                        totalCostRed=totalCostRed+realWeapon.getCostRed();
+                                        totalCostYellow=totalCostYellow+realWeapon.getCostYellow();
                                         playerFromNickname(clientHandler.getName(), this.match).pay(totalCostBlue,totalCostRed,totalCostYellow,generatePowerUpPayment(msg,clientHandler, this.match));
-                                        playerFromNickname(clientHandler.getName(), this.match).reload(realWepon);
+                                        playerFromNickname(clientHandler.getName(), this.match).reload(realWeapon);
                                     }
                                 } catch (NotFoundException e) {
                                     sendString("error", clientHandler);
@@ -157,7 +158,10 @@ public class Controller {
                                 updateBackground(this.match);
                             }
                             respawn();
-                            match.getTurn().endTurn();
+                            this.match.getTurn().endTurn();
+                            if(this.match.isEndgame()){
+                                this.endGame();
+                            }
                             clientHandler.setYourTurn(false);
                             suspending.cancel();
                             if(!respawning){
@@ -231,6 +235,7 @@ public class Controller {
                                         usable.add(powerUp);
                                     }
                                 }
+                                //TODO PAGARE MIRINO
                                 usable.get(Integer.parseInt(msg.substring(ETIQUETTE).split("'")[0])).useEffect(generateTarget(msg.split("'")[1].substring(0, msg.split("'")[1].length() - 1), clientHandler, clientInfoFromClientHandeler(clientHandler).simulation),
                                         clientInfoFromClientHandeler(clientHandler).weapon.getPreviousTarget());
                                 playerFromNickname(clientHandler.getName(), clientInfoFromClientHandeler(clientHandler).simulation).discard(usable.get(Integer.parseInt(msg.substring(ETIQUETTE).split("'")[0])));
@@ -299,7 +304,7 @@ public class Controller {
                 }
                 else {
                     timerTurn(clientInfo);
-                    if (clientInfo.clientHandler.isFirstSpawn()) {
+                    if (clientInfo.clientHandler.isFirstSpawn() && !clientInfo.state.equals(ClientInfo.State.SPAWN)) {
                         clientInfo.setState(ClientInfo.State.SPAWN);
                         startingSpawn(clientInfo.clientHandler, match.getTurn().getCurrent());
                     } else {
@@ -906,14 +911,16 @@ public class Controller {
     private void suspend(ClientHandler clientHandler) throws NotFoundException {
         ClientInfo clientInfo = clientInfoFromClientHandeler(clientHandler);
         clientInfo.suspend();
-        if(clientInfo.state == ClientInfo.State.LAY_WEAPON){
-            understandMessage("WPN-0", clientHandler);
+        if(clientHandler.isYourTurn()) {
+            if (clientInfo.state == ClientInfo.State.LAY_WEAPON) {
+                understandMessage("WPN-0", clientHandler);
+            }
+            if (clientInfo.state == ClientInfo.State.SPAWN) {
+                understandMessage("SPW-0", clientHandler);
+            }
+            clientInfo.setState(ClientInfo.State.END);
+            understandMessage("RLD-", clientHandler);
         }
-        if (clientInfo.state == ClientInfo.State.SPAWN){
-            understandMessage("SPW-0", clientHandler);
-        }
-        clientInfo.setState(ClientInfo.State.END);
-        understandMessage("RLD-", clientHandler);
     }
 
     public void startGame() {
@@ -1026,7 +1033,6 @@ public class Controller {
     }
 
     public void spawn(ClientHandler actual, Player player,int powerUpPosition) {
-        int counter=0;
 
         if(powerUpPosition<player.getPowerUps().size() && powerUpPosition>=0) {
             PowerUp powerUp = player.getPowerUps().get(powerUpPosition);
@@ -1040,22 +1046,13 @@ public class Controller {
             updateBackground(this.match);
 
 
-            for (ClientInfo clientInfo : getNicknameList().values()){
-                if(!clientInfo.state.equals(ClientInfo.State.SPAWN) && !clientInfo.clientHandler.isFirstSpawn()){
-                    counter++;
-                }
-            }
+
 
             if(!actual.isFirstSpawn()) {
                 actual.setYourTurn(false);
             }
             else {
                 actual.setFirstSpawn(false);
-            }
-
-            if(counter == getNicknameList().size()) {
-                this.respawning=false;
-                nextTurn();
             }
 
             if(actual.isYourTurn()){
@@ -1165,9 +1162,19 @@ public class Controller {
                 activePlayers--;
             }
         }
-        if(activePlayers<MINIMUM_PLAYER){
+        if(activePlayers<this.minimumPlayer){
             this.match.endGame();
-            //TODO mandare messaggio
+            this.endGame();
+        }
+    }
+
+    private void endGame() {
+        String endGame= "ENG-";
+        for(Player winner : this.match.getWinner()){
+            endGame =endGame.concat(winner.getNickname()).concat(",").concat(Integer.toString(winner.getPoints())).concat(";");
+        }
+        for (ClientInfo clientInfo : getNicknameList().values()){
+            sendString(endGame, clientInfo.clientHandler);
         }
     }
 
@@ -1181,6 +1188,7 @@ public class Controller {
         private String mode;
         private ArrayList<String> availableColors;
         private int timerTurn;
+        private int minimumPlayer;
     }
 
     public Map<String, ClientInfo> getNicknameList() {
