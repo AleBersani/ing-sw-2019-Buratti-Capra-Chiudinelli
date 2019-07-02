@@ -1174,7 +1174,7 @@ public class Controller {
             endGame =endGame.concat(winner.getNickname()).concat("-").concat(Integer.toString(winner.getPoints())).concat(";");
         }
         for (ClientInfo clientInfo : getNicknameList().values()){
-            clientInfo.setState(ClientInfo.State.WAIT);
+            clientInfo.setState(ClientInfo.State.END_GAME);
             sendString(endGame, clientInfo.clientHandler);
         }
     }
