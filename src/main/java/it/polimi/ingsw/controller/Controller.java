@@ -440,12 +440,12 @@ public class Controller {
 
     private void shootingAction(ClientHandler clientHandler, String msg){
         ArrayList<TargetParameter> targetParameters = new ArrayList<>();
-        String[] data = msg.substring(ETIQUETTE*2).split("-")[0].split("'");
+        String[] data = msg.split("-")[0].split("'");
         try {
             if(clientInfoFromClientHandeler(clientHandler).simulation == null) {
                 clientInfoFromClientHandeler(clientHandler).simulation = deepClone(match);
             }
-            for (String target : data[2].split(";")) {
+            for (String target : data[2].split("-")[0].split(";")) {
                 TargetParameter temp =generateTarget(target, clientHandler, clientInfoFromClientHandeler(clientHandler).simulation);
                 if(temp != null) {
                     targetParameters.add(temp);
