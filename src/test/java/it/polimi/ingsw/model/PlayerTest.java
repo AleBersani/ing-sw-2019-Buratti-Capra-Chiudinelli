@@ -750,14 +750,17 @@ class PlayerTest {
         guest.setRedAmmo(3);
         guest.setYellowAmmo(3);
         ArrayList<PowerUp> powerUps = new ArrayList<>();
+        guest.setPowerUps(powerUps);
+        assertEquals(0,guest.getPowerUps().size());
         try {
             guest.pay(3,2,1,powerUps);
         } catch (WrongPowerUpException | NoAmmoException e) {
             e.printStackTrace();
         }
-        assertEquals(guest.getBlueAmmo(),0);
-        assertEquals(guest.getRedAmmo(),1);
-        assertEquals(guest.getYellowAmmo(),2);
+        assertEquals(0,guest.getBlueAmmo());
+        assertEquals(1,guest.getRedAmmo());
+        assertEquals(2,guest.getYellowAmmo());
+        assertEquals(0,guest.getPowerUps().size());
         assertThrows(NoAmmoException.class,()->guest.pay(3,2,1,powerUps));
     }
 
@@ -769,13 +772,16 @@ class PlayerTest {
         guest.setRedAmmo(3);
         guest.setYellowAmmo(3);
         ArrayList<PowerUp> powerUps = new ArrayList<>(Arrays.asList(teleporter,tagbackGrenade));
+        guest.setPowerUps(powerUps);
+        assertEquals(2,guest.getPowerUps().size());
         try {
             guest.pay(3,2,1,powerUps);
         } catch (WrongPowerUpException | NoAmmoException e) {
             e.printStackTrace();
         }
-        assertEquals(guest.getBlueAmmo(),1);
-        assertEquals(guest.getRedAmmo(),2);
-        assertEquals(guest.getYellowAmmo(),2);
+        assertEquals(1,guest.getBlueAmmo());
+        assertEquals(2,guest.getRedAmmo());
+        assertEquals(2,guest.getYellowAmmo());
+        assertEquals(0,guest.getPowerUps().size());
     }
 }
