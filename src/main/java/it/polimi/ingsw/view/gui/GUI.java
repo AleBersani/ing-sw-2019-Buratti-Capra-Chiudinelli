@@ -37,6 +37,7 @@ public class GUI extends Application implements ViewInterface {
     private String infoTarget;
     private String opz;
     private String discard;
+    StackPane afterPane;
     private ArrayList<ArrayList<ArrayList<String>>> boardRepresentation;
     private ArrayList<ArrayList<String>> playersRepresentation;
     private ArrayList<String> youRepresentation;
@@ -119,6 +120,7 @@ public class GUI extends Application implements ViewInterface {
         this.backGraphicsGUI.buildYou(stage);
         this.backGraphicsGUI.buildKillShotTrack(stage);
         this.buttonsGUI.buildButtons(stage);
+        this.afterPane = (StackPane)stage.getScene().getRoot();
     }
 
     private void clearPane(){
