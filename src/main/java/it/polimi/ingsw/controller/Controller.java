@@ -133,7 +133,7 @@ public class Controller {
                                     int totalCostBlue=0;
                                     int totalCostRed=0;
                                     int totalCostYellow=0;
-                                    for (String weapon : msg.substring(ETIQUETTE).split("-")[0].split(",")) {
+                                    for (String weapon : msg.substring(ETIQUETTE).split(">")[0].split(",")) {
                                         Weapon realWepon = playerFromNickname(clientHandler.getName(),this.match).getWeapons().get(Integer.parseInt(weapon));
                                         totalCostBlue= totalCostBlue+realWepon.getCostBlue();
                                         totalCostRed=totalCostRed+realWepon.getCostRed();
@@ -440,12 +440,12 @@ public class Controller {
 
     private void shootingAction(ClientHandler clientHandler, String msg){
         ArrayList<TargetParameter> targetParameters = new ArrayList<>();
-        String[] data = msg.split("-")[0].split("'");
+        String[] data = msg.split(">")[0].split("'");
         try {
             if(clientInfoFromClientHandeler(clientHandler).simulation == null) {
                 clientInfoFromClientHandeler(clientHandler).simulation = deepClone(match);
             }
-            for (String target : data[2].split("-")[0].split(";")) {
+            for (String target : data[2].split(">")[0].split(";")) {
                 TargetParameter temp =generateTarget(target, clientHandler, clientInfoFromClientHandeler(clientHandler).simulation);
                 if(temp != null) {
                     targetParameters.add(temp);
@@ -601,9 +601,9 @@ public class Controller {
 
     private ArrayList<PowerUp> generatePowerUpPayment (String msg ,ClientHandler clientHandler, Match match) {
         ArrayList<PowerUp> payment = null;
-        if (!(msg.substring(ETIQUETTE)).split("-")[1].equals(" ")) {
+        if (!(msg.substring(ETIQUETTE)).split(">")[1].equals(" ")) {
             payment = new ArrayList<>();
-            for (String powerUp : msg.split("-")[1].split(",")) {
+            for (String powerUp : msg.split(">")[1].split(",")) {
                 try {
                     payment.add(playerFromNickname(clientHandler.getName(), match).getPowerUps().get(Integer.parseInt(powerUp)));
                 } catch (NotFoundException e) {
@@ -616,7 +616,7 @@ public class Controller {
 
     private void grabbingAction(ClientHandler clientHandler, String msg){
         try {
-            String[] stringo =msg.substring(ETIQUETTE).split("-")[0].split(",");
+            String[] stringo =msg.substring(ETIQUETTE).split(">")[0].split(",");
             playerFromNickname(clientHandler.getName(), this.match).grab(match.getBoard().find(Integer.parseInt(stringo[0]),
                     Integer.parseInt(stringo[1])));
             updateBackground(this.match);
@@ -631,14 +631,14 @@ public class Controller {
         catch (ElementNotFoundException e) {
             try {
 
-                Weapon weapon = ((SpawnPoint) match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split("-")[0].split(",")[0]), Integer.parseInt(msg.substring(ETIQUETTE).split("-")[0].split(",")[1]))).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE).split("-")[0].split(",")[2]));
+                Weapon weapon = ((SpawnPoint) match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(">")[0].split(",")[0]), Integer.parseInt(msg.substring(ETIQUETTE).split(">")[0].split(",")[1]))).getWeapons().get(Integer.parseInt(msg.substring(ETIQUETTE).split(">")[0].split(",")[2]));
                 playerFromNickname(clientHandler.getName(), this.match).pay(
                         weapon.getColor().equals("blue") ? weapon.getCostBlue() - 1 : weapon.getCostBlue(),
                         weapon.getColor().equals("red") ? weapon.getCostRed() - 1 : weapon.getCostRed(),
                         weapon.getColor().equals("yellow") ? weapon.getCostYellow() - 1 : weapon.getCostYellow(),
                         generatePowerUpPayment(msg.substring(ETIQUETTE), clientHandler, this.match));
                 playerFromNickname(clientHandler.getName(), this.match).grabWeapon(match.getBoard().find(Integer.parseInt(msg.substring(ETIQUETTE).split(",")[0]),
-                        Integer.parseInt(msg.substring(ETIQUETTE).split("-")[0].split(",")[1])), Integer.parseInt(msg.substring(ETIQUETTE).split("-")[0].split(",")[2]));
+                        Integer.parseInt(msg.substring(ETIQUETTE).split(">")[0].split(",")[1])), Integer.parseInt(msg.substring(ETIQUETTE).split(">")[0].split(",")[2]));
                 updateBackground(this.match);
                 lifeCycle(clientHandler);
 
