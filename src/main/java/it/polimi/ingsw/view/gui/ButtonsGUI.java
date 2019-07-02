@@ -242,7 +242,6 @@ class ButtonsGUI {
                                                 gameGUI.powerUpPay(pane,messageToSend);
                                                 //TODO client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY).concat(",").concat(Integer.toString(w))));
                                                 pane.getChildren().remove(grid);
-                                                backRun.fire();
                                             });
                                         } else {
                                             grid.add(new ImageView(new Image("/images/game/weapons/weaponBack.png", pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false)), j, 0);

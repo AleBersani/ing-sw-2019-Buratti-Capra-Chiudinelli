@@ -394,18 +394,20 @@ public class GameGUI {
             typeOfFire = "";
         }
         else {
-            Pane payPane = new Pane();
+            StackPane payPane = new StackPane();
             final String[] powerUpPay = new String[1];
             GridPane payGrid = new GridPane();
 
             Label title = new Label("Do you want to pay with power ups?");
             labelSetting(title, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
-            payGrid.add(title, 0, 0);
+            payGrid.add(title, 0, 0,2,1);
             GridPane.setHalignment(title, HPos.CENTER);
             GridPane.setValignment(title, VPos.CENTER);
 
             Button yes = new Button("YES");
             payGrid.add(yes, 0, 1);
+            payGrid.setVgap(30);
+            payGrid.setHgap(50);
             GridPane.setHalignment(yes, HPos.CENTER);
             GridPane.setValignment(yes, VPos.CENTER);
             yes.setOnAction(e -> {
@@ -444,6 +446,9 @@ public class GameGUI {
                     pane.getChildren().remove(payPane);
                 });
 
+                gridPowerUp.setVgap(30);
+                gridPowerUp.setHgap(50);
+                gridPowerUp.setAlignment(Pos.CENTER);
                 payPane.getChildren().add(gridPowerUp);
             });
 
