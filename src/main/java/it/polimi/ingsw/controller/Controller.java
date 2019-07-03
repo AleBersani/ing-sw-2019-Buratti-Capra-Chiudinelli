@@ -1169,6 +1169,7 @@ public class Controller {
             }
             if(respawning) {
                 nextTurn();
+                respawning= false;
             }
 
         }
