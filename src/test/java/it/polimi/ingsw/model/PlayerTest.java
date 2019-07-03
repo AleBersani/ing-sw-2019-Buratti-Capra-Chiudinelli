@@ -641,7 +641,7 @@ class PlayerTest {
         for(i=0;i<guest.getMark().size();i++)
             assertEquals(loser,guest.getMark().get(i));
     }
-
+/*
     @Test
     public void testRunFrenzy(){
         guest.setTurn(turn);
@@ -719,7 +719,7 @@ class PlayerTest {
             e.printStackTrace();
         }
     }
-
+*/
     @Test
     public void testOnlyFrenzyAction(){
         test.setLastKill(true);

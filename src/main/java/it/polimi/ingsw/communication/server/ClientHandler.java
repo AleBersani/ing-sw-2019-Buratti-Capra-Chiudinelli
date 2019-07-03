@@ -141,4 +141,8 @@ public class ClientHandler implements Runnable{
     public Controller getController() {
         return controller;
     }
+
+    public boolean isDisconnect() {
+        return disconnect;
+    }
 }

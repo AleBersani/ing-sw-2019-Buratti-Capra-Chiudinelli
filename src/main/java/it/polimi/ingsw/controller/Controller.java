@@ -129,34 +129,7 @@ public class Controller {
                             reload(clientHandler);
                         }
                         else if(msg.startsWith("RLD-")) {
-                            if (!msg.substring(ETIQUETTE).equals("")) {
-                                try {
-                                    int totalCostBlue=0;
-                                    int totalCostRed=0;
-                                    int totalCostYellow=0;
-                                    for (String weapon : msg.substring(ETIQUETTE).split(">")[0].split(",")) {
-                                        Weapon realWeapon = playerFromNickname(clientHandler.getName(),this.match).getWeapons().get(Integer.parseInt(weapon));
-                                        totalCostBlue= totalCostBlue+realWeapon.getCostBlue();
-                                        totalCostRed=totalCostRed+realWeapon.getCostRed();
-                                        totalCostYellow=totalCostYellow+realWeapon.getCostYellow();
-                                        playerFromNickname(clientHandler.getName(), this.match).pay(totalCostBlue,totalCostRed,totalCostYellow,generatePowerUpPayment(msg,clientHandler, this.match));
-                                        playerFromNickname(clientHandler.getName(), this.match).reload(realWeapon);
-                                    }
-                                } catch (NotFoundException e) {
-                                    sendString("error", clientHandler);
-                                } catch (LoadedException e) {
-                                    sendString(">>>This weapon is already load", clientHandler);
-                                } catch (NoAmmoException e) {
-                                    reload(clientHandler);
-                                    sendString(">>>You don't have enough ammo", clientHandler);
-                                    return;
-                                } catch (WrongPowerUpException e) {
-                                    reload(clientHandler);
-                                    sendString(">>>Wrong PowerUps", clientHandler);
-                                    return;
-                                }
-                                updateBackground(this.match);
-                            }
+                            effectiveReload(msg, clientHandler, this.match);
                             clientHandler.setYourTurn(false);
                             respawn();
                             this.match.getTurn().endTurn();
@@ -306,7 +279,53 @@ public class Controller {
                     }
                     break;
                 }
+                case SHOOTING_FRENZY:{
+                    if(msg.startsWith("RLD-")) {
+                        try {
+                            effectiveReload(msg, clientHandler, clientInfoFromClientHandeler(clientHandler).simulation);
+                            updateBackground(clientInfoFromClientHandeler(clientHandler).simulation);
+                            sendString("FNZ-", clientHandler);
+                        } catch (NotFoundException e) {
+                            sendString("error", clientHandler);
+                        }
+                    }
+                    else if(msg.startsWith("GMC-SHT-")){
+                        targetRequestWeapon(clientHandler, msg.substring(ETIQUETTE));
+                    }
+                    break;
+                }
             }
+        }
+    }
+
+    private void effectiveReload(String msg, ClientHandler clientHandler, Match match) {
+        if (!msg.substring(ETIQUETTE).equals("")) {
+            try {
+                int totalCostBlue=0;
+                int totalCostRed=0;
+                int totalCostYellow=0;
+                for (String weapon : msg.substring(ETIQUETTE).split(">")[0].split(",")) {
+                    Weapon realWeapon = playerFromNickname(clientHandler.getName(),match).getWeapons().get(Integer.parseInt(weapon));
+                    totalCostBlue= totalCostBlue+realWeapon.getCostBlue();
+                    totalCostRed=totalCostRed+realWeapon.getCostRed();
+                    totalCostYellow=totalCostYellow+realWeapon.getCostYellow();
+                    playerFromNickname(clientHandler.getName(), match).pay(totalCostBlue,totalCostRed,totalCostYellow,generatePowerUpPayment(msg,clientHandler, match));
+                    playerFromNickname(clientHandler.getName(), match).reload(realWeapon);
+                }
+            } catch (NotFoundException e) {
+                sendString("error", clientHandler);
+            } catch (LoadedException e) {
+                sendString(">>>This weapon is already load", clientHandler);
+            } catch (NoAmmoException e) {
+                reload(clientHandler);
+                sendString(">>>You don't have enough ammo", clientHandler);
+                return;
+            } catch (WrongPowerUpException e) {
+                reload(clientHandler);
+                sendString(">>>Wrong PowerUps", clientHandler);
+                return;
+            }
+            updateBackground(match);
         }
     }
 
@@ -346,6 +365,9 @@ public class Controller {
         for (ClientInfo clientInfo : nicknameList.values()) {
             if (clientInfo.clientHandler.getName().equals(match.getTurn().getCurrent().getNickname())) {
                 clientInfo.clientHandler.setYourTurn(true);
+                if(clientInfo.state == ClientInfo.State.END_GAME){
+                    return;
+                }
                 if(clientInfo.suspended){
                     clientInfo.setState(ClientInfo.State.END);
                     understandMessage("RLD-",clientInfo.clientHandler);
@@ -432,21 +454,54 @@ public class Controller {
 
     private void understandGameCommand(ClientHandler clientHandler, String msg) {
         switch (msg.substring(0,ETIQUETTE)){
-            case "SHT-":
-                targetRequestWeapon(clientHandler, msg);
+            case "SHT-": {
+                if (this.match.getTurn().isFrenzy()){
+                    startShootingFrenzy(clientHandler,msg);
+                }
+                else {
+                    targetRequestWeapon(clientHandler, msg);
+                }
                 break;
-            case "RUN-":
+            }
+            case "RUN-": {
                 runningAction(clientHandler, msg);
                 break;
-            case "GRB-":
+            }
+            case "GRB-": {
                 grabbingAction(clientHandler, msg);
                 break;
-            case "UPU-":
+            }
+            case "UPU-": {
                 targetRequestPU(clientHandler, msg);
                 break;
-            default:
+            }
+            default: {
                 sendString("Invalid command", clientHandler);
+            }
+        }
+    }
 
+    private void startShootingFrenzy(ClientHandler clientHandler, String msg) {
+        try {
+            int x= Integer.parseInt(msg.substring(ETIQUETTE).split(":")[0]);
+            int y= Integer.parseInt(msg.substring(ETIQUETTE).split(":")[1]);
+            ClientInfo clientInfo= clientInfoFromClientHandeler(clientHandler);
+            clientInfo.setState(ClientInfo.State.SHOOTING_FRENZY);
+            clientInfo.simulation=deepClone(this.match);
+            playerFromNickname(clientHandler.getName(), clientInfo.simulation).movementShootFrenzy(clientInfo.simulation.getBoard().find(x,y));
+            updateBackground(clientInfo.simulation);
+            reload(clientHandler);
+        }
+        catch (InvalidDestinationException e) {
+            try {
+                cleanSimulation(clientInfoFromClientHandeler(clientHandler));
+            } catch (NotFoundException e1) {
+                sendString("error", clientHandler);
+            }
+            sendString(">>>Invalid destination", clientHandler);
+        }
+        catch (NotFoundException | IOException | ClassNotFoundException e) {
+            sendString("error", clientHandler);
         }
     }
 
@@ -959,6 +1014,11 @@ public class Controller {
     private void suspend(ClientHandler clientHandler) throws NotFoundException {
         ClientInfo clientInfo = clientInfoFromClientHandeler(clientHandler);
         clientInfo.suspend();
+        if(!clientHandler.isDisconnect()) {
+            for (ClientInfo all : getNicknameList().values()) {
+                sendString(">>>" + clientHandler.getName() + " suspended", all.clientHandler);
+            }
+        }
         if(clientHandler.isYourTurn()) {
             if (clientInfo.state == ClientInfo.State.LAY_WEAPON) {
                 understandMessage("WPN-0", clientHandler);

@@ -123,7 +123,7 @@ public class Player implements Serializable {
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
      */
     public void run(Square destination) throws InvalidDestinationException {
-        if (this.position.calcDist(destination) <= maxRun && !this.position.equals(destination)) {
+        if ((this.position.calcDist(destination) <= (this.turn.isFrenzy()? maxRunFrenzy : maxRun) && !this.position.equals(destination))) {
             this.position.leaves(this);
             this.position = destination;
             destination.arrives(this);
@@ -208,7 +208,7 @@ public class Player implements Serializable {
      * @throws NoOwnerException This exception means the weapon is not loaded
      */
     public void shoot(Weapon weapon, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, NotThisKindOfWeapon, NoAmmoException, NoOwnerException {
-        if(isOnAdrenalineShoot()) {
+        if(isOnAdrenalineShoot() && !this.turn.isFrenzy()) {
             if (this.position.calcDist(destination) <= 1) {
                 this.position.leaves(this);
                 this.position = destination;
@@ -457,87 +457,17 @@ public class Player implements Serializable {
             this.mark.add(this.mark.size(), shooter);
     }
 
-    /**
-     * This method is the run action that can be done in a frenzy turn
-     * @param destination This parameter is the final destination where the player wants to move
-     * @throws InvalidDestinationException This exception means that the player can't reach the destination
-     */
-    public void runFrenzy(Square destination) throws InvalidDestinationException {
-        if (this.position.calcDist(destination) <= maxRunFrenzy)
-            this.position = destination;
-        else
-            throw new InvalidDestinationException();
-        this.turn.setActionCounter((this.turn.getActionCounter() + 1));
-    }
 
-    /**
-     * This method is the shoot action that can be done in a frenzy turn
-     * @param weaponShoot This parameter is the weapon that the player wants to fire with
-     * @param weaponReload This parameter is the weapon that the player wants to reload
-     * @param destination This parameter is the final destination where the player wants to move
-     * @param target This parameter is the target of the shoot action
-     * @throws NotLoadedException This exception means that the weapon is not load
-     * @throws InvalidDestinationException This exception means that the player can't reach the destination
-     * @throws InvalidTargetException This exception means that there is no valid target chosen
-     * @throws LoadedException This exception means that the weapon is already load
-     * @throws NoAmmoException This exception means that the player doesn't have the ammo to reload
-     * @throws NotThisKindOfWeapon This exception means that the type of fire is not permitted by that weapon
-     * @throws NoOwnerException This exception means that the owner not exists
-     */
-    public void shootFrenzy(Weapon weaponShoot, Weapon weaponReload, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, LoadedException, NoAmmoException, NotThisKindOfWeapon, NoOwnerException {
+
+    public void movementShootFrenzy(Square destination) throws InvalidDestinationException{
         if (this.position.calcDist(destination) <= 1 + onlyFrenzyAction()) {
-            if(weaponReload!=null)
-                reload(weaponReload);
-            shootType(weaponShoot,target);
+        this.position.leaves(this);
+        this.position=destination;
+        destination.arrives(this);
         }
         else
             throw new InvalidDestinationException();
-        this.position = destination;
-    }
 
-    /**
-     * This method is the grab action that can be done in a frenzy turn
-     * @param destination This parameter is the final destination where the player wants to move
-     * @throws MaxHandSizeException This exception means that the player has more then three cards in hand
-     * @throws InvalidDestinationException This exception means that the player can't reach the destination
-     * @throws NullAmmoException This exception means that the player doesn't grab anything
-     * @throws ElementNotFoundException This exception means that there isn't a takeable element
-     */
-    public void grabFrenzy(Square destination) throws InvalidDestinationException, MaxHandSizeException, NullAmmoException, ElementNotFoundException {
-        grab(destination);
-    }
-
-    /**
-     * This method answer if a weapon is red or not
-     * @param weapon This parameter is the weapon chosen by the player
-     * @return 1 if the weapons is red, 0 otherwise
-     */
-    private int isRed(Weapon weapon) {
-        if (weapon.getColor().equals("red"))
-            return 1;
-        return 0;
-    }
-
-    /**
-     * This method answer if a weapon is blue or not
-     * @param weapon This parameter is the weapon chosen by the player
-     * @return 1 if the weapons is blue, 0 otherwise
-     */
-    private int isBlue(Weapon weapon) {
-        if (weapon.getColor().equals("blue"))
-            return 1;
-        return 0;
-    }
-
-    /**
-     * This method answer if a weapon is yellow or not
-     * @param weapon This parameter is the weapon chosen by the player
-     * @return 1 if the weapons is yellow, 0 otherwise
-     */
-    private int isYellow(Weapon weapon) {
-        if (weapon.getColor().equals("yellow"))
-            return 1;
-        return 0;
     }
 
     /**
@@ -848,6 +778,7 @@ public class Player implements Serializable {
             descr=descr.concat(p.getName()).concat(":").concat(p.getColor()).concat("'");
         }
         descr=descr.concat(";");
+        descr= descr.concat("ActionsFrenzy:").concat(Integer.toString(onlyFrenzyAction()+1));
         return descr;
     }
 }
