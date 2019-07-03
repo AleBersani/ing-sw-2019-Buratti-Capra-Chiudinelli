@@ -76,7 +76,7 @@ class ShootingGUI {
             String fireType;
             final String[] targetString = {"TRG-"};
             if(gameGUI.typeOfFire.equals("interupt")){
-                //TODO pagamento
+                //TODO pagamento lato controller
                 targetString[0] = "RPU-".concat(gameGUI.handPosition).concat("'");
                 fireType = " ";
             }
@@ -196,7 +196,7 @@ class ShootingGUI {
                             }
                             if (j[0] >= targetParameters.size()) {
                                 gui.reShow();
-                                if(finalFireType.equals(" ")){
+                                if(gameGUI.typeOfFire.equals("interupt")){
                                     gameGUI.specialPay(gui.afterPane,targetString[0]);
                                 }
                                 else {

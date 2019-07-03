@@ -251,23 +251,57 @@ public class GameGUI {
         Rectangle rectangle = new Rectangle();
         rectangleStandard(rectangle, pane);
 
+        RowConstraints row = new RowConstraints();
+        row.setVgrow(Priority.ALWAYS);
+        double dimension = 100 / 10;
+        row.setPercentHeight(dimension);
+        specialGrid.getRowConstraints().add(row);
+
+        RowConstraints row2 = new RowConstraints();
+        row2.setVgrow(Priority.ALWAYS);
+        double dimension2 = 100 / 3;
+        row2.setPercentHeight(dimension2);
+        specialGrid.getRowConstraints().add(row2);
+
+        String[] allPowerUps = gui.getYouRepresentation().get(YOU_POWERUP).split("'");
+
+        for(int k=0;k<allPowerUps.length;k++){
+            ColumnConstraints col = new ColumnConstraints();
+            col.setHgrow(Priority.ALWAYS);
+            col.setPercentWidth(100 / N_COLUMN);
+            specialGrid.getColumnConstraints().add(col);
+        }
+        ColumnConstraints col = new ColumnConstraints();
+        col.setHgrow(Priority.ALWAYS);
+        col.setPercentWidth(100 / 25);
+        specialGrid.getColumnConstraints().add(col);
+        specialGrid.getColumnConstraints().add(col);
+
+
         int targetingScopeNumber = 0;
-        int j=0;
-        for(String powerups : gui.getYouRepresentation().get(YOU_POWERUP).split("'")){
+        for(String powerups : allPowerUps){
             String[] single = powerups.split(":");
             if(single[0].equals("targeting scope")){
-                if(targetingScopeNumber != Integer.parseInt(this.handPosition)){
-                    String realPowerUp = powerUpSwitch(powerups);
-                    ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
-                    specialGrid.add(powerUp, j, 1);
-                    final int ammo=j;
-                    powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
-                          client.send(msg.concat(">").concat(String.valueOf(ammo)));
-                    });
-                    j++;
+                if(targetingScopeNumber == Integer.parseInt(this.handPosition)){
+                    break;
                 }
                 targetingScopeNumber++;
             }
+        }
+
+        int j=0;
+        for(int i=0; i<allPowerUps.length;i++){
+            if(targetingScopeNumber != i){
+                String realPowerUp = powerUpSwitch(allPowerUps[i]);
+                ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
+                specialGrid.add(powerUp, j, 1);
+                final int ammo=j;
+                powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+                    client.send(msg.concat(">").concat(String.valueOf(ammo)));
+                });
+                j++;
+            }
+
         }
 
         for (String ammo : gui.getYouRepresentation().get(PLAYER_AMMO).split("'")) {
@@ -326,7 +360,8 @@ public class GameGUI {
         }
 
         Label title = new Label("How do you want to pay?");
-        specialGrid.add(title,0,0,j+2,1);
+        labelSetting(title,"#ffffff", 0.8, "-fx-font: 50 Helvetica;");
+        specialGrid.add(title,0,0,specialGrid.getColumnConstraints().size(),1);
         GridPane.setHalignment(title, HPos.CENTER);
         GridPane.setValignment(title, VPos.CENTER);
 
@@ -454,7 +489,6 @@ public class GameGUI {
         reloadGrid.add(done, 0, 2,i+2,1);
         done.setOnAction(e -> {
             powerUpPay(pane,toSend[0]);
-            //client.send(toSend[0]); //TODO controllare
             pane.getChildren().remove(pane2);
         });
         GridPane.setHalignment(done, HPos.CENTER);
@@ -481,7 +515,7 @@ public class GameGUI {
     }
 
     void powerUpPay(Pane pane, String messageToSend) {
-        if ((typeOfFire != null)&&((typeOfFire.equals("upu"))||(typeOfFire.equals("interupt")))) {
+        if ((typeOfFire != null)&&((typeOfFire.equals("upu"))||(typeOfFire.equals("interupt"))||(typeOfFire.equals("Base")))) {
             client.send(messageToSend);
             typeOfFire = "";
         }
