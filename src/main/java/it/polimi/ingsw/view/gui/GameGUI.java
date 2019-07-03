@@ -516,6 +516,7 @@ public class GameGUI {
 
     void powerUpPay(Pane pane, String messageToSend) {
         if ((typeOfFire != null)&&((typeOfFire.equals("upu"))||(typeOfFire.equals("interupt"))||(typeOfFire.equals("Base")))) {
+            typeOfFire = " ";
             client.send(messageToSend);
             typeOfFire = "";
         }
