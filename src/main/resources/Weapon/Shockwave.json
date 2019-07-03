@@ -118,9 +118,9 @@
       "name": "in tsunami Mode",
       "constraints": [],
       "constraintPositivity": [],
-      "damage": 12,
+      "damage": 1,
       "mark": 0,
-      "distance": 12,
+      "distance": 1,
       "description": "Area",
       "markActivator": true
     }

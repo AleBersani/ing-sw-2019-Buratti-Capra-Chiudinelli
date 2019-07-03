@@ -123,9 +123,9 @@ class ButtonsGUI {
                 pane.getChildren().remove(grid4);
                 pane.getChildren().remove(rectangle);
             });
-
             if(gui.getYouRepresentation().get(PLAYER_FRENZY).equals("Frenzy:true")){
-                if(gui.getYouRepresentation().get(YOU_FRENZY_ACTION).equals("2")){
+                String[] numberAction = gui.getYouRepresentation().get(YOU_FRENZY_ACTION).replace(" ","").split(":");
+                if(numberAction[1].equals("2")){
                     //run
                     runAction(stage, grid4, pane, rectangle, actions, "RUN",1,false);
                 }

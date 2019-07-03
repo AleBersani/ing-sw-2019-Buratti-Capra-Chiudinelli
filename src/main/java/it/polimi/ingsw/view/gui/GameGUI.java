@@ -279,20 +279,18 @@ class GameGUI {
         specialGrid.getColumnConstraints().add(col);
 
 
-        int targetingScopeNumber = 0;
+        int z=0;
         for(String powerups : allPowerUps){
             String[] single = powerups.split(":");
-            if(single[0].equals("targeting scope")){
-                if(targetingScopeNumber == Integer.parseInt(this.handPosition)){
-                    break;
-                }
-                targetingScopeNumber++;
+            if((single[0].equals("targeting scope"))&&(z == Integer.parseInt(this.handPosition))){
+                break;
             }
+            z++;
         }
 
         int j=0;
         for(int i=0; i<allPowerUps.length;i++){
-            if(targetingScopeNumber != i){
+            if(z != i){
                 String realPowerUp = powerUpSwitch(allPowerUps[i]);
                 ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
                 specialGrid.add(powerUp, j, 1);
@@ -311,12 +309,12 @@ class GameGUI {
                 case "R": {
                     ImageView redAmmoIV = new ImageView(new Image("/images/game/ammo/redAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
                     specialGrid.add(redAmmoIV, j, 1);
-                    GridPane.setHalignment(redAmmoIV, HPos.LEFT);
+                    GridPane.setHalignment(redAmmoIV, HPos.RIGHT);
                     GridPane.setValignment(redAmmoIV, VPos.TOP);
                     Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
-                    labelSetting(numberAmmo, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
+                    labelSetting(numberAmmo, "#ffffff", 0.8, "-fx-font: 30 Helvetica;");
                     specialGrid.add(numberAmmo, j + 1, 1);
-                    GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                    GridPane.setHalignment(numberAmmo, HPos.LEFT);
                     GridPane.setValignment(numberAmmo, VPos.TOP);
 
                     redAmmoIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
@@ -327,12 +325,12 @@ class GameGUI {
                 case "Y": {
                     ImageView yellowAmmoIV = new ImageView(new Image("/images/game/ammo/yellowAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
                     specialGrid.add(yellowAmmoIV, j, 1);
-                    GridPane.setHalignment(yellowAmmoIV, HPos.LEFT);
+                    GridPane.setHalignment(yellowAmmoIV, HPos.RIGHT);
                     GridPane.setValignment(yellowAmmoIV, VPos.CENTER);
                     Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
-                    labelSetting(numberAmmo, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
+                    labelSetting(numberAmmo, "#ffffff", 0.8, "-fx-font: 30 Helvetica;");
                     specialGrid.add(numberAmmo, j + 1, 1);
-                    GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                    GridPane.setHalignment(numberAmmo, HPos.LEFT);
                     GridPane.setValignment(numberAmmo, VPos.CENTER);
 
                     yellowAmmoIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
@@ -343,12 +341,12 @@ class GameGUI {
                 case "B": {
                     ImageView blueAmmoIV = new ImageView(new Image("/images/game/ammo/blueAmmo.png", pane.getWidth() / 7 / 3, pane.getHeight() / 5 / 3, false, false));
                     specialGrid.add(blueAmmoIV, j, 1);
-                    GridPane.setHalignment(blueAmmoIV, HPos.LEFT);
+                    GridPane.setHalignment(blueAmmoIV, HPos.RIGHT);
                     GridPane.setValignment(blueAmmoIV, VPos.BOTTOM);
                     Label numberAmmo = new Label("x".concat(ammoQuantity[1]));
-                    labelSetting(numberAmmo, "#ffffff", 0.8, "-fx-font: 40 Helvetica;");
+                    labelSetting(numberAmmo, "#ffffff", 0.8, "-fx-font: 30 Helvetica;");
                     specialGrid.add(numberAmmo, j + 1, 1);
-                    GridPane.setHalignment(numberAmmo, HPos.RIGHT);
+                    GridPane.setHalignment(numberAmmo, HPos.LEFT);
                     GridPane.setValignment(numberAmmo, VPos.BOTTOM);
 
                     blueAmmoIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
@@ -361,7 +359,7 @@ class GameGUI {
         }
 
         Label title = new Label("How do you want to pay?");
-        labelSetting(title,"#ffffff", 0.8, "-fx-font: 50 Helvetica;");
+        labelSetting(title,"#ffffff", 0.8, "-fx-font: 40 Helvetica;");
         specialGrid.add(title,0,0,specialGrid.getColumnConstraints().size(),1);
         GridPane.setHalignment(title, HPos.CENTER);
         GridPane.setValignment(title, VPos.CENTER);
