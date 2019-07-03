@@ -197,6 +197,7 @@ class ShootingGUI {
                             if (j[0] >= targetParameters.size()) {
                                 gui.reShow();
                                 if(gameGUI.typeOfFire.equals("interupt")){
+                                    gameGUI.typeOfFire = "";
                                     gameGUI.specialPay(gui.afterPane,targetString[0]);
                                 }
                                 else {

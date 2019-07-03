@@ -239,8 +239,8 @@ class ButtonsGUI {
                                             int w = j;
                                             weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
                                                 String messageToSend = "GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY).concat(",").concat(Integer.toString(w)));
+                                                gameGUI.typeOfFire = " ";
                                                 gameGUI.powerUpPay(pane,messageToSend);
-                                                //TODO client.send("GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY).concat(",").concat(Integer.toString(w))));
                                                 pane.getChildren().remove(grid);
                                             });
                                         } else {

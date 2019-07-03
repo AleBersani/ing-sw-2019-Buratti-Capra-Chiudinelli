@@ -488,6 +488,7 @@ public class GameGUI {
 
         reloadGrid.add(done, 0, 2,i+2,1);
         done.setOnAction(e -> {
+            typeOfFire = " ";
             powerUpPay(pane,toSend[0]);
             pane.getChildren().remove(pane2);
         });
@@ -516,7 +517,6 @@ public class GameGUI {
 
     void powerUpPay(Pane pane, String messageToSend) {
         if ((typeOfFire != null)&&((typeOfFire.equals("upu"))||(typeOfFire.equals("interupt"))||(typeOfFire.equals("Base")))) {
-            typeOfFire = " ";
             client.send(messageToSend);
             typeOfFire = "";
         }
