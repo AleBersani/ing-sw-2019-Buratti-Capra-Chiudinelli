@@ -124,15 +124,23 @@ class ButtonsGUI {
                 pane.getChildren().remove(rectangle);
             });
 
-            //run
-            runAction(stage,grid4,pane,rectangle,actions);
+            if(gui.getYouRepresentation().get(PLAYER_FRENZY).equals("Frenzy:true")){
+                if(gui.getYouRepresentation().get(YOU_FRENZY_ACTION).equals("2")){
+                    //run
+                    runAction(stage, grid4, pane, rectangle, actions, "RUN",1,false);
+                }
+                //shoot
+                runAction(stage, grid4, pane, rectangle, actions, "SHOOT",0,true);
+            }
+            else {
+                //run
+                runAction(stage, grid4, pane, rectangle, actions, "RUN",1,false);
 
+                //shoot
+                shootAction(grid4, pane, rectangle, actions);
+            }
             //Grab
-            grabAction(stage,gridButtons,grid4,pane,rectangle,actions);
-
-            //shoot
-            shootAction(grid4,pane,rectangle,actions);
-
+            grabAction(stage, gridButtons, grid4, pane, rectangle, actions);
         });
     }
 
@@ -158,7 +166,6 @@ class ButtonsGUI {
                             pane.getChildren().remove(rectangle);
                             gameGUI.nameWeapon = weaponName;
                             gameGUI.handPosition = Integer.toString(wpn);
-                            //TODO AGGIUNGERE PAGAMENTO POWER UP
                         });
                     }
                 }
@@ -289,11 +296,11 @@ class ButtonsGUI {
         });
     }
 
-    private void runAction(Stage stage, GridPane grid4, StackPane pane, Rectangle rectangle, Button actions){
+    private void runAction(Stage stage, GridPane grid4, StackPane pane, Rectangle rectangle, Button actions, String title, int columnIndex, boolean shoot){
         Button stopClick = new Button();
         Button startClick = new Button();
-        Button run = new Button("RUN");
-        grid4.add(run, 1, 0);
+        Button run = new Button(title);
+        grid4.add(run, columnIndex, 0);
         run.setOnAction(e -> {
             pane.getChildren().remove(grid4);
             pane.getChildren().remove(gameGUI.boardGrid);
@@ -315,7 +322,13 @@ class ButtonsGUI {
                 int cellY = 1 + (int) (event1.getScreenY() / (pane.getHeight() / N_ROW));
 
                 if ((cellX < 5) && (cellY < 4)) {
-                    client.send("GMC-RUN-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)));
+                    if(shoot){
+                        client.send("GMC-SHT-".concat(Integer.toString(cellX)).concat(":").concat(Integer.toString(cellY)));
+                    }
+                    else{
+                        client.send("GMC-RUN-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY)));
+
+                    }
                 }
             };
 
@@ -425,7 +438,6 @@ class ButtonsGUI {
 
             opzShootPane.getChildren().add(opzShootGrid);
             pane.getChildren().add(opzShootPane);
-            //TODO da aggiungere pagamento
         });
     }
 
@@ -749,5 +761,39 @@ class ButtonsGUI {
         }
     }
 
+    void shootFrenzy(Stage stage){
+        StackPane pane = (StackPane) stage.getScene().getRoot();
+        StackPane frenzyPane = new StackPane();
+        GridPane gridWeapons = new GridPane();
+        Rectangle rectangle = new Rectangle();
+        gameGUI.rectangleStandard(rectangle,pane);
 
+
+        int j = 0;
+        for (String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")) {
+            if (!weapon.equals("")) {
+                String[] playerWeapon = weapon.split(":");
+                if (playerWeapon[1].equals("true")) {
+                    String weaponName = playerWeapon[0].toLowerCase().replace(" ", "");
+                    ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName).concat(".png"), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
+                    gridWeapons.add(weaponIV, j, 0);
+                    final int wpn = j;
+                    weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
+                        client.send("GMC-SHT-".concat(Integer.toString(wpn)));
+                        pane.getChildren().remove(frenzyPane);
+                        gameGUI.nameWeapon = weaponName;
+                        gameGUI.handPosition = Integer.toString(wpn);
+                    });
+                }
+            }
+            j++;
+        }
+
+        gridWeapons.setHgap(40);
+        gridWeapons.setVgap(50);
+        gridWeapons.setAlignment(Pos.CENTER);
+        frenzyPane.getChildren().add(rectangle);
+        frenzyPane.getChildren().add(gridWeapons);
+        pane.getChildren().add(frenzyPane);
+    }
 }

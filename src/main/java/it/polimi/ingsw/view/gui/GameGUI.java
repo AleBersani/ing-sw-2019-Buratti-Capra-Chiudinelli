@@ -17,7 +17,7 @@ import javafx.scene.control.Button;
 
 import java.util.ArrayList;
 
-public class GameGUI {
+class GameGUI {
     private GUI gui;
     private Client client;
     GridPane boardGrid;
@@ -65,6 +65,7 @@ public class GameGUI {
     static final int YOU_POINT = 12;
     static final int YOU_WEAPON = 14;
     static final int YOU_POWERUP = 16;
+    static final int YOU_FRENZY_ACTION = 17;
     static final int KILL_ROW = 3;
     static final int KILL_COL = 0;
     static final int KILL_TOT_SKULL = 0;
@@ -77,7 +78,7 @@ public class GameGUI {
         this.client = client;
     }
 
-    public void setShootingGUI(ShootingGUI shootingGUI) {
+    void setShootingGUI(ShootingGUI shootingGUI) {
         this.shootingGUI = shootingGUI;
     }
 
@@ -746,9 +747,8 @@ public class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-    public void buildWinner(Stage stage, String wario){
+    void buildWinner(Stage stage, String wario){
         StackPane pane = (StackPane)stage.getScene().getRoot();
-        //TODO WE NEED TO KNOW ONLY THE NAME OF THE WINNER AND THE POINTS THAT HE MAKES
         GridPane winnerGrid = new GridPane();
 
         RowConstraints row = new RowConstraints();

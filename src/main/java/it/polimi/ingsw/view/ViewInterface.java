@@ -36,5 +36,7 @@ public interface ViewInterface {
 
     void interruptPowerUp(String msg);
 
+    void frenzyShootShow();
+
     void suspend();
 }
