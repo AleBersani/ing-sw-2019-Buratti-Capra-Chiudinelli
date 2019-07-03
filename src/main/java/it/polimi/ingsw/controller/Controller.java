@@ -1101,17 +1101,21 @@ public class Controller {
     }
 
     private void lifeCycle(ClientHandler actual) {
-        if(match.getTurn().getActionCounter()<MAX_ACTIONS) {
-            sendString("INS-", actual);
-        }
-        else {
-            sendString("END-Use a powerUp or end turn", actual);
-            try {
-                clientInfoFromClientHandeler(actual).setState(ClientInfo.State.END);
-            } catch (NotFoundException e) {
-                sendString("error", actual);
+        try {
+            if(match.getTurn().getActionCounter()<(playerFromNickname(actual.getName(), this.match).onlyFrenzyAction()==1?1:2)) {
+                sendString("INS-", actual);
             }
+            else {
+                sendString("END-Use a powerUp or end turn", actual);
+                try {
+                    clientInfoFromClientHandeler(actual).setState(ClientInfo.State.END);
+                } catch (NotFoundException e) {
+                    sendString("error", actual);
+                }
 
+            }
+        } catch (NotFoundException e) {
+            sendString("error", actual);
         }
 
     }
