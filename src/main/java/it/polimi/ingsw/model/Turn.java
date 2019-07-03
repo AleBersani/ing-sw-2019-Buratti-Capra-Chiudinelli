@@ -136,6 +136,9 @@ public class Turn implements Serializable {
             this.deads.get(i).setSkull(this.deads.get(i).getSkull() + 1);
 
             getMatch().setSkulls(getMatch().getSkulls()-1);
+            if(getMatch().getSkulls()==0){
+                this.deads.get(i).getDamage().get(10).setLastKill(true);
+            }
             if(getMatch().getSkulls()<0){
                 getMatch().setSkulls(0);
             }
