@@ -89,7 +89,7 @@
         "addToList": false,
         "removeFromList": true,
         "description": "Player",
-        "markActivator": true
+        "markActivator": false
       }
     ],
     [
@@ -119,7 +119,7 @@
         "addToList": false,
         "removeFromList": false,
         "description": "Player",
-        "markActivator": true
+        "markActivator": false
       }
     ],
     [
@@ -179,7 +179,7 @@
         "addToList": false,
         "removeFromList": true,
         "description": "Player",
-        "markActivator": true
+        "markActivator": false
       },
       {
         "type": "EffectVsPlayer",

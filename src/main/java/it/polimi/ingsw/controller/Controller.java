@@ -157,12 +157,12 @@ public class Controller {
                                 }
                                 updateBackground(this.match);
                             }
+                            clientHandler.setYourTurn(false);
                             respawn();
                             this.match.getTurn().endTurn();
                             if(this.match.isEndgame()){
                                 this.endGame();
                             }
-                            clientHandler.setYourTurn(false);
                             suspending.cancel();
                             if(!respawning){
                                 nextTurn();
@@ -235,8 +235,42 @@ public class Controller {
                                         usable.add(powerUp);
                                     }
                                 }
-                                //TODO PAGARE MIRINO
-                                usable.get(Integer.parseInt(msg.substring(ETIQUETTE).split("'")[0])).useEffect(generateTarget(msg.split("'")[1].substring(0, msg.split("'")[1].length() - 1), clientHandler, clientInfoFromClientHandeler(clientHandler).simulation),
+                                Player player = playerFromNickname(clientHandler.getName(), clientInfoFromClientHandeler(clientHandler).simulation);
+                                switch (msg.split(">")[1]){
+                                    case "B":{
+                                        player.pay(1,0,0,null);
+                                        break;
+                                    }
+                                    case "R":{
+                                        player.pay(0,1,0,null);
+                                        break;
+                                    }
+                                    case "Y":{
+                                        player.pay(0,0,1,null);
+                                        break;
+                                    }
+                                    default:{
+                                        PowerUp payment = player.getPowerUps().get(Integer.parseInt(msg.split(">")[1]));
+                                        ArrayList<PowerUp> paymentWrapper= new ArrayList<>();
+                                        paymentWrapper.add(payment);
+                                        switch (payment.getColor()){
+                                            case "blue":{
+                                                player.pay(1,0,0,paymentWrapper);
+                                                break;
+                                            }
+                                            case "red":{
+                                                player.pay(0,1,0,paymentWrapper);
+                                                break;
+                                            }
+                                            case "yellow":{
+                                                player.pay(0,0,1,paymentWrapper);
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                }
+                                usable.get(Integer.parseInt(msg.substring(ETIQUETTE).split("'")[0])).useEffect(generateTarget(msg.split(">")[0].split("'")[1].substring(0, msg.split(">")[0].split("'")[1].length() - 1), clientHandler, clientInfoFromClientHandeler(clientHandler).simulation),
                                         clientInfoFromClientHandeler(clientHandler).weapon.getPreviousTarget());
                                 playerFromNickname(clientHandler.getName(), clientInfoFromClientHandeler(clientHandler).simulation).discard(usable.get(Integer.parseInt(msg.substring(ETIQUETTE).split("'")[0])));
                                 if (clientInfoFromClientHandeler(clientHandler).weapon.isOptional()) {
@@ -250,6 +284,20 @@ public class Controller {
                                 invalidTarget(clientHandler);
                             } catch (NoOwnerException e) {
                                 sendString("error", clientHandler);
+                            } catch (WrongPowerUpException e) {
+                                try {
+                                    cleanSimulation(clientInfoFromClientHandeler(clientHandler));
+                                } catch (NotFoundException e1) {
+                                    sendString("error", clientHandler);
+                                }
+                                sendString(">>>Wrong power up", clientHandler);
+                            } catch (NoAmmoException e) {
+                                try {
+                                    cleanSimulation(clientInfoFromClientHandeler(clientHandler));
+                                } catch (NotFoundException e1) {
+                                    sendString("error", clientHandler);
+                                }
+                                sendString(">>>You don't have enogh ammo", clientHandler);
                             }
                         }
                     }
@@ -304,7 +352,7 @@ public class Controller {
                 }
                 else {
                     timerTurn(clientInfo);
-                    if (clientInfo.clientHandler.isFirstSpawn() && !clientInfo.state.equals(ClientInfo.State.SPAWN)) {
+                    if (clientInfo.clientHandler.isFirstSpawn()) {
                         clientInfo.setState(ClientInfo.State.SPAWN);
                         startingSpawn(clientInfo.clientHandler, match.getTurn().getCurrent());
                     } else {
@@ -1033,7 +1081,6 @@ public class Controller {
     }
 
     public void spawn(ClientHandler actual, Player player,int powerUpPosition) {
-
         if(powerUpPosition<player.getPowerUps().size() && powerUpPosition>=0) {
             PowerUp powerUp = player.getPowerUps().get(powerUpPosition);
 
@@ -1045,9 +1092,6 @@ public class Controller {
             }
             updateBackground(this.match);
 
-
-
-
             if(!actual.isFirstSpawn()) {
                 actual.setYourTurn(false);
             }
@@ -1057,6 +1101,14 @@ public class Controller {
 
             if(actual.isYourTurn()){
                 lifeCycle(actual);
+            }
+            for (ClientInfo clientInfo : getNicknameList().values()){
+                if(clientInfo.clientHandler.isYourTurn()){
+                    return;
+                }
+            }
+            if(respawning) {
+                nextTurn();
             }
 
         }
