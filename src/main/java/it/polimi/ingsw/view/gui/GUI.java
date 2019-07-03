@@ -265,6 +265,10 @@ public class GUI extends Application implements ViewInterface {
         gameGUI.buildWinner(stage,this.infoString);
     }
 
+    private void shootFrenzy(){
+        buttonsGUI.shootFrenzy(stage);
+    }
+
     @Override
     public void spawn(String msg) {
         this.infoSpawn = msg;
@@ -382,6 +386,11 @@ public class GUI extends Application implements ViewInterface {
     public void interruptPowerUp(String msg) {
         this.infoSpawn = msg;
         Platform.runLater(this::interuptPower);
+    }
+
+    @Override
+    public void frenzyShootShow() {
+        Platform.runLater(this::shootFrenzy);
     }
 
     @Override

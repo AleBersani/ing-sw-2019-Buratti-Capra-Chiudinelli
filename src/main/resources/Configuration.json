@@ -1,6 +1,6 @@
 {
   "board": 1,
-  "skulls": 8,
+  "skulls": 1,
   "frenzy": true,
   "timer": 1,
   "availableBoards": [1,2,3,4],

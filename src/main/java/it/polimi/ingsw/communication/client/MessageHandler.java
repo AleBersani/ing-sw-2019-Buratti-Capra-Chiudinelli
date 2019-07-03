@@ -177,9 +177,15 @@ public class MessageHandler {
                 view.winnerShow(msg.substring(NAME_ETIQUETTE));
                 break;
             }
+            case "FNZ-":{
+                view.frenzyShootShow();
+                break;
+            }
             default:
         }
     }
+
+
 
     private ArrayList<String> stringToArrayList(String msg){
         ArrayList<String> data = new ArrayList<>();
