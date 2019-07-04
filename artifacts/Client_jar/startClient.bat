@@ -1,1 +1,1 @@
-java -jar ./AM00.jar 127.0.0.1:5000
+java -jar ./Client.jar 127.0.0.1:5000
