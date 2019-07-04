@@ -23,6 +23,7 @@ class ButtonsGUI {
     private Client client;
     private GameGUI gameGUI;
     private ShootingGUI shootingGUI;
+    private ChooseGUI chooseGUI;
 
     ButtonsGUI(GUI gui, Client client, GameGUI gameGUI) {
         this.gui = gui;
@@ -30,7 +31,11 @@ class ButtonsGUI {
         this.gameGUI = gameGUI;
     }
 
-    public void setShootingGUI(ShootingGUI shootingGUI) {
+    void setChooseGUI(ChooseGUI chooseGUI) {
+        this.chooseGUI = chooseGUI;
+    }
+
+    void setShootingGUI(ShootingGUI shootingGUI) {
         this.shootingGUI = shootingGUI;
     }
 
@@ -247,7 +252,7 @@ class ButtonsGUI {
                                             weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
                                                 String messageToSend = "GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY).concat(",").concat(Integer.toString(w)));
                                                 gameGUI.typeOfFire = " ";
-                                                gameGUI.powerUpPay(pane,messageToSend);
+                                                chooseGUI.powerUpPay(pane,messageToSend);
                                                 pane.getChildren().remove(grid);
                                             });
                                         } else {

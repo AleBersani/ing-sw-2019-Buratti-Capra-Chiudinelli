@@ -144,7 +144,7 @@ class LoginGUI {
         username.setTooltip(new Tooltip("You can't use a Nickname with - or quit"));
 
         //button
-        buttonSetting(pane,button,15,22, "LOGIN", Pos.CENTER, HPos.CENTER);
+        buttonSetting(pane,button,15,22, "LOGIN");
         button.setOnAction(e -> loginButtonAction(username,infoText));
         pane.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode() == KeyCode.ENTER) {
@@ -154,7 +154,7 @@ class LoginGUI {
         });
 
         //exit
-        buttonSetting(pane,button2,15,22, "EXIT", Pos.CENTER, HPos.CENTER);
+        buttonSetting(pane,button2,15,22, "EXIT");
         button2.setOnAction(e -> client.send("quit"));
 
         pane.getChildren().add(grid);
@@ -222,7 +222,7 @@ class LoginGUI {
         choicebox.getSelectionModel().selectFirst();
 
         //done Button
-        buttonSetting(pane,doneButton,10,20, "DONE", Pos.CENTER, HPos.CENTER);
+        buttonSetting(pane,doneButton,10,20, "DONE");
         doneButton.setOnAction(e ->{
             switch (msg){
                 case "Board":{
@@ -250,7 +250,7 @@ class LoginGUI {
         });
 
         //quit Button
-        buttonSetting(pane,quitButton,10,20, "QUIT", Pos.CENTER, HPos.CENTER);
+        buttonSetting(pane,quitButton,10,20, "QUIT");
         quitButton.setOnAction(e -> client.send("quit"));
 
         //grid
@@ -296,7 +296,7 @@ class LoginGUI {
 
         //exit button
         Button buttonExit = new Button();
-        buttonSetting(pane,buttonExit,10,20, "EXIT", Pos.CENTER, HPos.CENTER);
+        buttonSetting(pane,buttonExit,10,20, "EXIT");
         buttonExit.setOnAction(e -> client.send("quit"));
 
         //grid
@@ -374,12 +374,10 @@ class LoginGUI {
      * @param width the percentage width of the button
      * @param height the percentage height of the button
      * @param text the text of the button
-     * @param alignment the alignment of the button
-     * @param gridHalignment the horizontal alignment of the button
      */
-    private void buttonSetting(StackPane pane, Button button, int width, int height, String text, Pos alignment, HPos gridHalignment){
-        GridPane.setHalignment(button, gridHalignment);
-        button.setAlignment(alignment);
+    private void buttonSetting(StackPane pane, Button button, int width, int height, String text){
+        GridPane.setHalignment(button, HPos.CENTER);
+        button.setAlignment(Pos.CENTER);
         button.setText(text);
         button.prefWidthProperty().bind(pane.widthProperty().divide(width));
         button.prefHeightProperty().bind(pane.heightProperty().divide(height));

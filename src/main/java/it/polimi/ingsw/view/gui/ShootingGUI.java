@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.communication.client.Client;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -22,15 +21,18 @@ import static it.polimi.ingsw.view.gui.GameGUI.*;
 
 class ShootingGUI {
     private GUI gui;
-    private Client client;
     private GameGUI gameGUI;
     private ButtonsGUI buttonsGUI;
+    private ChooseGUI chooseGUI;
 
-    ShootingGUI(GUI gui, Client client, GameGUI gameGUI, ButtonsGUI buttonsGUI) {
+    ShootingGUI(GUI gui, GameGUI gameGUI, ButtonsGUI buttonsGUI) {
         this.gui = gui;
-        this.client = client;
         this.gameGUI = gameGUI;
         this.buttonsGUI = buttonsGUI;
+    }
+
+    void setChooseGUI(ChooseGUI chooseGUI) {
+        this.chooseGUI = chooseGUI;
     }
 
     void buildTarget(Stage stage, String msg, String movement) {
@@ -197,10 +199,10 @@ class ShootingGUI {
                                 gui.reShow();
                                 if(gameGUI.typeOfFire.equals("interrupt")){
                                     gameGUI.typeOfFire = "";
-                                    gameGUI.specialPay(gui.afterPane,targetString[0]);
+                                    chooseGUI.specialPay(gui.afterPane,targetString[0]);
                                 }
                                 else {
-                                    gameGUI.powerUpPay(gui.afterPane, targetString[0]);
+                                    chooseGUI.powerUpPay(gui.afterPane, targetString[0]);
                                 }
                             }
                         }
@@ -223,7 +225,7 @@ class ShootingGUI {
         }
         else{
             String messageToSend ="TRG-WPN-".concat(gameGUI.handPosition).concat("'").concat(movement).concat("' , , , ,").concat(gameGUI.typeOfFire).concat(",").concat("true").concat(";") ;
-            gameGUI.powerUpPay(pane,messageToSend);
+            chooseGUI.powerUpPay(pane,messageToSend);
         }
     }
 

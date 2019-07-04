@@ -24,6 +24,7 @@ public class GUI extends Application implements ViewInterface {
     private ButtonsGUI buttonsGUI;
     private ShootingGUI shootingGUI;
     private MessageHandler messageHandler;
+    private ChooseGUI chooseGUI;
     private boolean sendable;
     private boolean messageToShow;
     boolean noUpdate = false;
@@ -84,10 +85,13 @@ public class GUI extends Application implements ViewInterface {
         this.gameGUI = new GameGUI(this,client);
         this.backGraphicsGUI = new BackGraphicsGUI (this,gameGUI);
         this.buttonsGUI = new ButtonsGUI(this,client,gameGUI);
-        this.shootingGUI = new ShootingGUI(this,client,gameGUI,buttonsGUI);
+        this.shootingGUI = new ShootingGUI(this,gameGUI,buttonsGUI);
+        this.chooseGUI = new ChooseGUI(this,client,gameGUI,shootingGUI,buttonsGUI);
         gameGUI.setButtonsGUI(buttonsGUI);
         gameGUI.setShootingGUI(shootingGUI);
         buttonsGUI.setShootingGUI(shootingGUI);
+        buttonsGUI.setChooseGUI(chooseGUI);
+        shootingGUI.setChooseGUI(chooseGUI);
         client.setMessageHandler(messageHandler);
         client.init();
         client.start();
@@ -166,13 +170,14 @@ public class GUI extends Application implements ViewInterface {
                 gameGUI.informationMessage(stage,messageHandler.getToShow().substring(3));
                 break;
             }
+            default:
         }
         this.messageToShow = false;
     }
 
     private void spawnView(){
         this.noUpdate = true;
-        gameGUI.spawn(stage,infoSpawn);
+        chooseGUI.spawn(stage,infoSpawn);
     }
 
     private void showGameBoard(){
@@ -229,7 +234,7 @@ public class GUI extends Application implements ViewInterface {
     }
 
     private void reload(){
-        this.gameGUI.reload(stage,infoString);
+        this.chooseGUI.reload(stage,infoString);
     }
 
     private void showTarget(){
@@ -241,7 +246,7 @@ public class GUI extends Application implements ViewInterface {
     }
 
     private void weaponDiscard(){
-        gameGUI.chooseWeapon(stage, this.discard);
+        chooseGUI.chooseWeapon(stage, this.discard);
     }
 
     private void insertCommand(){
@@ -257,7 +262,7 @@ public class GUI extends Application implements ViewInterface {
     }
 
     private void interruptPower(){
-        this.gameGUI.interruptPowerUpUses(stage,infoSpawn);
+        this.chooseGUI.interruptPowerUpUses(stage,infoSpawn);
     }
 
     private void showWinner(){
