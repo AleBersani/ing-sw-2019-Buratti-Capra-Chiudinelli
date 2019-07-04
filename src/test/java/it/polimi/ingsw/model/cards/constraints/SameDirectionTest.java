@@ -13,29 +13,59 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * test class of SameDirection
+ */
 class SameDirectionTest {
-    SameDirection test;
-    Player enemy;
-    Square enemySquare;
-    Player owner;
-    Board board;
-    TargetParameter target;
-    ArrayList<ArrayList<Player>> previousTarget;
+    /**
+     * constraint to test
+     */
+    private SameDirection test;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy;
+    /**
+     * enemy square of the owner
+     */
+    private Square enemySquare;
+    /**
+     * player that use this constraint
+     */
+    private Player owner;
+    /**
+     * board of the game
+     */
+    private Board board;
+    /**
+     * parameters of weapon's targets
+     */
+    private TargetParameter target;
+    /**
+     * previous targets of the weapon
+     */
+    private ArrayList<ArrayList<Player>> previousTarget;
 
+    /**
+     * builder method of the parameters needed for every tests
+     */
     @BeforeEach
-    public void setup(){
+    void setup(){
         board = new Board(null,"/Board/Board1.json");
         enemy = new Player(false,"blue", "Fabiano");
         owner = new Player(true,"red", "Fabiolo");
         test = new SameDirection(0);
         target = new TargetParameter(null,owner,null,null,null, null);
-        previousTarget = new ArrayList<ArrayList<Player>>();
-        previousTarget.add(new ArrayList<Player>());
-        previousTarget.add(new ArrayList<Player>());
+        previousTarget = new ArrayList<>();
+        previousTarget.add(new ArrayList<>());
+        previousTarget.add(new ArrayList<>());
     }
 
+    /**
+     * test if one target is on the direction of the owner
+     */
     @Test
-    public void sameDirectionOneTarget(){
+    void sameDirectionOneTarget(){
         try {
             owner.setPosition(board.find(1,1 ));
         } catch (NotFoundException e) {
@@ -54,8 +84,11 @@ class SameDirectionTest {
         }
     }
 
+    /**
+     * test if one target isn't on the direction of the owner
+     */
     @Test
-    public void notSameDirectionOneTarget(){
+    void notSameDirectionOneTarget(){
         try {
             owner.setPosition(board.find(1,1));
         } catch (NotFoundException e) {
@@ -74,8 +107,11 @@ class SameDirectionTest {
         }
     }
 
+    /**
+     * test if two targets are on the same direction of the owner
+     */
     @Test
-    public void sameDirectionTwoTarget(){
+    void sameDirectionTwoTarget(){
         try {
             owner.setPosition(board.find(3,1 ));
         } catch (NotFoundException e) {
@@ -100,8 +136,11 @@ class SameDirectionTest {
         }
     }
 
+    /**
+     * test if two targets aren't on the same direction of the owner
+     */
     @Test
-    public void notSameDirectionTwoTarget(){
+    void notSameDirectionTwoTarget(){
         try {
             owner.setPosition(board.find(3,1));
         } catch (NotFoundException e) {
@@ -126,8 +165,11 @@ class SameDirectionTest {
         }
     }
 
+    /**
+     * test if two targets are on the same direction of the owner, but they aren't on the same verse
+     */
     @Test
-    public void SameDirectionButNotSameVerseTwoTarget(){
+    void SameDirectionButNotSameVerseTwoTarget(){
         try {
             owner.setPosition(board.find(2,2));
         } catch (NotFoundException e) {

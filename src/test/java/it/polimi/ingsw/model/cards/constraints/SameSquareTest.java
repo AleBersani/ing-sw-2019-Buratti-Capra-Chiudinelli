@@ -13,17 +13,57 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * test class of SamePlayer
+ */
 class SameSquareTest {
 
-    SameSquare test,test2;
-    Player owner,enemy,enemy2,enemy3;
-    Square enemySquare;
-    Board board;
-    TargetParameter target;
-    ArrayList<ArrayList<Player>> previousTarget;
+    /**
+     * constraint to test
+     */
+    private SameSquare test;
+    /**
+     * constraint to test
+     */
+    private SameSquare test2;
+    /**
+     * player that use this constraint
+     */
+    private Player owner;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy2;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy3;
+    /**
+     * enemy square of the owner
+     */
+    private Square enemySquare;
+    /**
+     * board of the game
+     */
+    private Board board;
+    /**
+     * parameters of weapon's targets
+     */
+    private TargetParameter target;
+    /**
+     * previous targets of the weapon
+     */
+    private ArrayList<ArrayList<Player>> previousTarget;
 
+    /**
+     * builder method of the parameters needed for every tests
+     */
     @BeforeEach
-    public void setup(){
+    void setup(){
         board = new Board(null,"/Board/Board1.json");
         owner = new Player(true,"red","Luciano");
         enemy = new Player(false,"blue", "Fabiano");
@@ -32,13 +72,16 @@ class SameSquareTest {
         test = new SameSquare(false,0);
         test2= new SameSquare(true,0);
         target = new TargetParameter(null,owner,null,null,null, null);
-        previousTarget = new ArrayList<ArrayList<Player>>();
-        previousTarget.add(new ArrayList<Player>());
-        previousTarget.add(new ArrayList<Player>());
+        previousTarget = new ArrayList<>();
+        previousTarget.add(new ArrayList<>());
+        previousTarget.add(new ArrayList<>());
     }
 
+    /**
+     * test if the enemy is on the same square of the owner
+     */
     @Test
-    public void sameSquareOneTarget(){
+    void sameSquareOneTarget(){
         try {
             owner.setPosition(board.find(1,1));
         } catch (NotFoundException e) {
@@ -57,8 +100,11 @@ class SameSquareTest {
         }
     }
 
+    /**
+     * test if the enemy isn't on the same square of the owner
+     */
     @Test
-    public void notSameSquareOneTarget(){
+    void notSameSquareOneTarget(){
         try {
             owner.setPosition(board.find(2,3));
         } catch (NotFoundException e) {
@@ -77,8 +123,11 @@ class SameSquareTest {
         }
     }
 
+    /**
+     * test if the enemy isn't on the same square of the owner
+     */
     @Test
-    public void notSameSquareNotCase(){
+    void notSameSquareNotCase(){
         try {
             owner.setPosition(board.find(2,3));
         } catch (NotFoundException e) {
@@ -97,8 +146,11 @@ class SameSquareTest {
         }
     }
 
+    /**
+     * test if the enemy is on the same square of the owner
+     */
     @Test
-    public void sameSquareNotCase(){
+    void sameSquareNotCase(){
         try {
             owner.setPosition(board.find(1,1));
         } catch (NotFoundException e) {
@@ -117,8 +169,11 @@ class SameSquareTest {
         }
     }
 
+    /**
+     * test if the previous targets aren't on the same square of the enemy
+     */
     @Test
-    public void notSameSquareNotCaseEnemy(){
+    void notSameSquareNotCaseEnemy(){
         try {
             enemy.setPosition(board.find(2,1));
         } catch (NotFoundException e) {
@@ -144,8 +199,11 @@ class SameSquareTest {
         }
     }
 
+    /**
+     * test if the previous targets aren't on the same square of the enemy
+     */
     @Test
-    public void sameSquareNotCaseEnemy(){
+    void sameSquareNotCaseEnemy(){
         try {
             enemy.setPosition(board.find(2,1));
         } catch (NotFoundException e) {
@@ -171,8 +229,11 @@ class SameSquareTest {
         }
     }
 
+    /**
+     * test if there is no owner
+     */
     @Test
-    public void noOwner(){
+    void noOwner(){
         try {
             enemy.setPosition(board.find(2,1));
         } catch (NotFoundException e) {

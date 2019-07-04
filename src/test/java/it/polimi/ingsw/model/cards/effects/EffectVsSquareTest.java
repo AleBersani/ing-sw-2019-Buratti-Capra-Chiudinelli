@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
+ * test class of effect vs square
  */
 class EffectVsSquareTest {
     /**
@@ -63,7 +63,9 @@ class EffectVsSquareTest {
         test = new EffectVsSquare(0,0,0,"explosion", constraints, constrainPositivity,1,0);
     }
 
-
+    /**
+     * this test verify if the effect is applied to all of the enemy on the specified square
+     */
     @Test
     void simpleApply() {
         try {

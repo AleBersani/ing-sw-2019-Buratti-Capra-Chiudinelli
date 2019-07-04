@@ -12,24 +12,48 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * test class of AdjacentRoom
+ */
 class AdjacentRoomTest {
-    AdjacentRoom test;
-    Player owner;
-    Board board;
-    TargetParameter target;
-    ArrayList<ArrayList<Player>> previousTarget;
+    /**
+     * constraint to test
+     */
+    private AdjacentRoom test;
+    /**
+     * player that use this constraint
+     */
+    private Player owner;
+    /**
+     * board of the game
+     */
+    private Board board;
+    /**
+     * parameters of weapon's targets
+     */
+    private TargetParameter target;
+    /**
+     * previous targets of the weapon
+     */
+    private ArrayList<ArrayList<Player>> previousTarget;
 
+    /**
+     * builder method of the parameters needed for every tests
+     */
     @BeforeEach
-    public void setup(){
+    void setup(){
         board = new Board(null,"/Board/Board1.json");
         owner = new Player(true,"Yellow","Bruno");
         test = new AdjacentRoom(0);
-        previousTarget = new ArrayList<ArrayList<Player>>();
-        previousTarget.add(new ArrayList<Player>());
-        previousTarget.add(new ArrayList<Player>());
+        previousTarget = new ArrayList<>();
+        previousTarget.add(new ArrayList<>());
+        previousTarget.add(new ArrayList<>());
         target = new TargetParameter(null,owner,null,null,null,null);
     }
 
+    /**
+     * test if the owner can shoot at a near room
+     */
     @Test
     void nearRoom(){
         try {
@@ -45,6 +69,9 @@ class AdjacentRoomTest {
         }
     }
 
+    /**
+     * test if the owner can't shoot at a distant room
+     */
     @Test
     void notNearRoom(){
         try {
@@ -60,6 +87,9 @@ class AdjacentRoomTest {
         }
     }
 
+    /**
+     * test if the owner can't shoot in his room
+     */
     @Test
     void inMyRoom(){
         try {
@@ -75,6 +105,9 @@ class AdjacentRoomTest {
         }
     }
 
+    /**
+     * test if the owner can't shoot when there isn't a room
+     */
     @Test
     void noRoom(){
         try {

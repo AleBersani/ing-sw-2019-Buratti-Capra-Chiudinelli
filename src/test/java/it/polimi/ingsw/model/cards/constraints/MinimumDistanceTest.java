@@ -13,17 +13,53 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * test class of MinimumDistance
+ */
 class MinimumDistanceTest {
 
-    Player owner;
-    Player enemy, enemy2;
-    Board board;
-    MinimumDistance test, test1, test2;
-    TargetParameter target;
-    ArrayList<ArrayList<Player>> previousTarget;
+    /**
+     * player that use this constraint
+     */
+    private Player owner;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy2;
+    /**
+     * board of the game
+     */
+    private Board board;
+    /**
+     * constraint to test
+     */
+    private MinimumDistance test;
+    /**
+     * constraint to test
+     */
+    private MinimumDistance test1;
+    /**
+     * constraint to test
+     */
+    private MinimumDistance test2;
+    /**
+     * parameters of weapon's targets
+     */
+    private TargetParameter target;
+    /**
+     * previous targets of the weapon
+     */
+    private ArrayList<ArrayList<Player>> previousTarget;
 
+    /**
+     * builder method of the parameters needed for every tests
+     */
     @BeforeEach
-    public void setup() {
+    void setup() {
         owner = new Player(true,"blue", "Franco");
         enemy = new Player(false,"red", "Fabiano");
         enemy2 = new Player(false,"green", "Fazzio");
@@ -32,14 +68,17 @@ class MinimumDistanceTest {
         test = new MinimumDistance(2,false,0);
         test1 = new MinimumDistance(3,false,0);
         test2 = new MinimumDistance(2,true,0);
-        previousTarget = new ArrayList<ArrayList<Player>>();
-        previousTarget.add(new ArrayList<Player>());
-        previousTarget.add(new ArrayList<Player>());
+        previousTarget = new ArrayList<>();
+        previousTarget.add(new ArrayList<>());
+        previousTarget.add(new ArrayList<>());
 
     }
 
+    /**
+     * test if the owner can't shoot at a near enemy
+     */
     @Test
-    public void nearEnemyMinimum(){
+    void nearEnemyMinimum(){
         try {
             owner.setPosition(board.find(1,1 ));
         } catch (NotFoundException e) {
@@ -57,8 +96,11 @@ class MinimumDistanceTest {
         }
     }
 
+    /**
+     * test if the owner can shoot at a distant enemy
+     */
     @Test
-    public void distantEnemyMinimum(){
+    void distantEnemyMinimum(){
         try {
             owner.setPosition(board.find(1,1 ));
         } catch (NotFoundException e) {
@@ -76,8 +118,11 @@ class MinimumDistanceTest {
         }
     }
 
+    /**
+     * test if the owner can't shoot at a distant enemy
+     */
     @Test
-    public void distantEnemyMaximum(){
+    void distantEnemyMaximum(){
         try {
             owner.setPosition(board.find(1,1 ));
         } catch (NotFoundException e) {
@@ -95,8 +140,11 @@ class MinimumDistanceTest {
         }
     }
 
+    /**
+     * test if the owner can shoot at a near enemy
+     */
     @Test
-    public void nearEnemyMaximum(){
+    void nearEnemyMaximum(){
         try {
             owner.setPosition(board.find(1,1 ));
         } catch (NotFoundException e) {
@@ -114,8 +162,11 @@ class MinimumDistanceTest {
         }
     }
 
+    /**
+     * test if the owner can shoot at a series of near enemy
+     */
     @Test
-    public void nearConcatenateMaximum(){
+    void nearConcatenateMaximum(){
         try {
             enemy.setPosition(board.find(2,1));
         } catch (NotFoundException e) {
@@ -140,8 +191,11 @@ class MinimumDistanceTest {
         }
     }
 
+    /**
+     * test if the owner can't shoot at a series of distant enemy
+     */
     @Test
-    public void distantConcatenateMaximum(){
+    void distantConcatenateMaximum(){
         try {
             enemy.setPosition(board.find(1,2));
         } catch (NotFoundException e) {
@@ -166,8 +220,11 @@ class MinimumDistanceTest {
         }
     }
 
+    /**
+     * test if the owner can't shoot at a series of near enemy
+     */
     @Test
-    public void nearConcatenateMinimum(){
+    void nearConcatenateMinimum(){
         try {
             enemy.setPosition(board.find(1,2));
         } catch (NotFoundException e) {
@@ -192,8 +249,11 @@ class MinimumDistanceTest {
         }
     }
 
+    /**
+     * test if the owner can shoot at a series of distant enemy
+     */
     @Test
-    public void distantConcatenateMinimum(){
+    void distantConcatenateMinimum(){
         try {
             enemy.setPosition(board.find(1,2));
         } catch (NotFoundException e) {
