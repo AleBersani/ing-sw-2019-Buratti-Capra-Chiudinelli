@@ -1,1 +1,1 @@
-java -jar ./Client.jar 127.0.0.1:5000
+java -jar ./Client.jar 192.168.0.3:5000
