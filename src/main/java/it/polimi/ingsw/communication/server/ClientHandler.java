@@ -98,7 +98,6 @@ public class ClientHandler implements Runnable{
             this.print("Login");
             while(!disconnect) {
                 msg = read();
-                System.out.println(msg); //poi da togliere
                 if(msg.equals("quit")){
                     controller.quit(this);
                 }
