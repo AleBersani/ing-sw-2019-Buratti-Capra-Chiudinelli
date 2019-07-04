@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.cards.effects.EffectVsPlayer;
 import it.polimi.ingsw.model.cards.effects.MovementEffect;
 import it.polimi.ingsw.model.map.AmmoTile;
 import it.polimi.ingsw.model.map.Board;
-import it.polimi.ingsw.model.map.Square;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,25 +16,81 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class is composed by tests of Player class
+ */
 class PlayerTest {
 
-    int i;
-    Board board;
-    Player target,test,loser,guest;
-    Square location;
-    Turn turn;
-    Match testMatch;
-    ArrayList<Player> testingMarks,testingDeads,playerList;
-    ArrayList<PowerUp> testingPowerUp;
-    PowerUp teleporter,tagbackGrenade,newton,targetingScope;
-    TargetParameter targetParameterTeleporter,targetParameterNewton,targetParameterTagbackGrenade,targetParameterTargetingScope,targetShoot;
-    Weapon lockRifle;
-    AmmoTile ammoTileTest;
-    ArrayList<Constraint> list = new ArrayList<>();
-    ArrayList<Boolean> list2 = new ArrayList<>();
+    /**
+     * This attribute is the variable for the "for-cycle" in the tests
+     */
+    private int i;
 
+    /**
+     * This attribute is the board
+     */
+    private Board board;
+
+    /**
+     * This attributes are the players
+     */
+    private Player target,test,loser,guest;
+
+    /**
+     * This attribute is the turn
+     */
+    private Turn turn;
+
+    /**
+     * This attribute is the match
+     */
+    private Match testMatch;
+
+    /**
+     * This attributes are various array list of player
+     */
+    private ArrayList<Player> testingMarks,testingDeads,playerList;
+
+    /**
+     * This attribute is the array list of power up
+     */
+    private ArrayList<PowerUp> testingPowerUp;
+
+    /**
+     * This attributes are the power ups
+     */
+    private PowerUp teleporter,tagbackGrenade,newton,targetingScope;
+
+    /**
+     * This attributes are the various target parameter of the effect
+     */
+    private TargetParameter targetParameterTeleporter,targetParameterNewton,targetParameterTagbackGrenade,targetParameterTargetingScope,targetShoot;
+
+    /**
+     * This attribute is the weapon
+     */
+    private Weapon lockRifle;
+
+    /**
+     * This attribute is the ammo tile
+     */
+    private AmmoTile ammoTileTest;
+
+    /**
+     * This attribute is an array list of constraint
+     */
+    private ArrayList<Constraint> list = new ArrayList<>();
+
+    /**
+     * This attribute is an array list of boolean
+     */
+    private ArrayList<Boolean> list2 = new ArrayList<>();
+
+    /**
+     * Builder method of the parameters needed for every tests of Player test class
+     */
     @BeforeEach
-    public void setup() {
+    void setup() {
         test = new Player(false,"red", "France");
         target = new Player(false,"green", "Giuzeppi");
         testingMarks = new ArrayList<>();
@@ -62,13 +117,11 @@ class PlayerTest {
         lockRifle = new Weapon("blue", "Lock rifle", 2, 0, 0, null) {
 
             @Override
-            public void fireOptional(ArrayList<TargetParameter> target, int which) throws NotThisKindOfWeapon, InvalidTargetException, NoAmmoException {
-
+            public void fireOptional(ArrayList<TargetParameter> target, int which) {
             }
 
             @Override
-            public void fireAlternative(ArrayList<TargetParameter> target) throws NotThisKindOfWeapon, InvalidTargetException, NoAmmoException {
-
+            public void fireAlternative(ArrayList<TargetParameter> target) {
             }
 
             @Override
@@ -83,8 +136,11 @@ class PlayerTest {
         };
     }
 
+    /**
+     * Test the right behaviour when running and the increase of the number of actions
+     */
     @Test
-    public void testRun(){
+    void testRun(){
         guest.setTurn(turn);
         try {
             guest.setPosition(board.find(2,2));
@@ -114,9 +170,12 @@ class PlayerTest {
         }
         assertEquals(2,guest.getTurn().getActionCounter());
     }
-    //TESTED THE RIGHT MOVEMENT AND THE RIGHT GRAB
+
+    /**
+     * Test the right behaviour when grabbing, the increase of ammo and the increase of the number of actions
+     */
     @Test
-    public void testGrab() {
+    void testGrab() {
         guest.setTurn(turn);
         guest.setDamageCounter(0);
         guest.setTurnedPlank(false);
@@ -159,9 +218,12 @@ class PlayerTest {
             assertThrows(NullAmmoException.class,()->guest.grab(board.find(3,2)));
         }
     }
-    //TESTED THE FIRST ADRENALINE POWER UP MOVEMENT AND THE ELEMENT NOT FOUND
+
+    /**
+     * Test the right behaviour when grabbing on first adrenaline power up, the increase of the number of actions and the element not found exception
+     */
     @Test
-    public void testGrab2() {
+    void testGrab2() {
         guest.setTurn(turn);
         guest.setDamageCounter(3);
         guest.setTurnedPlank(false);
@@ -197,9 +259,12 @@ class PlayerTest {
         }
         assertEquals(1,guest.getTurn().getActionCounter());
     }
-    //TESTED THE RIGHT MOVEMENT ON A FRENZY TURN
+
+    /**
+     * Test the right behaviour when grabbing on frenzy turn
+     */
     @Test
-    public void testGrab3() {
+    void testGrab3() {
         guest.setTurn(turn);
         guest.setDamageCounter(0);
         guest.setTurnedPlank(false);
@@ -241,10 +306,12 @@ class PlayerTest {
             e.printStackTrace();
         }
     }
-    /*
-    //TESTED THE WEAPON GRAB WITHOUT AMMO
+
+    /**
+     * Test the right behaviour when grabbing a weapon when you don't have no ammo
+     */
     @Test
-    public void testGrab4(){
+    void testGrab4(){
         guest.setTurn(turn);
         guest.setDamageCounter(0);
         guest.setRedAmmo(0);
@@ -268,16 +335,19 @@ class PlayerTest {
         }
         try {
             guest.grabWeapon(board.find(3,1),1);
-        } catch (ElementNotFoundException | MaxHandWeaponSizeException | NoAmmoException | NotFoundException e) {
+        } catch (ElementNotFoundException | MaxHandWeaponSizeException | NotFoundException e) {
             assertThrows(NoAmmoException.class,()->guest.grabWeapon(board.find(3,1),1));
             assertEquals(0,guest.getTurn().getActionCounter());
             assertEquals(0,guest.getWeapons().size());
         }
 
     }
-    //TESTED THE WEAPON GRAB WITH AMMO
+
+    /**
+     * Test the right behaviour when grabbing a weapon when you have the ammo to pay it
+     */
     @Test
-    public void testGrab5(){
+    void testGrab5(){
         guest.setTurn(turn);
         guest.setDamageCounter(0);
         guest.setRedAmmo(3);
@@ -300,15 +370,18 @@ class PlayerTest {
         }
         try {
             guest.grabWeapon(board.find(3,1),1);
-        } catch (ElementNotFoundException | MaxHandWeaponSizeException | NoAmmoException | NotFoundException e) {
+        } catch (ElementNotFoundException | MaxHandWeaponSizeException | NotFoundException e) {
             e.printStackTrace();
         }
         assertEquals(1,guest.getTurn().getActionCounter());
         assertEquals(1,guest.getWeapons().size());
     }
-    */
+
+    /**
+     * Test the right behaviour when shooting with a weapon
+     */
     @Test
-    public void testShoot() {
+    void testShoot() {
         ArrayList<TargetParameter> parameterList = new ArrayList<>();
         guest.setTurn(turn);
         try {
@@ -331,29 +404,33 @@ class PlayerTest {
                 lockRifle = i;
         try {
             guest.shoot(lockRifle,board.find(2,2),parameterList);
-        } catch (NotLoadedException | InvalidDestinationException | InvalidTargetException | NotThisKindOfWeapon | NoAmmoException | NotFoundException ex) {
+        } catch (NotLoadedException | InvalidDestinationException | InvalidTargetException | NotThisKindOfWeapon | NoAmmoException | NotFoundException | NoOwnerException ex) {
             ex.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,test.getDamageCounter());
         assertEquals(1,test.getMark().size());
     }
 
+    /**
+     * Test the right behaviour of end shoot
+     */
     @Test
-    public void testEndShoot(){
+    void testEndShoot(){
         guest.setTurn(turn);
         turn.setActionCounter(1);
         guest.endShoot(lockRifle);
-        for(ArrayList<Player> previosTargets: lockRifle.getPreviousTarget()){
-            assertEquals(0,previosTargets.size());
+        for(ArrayList<Player> previousTargets: lockRifle.getPreviousTarget()){
+            assertEquals(0,previousTargets.size());
         }
         assertFalse(lockRifle.isLoad());
         assertEquals(2,turn.getActionCounter());
     }
-    //TESTED THE TELEPORTER POWER UP
+
+    /**
+     * Test the teleporter power up
+     */
     @Test
-    public void testUsePowerUp() {
+    void testUsePowerUp() {
         guest.setTurn(turn);
         turn.setMatch(testMatch);
         testMatch.setBoard(board);
@@ -374,12 +451,8 @@ class PlayerTest {
         }
         try {
             guest.usePowerUp(teleporter,targetParameterTeleporter);
-        } catch (InvalidTargetException invalidTargetException) {
+        } catch (InvalidTargetException | NoOwnerException | OnResponseException invalidTargetException) {
             invalidTargetException.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
-        } catch (OnResponseException e) {
-            e.printStackTrace();
         }
         try {
             assertEquals(guest.getPosition(),board.find(1,1));
@@ -388,9 +461,12 @@ class PlayerTest {
         }
         assertEquals(1,guest.getPowerUps().size());
     }
-    //TESTED THE NEWTON POWER UP (LINEAR MOVEMENT)
+
+    /**
+     * Test the newton power up with a linear movement
+     */
     @Test
-    public void testUsePowerUp2() {
+    void testUsePowerUp2() {
         guest.setTurn(turn);
         turn.setMatch(testMatch);
         testMatch.setBoard(board);
@@ -414,11 +490,7 @@ class PlayerTest {
         }
         try {
             guest.usePowerUp(newton,targetParameterNewton);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
-        } catch (OnResponseException e) {
+        } catch (InvalidTargetException | NoOwnerException | OnResponseException e) {
             e.printStackTrace();
         }
         try {
@@ -428,9 +500,12 @@ class PlayerTest {
         }
         assertEquals(0,guest.getPowerUps().size());
     }
-    //TESTED THE NEWTON POWER UP (NOT LINEAR MOVEMENT)
+
+    /**
+     * Test the newton power up with a not linear movement -> Invalid target throws
+     */
     @Test
-    public void testUsePowerUp3() {
+    void testUsePowerUp3() {
         guest.setTurn(turn);
         turn.setMatch(testMatch);
         testMatch.setBoard(board);
@@ -456,9 +531,7 @@ class PlayerTest {
             guest.usePowerUp(newton,targetParameterNewton);
         } catch (InvalidTargetException e) {
             assertThrows(InvalidTargetException.class,()->guest.usePowerUp(newton,targetParameterNewton));
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
-        } catch (OnResponseException e) {
+        } catch (NoOwnerException | OnResponseException e) {
             e.printStackTrace();
         }
         try {
@@ -469,9 +542,11 @@ class PlayerTest {
         assertEquals(1,guest.getPowerUps().size());
     }
 
-    //TESTED THE TARGETING SCOPE POWER UP
+    /**
+     * Test the targeting scope power up
+     */
     @Test
-    public void testUsePowerUp4(){
+    void testUsePowerUp4(){
         guest.setTurn(turn);
         turn.setMatch(testMatch);
         testMatch.setBoard(board);
@@ -488,9 +563,7 @@ class PlayerTest {
         targetParameterTargetingScope = new TargetParameter(null,guest,test,null,null,null);
         try {
             targetingScope.useEffect(targetParameterTargetingScope,lockRifle.getPreviousTarget());
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,test.getDamageCounter());
@@ -505,10 +578,11 @@ class PlayerTest {
         }
     }
 
-/*
-    //TESTED THE TAGBACK GRENADE POWER UP
+    /**
+     * Test the tagback grenade power up
+     */
     @Test
-    public void testUsePowerUp5(){
+    void testUsePowerUp5(){
         guest.setTurn(turn);
         turn.setMatch(testMatch);
         testMatch.setBoard(board);
@@ -518,26 +592,20 @@ class PlayerTest {
         targetParameterTagbackGrenade = new TargetParameter(null,guest,test,null,null,null);
         try {
             guest.usePowerUp(tagbackGrenade,targetParameterTagbackGrenade);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException | OnResponseException e) {
             e.printStackTrace();
         }
         assertEquals(guest,test.getMark().get(0));
         assertEquals(0,guest.getPowerUps().size());
         targetParameterTagbackGrenade = new TargetParameter(null,guest,guest,null,null,null);
-        try {
-            guest.usePowerUp(tagbackGrenade,targetParameterTagbackGrenade);
-        } catch (InvalidTargetException e) {
-            assertThrows(InvalidTargetException.class,()->guest.usePowerUp(tagbackGrenade,targetParameterTagbackGrenade));
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
-        }
+        assertThrows(OnResponseException.class,()->guest.usePowerUp(tagbackGrenade,targetParameterTagbackGrenade));
     }
-*/
 
+    /**
+     * Test if a player can see another one
+     */
     @Test
-    public void testCanSee() {
+    void testCanSee() {
         guest.setTurn(turn);
         try {
             guest.setPosition(board.find(2,2));
@@ -552,8 +620,11 @@ class PlayerTest {
         assertTrue(guest.canSee(test));
     }
 
+    /**
+     * Test the right behaviour of the the reload action with the loaded exception
+     */
     @Test
-    public void testReload() {
+    void testReload() {
         lockRifle.setLoad(false);
         guest.setBlueAmmo(3);
         guest.setYellowAmmo(2);
@@ -576,8 +647,11 @@ class PlayerTest {
         }
     }
 
+    /**
+     * Test the right behaviour of the draw action
+     */
     @Test
-    public void testDraw() {
+    void testDraw() {
         guest.setTurn(turn);
         turn.setMatch(testMatch);
         testMatch.setBoard(board);
@@ -587,21 +661,24 @@ class PlayerTest {
         } catch (MaxHandSizeException e) {
             e.printStackTrace();
         }
-        try {
-            guest.draw();
-        } catch (MaxHandSizeException e) {
-            assertThrows(MaxHandSizeException.class,()->guest.draw());
-        }
+        assertThrows(MaxHandSizeException.class,()->guest.draw());
+
     }
 
+    /**
+     * Test the right behaviour of the discard action
+     */
     @Test
-    public void testDiscard() {
+    void testDiscard() {
         guest.discard(teleporter);
         assertEquals(1,guest.getPowerUps().size());
     }
 
+    /**
+     * Test the right behaviour of the spawn action
+     */
     @Test
-    public void testSpawn() {
+    void testSpawn() {
         guest.setTurn(turn);
         turn.setMatch(testMatch);
         testMatch.setBoard(board);
@@ -614,15 +691,21 @@ class PlayerTest {
         }
     }
 
+    /**
+     * Test if the player dead in this turn is added to the list of deads in turn
+     */
     @Test
-    public void testDead() {
+    void testDead() {
         guest.setTurn(turn);
         guest.dead();
         assertEquals(guest,turn.getDeads().get(0));
     }
 
+    /**
+     * Test the right behaviour of the wound action
+     */
     @Test
-    public void testWound() {
+    void testWound() {
         test.wound(1, target, true);
         assertEquals(1, test.getDamageCounter());
         for (i=0;i<test.getDamage().size();i++)
@@ -634,15 +717,21 @@ class PlayerTest {
             assertEquals(loser,guest.getDamage().get(i));
     }
 
+    /**
+     * Test the right behaviour of the mark action
+     */
     @Test
-    public void testMarked() {
+    void testMarked() {
         guest.marked(1,loser);
         for(i=0;i<guest.getMark().size();i++)
             assertEquals(loser,guest.getMark().get(i));
     }
 
+    /**
+     * Test the right behaviour of the run action in a frenzy turn
+     */
     @Test
-    public void testRunFrenzy(){
+    void testRunFrenzy(){
         guest.setTurn(turn);
         try {
             guest.setPosition(board.find(2,2));
@@ -672,8 +761,11 @@ class PlayerTest {
         }
     }
 
+    /**
+     * Test the right behaviour of the grab action in a frenzy turn
+     */
     @Test
-    public void testGrabFrenzy() {
+    void testGrabFrenzy() {
         loser.setTurn(turn);
         test.setLastKill(true);
         guest.setDamageCounter(6);
@@ -719,8 +811,11 @@ class PlayerTest {
         }
     }
 
+    /**
+     * Test if the player has 1 or 2 number of actions in his frenzy turn
+     */
     @Test
-    public void testOnlyFrenzyAction(){
+    void testOnlyFrenzyAction(){
         test.setLastKill(true);
         loser.setTurn(turn);
         turn.setMatch(testMatch);
@@ -741,9 +836,11 @@ class PlayerTest {
         assertEquals(0,loser.onlyFrenzyAction());
     }
 
-    //TESTED THE PAY WITHOUT POWER UPS
+    /**
+     * Test the pay action without using power ups
+     */
     @Test
-    public void testPay(){
+    void testPay(){
         guest.setTurn(turn);
         guest.setBlueAmmo(3);
         guest.setRedAmmo(3);
@@ -763,9 +860,11 @@ class PlayerTest {
         assertThrows(NoAmmoException.class,()->guest.pay(3,2,1,powerUps));
     }
 
-    //TESTED THE PAY WITH POWER UPS
+    /**
+     * Test the pay action with using power ups
+     */
     @Test
-    public void testPay2(){
+    void testPay2(){
         guest.setTurn(turn);
         guest.setBlueAmmo(3);
         guest.setRedAmmo(3);

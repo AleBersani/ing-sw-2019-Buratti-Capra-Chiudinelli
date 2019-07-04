@@ -10,16 +10,41 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+/**
+ * This class is composed by tests of Turn class
+ */
 class TurnTest {
 
-    Player test,loser,guest;
-    Turn turn;
-    ArrayList<Player> damageList,damageList2,damageList3,playerList;
-    Match testMatch;
-    Board board;
+    /**
+     * This attributes are the players
+     */
+    private Player test,loser,guest;
 
+    /**
+     * This attribute is turn
+     */
+    private Turn turn;
+
+    /**
+     * This attributes are the array lists of player
+     */
+    private ArrayList<Player> damageList,damageList2,damageList3,playerList;
+
+    /**
+     * This attribute is match
+     */
+    private Match testMatch;
+
+    /**
+     * This attribute is the board
+     */
+    private Board board;
+
+    /**
+     * Builder method of the parameters needed for every tests of Turn test class
+     */
     @BeforeEach
-    public void setup(){
+    void setup(){
         guest = new Player(true,"blue", "Franco");
         test = new Player(true,"red", "France");
         loser = new Player(false,"yellow", "Paola");
@@ -32,14 +57,20 @@ class TurnTest {
         damageList3 = new ArrayList<>(Arrays.asList(test,loser,loser,loser,test,test,test,test,test,test,test,test));
     }
 
+    /**
+     * Test if the players are added to the dead list
+     */
     @Test
-    public void testAddDead() {
+    void testAddDead() {
         turn.addDead(loser);
         assertEquals(1,turn.getDeads().size());
         turn.addDead(guest);
         assertEquals(2,turn.getDeads().size());
     }
 
+    /**
+     * Test the right behaviour of the end turn phase, control if the all map is full of ammo tile and weapon
+     */
     @Test
     void testEndTurn() {
         turn.setMatch(testMatch);
@@ -52,8 +83,11 @@ class TurnTest {
         }
     }
 
+    /**
+     * Test the right calculation of points when kill a player who is never dead
+     */
     @Test
-    public void testSetPoint() {
+    void testSetPoint() {
         loser.setDamage(damageList);
         assertEquals(11,loser.getDamage().size());
         turn.addDead(loser);
@@ -64,9 +98,12 @@ class TurnTest {
         assertEquals(0,turn.getDeads().size());
         assertEquals(0,loser.getDamage().size());
     }
-    //TESTED THE RIGHT POINTS CALCULATION
+
+    /**
+     * Test the right calculation of points when kill a player who is already dead one time
+     */
     @Test
-    public void testSetPoint2() {
+    void testSetPoint2() {
         testSetPoint();
         loser.setDamage(damageList2);
         assertEquals(11,loser.getDamage().size());
@@ -78,9 +115,12 @@ class TurnTest {
         assertEquals(0,turn.getDeads().size());
         assertEquals(0,loser.getDamage().size());
     }
-    //TESTED THE DOUBLE KILL
+
+    /**
+     * Test the right calculation of points when make a double kill too
+     */
     @Test
-    public void testSetPoint3() {
+    void testSetPoint3() {
         testSetPoint();
         loser.setDamage(damageList2);
         guest.setDamage(damageList3);
@@ -96,15 +136,21 @@ class TurnTest {
         assertEquals(0,turn.getDeads().size());
         assertEquals(0,guest.getDamage().size());
     }
-    //TESTED THE KILL SHOT TRACK LENGTH
+
+    /**
+     * Test the kill shot track length
+     */
     @Test
-    public void testSetPoint4(){
+    void testSetPoint4(){
         testSetPoint3();
         assertEquals(3,testMatch.getKillShotTrack().size());
     }
-    //TESTED THE RIGHT POINTS CALCULATION WHEN THE PLANK IS TURNED
+
+    /**
+     * Test the right points calculation when the plank of the dead player is turned
+     */
     @Test
-    public void testSetPoint5(){
+    void testSetPoint5(){
         testSetPoint();
         loser.setDamage(damageList2);
         assertEquals(11,loser.getDamage().size());

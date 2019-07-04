@@ -8,16 +8,41 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class is composed by tests of Match class
+ */
 class MatchTest {
 
-    Player guest,nest,best,test,loser;
-    Turn turn,turn2;
-    ArrayList<Player> playerList,killShotTrack;
-    Match matchTest,matchTest2;
-    ArrayList<Boolean> doubleOnKillshotTrack;
+    /**
+     * This attributes are the players
+     */
+    private Player guest,nest,best,test,loser;
 
+    /**
+     * This attributes are the turns
+     */
+    private Turn turn,turn2;
+
+    /**
+     * This attributes are array lists of player
+     */
+    private ArrayList<Player> playerList,killShotTrack;
+
+    /**
+     * This attributes are different matches
+     */
+    private Match matchTest,matchTest2;
+
+    /**
+     * This attributes are array lists of boolean
+     */
+    private ArrayList<Boolean> doubleOnKillshotTrack;
+
+    /**
+     * Builder method of the parameters needed for every tests of Match test class
+     */
     @BeforeEach
-    public void setup(){
+    void setup(){
         guest = new Player(true,"blue", "Franco");
         test = new Player(false,"red", "Marina");
         loser = new Player(false,"yellow", "Paola");
@@ -29,11 +54,14 @@ class MatchTest {
         matchTest = new Match(playerList,5,4,false,"normal", "/Board/Board1.json");
         matchTest2 = new Match(playerList,3,0,true,"normal", "/Board/Board1.json");
         killShotTrack = new ArrayList<>(Arrays.asList(guest,test,loser,test));
-        doubleOnKillshotTrack= new ArrayList<Boolean>(Arrays.asList(true,false,true,false));
+        doubleOnKillshotTrack= new ArrayList<>(Arrays.asList(true,false,true,false));
     }
 
+    /**
+     * Test the various end/start turn of every player in game
+     */
     @Test
-    public void testStartTurn(){
+    void testStartTurn(){
         matchTest.startTurn();
         assertEquals(guest,matchTest.getTurn().getCurrent());
         matchTest.startTurn();
@@ -48,15 +76,20 @@ class MatchTest {
         assertEquals(guest,matchTest.getTurn().getCurrent());
     }
 
+    /**
+     * Test the frenzy setter for different match where the frenzy is enable or not
+     */
     @Test
-    public void testSetFrenzy(){
+    void testSetFrenzy(){
         assertFalse(matchTest.setFrenzy());
         assertTrue(matchTest2.setFrenzy());
     }
 
-    // WIN A PLAYER WHO DOESN'T MAKE A SINGLE KILL
+    /**
+     * Test the end game of the match, in this case if win a player who doesn't make a kill
+     */
     @Test
-    public void testEndGame(){
+    void testEndGame(){
         guest.setPoints(0);
         nest.setPoints(17);
         best.setPoints(20);
@@ -73,9 +106,11 @@ class MatchTest {
         assertEquals(16,loser.getPoints());
     }
 
-    // WIN 2 PLAYERS WHICH DON'T MAKE A SINGLE KILL AND HAVE THE SAME POINTS
+    /**
+     * Test the end game of the match, in this case if win two players which don't make a kill and they have the same points
+     */
     @Test
-    public void testEndGame2(){
+    void testEndGame2(){
         guest.setPoints(0);
         nest.setPoints(17);
         best.setPoints(17);
@@ -90,9 +125,11 @@ class MatchTest {
         assertEquals(16,loser.getPoints());
     }
 
-    // WIN A PLAYERS WHO MAKE AT LEAST A KILL
+    /**
+     * Test the end game of the match, in this case if win a player who make at least a kill
+     */
     @Test
-    public void testEndGame3(){
+    void testEndGame3(){
         guest.setPoints(0);
         nest.setPoints(15);
         best.setPoints(11);
@@ -109,9 +146,11 @@ class MatchTest {
         assertEquals(17,loser.getPoints());
     }
 
-    // WIN A PLAYERS WHO MAKE AT LEAST A KILL AND HAVE THE SAME POINT OF ANOTHER ONE
+    /**
+     * Test the end game of the match, in this case if win a player who make a kill and he has the same point of another one
+     */
     @Test
-    public void testEndGame4(){
+    void testEndGame4(){
         guest.setPoints(0);
         nest.setPoints(15);
         best.setPoints(11);
