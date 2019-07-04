@@ -96,10 +96,10 @@ class GameGUI {
             gui.persistenShow = false;
         });
 
-        grid.setVgap(50);
-
         grid.add(text,0,0);
         grid.add(ok,0,1);
+
+        grid.setVgap(50);
         grid.setAlignment(Pos.CENTER);
 
         pane2.getChildren().add(rectangle);

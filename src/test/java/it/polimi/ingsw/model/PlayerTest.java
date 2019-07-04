@@ -469,7 +469,6 @@ class PlayerTest {
         assertEquals(1,guest.getPowerUps().size());
     }
 
-    //TODO rifare
     //TESTED THE TARGETING SCOPE POWER UP
     @Test
     public void testUsePowerUp4(){
@@ -641,7 +640,7 @@ class PlayerTest {
         for(i=0;i<guest.getMark().size();i++)
             assertEquals(loser,guest.getMark().get(i));
     }
-/*
+
     @Test
     public void testRunFrenzy(){
         guest.setTurn(turn);
@@ -651,7 +650,7 @@ class PlayerTest {
             e.printStackTrace();
         }
         try {
-            guest.runFrenzy(board.find(4,2));
+            guest.run(board.find(4,2));
         } catch (InvalidDestinationException | NotFoundException e) {
             e.printStackTrace();
         }
@@ -660,8 +659,9 @@ class PlayerTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
+        turn.setFrenzy(true);
         try {
-            guest.runFrenzy(board.find(1,1));
+            guest.run(board.find(1,1));
         } catch (InvalidDestinationException | NotFoundException e) {
             e.printStackTrace();
         }
@@ -670,7 +670,6 @@ class PlayerTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-
     }
 
     @Test
@@ -689,9 +688,9 @@ class PlayerTest {
             e.printStackTrace();
         }
         try {
-            loser.grabFrenzy(board.find(3, 2));
-        } catch (InvalidDestinationException | MaxHandSizeException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
-            assertThrows(InvalidDestinationException.class, () -> loser.grabFrenzy(board.find(3, 2)));
+            loser.grab(board.find(3, 2));
+        } catch (InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            assertThrows(InvalidDestinationException.class, () -> loser.grab(board.find(3, 2)));
         }
         try {
             assertEquals(board.find(1, 1), loser.getPosition());
@@ -699,9 +698,9 @@ class PlayerTest {
             e.printStackTrace();
         }
         try {
-            loser.grabFrenzy(board.find(1, 2));
-        } catch (InvalidDestinationException | MaxHandSizeException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
-            assertThrows(ElementNotFoundException.class, () -> loser.grabFrenzy(board.find(1, 2)));
+            loser.grab(board.find(1, 2));
+        } catch (InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            assertThrows(ElementNotFoundException.class, () -> loser.grab(board.find(1, 2)));
         }
         try {
             assertEquals(board.find(1, 1), loser.getPosition());
@@ -709,8 +708,8 @@ class PlayerTest {
             e.printStackTrace();
         }
         try {
-            loser.grabFrenzy(board.find(2, 2));
-        } catch (InvalidDestinationException | MaxHandSizeException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
+            loser.grab(board.find(2, 2));
+        } catch (InvalidDestinationException | NullAmmoException | ElementNotFoundException | NotFoundException e) {
             e.printStackTrace();
         }
         try {
@@ -719,7 +718,7 @@ class PlayerTest {
             e.printStackTrace();
         }
     }
-*/
+
     @Test
     public void testOnlyFrenzyAction(){
         test.setLastKill(true);
