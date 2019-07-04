@@ -8,7 +8,7 @@ public class Main
 {
     public static void main( String[] args ) throws IOException
     {
-        Controller controller= new Controller();
+        Controller controller= new Controller(args);
         if (args.length == 0) {
             System.out.println("Provide port please");
             return;

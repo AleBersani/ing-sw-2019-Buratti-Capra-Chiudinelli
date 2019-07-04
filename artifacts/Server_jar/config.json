@@ -1,0 +1,18 @@
+{
+  "board": 1,
+  "skulls": 8,
+  "frenzy": true,
+  "timer": 20,
+  "availableBoards": [1,2,3,4],
+  "availableSkulls": [8,5],
+  "mode": "base",
+  "availableColors": [
+    "green",
+    "blue",
+    "yellow",
+    "grey",
+    "purple"
+  ],
+  "timerTurn": 120,
+  "minimumPlayer": 3
+}
