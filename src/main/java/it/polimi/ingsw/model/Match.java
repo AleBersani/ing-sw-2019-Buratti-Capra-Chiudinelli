@@ -52,7 +52,8 @@ public class Match implements Serializable {
      */
     private boolean endgame;
 
-    int i;
+    private int i;
+
     /**
      * This attribute is the array list of the winner players
      */
@@ -64,7 +65,7 @@ public class Match implements Serializable {
      */
     private class CircularArrayList<Player> extends ArrayList<Player>
     {
-        public CircularArrayList(ArrayList<Player> players) {
+        CircularArrayList(ArrayList<Player> players) {
             this.addAll(players);
         }
 
@@ -108,7 +109,7 @@ public class Match implements Serializable {
     /**
      * This method starts the turn
      */
-    public void startTurn() {
+    void startTurn() {
         boolean frenzy = setFrenzy();
         this.turn.reset(frenzy, players.get(i));
         i++;
@@ -126,10 +127,8 @@ public class Match implements Serializable {
      * This method sets the turn to a frenzy turn
      * @return True if the number of skulls is 0 and the frenzy enable is set on true, false otherwise
      */
-    public boolean setFrenzy(){
-        if(this.skulls==0 && this.frenzyEn)
-            return true;
-        return false;
+    boolean setFrenzy(){
+        return this.skulls == 0 && this.frenzyEn;
     }
 
     /**
@@ -285,7 +284,7 @@ public class Match implements Serializable {
      * This method sets the killshot track of the match
      * @param killShotTrack This parameter is the killshot track that the match'll have
      */
-    public void setKillShotTrack(ArrayList<Player> killShotTrack) {
+    void setKillShotTrack(ArrayList<Player> killShotTrack) {
         this.killShotTrack = killShotTrack;
     }
 
@@ -293,7 +292,7 @@ public class Match implements Serializable {
      * This method return if the frenzy turn is enable or not
      * @return The settings of the frenzy enable
      */
-    public boolean isFrenzyEn() {
+    boolean isFrenzyEn() {
         return frenzyEn;
     }
 
@@ -309,7 +308,7 @@ public class Match implements Serializable {
      * This method sets the list of the double points of the killshot track
      * @param doubleOnKillShotTrack This parameter is the array list of the double points of the killshot track
      */
-    public void setDoubleOnKillShotTrack(ArrayList<Boolean> doubleOnKillShotTrack) {
+    void setDoubleOnKillShotTrack(ArrayList<Boolean> doubleOnKillShotTrack) {
         this.doubleOnKillShotTrack = doubleOnKillShotTrack;
     }
 

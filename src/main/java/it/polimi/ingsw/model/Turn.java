@@ -51,7 +51,7 @@ public class Turn implements Serializable {
      * This method adds a dead player to a list
      * @param dead This parameter is the player that is dead in this turn
      */
-    public void addDead(Player dead){
+    void addDead(Player dead){
         if(!this.deads.contains(dead)){
             this.deads.add(dead);
             this.dead=true;
@@ -77,7 +77,7 @@ public class Turn implements Serializable {
     /**
      * This method sets the point to every player who damaged the deads on the list
      */
-    public void setPoint() {
+    void setPoint() {
         ArrayList<Player> damagePlayer = new ArrayList<>();
         ArrayList<Integer> damageCounter = new ArrayList<>();
         int i;
@@ -220,7 +220,7 @@ public class Turn implements Serializable {
      * This method sets the list of dead players
      * @param deads This parameter is the list of dead players that will be set
      */
-    public void setDeads(ArrayList<Player> deads) {
+    void setDeads(ArrayList<Player> deads) {
         this.deads = deads;
     }
 
@@ -236,7 +236,7 @@ public class Turn implements Serializable {
      * This method sets the numbers of action in this turn
      * @param actionCounter This parameter is the number of action that will be set
      */
-    public void setActionCounter(int actionCounter) {
+    void setActionCounter(int actionCounter) {
         this.actionCounter = actionCounter;
     }
 
@@ -256,7 +256,12 @@ public class Turn implements Serializable {
         this.frenzy = frenzy;
     }
 
-    public void reset( boolean frenzy, Player current) {
+    /**
+     * This method reset the turn with the initial values
+     * @param frenzy This parameter is if the turn in frenzy (true) or not (false)
+     * @param current This parameter is the player's turn reference
+     */
+    void reset(boolean frenzy, Player current) {
         this.frenzy = frenzy;
         this.current = current;
         this.actionCounter=0;

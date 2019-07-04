@@ -123,7 +123,6 @@ public class MovementEffect extends Effect {
         }
         else{
             player.getPosition().leaves(player);
-            player.setPreviousPosition(player.getPosition());
             player.setPosition(target.getMovement());
             target.getMovement().arrives(player);
             this.previousMan(previousTarget,target.getEnemyPlayer(),this.addToList,this.removeFromList);

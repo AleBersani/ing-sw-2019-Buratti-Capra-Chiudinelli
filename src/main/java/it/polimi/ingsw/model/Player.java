@@ -73,10 +73,7 @@ public class Player implements Serializable {
      * This attribute indicates the current position of the player
      */
     private Square position;
-    /**
-     * This attribute indicates the previous position of the player
-     */
-    private Square previousPosition;
+
     /**
      * This attribute indicates the turn of the player
      */
@@ -88,15 +85,15 @@ public class Player implements Serializable {
     /**
      * This constant represents the maximum movement that can be done to run during a not frenzy turn
      */
-    int maxRun = 3;
+    private int maxRun = 3;
     /**
      * This constant represents the maximum movement that can be done to run during a frenzy turn
      */
-    int maxRunFrenzy = 4;
+    private int maxRunFrenzy = 4;
     /**
      * This constant represents the maximum quantity of type of ammo,weapons and power ups
      */
-    int maxSize = 3;
+    private int maxSize = 3;
 
     /**
      * This constructor instantiates the player
@@ -137,7 +134,6 @@ public class Player implements Serializable {
     /**
      * This method is the grab action that can be done to take ammo
      * @param destination This parameter is the final destination where the player wants to move to grab the ammo or the weapon
-     * @throws MaxHandSizeException This exception means that the player has already reached the maximum number of cards in a hand
      * @throws InvalidDestinationException This exception means that the player can't reach the destination
      * @throws NullAmmoException This exception means that the player didn't grab anything
      * @throws ElementNotFoundException This exception means that there isn't a takeable element
@@ -179,7 +175,6 @@ public class Player implements Serializable {
      * @param position This parameter is the position of the weapon that the player wants to pick
      * @throws ElementNotFoundException This exception means that there isn't a takeable element
      * @throws MaxHandWeaponSizeException This exception means that the player has already reached the maximum number of weapons in a hand
-     * @throws NoAmmoException This exception means that the player doesn't have enough ammo to buy a weapon
      */
     public void grabWeapon(Square destination, int position) throws ElementNotFoundException, MaxHandWeaponSizeException {
         Weapon weapon;
@@ -293,7 +288,7 @@ public class Player implements Serializable {
      * @param target This parameter is the target player
      * @return true is the player can see the target player, false in the other case.
      */
-    public boolean canSee(Player target) {
+    boolean canSee(Player target) {
         int i;
         if (this.position.getRoom() == target.position.getRoom())
             return true;
@@ -457,8 +452,11 @@ public class Player implements Serializable {
             this.mark.add(this.mark.size(), shooter);
     }
 
-
-
+    /**
+     * This method allows the player to do the movement before shooting
+     * @param destination This parameter is the final destination square of the player
+     * @throws InvalidDestinationException This exception means that the square is invalid
+     */
     public void movementShootFrenzy(Square destination) throws InvalidDestinationException{
         if (this.position.calcDist(destination) <= 1 + onlyFrenzyAction()) {
         this.position.leaves(this);
@@ -485,9 +483,7 @@ public class Player implements Serializable {
      * @return true if the player has 6 or more damage counters, false otherwise
      */
     private boolean isOnAdrenalineShoot() {
-        if (this.damageCounter >= 6 && !this.turnedPlank)
-            return true;
-        return false;
+        return this.damageCounter >= 6 && !this.turnedPlank;
     }
 
     /**
@@ -522,19 +518,19 @@ public class Player implements Serializable {
      * This method returns the number of skulls of the player
      * @return The number of skulls that the player owns
      */
-    public int getSkull() { return skull; }
+    int getSkull() { return skull; }
 
     /**
      * This method sets the number of skulls of the player
      * @param skull This parameter is the number of skulls that the player'll have
      */
-    public void setSkull(int skull) { this.skull = skull; }
+    void setSkull(int skull) { this.skull = skull; }
 
     /**
      * This method returns the number of blue ammo that the player owns
      * @return The number of blue ammo that the player has
      */
-    public int getBlueAmmo() { return blueAmmo; }
+    int getBlueAmmo() { return blueAmmo; }
 
     /**
      * This method sets the number of blue ammo of the player
@@ -546,7 +542,7 @@ public class Player implements Serializable {
      * This method returns the number of red ammo that the player owns
      * @return The number of red ammo that the player has
      */
-    public int getRedAmmo() { return redAmmo; }
+    int getRedAmmo() { return redAmmo; }
 
     /**
      * This method sets the number of red ammo of the player
@@ -558,7 +554,7 @@ public class Player implements Serializable {
      * This method returns the number of yellow ammo that the player owns
      * @return The number of yellow ammo that the player has
      */
-    public int getYellowAmmo() { return yellowAmmo; }
+    int getYellowAmmo() { return yellowAmmo; }
 
     /**
      * This method sets the number of yellow ammo of the player
@@ -582,13 +578,13 @@ public class Player implements Serializable {
      * This method returns if the plank is turned or not
      * @return True if is turned, false if not
      */
-    public boolean isTurnedPlank() { return turnedPlank; }
+    boolean isTurnedPlank() { return turnedPlank; }
 
     /**
      * This method sets if the plank is turned or not
      * @param turnedPlank This parameter will sets if the plank is turned or not
      */
-    public void setTurnedPlank(boolean turnedPlank) { this.turnedPlank = turnedPlank; }
+    void setTurnedPlank(boolean turnedPlank) { this.turnedPlank = turnedPlank; }
 
     /**
      * This method returns the nickname of the player
@@ -705,14 +701,6 @@ public class Player implements Serializable {
     }
 
     /**
-     * This method sets the previous position of the player
-     * @param previousPosition This parameter is the previous position that the player'll have
-     */
-    public void setPreviousPosition(Square previousPosition) {
-        this.previousPosition = previousPosition;
-    }
-
-    /**
      * This method return the turn of the player
      * @return The turn of the player
      */
@@ -734,6 +722,10 @@ public class Player implements Serializable {
         this.first = first;
     }
 
+    /**
+     * This method provide the description of the other player's character
+     * @return The description of the other player's character
+     */
     @Override
     public String toString(){
         String player="";
@@ -766,6 +758,10 @@ public class Player implements Serializable {
         return player;
     }
 
+    /**
+     * This method provide the description of your character
+     * @return the description of your character
+     */
     public String describe() {
         String descr= toString();
         descr=descr.concat(";Points:").concat(Integer.toString(points));
