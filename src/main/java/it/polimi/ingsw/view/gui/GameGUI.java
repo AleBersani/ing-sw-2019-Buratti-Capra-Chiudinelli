@@ -93,7 +93,7 @@ class GameGUI {
         GridPane.setValignment(ok,VPos. CENTER);
         ok.setOnAction(e-> {
             pane.getChildren().remove(pane2);
-            gui.persistenShow = false;
+            gui.persistentShow = false;
         });
 
         grid.add(text,0,0);
