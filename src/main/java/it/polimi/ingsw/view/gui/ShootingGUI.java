@@ -77,7 +77,7 @@ class ShootingGUI {
             final int[] k = {0};
             String fireType;
             final String[] targetString = {"TRG-"};
-            if(gameGUI.typeOfFire.equals("interrupt")){
+            if((gameGUI.typeOfFire.equals("interrupt"))||(gameGUI.typeOfFire.equals("tagBack"))){
                 targetString[0] = "RPU-".concat(gameGUI.handPosition).concat("'");
                 fireType = " ";
             }

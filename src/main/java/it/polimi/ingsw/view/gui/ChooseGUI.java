@@ -167,9 +167,17 @@ class ChooseGUI {
             GridPane.setHalignment(powerUp, HPos.CENTER);
             GridPane.setValignment(powerUp, VPos.CENTER);
             int pU = i;
+            String type;
+            String[] powerUpName = powerups.split(":");
+            if(powerUpName[0].equals("tagback grenade")){
+                type = "tagBack";
+            }
+            else {
+                type = "interrupt";
+            }
             powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
                 gameGUI.handPosition = String.valueOf(pU);
-                gameGUI.typeOfFire = "interrupt";
+                gameGUI.typeOfFire = type;
                 this.shootingGUI.buildTarget(stage,"Player;"," ");
                 pane.getChildren().remove(pane2);
             });
@@ -311,7 +319,7 @@ class ChooseGUI {
     }
 
     void powerUpPay(Pane pane, String messageToSend) {
-        if ((gameGUI.typeOfFire != null)&&((gameGUI.typeOfFire.equals("upu"))||(gameGUI.typeOfFire.equals("interrupt"))||(gameGUI.typeOfFire.equals("Base")))) {
+        if ((gameGUI.typeOfFire != null)&&((gameGUI.typeOfFire.equals("upu"))||(gameGUI.typeOfFire.equals("interrupt"))||(gameGUI.typeOfFire.equals("Base"))||(gameGUI.typeOfFire.equals("tagBack")))) {
             client.send(messageToSend);
             gameGUI.typeOfFire = "";
         }
