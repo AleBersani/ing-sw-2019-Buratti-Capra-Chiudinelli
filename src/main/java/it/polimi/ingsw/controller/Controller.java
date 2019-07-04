@@ -194,7 +194,7 @@ public class Controller {
                     }
                     break;
                 }
-                case RESPONSE_PU:{
+                case RESPONSE_OFFENSIVE_PU:{
                     if(msg.startsWith("RPU-")){
                         if(msg.substring(ETIQUETTE).equals("no")){
                             try {
@@ -286,6 +286,43 @@ public class Controller {
                     }
                     break;
                 }
+                case RESPONSE_DEFENSIVE_POWERUP:{
+                    if(msg.startsWith("RPU-")){
+                        ArrayList<PowerUp> usable = new ArrayList<>();
+                        try {
+                            for (PowerUp powerUp : playerFromNickname(clientHandler.getName(), this.match).getPowerUps()) {
+                                if (powerUp.getOnResponse() && !powerUp.isOffensive()) {
+                                    usable.add(powerUp);
+                                }
+                            }
+                            ArrayList<ArrayList<Player>> shooterWrapper= new ArrayList<>();
+                            ArrayList<Player> shooter = new ArrayList<>();
+                            shooter.add(this.match.getTurn().getCurrent());
+                            shooterWrapper.add(new ArrayList<>());
+                            shooterWrapper.add(new ArrayList<>());
+                            shooterWrapper.add(shooter);
+                            usable.get(Integer.parseInt(msg.substring(ETIQUETTE).split("'")[0])).useEffect(generateTarget(msg.split("'")[1].substring(0, msg.split("'")[1].length() - 1),clientHandler, this.match),shooterWrapper);
+                            playerFromNickname(clientHandler.getName(), this.match).discard(usable.get(Integer.parseInt(msg.substring(ETIQUETTE).split("'")[0])));
+                            clientHandler.setYourTurn(false);
+                            clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+                            for (ClientInfo clientInfo : getNicknameList().values()){
+                                if(clientInfo.clientHandler.isYourTurn()){
+                                    return;
+                                }
+                            }
+                            getNicknameList().get(this.match.getTurn().getCurrent().getNickname()).clientHandler.setYourTurn(true);
+                            updateBackground(this.match);
+                            lifeCycle(getNicknameList().get(this.match.getTurn().getCurrent().getNickname()).clientHandler);
+                        }
+                        catch (NotFoundException | NoOwnerException e){
+                            sendString("error", clientHandler);
+                        } catch (InvalidTargetException e) {
+                            invalidTarget(clientHandler);
+                        }
+
+                    }
+                    break;
+                }
                 case SHOOTING_FRENZY:{
                     if(msg.startsWith("RLD-")) {
                         try {
@@ -360,7 +397,7 @@ public class Controller {
             if(responseRequest.equals("RPU-")){
                 throw new NoResponeException();
             }
-            clientInfo.setState(ClientInfo.State.RESPONSE_PU);
+            clientInfo.setState(ClientInfo.State.RESPONSE_OFFENSIVE_PU);
             sendString(responseRequest,clientInfo.clientHandler);
 
         } catch (NotFoundException e) {
@@ -414,6 +451,7 @@ public class Controller {
                 clientInfoFromClientHandeler(clientHandler).shootingOptionals="";
                 clientInfoFromClientHandeler(clientHandler).simulation=null;
                 updateBackground(this.match);
+                defensivePowerUpResponse(clientHandler);
                 lifeCycle(clientHandler);
             }
             if(!ok){
@@ -427,6 +465,33 @@ public class Controller {
             }
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
+        }
+    }
+
+    private void defensivePowerUpResponse(ClientHandler clientHandler) {
+        Boolean toUse=false;
+        for(Player opponent : this.match.getPlayers()) {
+            if (opponent.isWounded()) {
+                String request = "RPU-";
+                ClientInfo clientInfo = null;
+                for (PowerUp powerUp : opponent.getPowerUps()) {
+                    if ( powerUp.getOnResponse() && !powerUp.isOffensive()) {
+                        toUse = true;
+                        request = request.concat(powerUp.getName()).concat(":").concat(powerUp.getColor()).concat(";");
+                        clientInfo = getNicknameList().get(opponent.getNickname());
+                        clientInfo.clientHandler.setYourTurn(true);
+                        clientInfo.setState(ClientInfo.State.RESPONSE_DEFENSIVE_POWERUP);
+                    }
+                }
+                if(request.equals("RPU-")){
+                    return;
+                }
+                sendString(request, clientInfo.clientHandler);
+            }
+        }
+        if (toUse) {
+            clientHandler.setYourTurn(false);
+            sendString(">>>Wait a response from the opponent", clientHandler);
         }
     }
 
@@ -687,6 +752,7 @@ public class Controller {
             match = clientInfoFromClientHandeler(clientHandler).simulation;
             updateBackground(this.match);
             cleanSimulation(clientInfoFromClientHandeler(clientHandler));
+            defensivePowerUpResponse(clientHandler);
         }
         catch (NotFoundException e){
             sendString("error", clientHandler);
@@ -823,7 +889,7 @@ public class Controller {
             if(parameters[5].equals("true")) {
                 targetParameter = new TargetParameter(
                         parameters[0].equals(" ") ? null : match.getBoard().find(Integer.parseInt(parameters[0].split(":")[0]), Integer.parseInt(parameters[0].split(":")[1])),
-                        match.getTurn().getCurrent(),
+                        playerFromNickname(clientHandler.getName(), match),
                         parameters[1].equals(" ") ? null : playerFromColor(parameters[1], match),
                         parameters[2].equals(" ") ? null : match.getBoard().find(Integer.parseInt(parameters[2].split(":")[0]), Integer.parseInt(parameters[2].split(":")[1])).getRoom(),
                         parameters[3].equals(" ") ? null : match.getBoard().find(Integer.parseInt(parameters[3].split(":")[0]), Integer.parseInt(parameters[3].split(":")[1])),

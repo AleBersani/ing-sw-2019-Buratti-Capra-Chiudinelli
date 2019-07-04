@@ -62,6 +62,11 @@ public class Turn implements Serializable {
      * This method controls, at the end of each turn, if some ammo tiles are missing from the board, if someone is dead, and restart the turn or end the game
      */
     public void endTurn(){
+        for (Player player : this.match.getPlayers()){
+            if(player.isWounded()){
+                player.setWounded(false);
+            }
+        }
         for(int i=0;i<getMatch().getBoard().getRooms().size();i++)
             for(int j=0;j<getMatch().getBoard().getRooms().get(i).getSquares().size();j++)
                 while(getMatch().getBoard().getRooms().get(i).getSquares().get(j).require())

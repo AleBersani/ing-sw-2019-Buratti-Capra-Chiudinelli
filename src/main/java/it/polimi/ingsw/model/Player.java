@@ -95,6 +95,8 @@ public class Player implements Serializable {
      */
     private int maxSize = 3;
 
+    private boolean wounded;
+
     /**
      * This constructor instantiates the player
      * @param first This parameter defines if the player is the first to play or not
@@ -112,6 +114,7 @@ public class Player implements Serializable {
         this.points = 0;
         this.damageCounter = 0;
         this.turnedPlank=false;
+        this.wounded=false;
     }
 
     /**
@@ -433,8 +436,10 @@ public class Player implements Serializable {
                 }
             }
         }
-        if (this.damageCounter > 10)
+        if (this.damageCounter > 10) {
             this.dead();
+        }
+        wounded=true;
     }
 
     /**
@@ -720,6 +725,14 @@ public class Player implements Serializable {
      */
     public void setFirst(boolean first) {
         this.first = first;
+    }
+
+    public boolean isWounded() {
+        return wounded;
+    }
+
+    public void setWounded(boolean wounded) {
+        this.wounded = wounded;
     }
 
     /**
