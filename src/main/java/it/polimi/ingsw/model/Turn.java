@@ -182,7 +182,7 @@ public class Turn implements Serializable {
      * @param skulls This parameter is the number of skulls that the player owns
      * @return The amount of points that the player has earned
      */
-    int calcPointsTurned(int skulls){
+    private int calcPointsTurned(int skulls){
         if(skulls==0)
             return 2;
         else
