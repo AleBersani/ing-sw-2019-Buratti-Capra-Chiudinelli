@@ -75,28 +75,10 @@ public class GUI extends Application implements ViewInterface {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        this.client = new Client(this);
-        messageHandler = new MessageHandler(this,client);
-        this.boardRepresentation = new ArrayList<>();
-        this.playersRepresentation = new ArrayList<>();
-        this.youRepresentation = new ArrayList<>();
-        this.killShotRepresentation = new ArrayList<>();
-        this.loginGUI = new LoginGUI(this,messageHandler,client);
-        this.gameGUI = new GameGUI(this,client);
-        this.backGraphicsGUI = new BackGraphicsGUI (this,gameGUI);
-        this.buttonsGUI = new ButtonsGUI(this,client,gameGUI);
-        this.shootingGUI = new ShootingGUI(this,gameGUI,buttonsGUI);
-        this.chooseGUI = new ChooseGUI(this,client,gameGUI,shootingGUI,buttonsGUI);
-        gameGUI.setButtonsGUI(buttonsGUI);
-        gameGUI.setShootingGUI(shootingGUI);
-        buttonsGUI.setShootingGUI(shootingGUI);
-        buttonsGUI.setChooseGUI(chooseGUI);
-        shootingGUI.setChooseGUI(chooseGUI);
-        client.setMessageHandler(messageHandler);
+        this.initialize();
         client.init();
         client.start();
         this.stage = primaryStage;
-        this.sendable = false;
 
         StackPane pane = new StackPane();
         Scene scene = new Scene(pane, Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2,Toolkit.getDefaultToolkit().getScreenSize().getHeight()/1.5);
@@ -114,6 +96,26 @@ public class GUI extends Application implements ViewInterface {
         loginGUI.loginImageSetting(stage);
         loginGUI.loginGridSetting(stage);
         stage.show();
+    }
+
+    private void initialize(){
+        this.client = new Client(this);
+        messageHandler = new MessageHandler(this,client);
+        this.boardRepresentation = new ArrayList<>();
+        this.playersRepresentation = new ArrayList<>();
+        this.youRepresentation = new ArrayList<>();
+        this.killShotRepresentation = new ArrayList<>();
+        this.loginGUI = new LoginGUI(this,messageHandler,client);
+        this.gameGUI = new GameGUI(this,client);
+        this.backGraphicsGUI = new BackGraphicsGUI (this,gameGUI);
+        this.buttonsGUI = new ButtonsGUI(this,client,gameGUI);
+        this.shootingGUI = new ShootingGUI(this,gameGUI,buttonsGUI);
+        this.chooseGUI = new ChooseGUI(this,client,gameGUI,shootingGUI,buttonsGUI);
+        buttonsGUI.setShootingGUI(shootingGUI);
+        buttonsGUI.setChooseGUI(chooseGUI);
+        shootingGUI.setChooseGUI(chooseGUI);
+        client.setMessageHandler(messageHandler);
+        this.sendable = false;
     }
 
     void reShow(){
