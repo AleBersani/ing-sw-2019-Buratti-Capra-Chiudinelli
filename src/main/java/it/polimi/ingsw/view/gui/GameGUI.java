@@ -15,8 +15,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 
-import java.util.ArrayList;
-
 class GameGUI {
     private GUI gui;
     private Client client;
@@ -26,8 +24,6 @@ class GameGUI {
     String handPosition;
     String typeOfFire;
     String nameWeapon;
-    private ButtonsGUI buttonsGUI;
-    private ShootingGUI shootingGUI;
 
     static final String PURPLE = "purple";
     static final String BLUE = "blue";
@@ -76,14 +72,6 @@ class GameGUI {
     GameGUI(GUI gui, Client client) {
         this.gui = gui;
         this.client = client;
-    }
-
-    void setShootingGUI(ShootingGUI shootingGUI) {
-        this.shootingGUI = shootingGUI;
-    }
-
-    void setButtonsGUI(ButtonsGUI buttonsGUI) {
-        this.buttonsGUI = buttonsGUI;
     }
 
     void informationMessage(Stage stage, String msg){
