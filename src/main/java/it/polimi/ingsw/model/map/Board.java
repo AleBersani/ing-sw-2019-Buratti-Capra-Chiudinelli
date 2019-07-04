@@ -43,7 +43,8 @@ public class Board implements Serializable {
         ArrayList<Integer> tempY= new ArrayList<>();
         ArrayList<String> tempC= new ArrayList<>();
         ArrayList<Integer> coord= new ArrayList<>();
-        Square temp1,temp2;
+        Square temp1;
+        Square temp2;
 
         try {
             br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(type)));
@@ -121,7 +122,7 @@ public class Board implements Serializable {
      */
     Weapon nextWeapon(){
         Weapon w;
-        if (weaponsList.size()>0) {
+        if (!weaponsList.isEmpty()) {
             w = weaponsList.get(weaponsList.size()-1);
             weaponsList.remove(weaponsList.size()-1);
             return w;

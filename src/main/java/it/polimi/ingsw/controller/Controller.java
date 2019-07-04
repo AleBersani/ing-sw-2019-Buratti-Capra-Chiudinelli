@@ -20,7 +20,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Controller {
 
-    private static final int MAX_ACTIONS = 2;
     private int minimumPlayer;
     private Map<String,ClientInfo> nicknameList = new ConcurrentHashMap<>();
     private ArrayList<String> disconnected = new ArrayList<>();
@@ -258,12 +257,10 @@ public class Controller {
                                 } else {
                                     endShooting(clientHandler, clientInfoFromClientHandeler(clientHandler).weapon);
                                 }
-                            } catch (NotFoundException e) {
+                            } catch (NotFoundException | NoOwnerException e) {
                                 sendString("error", clientHandler);
                             } catch (InvalidTargetException e) {
                                 invalidTarget(clientHandler);
-                            } catch (NoOwnerException e) {
-                                sendString("error", clientHandler);
                             } catch (WrongPowerUpException e) {
                                 try {
                                     cleanSimulation(clientInfoFromClientHandeler(clientHandler));
@@ -385,12 +382,10 @@ public class Controller {
 
     private void offensivePowerUpResponse(ClientInfo clientInfo, Weapon weapon) throws NoResponeException {
         clientInfo.weapon= weapon;
-        ArrayList<PowerUp> powerUps= new ArrayList<>();
         String responseRequest="RPU-";
         try {
             for(PowerUp p : playerFromNickname(clientInfo.clientHandler.getName(), this.match).getPowerUps()){
                 if(p.getOnResponse() && p.isOffensive()){
-                    powerUps.add(p);
                     responseRequest=responseRequest.concat(p.getName()).concat(":").concat(p.getColor()).concat(";");
                 }
             }
@@ -469,7 +464,7 @@ public class Controller {
     }
 
     private void defensivePowerUpResponse(ClientHandler clientHandler) {
-        Boolean toUse=false;
+        boolean toUse=false;
         for(Player opponent : this.match.getPlayers()) {
             if (opponent.isWounded()) {
                 String request = "RPU-";
@@ -696,11 +691,7 @@ public class Controller {
         } catch (InvalidTargetException e) {
             invalidTarget(clientHandler);
 
-        } catch (NoOwnerException e) {
-            sendString("error", clientHandler);
-        } catch (IOException e) {
-            sendString("error", clientHandler);
-        } catch (ClassNotFoundException e) {
+        } catch (NoOwnerException | IOException | ClassNotFoundException | NotThisKindOfWeapon | NotFoundException e) {
             sendString("error", clientHandler);
         } catch (NotLoadedException e) {
             updateBackground(this.match);
@@ -721,8 +712,6 @@ public class Controller {
             catch (NotFoundException e1) {
                 sendString("error", clientHandler);
             }
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
-            sendString("error", clientHandler);
         } catch (NoAmmoException e) {
             updateBackground(this.match);
             sendString(">>>You don't have enough ammo", clientHandler);
@@ -732,8 +721,6 @@ public class Controller {
             catch (NotFoundException e1) {
                 sendString("error", clientHandler);
             }
-        } catch (NotFoundException e) {
-            sendString("error", clientHandler);
         } catch (WrongPowerUpException e) {
             updateBackground(this.match);
             sendString(">>>Wrong PowerUps", clientHandler);
@@ -858,9 +845,7 @@ public class Controller {
             updateBackground(this.match);
         } catch (InvalidTargetException e) {
             invalidTarget(clientHandler);
-        } catch (NoOwnerException e) {
-            sendString("error", clientHandler);
-        } catch (NotFoundException e) {
+        } catch (NoOwnerException | NotFoundException e) {
             sendString("error", clientHandler);
         } catch (OnResponseException e) {
             updateBackground(this.match);
