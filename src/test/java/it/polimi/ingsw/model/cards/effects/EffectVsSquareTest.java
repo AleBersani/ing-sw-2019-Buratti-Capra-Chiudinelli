@@ -14,28 +14,55 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ *
+ */
 class EffectVsSquareTest {
+    /**
+     * effect to test
+     */
+    private EffectVsSquare test;
+    /**
+     * owner of the weapon to test
+     */
+    private Player owner;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy2;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy3;
+    /**
+     * board of the game
+     */
+    private Board board;
+    /**
+     * parameters of the target
+     */
+    private TargetParameter target;
 
-    EffectVsSquare test;
-    Player enemy, enemy2, enemy3;
-    Player owner;
-    TargetParameter target;
-    Board board;
-    ArrayList<Constraint> constraints;
-    ArrayList<Boolean> constrainPositivity;
-
+    /**
+     * builder method of the parameters needed for every tests
+     */
     @BeforeEach
-    public void setup() {
+    void setup() {
         owner = new Player(true, "blue", "Franco");
         enemy = new Player(true, "green", "Lucio");
         enemy2 = new Player(true, "red", "Fabio");
         enemy3 = new Player(true, "yellow", "Gino");
         board = new Board(null, "/Board/Board1.json");
-        constraints = new ArrayList<Constraint>();
-        constrainPositivity = new ArrayList<Boolean>();
+        ArrayList<Constraint> constraints = new ArrayList<>();
+        ArrayList<Boolean> constrainPositivity = new ArrayList<>();
         target = new TargetParameter(null, owner, null, null, null, null);
-        test = new EffectVsSquare(0,0,0,"explosion",constraints,constrainPositivity,1,0);
+        test = new EffectVsSquare(0,0,0,"explosion", constraints, constrainPositivity,1,0);
     }
+
 
     @Test
     void simpleApply() {
@@ -76,10 +103,8 @@ class EffectVsSquareTest {
                     add(new ArrayList<>());
                 }
             });
-        } catch (InvalidTargetException invalidTargetExcepion) {
+        } catch (InvalidTargetException | NoOwnerException invalidTargetExcepion) {
             invalidTargetExcepion.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(1, enemy.getDamageCounter());
         assertEquals(target.getOwner(),enemy.getDamage().get(0));

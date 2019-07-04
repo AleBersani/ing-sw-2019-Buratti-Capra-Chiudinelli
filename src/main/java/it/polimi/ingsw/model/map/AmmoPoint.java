@@ -24,6 +24,10 @@ public class AmmoPoint extends Square {
         ammo=null;
     }
 
+    /**
+     * getter method of ammo
+     * @return an ammoTile
+     */
     public AmmoTile getAmmo() {
         return ammo;
     }
