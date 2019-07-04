@@ -20,6 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Controller {
 
+
     private int minimumPlayer;
     private Map<String,ClientInfo> nicknameList = new ConcurrentHashMap<>();
     private ArrayList<String> disconnected = new ArrayList<>();

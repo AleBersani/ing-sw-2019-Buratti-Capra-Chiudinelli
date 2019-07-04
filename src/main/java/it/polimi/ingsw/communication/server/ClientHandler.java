@@ -6,19 +6,62 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 
+/**
+ * This class is the handler of a single client
+ */
 public class ClientHandler implements Runnable{
 
-    private boolean yourTurn, disconnect, logged;
+    /**
+     * This attribute is true if is your turn, false otherwise
+     */
+    private boolean yourTurn;
+    /**
+     * This attribute is true if the client is disconnected
+     */
+    private boolean disconnect;
+    /**
+     * This attribute is set true when you log
+     */
+    private boolean logged;
+    /**
+     * This attribute is the socket that is used for the connection
+     */
     private Socket socket;
+    /**
+     * This attribute is the controller that handle the game
+     */
     private Controller controller;
+    /**
+     * This attribute is the input stream
+     */
     private InputStream is;
+    /**
+     * This attribute is the output stream
+     */
     private OutputStream os;
+    /**
+     * This attribute is the print writer that is used to write the output
+     */
     private PrintWriter out;
+    /**
+     * This attribute is the buffered reader that is used for reading the input
+     */
     private BufferedReader in;
+    /**
+     * This attribute is the nickname of the player
+     */
     private String name;
+    /**
+     * This attribute is true if the player never spawned before
+     */
     private boolean firstSpawn;
 
-    public ClientHandler(Socket socket, Controller controller) {
+    /**
+     * This constructor generate a clientHandler
+     * @param socket This parameter is the socket that is used for the connection
+     * @param controller This parameter is the controller that handle the game
+     */
+    ClientHandler(Socket socket, Controller controller) {
         this.socket=socket;
         this.controller=controller;
         this.yourTurn=true;
@@ -28,6 +71,9 @@ public class ClientHandler implements Runnable{
         this.firstSpawn=true;
     }
 
+    /**
+     * This method initialize the input and output channels
+     */
     private void init(){
         try {
             is = socket.getInputStream();
@@ -39,7 +85,12 @@ public class ClientHandler implements Runnable{
         in = new BufferedReader(new InputStreamReader(is));
     }
 
-    public void handleConnection(Socket clientConnection) throws IOException {
+    /**
+     * This method handle the input messages
+     * @param clientConnection This attribute is the socket that handle the connection
+     * @throws IOException This exception is thrown when there is an Input or Output exception
+     */
+    private void handleConnection(Socket clientConnection) throws IOException {
         String msg;
         disconnect = false;
         init();
@@ -63,11 +114,8 @@ public class ClientHandler implements Runnable{
                 }
             }
         }
-        catch (SocketException disconnect){
+        catch (SocketException disconnectException){
             controller.quit(this);
-        }
-        catch (Exception e){
-            e.printStackTrace();
         }
 
         finally {
@@ -80,6 +128,9 @@ public class ClientHandler implements Runnable{
         }
     }
 
+    /**
+     * This method is called every time a client is connected
+     */
     @Override
     public void run() {
         try {
@@ -90,58 +141,115 @@ public class ClientHandler implements Runnable{
         }
     }
 
+    /**
+     * This method is used for sending messages to the client
+     * @param msg This attribute is the message to send
+     */
     public synchronized void print(String msg){
         out.println(msg);
     }
 
-    public String read() throws IOException {
+    /**
+     * This method is used for reading messages from the client
+     * @return The message read
+     * @throws IOException This exception is thrown when there is an Input or Output exception
+     */
+    private String read() throws IOException {
         return in.readLine();
     }
 
+    /**
+     * This method is used to set the attribute logged
+     * @param logged This parameter is the vale that the attribute will assume
+     */
     public void setLogged(boolean logged) {
         this.logged = logged;
     }
 
+    /**
+     * This method is used to set the attribute disconnect
+     * @param disconnect This parameter is the vale that the attribute will assume
+     */
     public void setDisconnect(boolean disconnect) {
         this.disconnect = disconnect;
     }
 
+    /**
+     * This method return the value of the attribute logged
+     * @return The value of the attribute logged
+     */
     public boolean isLogged() {
         return logged;
     }
 
+    /**
+     * This method return the value of the attribute socket
+     * @return The value of the attribute socket
+     */
     public Socket getSocket() {
         return socket;
     }
 
+    /**
+     * This method return the value of the attribute name
+     * @return The value of the attribute name
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * This method is used to set the attribute name
+     * @param name This parameter is the vale that the attribute will assume
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * This method return the value of the attribute yourTurn
+     * @return The value of the attribute yourTurn
+     */
     public boolean isYourTurn() {
         return yourTurn;
     }
 
+    /**
+     * This method is used to set the attribute yourTurn
+     * @param yourTurn This parameter is the vale that the attribute will assume
+     */
     public void setYourTurn(boolean yourTurn) {
         this.yourTurn = yourTurn;
     }
 
+    /**
+     * This method return the value of the attribute firstSpawn
+     * @return The value of the attribute firstSpawn
+     */
     public boolean isFirstSpawn() {
         return firstSpawn;
     }
 
+    /**
+     * This method is used to set the attribute firstSpawn
+     * @param firstSpawn This parameter is the vale that the attribute will assume
+     */
     public void setFirstSpawn(boolean firstSpawn) {
         this.firstSpawn = firstSpawn;
     }
 
+    /**
+     * This method return the value of the attribute controller
+     * @return The value of the attribute controller
+     */
     public Controller getController() {
         return controller;
     }
 
+    /**
+     * This method return the value of the attribute disconnect
+     * @return The value of the attribute disconnect
+     */
     public boolean isDisconnect() {
         return disconnect;
     }

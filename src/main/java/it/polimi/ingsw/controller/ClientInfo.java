@@ -4,7 +4,7 @@ import it.polimi.ingsw.communication.server.ClientHandler;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.cards.Weapon;
 
-public class ClientInfo {
+class ClientInfo {
     Weapon weapon;
     Match simulation;
     String shootingOptionals;
