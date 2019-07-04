@@ -20,7 +20,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Controller {
 
-    private static final int MAX_ACTIONS = 2;
     private int minimumPlayer;
     private Map<String,ClientInfo> nicknameList = new ConcurrentHashMap<>();
     private ArrayList<String> disconnected = new ArrayList<>();
@@ -194,7 +193,7 @@ public class Controller {
                     }
                     break;
                 }
-                case RESPONSE_PU:{
+                case RESPONSE_OFFENSIVE_PU:{
                     if(msg.startsWith("RPU-")){
                         if(msg.substring(ETIQUETTE).equals("no")){
                             try {
@@ -258,12 +257,10 @@ public class Controller {
                                 } else {
                                     endShooting(clientHandler, clientInfoFromClientHandeler(clientHandler).weapon);
                                 }
-                            } catch (NotFoundException e) {
+                            } catch (NotFoundException | NoOwnerException e) {
                                 sendString("error", clientHandler);
                             } catch (InvalidTargetException e) {
                                 invalidTarget(clientHandler);
-                            } catch (NoOwnerException e) {
-                                sendString("error", clientHandler);
                             } catch (WrongPowerUpException e) {
                                 try {
                                     cleanSimulation(clientInfoFromClientHandeler(clientHandler));
@@ -283,6 +280,43 @@ public class Controller {
                     }
                     else {
                         sendString("Wrong Etiquette, this is OPTIONAL_WEAPON_SHOOTING", clientHandler);
+                    }
+                    break;
+                }
+                case RESPONSE_DEFENSIVE_POWERUP:{
+                    if(msg.startsWith("RPU-")){
+                        ArrayList<PowerUp> usable = new ArrayList<>();
+                        try {
+                            for (PowerUp powerUp : playerFromNickname(clientHandler.getName(), this.match).getPowerUps()) {
+                                if (powerUp.getOnResponse() && !powerUp.isOffensive()) {
+                                    usable.add(powerUp);
+                                }
+                            }
+                            ArrayList<ArrayList<Player>> shooterWrapper= new ArrayList<>();
+                            ArrayList<Player> shooter = new ArrayList<>();
+                            shooter.add(this.match.getTurn().getCurrent());
+                            shooterWrapper.add(new ArrayList<>());
+                            shooterWrapper.add(new ArrayList<>());
+                            shooterWrapper.add(shooter);
+                            usable.get(Integer.parseInt(msg.substring(ETIQUETTE).split("'")[0])).useEffect(generateTarget(msg.split("'")[1].substring(0, msg.split("'")[1].length() - 1),clientHandler, this.match),shooterWrapper);
+                            playerFromNickname(clientHandler.getName(), this.match).discard(usable.get(Integer.parseInt(msg.substring(ETIQUETTE).split("'")[0])));
+                            clientHandler.setYourTurn(false);
+                            clientInfoFromClientHandeler(clientHandler).setState(ClientInfo.State.GAME);
+                            for (ClientInfo clientInfo : getNicknameList().values()){
+                                if(clientInfo.clientHandler.isYourTurn()){
+                                    return;
+                                }
+                            }
+                            getNicknameList().get(this.match.getTurn().getCurrent().getNickname()).clientHandler.setYourTurn(true);
+                            updateBackground(this.match);
+                            lifeCycle(getNicknameList().get(this.match.getTurn().getCurrent().getNickname()).clientHandler);
+                        }
+                        catch (NotFoundException | NoOwnerException e){
+                            sendString("error", clientHandler);
+                        } catch (InvalidTargetException e) {
+                            invalidTarget(clientHandler);
+                        }
+
                     }
                     break;
                 }
@@ -348,19 +382,17 @@ public class Controller {
 
     private void offensivePowerUpResponse(ClientInfo clientInfo, Weapon weapon) throws NoResponeException {
         clientInfo.weapon= weapon;
-        ArrayList<PowerUp> powerUps= new ArrayList<>();
         String responseRequest="RPU-";
         try {
             for(PowerUp p : playerFromNickname(clientInfo.clientHandler.getName(), this.match).getPowerUps()){
                 if(p.getOnResponse() && p.isOffensive()){
-                    powerUps.add(p);
                     responseRequest=responseRequest.concat(p.getName()).concat(":").concat(p.getColor()).concat(";");
                 }
             }
             if(responseRequest.equals("RPU-")){
                 throw new NoResponeException();
             }
-            clientInfo.setState(ClientInfo.State.RESPONSE_PU);
+            clientInfo.setState(ClientInfo.State.RESPONSE_OFFENSIVE_PU);
             sendString(responseRequest,clientInfo.clientHandler);
 
         } catch (NotFoundException e) {
@@ -414,6 +446,7 @@ public class Controller {
                 clientInfoFromClientHandeler(clientHandler).shootingOptionals="";
                 clientInfoFromClientHandeler(clientHandler).simulation=null;
                 updateBackground(this.match);
+                defensivePowerUpResponse(clientHandler);
                 lifeCycle(clientHandler);
             }
             if(!ok){
@@ -427,6 +460,33 @@ public class Controller {
             }
         } catch (NotFoundException e) {
             sendString("error", clientHandler);
+        }
+    }
+
+    private void defensivePowerUpResponse(ClientHandler clientHandler) {
+        boolean toUse=false;
+        for(Player opponent : this.match.getPlayers()) {
+            if (opponent.isWounded()) {
+                String request = "RPU-";
+                ClientInfo clientInfo = null;
+                for (PowerUp powerUp : opponent.getPowerUps()) {
+                    if ( powerUp.getOnResponse() && !powerUp.isOffensive()) {
+                        toUse = true;
+                        request = request.concat(powerUp.getName()).concat(":").concat(powerUp.getColor()).concat(";");
+                        clientInfo = getNicknameList().get(opponent.getNickname());
+                        clientInfo.clientHandler.setYourTurn(true);
+                        clientInfo.setState(ClientInfo.State.RESPONSE_DEFENSIVE_POWERUP);
+                    }
+                }
+                if(request.equals("RPU-")){
+                    return;
+                }
+                sendString(request, clientInfo.clientHandler);
+            }
+        }
+        if (toUse) {
+            clientHandler.setYourTurn(false);
+            sendString(">>>Wait a response from the opponent", clientHandler);
         }
     }
 
@@ -631,11 +691,7 @@ public class Controller {
         } catch (InvalidTargetException e) {
             invalidTarget(clientHandler);
 
-        } catch (NoOwnerException e) {
-            sendString("error", clientHandler);
-        } catch (IOException e) {
-            sendString("error", clientHandler);
-        } catch (ClassNotFoundException e) {
+        } catch (NoOwnerException | IOException | ClassNotFoundException | NotThisKindOfWeapon | NotFoundException e) {
             sendString("error", clientHandler);
         } catch (NotLoadedException e) {
             updateBackground(this.match);
@@ -656,8 +712,6 @@ public class Controller {
             catch (NotFoundException e1) {
                 sendString("error", clientHandler);
             }
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
-            sendString("error", clientHandler);
         } catch (NoAmmoException e) {
             updateBackground(this.match);
             sendString(">>>You don't have enough ammo", clientHandler);
@@ -667,8 +721,6 @@ public class Controller {
             catch (NotFoundException e1) {
                 sendString("error", clientHandler);
             }
-        } catch (NotFoundException e) {
-            sendString("error", clientHandler);
         } catch (WrongPowerUpException e) {
             updateBackground(this.match);
             sendString(">>>Wrong PowerUps", clientHandler);
@@ -687,6 +739,7 @@ public class Controller {
             match = clientInfoFromClientHandeler(clientHandler).simulation;
             updateBackground(this.match);
             cleanSimulation(clientInfoFromClientHandeler(clientHandler));
+            defensivePowerUpResponse(clientHandler);
         }
         catch (NotFoundException e){
             sendString("error", clientHandler);
@@ -792,9 +845,7 @@ public class Controller {
             updateBackground(this.match);
         } catch (InvalidTargetException e) {
             invalidTarget(clientHandler);
-        } catch (NoOwnerException e) {
-            sendString("error", clientHandler);
-        } catch (NotFoundException e) {
+        } catch (NoOwnerException | NotFoundException e) {
             sendString("error", clientHandler);
         } catch (OnResponseException e) {
             updateBackground(this.match);
@@ -823,7 +874,7 @@ public class Controller {
             if(parameters[5].equals("true")) {
                 targetParameter = new TargetParameter(
                         parameters[0].equals(" ") ? null : match.getBoard().find(Integer.parseInt(parameters[0].split(":")[0]), Integer.parseInt(parameters[0].split(":")[1])),
-                        match.getTurn().getCurrent(),
+                        playerFromNickname(clientHandler.getName(), match),
                         parameters[1].equals(" ") ? null : playerFromColor(parameters[1], match),
                         parameters[2].equals(" ") ? null : match.getBoard().find(Integer.parseInt(parameters[2].split(":")[0]), Integer.parseInt(parameters[2].split(":")[1])).getRoom(),
                         parameters[3].equals(" ") ? null : match.getBoard().find(Integer.parseInt(parameters[3].split(":")[0]), Integer.parseInt(parameters[3].split(":")[1])),

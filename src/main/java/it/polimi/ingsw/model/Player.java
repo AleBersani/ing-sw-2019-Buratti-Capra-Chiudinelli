@@ -83,6 +83,10 @@ public class Player implements Serializable {
      */
     private boolean turnedPlank;
     /**
+     * This attribute indicates if the player is damaged in this turn (true) or not (false)
+     */
+    private boolean wounded;
+    /**
      * This constant represents the maximum movement that can be done to run during a not frenzy turn
      */
     private int maxRun = 3;
@@ -112,6 +116,7 @@ public class Player implements Serializable {
         this.points = 0;
         this.damageCounter = 0;
         this.turnedPlank=false;
+        this.wounded=false;
     }
 
     /**
@@ -156,8 +161,7 @@ public class Player implements Serializable {
                     try {
                         draw();
                     }
-                    catch (MaxHandSizeException e){
-
+                    catch (MaxHandSizeException ignored){
                     }
             } else
                 throw new NullAmmoException();
@@ -433,8 +437,10 @@ public class Player implements Serializable {
                 }
             }
         }
-        if (this.damageCounter > 10)
+        if (this.damageCounter > 10) {
             this.dead();
+        }
+        wounded=true;
     }
 
     /**
@@ -720,6 +726,22 @@ public class Player implements Serializable {
      */
     public void setFirst(boolean first) {
         this.first = first;
+    }
+
+    /**
+     * This method return if the player is damaged in this turn
+     * @return True if he's been damaged, otherwise false
+     */
+    public boolean isWounded() {
+        return wounded;
+    }
+
+    /**
+     * This method sets if the player is damaged in this turn
+     * @param wounded This parameter is true if he's damaged, otherwise false
+     */
+    public void setWounded(boolean wounded) {
+        this.wounded = wounded;
     }
 
     /**

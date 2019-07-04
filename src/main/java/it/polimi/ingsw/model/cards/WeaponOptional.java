@@ -15,7 +15,7 @@ public class WeaponOptional extends Weapon {
     /**
      * list of the optional effects
      */
-    private ArrayList<ArrayList<Effect>> optionalEffect= new ArrayList<>();
+    private ArrayList<ArrayList<Effect>> optionalEffect;
     /**
      * the correct orders of the optional effects
      */

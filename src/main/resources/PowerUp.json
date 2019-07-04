@@ -279,8 +279,15 @@
        "costRed": 0,
         "costYellow": 0,
         "name": "tagback grenade",
-        "constraints": [],
-        "constraintPositivity": [],
+        "constraints": [
+          {
+            "type": "SamePlayer",
+            "level": 2
+          }
+        ],
+        "constraintPositivity": [
+          true
+        ],
         "damage": 0,
         "mark": 1,
         "addToList": false,
@@ -300,8 +307,15 @@
         "costRed": 0,
         "costYellow": 0,
         "name": "tagback grenade",
-        "constraints": [],
-        "constraintPositivity": [],
+        "constraints": [
+          {
+            "type": "SamePlayer",
+            "level": 2
+          }
+        ],
+        "constraintPositivity": [
+          true
+        ],
         "damage": 0,
         "mark": 1,
         "addToList": false,
@@ -322,8 +336,15 @@
         "costRed": 0,
         "costYellow": 0,
         "name": "tagback grenade",
-        "constraints": [],
-        "constraintPositivity": [],
+        "constraints": [
+          {
+            "type": "SamePlayer",
+            "level": 2
+          }
+        ],
+        "constraintPositivity": [
+          true
+        ],
         "damage": 0,
         "mark": 1,
         "addToList": false,
@@ -343,8 +364,15 @@
         "costRed": 0,
         "costYellow": 0,
         "name": "tagback grenade",
-        "constraints": [],
-        "constraintPositivity": [],
+        "constraints": [
+          {
+            "type": "SamePlayer",
+            "level": 2
+          }
+        ],
+        "constraintPositivity": [
+          true
+        ],
         "damage": 0,
         "mark": 1,
         "addToList": false,
@@ -365,8 +393,15 @@
         "costRed": 0,
         "costYellow": 0,
         "name": "tagback grenade",
-        "constraints": [],
-        "constraintPositivity": [],
+        "constraints": [
+          {
+            "type": "SamePlayer",
+            "level": 2
+          }
+        ],
+        "constraintPositivity": [
+          true
+        ],
         "damage": 0,
         "mark": 1,
         "addToList": false,
@@ -386,8 +421,15 @@
         "costRed": 0,
         "costYellow": 0,
         "name": "tagback grenade",
-        "constraints": [],
-        "constraintPositivity": [],
+        "constraints": [
+          {
+            "type": "SamePlayer",
+            "level": 2
+          }
+        ],
+        "constraintPositivity": [
+          true
+        ],
         "damage": 0,
         "mark": 1,
         "addToList": false,

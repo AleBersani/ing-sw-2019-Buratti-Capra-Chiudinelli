@@ -79,12 +79,10 @@ public class AmmoTile implements Serializable {
         AmmoTile aT;
         if (obj != null) {
             aT= (AmmoTile)obj;
-            if (this.red == aT.red &&
+            return this.red == aT.red &&
                     this.blue == aT.blue &&
                     this.yellow == aT.yellow &&
-                    this.powerUp == aT.powerUp) {
-                return true;
-            }
+                    this.powerUp == aT.powerUp;
         }
         return false;
     }
