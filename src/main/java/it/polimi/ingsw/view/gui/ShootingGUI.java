@@ -19,22 +19,53 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.view.gui.GameGUI.*;
 
+/**
+ * This class contains all the methods while shooting in the game
+ */
 class ShootingGUI {
+    /**
+     * Reference to GUI
+     */
     private GUI gui;
+    /**
+     * Reference to GameGUI
+     */
     private GameGUI gameGUI;
+    /**
+     * Reference to ButtonsGUI
+     */
     private ButtonsGUI buttonsGUI;
+    /**
+     * Reference to ChooseGUI
+     */
     private ChooseGUI chooseGUI;
 
+    /**
+     * This is the constructor of ShootingGUI class
+     * @param gui Reference to GUI
+     * @param gameGUI Reference to GameGUI
+     * @param buttonsGUI Reference to ButtonsGUI
+     */
     ShootingGUI(GUI gui, GameGUI gameGUI, ButtonsGUI buttonsGUI) {
         this.gui = gui;
         this.gameGUI = gameGUI;
         this.buttonsGUI = buttonsGUI;
     }
 
+    /**
+     * This method sets the ChooseGUI
+     * @param chooseGUI Reference to ChooseGUI
+     */
     void setChooseGUI(ChooseGUI chooseGUI) {
         this.chooseGUI = chooseGUI;
     }
 
+    /**
+     * This method builds the target of the effect or the weapon
+     * @param stage This parameter is the stage where we used to show
+     * @param msg This parameter contains the target parameters that need to be splitted
+     * @param movement This parameter is the movement of the adrenaline
+     */
     void buildTarget(Stage stage, String msg, String movement) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         StackPane targetPane = new StackPane();
@@ -229,6 +260,11 @@ class ShootingGUI {
         }
     }
 
+    /**
+     * This method update the label with the description of the action  for build the target parameter
+     * @param msg This parameter is the message of the target
+     * @param infoText This parameter is the label that is update with the message
+     */
     private void targetDescription(String msg, Label infoText) {
         String info = "";
         switch (msg) {
@@ -258,6 +294,11 @@ class ShootingGUI {
         infoText.setText(info);
     }
 
+    /**
+     * This method allows the player to choose the type of fire of the selected weapon
+     * @param stage This parameter is the stage where we used to show
+     * @param msg This parameter is the message with every type of fire that can be done with that weapon
+     */
     void preShootShow(Stage stage, String msg) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         StackPane preShootPane = new StackPane();
@@ -341,6 +382,11 @@ class ShootingGUI {
         pane.getChildren().add(preShootPane);
     }
 
+    /**
+     * This method allows the player to move additionally when he's in adrenaline
+     * @param stage This parameter is the stage where we used to show
+     * @param msg This parameter is the message with the target and we add the cell where he moves before shooting
+     */
     private void shootMovement(Stage stage, String msg) {
         if (gui.getYouRepresentation().get(PLAYER_DAMAGE).split("'").length >= SHOOT_ADRENALINE) {
             StackPane pane = (StackPane) stage.getScene().getRoot();
