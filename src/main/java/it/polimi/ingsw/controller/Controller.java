@@ -18,27 +18,90 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * This class is the controller that handle the game
+ */
 public class Controller {
 
+    /**
+     * This attribute is the minimum number of player before the game ends for lack of players
+     */
     private int minimumPlayer;
+    /**
+     * This attribute is a list of ClientInfo mapped with the nickname
+     */
     private Map<String,ClientInfo> nicknameList = new ConcurrentHashMap<>();
+    /**
+     * This attribute is a list of the nickname of the disconnected players
+     */
     private ArrayList<String> disconnected = new ArrayList<>();
+    /**
+     * This attribute is the server that handle the connection
+     */
     private MultiServer server;
+    /**
+     * This attribute is the number of skulls that are used in the game
+     */
     private int skulls;
+    /**
+     * This attribute is true if the frenzy rules are enabled
+     */
     private boolean frenzyEn;
+    /**
+     * This attribute is the path of the file that contains the board
+     */
     private String board;
+    /**
+     * This attribute is the duration of the timer before the match starts in seconds
+     */
     private int timer;
+    /**
+     * This attribute describe the mode of the game
+     */
     private String mode;
+    /**
+     * This attribute is the list of available boards
+     */
     private ArrayList<Integer> availableBoards;
+    /**
+     * This attribute is the list of available values of skulls
+     */
     private ArrayList<Integer> availableSkulls;
+    /**
+     * This attribute is the list of the available colors for the players
+     */
     private ArrayList<String> availableColors;
+    /**
+     * This attribute is turned to true when the match starts
+     */
     private boolean gameStarted;
+    /**
+     * This attribute is the match
+     */
     private Match match;
+    /**
+     * This attributed is used for synchronizing access to nicknameList
+     */
     private final Object nicknameListLock;
+    /**
+     * This constant is the length of the etiquette in the messages
+     */
     private static final int ETIQUETTE = 4;
+    /**
+     * This constant is the maximum number of players
+     */
     private static final int MAX_PLAYERS_NUMBER = 5;
+    /**
+     * This parameter is true when someone is respawning
+     */
     private boolean respawning;
+    /**
+     * This parameter is the duration of the timer of a single turn in seconds
+     */
     private int timerTurn;
+    /**
+     * This parameter is the timer that, when expires, suspend a player from play
+     */
     private Timer suspending;
 
     public Controller(String[] args){

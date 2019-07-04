@@ -21,7 +21,7 @@
       "constraintPositivity": [
         true
       ],
-      "damage": 1,
+      "damage": 14,
       "mark": 0,
       "description": "Room",
       "markActivator": true
