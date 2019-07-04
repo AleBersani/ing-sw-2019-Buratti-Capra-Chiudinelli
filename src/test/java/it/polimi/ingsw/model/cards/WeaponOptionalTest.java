@@ -11,15 +11,42 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * test class of Optional weapons
+ */
 class WeaponOptionalTest {
+    /**
+     * weapon to test
+     */
+    private Weapon weapon;
+    /**
+     * owner of the weapon to test
+     */
+    private Player owner;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy2;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy3;
+    /**
+     * board of the game
+     */
+    private Board board;
+    /**
+     * parameters of weapon's targets
+     */
+    private ArrayList<TargetParameter> target;
 
-    Weapon weapon;
-    Player owner;
-    Player enemy,enemy2,enemy3;
-    Board board;
-    ArrayList<TargetParameter> target;
-    ArrayList<Player> prevPlayer;
-
+    /**
+     * builder method of the parameters needed for every tests
+     */
     @BeforeEach
     void setup(){
         owner = new Player(true,"red","Luciano");
@@ -27,14 +54,16 @@ class WeaponOptionalTest {
         enemy2 = new Player(false,"red", "Fabiolo");
         enemy3 = new Player(false,"red", "Fagiolo");
         board = new Board(null,"/Board/Board1.json");
-        target = new ArrayList<TargetParameter>();
+        target = new ArrayList<>();
         target.add(new TargetParameter(null,owner,null,null,null,null));
         target.add(new TargetParameter(null,owner,null,null,null,null));
         target.add(new TargetParameter(null,owner,null,null,null,null));
         target.add(new TargetParameter(null,owner,null,null,null,null));
-        prevPlayer = new ArrayList<Player>();
     }
 
+    /**
+     * this test verify a correct use of Cyberblade
+     */
     @Test
     void cyberblade_Base_Movement_Optional_1() {
         for(Weapon w: board.getWeaponsListCopy()){
@@ -54,9 +83,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
@@ -77,14 +104,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         try {
             assertEquals(owner,board.find(3,1).getOnMe().get(0));
@@ -107,14 +128,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,1);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy2.getDamageCounter());
         for(int i=0;i<2;i++){
@@ -123,6 +138,9 @@ class WeaponOptionalTest {
 
     }
 
+    /**
+     * this test verify a correct use of Cyberblade
+     */
     @Test
     void cyberblade_Movement_Base_Optional_1() {
         for (Weapon w : board.getWeaponsListCopy()) {
@@ -140,14 +158,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         try {
             assertEquals(owner,board.find(3,1).getOnMe().get(0));
@@ -170,9 +182,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
@@ -195,14 +205,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,1);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy2.getDamageCounter());
         for(int i=0;i<2;i++){
@@ -210,6 +214,9 @@ class WeaponOptionalTest {
         }
     }
 
+    /**
+     * this test verify a correct use of Cyberblade
+     */
     @Test
     void cyberblade_Base_Optional_1_Movement(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -229,9 +236,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
@@ -254,14 +259,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,1);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy2.getDamageCounter());
         for(int i=0;i<2;i++){
@@ -281,14 +280,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         try {
             assertEquals(owner,board.find(3,1).getOnMe().get(0));
@@ -297,6 +290,9 @@ class WeaponOptionalTest {
         }
     }
 
+    /**
+     * this test verify the wrong uses of Cyberblade
+     */
     @Test
     void cyberblade_InvalidTarget(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -331,6 +327,9 @@ class WeaponOptionalTest {
         assertThrows(InvalidTargetException.class,()->weapon.fireOptional(target,0));
     }
 
+    /**
+     * this test verify a correct use of Grenade Launcher
+     */
     @Test
     void grenadeLauncher_Base_Movement_Optional_0(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -350,9 +349,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
@@ -372,14 +369,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,1);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         try {
             assertEquals(enemy,board.find(3,1).getOnMe().get(0));
@@ -404,14 +395,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
         assertEquals(1,enemy2.getDamageCounter());
@@ -422,6 +407,9 @@ class WeaponOptionalTest {
         assertEquals(owner,enemy3.getDamage().get(0));
     }
 
+    /**
+     * this test verify a correct use of Grenade Launcher
+     */
     @Test
     void grenadeLauncher_Base_Optional_0_Movement(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -441,9 +429,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
@@ -466,14 +452,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(0,owner.getDamageCounter());
         assertEquals(2,enemy.getDamageCounter());
@@ -498,14 +478,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,1);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         try {
             assertEquals(enemy,board.find(3,1).getOnMe().get(0));
@@ -515,6 +489,9 @@ class WeaponOptionalTest {
 
     }
 
+    /**
+     * this test verify a correct use of Grenade Launcher
+     */
     @Test
     void grenadeLauncher_Separate_Base_Optional(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -534,9 +511,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
@@ -559,14 +534,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(0,owner.getDamageCounter());
         assertEquals(1,enemy.getDamageCounter());
@@ -590,14 +559,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,1);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         try {
             assertEquals(enemy,board.find(3,2).getOnMe().get(0));
@@ -606,6 +569,9 @@ class WeaponOptionalTest {
         }
     }
 
+    /**
+     * this test verify the wrong uses of Grenade Launcher
+     */
     @Test
     void grenadeLauncher_InvalidTarget(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -659,9 +625,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         for(TargetParameter targetParameter: target){
@@ -682,6 +646,9 @@ class WeaponOptionalTest {
         assertThrows(InvalidTargetException.class,()->weapon.fireOptional(target,1));
     }
 
+    /**
+     * this test verify the correct use of Lock rifle
+     */
     @Test
     void lock_rifle(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -701,9 +668,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
@@ -726,18 +691,15 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(owner,enemy2.getMark().get(0));
     }
 
+    /**
+     * this test verify the wrong uses of Lock rifle
+     */
     @Test
     void lock_rifle_invalid(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -772,9 +734,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
@@ -798,6 +758,9 @@ class WeaponOptionalTest {
         assertThrows(InvalidTargetException.class,()->weapon.fireOptional(target,0));
     }
 
+    /**
+     * this test verify a correct use of Machine Gun
+     */
     @Test
     void machine_Gun_2target_firstTarget_secondTarget_thirdTarget(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -820,9 +783,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
@@ -839,14 +800,8 @@ class WeaponOptionalTest {
         target.get(0).setEnemyPlayer(enemy);
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
         assertEquals(owner,enemy.getDamage().get(1));
@@ -867,14 +822,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,3);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy2.getDamageCounter());
         assertEquals(owner,enemy2.getDamage().get(1));
@@ -882,6 +831,9 @@ class WeaponOptionalTest {
         assertEquals(owner,enemy3.getDamage().get(0));
     }
 
+    /**
+     * this test verify a correct use of Machine Gun
+     */
     @Test
     void machine_Gun_2target_secondTarget_firstTarget_thirdTarget(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -904,9 +856,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
@@ -923,14 +873,8 @@ class WeaponOptionalTest {
         target.get(0).setEnemyPlayer(enemy2);
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy2.getDamageCounter());
         assertEquals(owner,enemy2.getDamage().get(1));
@@ -951,14 +895,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,3);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
         assertEquals(owner,enemy.getDamage().get(1));
@@ -966,6 +904,9 @@ class WeaponOptionalTest {
         assertEquals(owner,enemy3.getDamage().get(0));
     }
 
+    /**
+     * this test verify a correct use of Machine Gun
+     */
     @Test
     void machine_Gun_2target_secondTarget_thirdTarget(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -988,9 +929,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
@@ -1007,14 +946,8 @@ class WeaponOptionalTest {
         target.get(0).setEnemyPlayer(enemy2);
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy2.getDamageCounter());
         assertEquals(owner,enemy2.getDamage().get(1));
@@ -1035,14 +968,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,2);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(1,enemy3.getDamageCounter());
         assertEquals(owner,enemy3.getDamage().get(0));
@@ -1050,6 +977,9 @@ class WeaponOptionalTest {
 
     }
 
+    /**
+     * this test verify the wrong uses of Machine Gun
+     */
     @Test
     void machine_Gun_InvalidTarget(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -1092,9 +1022,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
@@ -1126,14 +1054,8 @@ class WeaponOptionalTest {
         target.get(0).setEnemyPlayer(enemy);
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
         assertEquals(owner,enemy.getDamage().get(1));
@@ -1150,6 +1072,9 @@ class WeaponOptionalTest {
 
     }
 
+    /**
+     * this test verify a correct use of Plasma Gun
+     */
     @Test
     void plasma_Gun(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -1169,9 +1094,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
@@ -1191,14 +1114,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         try {
             assertEquals(owner,board.find(1,2).getOnMe().get(0));
@@ -1215,14 +1132,8 @@ class WeaponOptionalTest {
         target.get(0).setEnemyPlayer(enemy);
         try {
             weapon.fireOptional(target,1);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(3,enemy.getDamageCounter());
         for(int i=0;i<3;i++){
@@ -1230,6 +1141,9 @@ class WeaponOptionalTest {
         }
     }
 
+    /**
+     * this test verify the wrong uses of Plasma Gun
+     */
     @Test
     void plasma_Gun_InvalidTarget(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -1266,9 +1180,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
@@ -1303,14 +1215,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         try {
             assertEquals(owner,board.find(1,2).getOnMe().get(0));
@@ -1329,6 +1235,9 @@ class WeaponOptionalTest {
         assertThrows(InvalidTargetException.class,()->weapon.fireOptional(target,1));
     }
 
+    /**
+     * this test verify a correct use of Rocket Launcher
+     */
     @Test
     void rocket_Launcher_First_SquareDamage_FirstMovement_OwnerMovement(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -1353,9 +1262,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
@@ -1372,14 +1279,8 @@ class WeaponOptionalTest {
         target.get(0).setConstraintSquare(enemy.getPosition());
         try {
             weapon.fireOptional(target,1);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(3,enemy.getDamageCounter());
         assertEquals(1,enemy2.getDamageCounter());
@@ -1405,14 +1306,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,2);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         try {
             assertEquals(enemy,board.find(4,2).getOnMe().get(0));
@@ -1434,14 +1329,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         try {
             assertEquals(owner,board.find(2,2).getOnMe().get(0));
@@ -1450,6 +1339,9 @@ class WeaponOptionalTest {
         }
     }
 
+    /**
+     * this test verify a correct use of Rocket Launcher
+     */
     @Test
     void rocket_Launcher_OwnerMovement_First_SquareDamage_FirstMovement(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -1468,14 +1360,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         try {
             assertEquals(owner,board.find(1,2).getOnMe().get(0));
@@ -1503,9 +1389,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
@@ -1522,14 +1406,8 @@ class WeaponOptionalTest {
         target.get(0).setConstraintSquare(enemy.getPosition());
         try {
             weapon.fireOptional(target,1);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(3,enemy.getDamageCounter());
         assertEquals(1,enemy2.getDamageCounter());
@@ -1555,14 +1433,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,2);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         try {
             assertEquals(enemy,board.find(4,2).getOnMe().get(0));
@@ -1571,6 +1443,9 @@ class WeaponOptionalTest {
         }
     }
 
+    /**
+     * this test verify the wrong uses of Rocket Launcher
+     */
     @Test
     void rocket_Launcher_Invalid(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -1623,14 +1498,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         try {
             assertEquals(owner,board.find(1,1).getOnMe().get(0));
@@ -1648,9 +1517,7 @@ class WeaponOptionalTest {
         target.get(0).setConstraintSquare(enemy.getPosition());
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
@@ -1699,6 +1566,9 @@ class WeaponOptionalTest {
 
     }
 
+    /**
+     * this test verify a correct use of T.H.O.R.
+     */
     @Test
     void thor_First_Second_Third(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -1723,9 +1593,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
@@ -1742,14 +1610,8 @@ class WeaponOptionalTest {
         target.get(0).setConstraintSquare(enemy2.getPosition());
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(1,enemy2.getDamageCounter());
         assertEquals(owner,enemy2.getDamage().get(0));
@@ -1764,20 +1626,17 @@ class WeaponOptionalTest {
         target.get(0).setConstraintSquare(enemy3.getPosition());
         try {
             weapon.fireOptional(target,1);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
         assertEquals(owner,enemy.getDamage().get(0));
         assertEquals(owner,enemy.getDamage().get(1));
     }
 
+    /**
+     * this test verify the wrong uses of T.H.O.R.
+     */
     @Test
     void thor_InvalidTarget(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -1816,9 +1675,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
@@ -1851,14 +1708,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(1,enemy2.getDamageCounter());
         assertEquals(owner,enemy2.getDamage().get(0));
@@ -1895,20 +1746,17 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,1);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
         assertEquals(owner,enemy.getDamage().get(0));
         assertEquals(owner,enemy.getDamage().get(1));
     }
 
+    /**
+     * this test verify a correct use of Vortex Cannon
+     */
     @Test
     void Vortex_Cannon(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -1934,9 +1782,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         try {
@@ -1966,14 +1812,8 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fireOptional(target,0);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         try {
             assertTrue(board.find(2,2).getOnMe().contains(enemy2));
@@ -1987,6 +1827,9 @@ class WeaponOptionalTest {
         assertEquals(owner,enemy3.getDamage().get(0));
     }
 
+    /**
+     * this test verify a correct use of Vortex Cannon
+     */
     @Test
     void Vortex_Cannon_InvalidTarget_BaseEffect(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -2026,6 +1869,9 @@ class WeaponOptionalTest {
         assertThrows(InvalidTargetException.class,()->weapon.fire(target));
     }
 
+    /**
+     * this test verify the wrong uses of Vortex Cannon
+     */
     @Test
     void Vortex_Cannon_InvalidTarget_OptionalEffect(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -2053,9 +1899,7 @@ class WeaponOptionalTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         try {

@@ -13,23 +13,46 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * test class of base weapons
+ */
 class WeaponBaseTest {
+    /**
+     * weapon to test
+     */
+    private Weapon weapon;
+    /**
+     * owner of the weapon to test
+     */
+    private Player owner;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy;
+    /**
+     * board of the game
+     */
+    private Board board;
+    /**
+     * parameters of weapon's targets
+     */
+    private ArrayList<TargetParameter> target;
 
-    Weapon weapon;
-    Player owner;
-    Player enemy;
-    Board board;
-    ArrayList<TargetParameter> target;
-
+    /**
+     * builder method of the parameters needed for every tests
+     */
     @BeforeEach
     void setup(){
         owner = new Player(true,"red","Luciano");
         enemy = new Player(false,"blue", "Fabiano");
         board = new Board(null,"/Board/Board1.json");
-        target = new ArrayList<TargetParameter>();
+        target = new ArrayList<>();
         target.add(new TargetParameter(null,owner,enemy,null,null,null));
     }
 
+    /**
+     * this test verify the right and the wrong uses of Heatseeker
+     */
     @Test
     void heatseeker() {
         for(Weapon w: board.getWeaponsListCopy()){
@@ -48,9 +71,7 @@ class WeaponBaseTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(3,enemy.getDamageCounter());
@@ -67,6 +88,9 @@ class WeaponBaseTest {
         assertThrows(InvalidTargetException.class,()->weapon.fire(target));
     }
 
+    /**
+     * this test verify the right and the wrong uses of Whisperer
+     */
     @Test
     void whisper(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -85,9 +109,7 @@ class WeaponBaseTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(3,enemy.getDamageCounter());

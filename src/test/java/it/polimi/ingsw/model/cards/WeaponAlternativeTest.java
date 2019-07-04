@@ -11,15 +11,47 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * test class of Alternative weapons
+ */
 class WeaponAlternativeTest {
 
-    Weapon weapon;
-    Player owner;
-    Player enemy,enemy2,enemy3;
-    Board board;
-    ArrayList<TargetParameter> target;
-    ArrayList<Player> prevPlayer;
+    /**
+     * weapon to test
+     */
+    private Weapon weapon;
+    /**
+     * owner of the weapon to test
+     */
+    private Player owner;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy2;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy3;
+    /**
+     * board of the game
+     */
+    private Board board;
+    /**
+     * parameters of weapon's targets
+     */
+    private ArrayList<TargetParameter> target;
+    /**
+     * previous targets of the weapon
+     */
+    private ArrayList<Player> prevPlayer;
 
+    /**
+     * builder method of the parameters needed for every tests
+     */
     @BeforeEach
     void setup(){
         owner = new Player(true,"red","Luciano");
@@ -27,14 +59,17 @@ class WeaponAlternativeTest {
         enemy2 = new Player(false,"red", "Fabiolo");
         enemy3 = new Player(false,"red", "Fagiolo");
         board = new Board(null,"/Board/Board1.json");
-        target = new ArrayList<TargetParameter>();
+        target = new ArrayList<>();
         target.add(new TargetParameter(null,owner,null,null,null,null));
         target.add(new TargetParameter(null,owner,null,null,null,null));
         target.add(new TargetParameter(null,owner,null,null,null,null));
         target.add(new TargetParameter(null,owner,null,null,null,null));
-        prevPlayer = new ArrayList<Player>();
+        prevPlayer = new ArrayList<>();
     }
 
+    /**
+     * this test verify the right and the wrong uses of Electroscythe
+     */
     @Test
     void electroscythe() {
         for(Weapon w: board.getWeaponsListCopy()){
@@ -58,9 +93,7 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
@@ -92,9 +125,7 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(0,enemy.getDamageCounter());
@@ -140,14 +171,8 @@ class WeaponAlternativeTest {
 
         try {
             weapon.fireAlternative(target);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
         assertEquals(2,enemy2.getDamageCounter());
@@ -171,6 +196,9 @@ class WeaponAlternativeTest {
 
     }
 
+    /**
+     * this test verify the right and the wrong uses of Flamethrower
+     */
     @Test
     void flamethrower(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -193,9 +221,7 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
@@ -236,14 +262,8 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fireAlternative(target);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
         assertEquals(2,enemy2.getDamageCounter());
@@ -289,6 +309,9 @@ class WeaponAlternativeTest {
         assertThrows(InvalidTargetException.class,()->weapon.fire(target));
     }
 
+    /**
+     * this test verify the right and the wrong uses of furnace
+     */
     @Test
     void furnace(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -312,9 +335,7 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
@@ -356,14 +377,8 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fireAlternative(target);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
         assertEquals(owner,enemy.getDamage().get(0));
@@ -415,6 +430,9 @@ class WeaponAlternativeTest {
         assertThrows(InvalidTargetException.class,()->weapon.fireAlternative(target));
     }
 
+    /**
+     * this test verify the right and the wrong uses of Hellion
+     */
     @Test
     void hellion(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -441,9 +459,7 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
@@ -494,14 +510,8 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fireAlternative(target);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
         assertEquals(owner,enemy.getDamage().get(0));
@@ -573,6 +583,9 @@ class WeaponAlternativeTest {
         assertThrows(NoOwnerException.class,()->weapon.fire(target));
     }
 
+    /**
+     * this test verify the right and the wrong uses of Power Glove
+     */
     @Test
     void PowerGlove(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -595,9 +608,7 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
@@ -643,14 +654,8 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fireAlternative(target);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
         assertEquals(2,enemy2.getDamageCounter());
@@ -688,6 +693,9 @@ class WeaponAlternativeTest {
 
     }
 
+    /**
+     * this test verify the right and the wrong uses of Railgun
+     */
     @Test
     void railgun(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -707,9 +715,7 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(3,enemy.getDamageCounter());
@@ -750,14 +756,8 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fireAlternative(target);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
         assertEquals(2,enemy2.getDamageCounter());
@@ -803,14 +803,8 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fireAlternative(target);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
 
         assertEquals(2,enemy.getDamageCounter());
@@ -858,6 +852,9 @@ class WeaponAlternativeTest {
         assertThrows(InvalidTargetException.class,()->weapon.fireAlternative(target));
     }
 
+    /**
+     * this test verify the right and the wrong uses of Shockwave
+     */
     @Test
     void shockwave(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -883,9 +880,7 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
@@ -937,14 +932,8 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fireAlternative(target);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
 
         assertEquals(1,enemy.getDamageCounter());
@@ -994,9 +983,7 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
@@ -1045,6 +1032,9 @@ class WeaponAlternativeTest {
         assertThrows(InvalidTargetException.class,()->weapon.fire(target));
     }
 
+    /**
+     * this test verify the right and the wrong uses of Shotgun
+     */
     @Test
     void Shotgun(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -1066,9 +1056,7 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(3,enemy.getDamageCounter());
@@ -1111,14 +1099,8 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fireAlternative(target);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
         for(int i=0;i<2;i++){
@@ -1154,6 +1136,9 @@ class WeaponAlternativeTest {
         assertThrows(InvalidTargetException.class,()->weapon.fire(target));
     }
 
+    /**
+     * this test verify the right and the wrong uses of Sledgehammer
+     */
     @Test
     void sledgehammer(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -1175,9 +1160,7 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(2,enemy.getDamageCounter());
@@ -1219,14 +1202,8 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fireAlternative(target);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(3,enemy.getDamageCounter());
         for(int i=0;i<3;i++){
@@ -1272,14 +1249,8 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fireAlternative(target);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(3,enemy.getDamageCounter());
         for(int i=0;i<3;i++){
@@ -1326,8 +1297,11 @@ class WeaponAlternativeTest {
         assertThrows(InvalidTargetException.class,()->weapon.fireAlternative(target));
     }
 
+    /**
+     * this test verify the right use of Tractor Beam
+     */
     @Test
-    void tracktorBeam(){
+    void tractorBeam(){
         for(Weapon w: board.getWeaponsListCopy()){
             if(w.getName().equals("Tractor Beam")){
                 weapon = w;
@@ -1348,9 +1322,7 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         try {
@@ -1381,6 +1353,9 @@ class WeaponAlternativeTest {
         }
     }
 
+    /**
+     * this test verify the right and the wrong uses of ZX-2
+     */
     @Test
     void ZX2(){
         for(Weapon w: board.getWeaponsListCopy()){
@@ -1402,9 +1377,7 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fire(target);
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());
@@ -1449,14 +1422,8 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fireAlternative(target);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(owner,enemy.getMark().get(0));
         assertEquals(owner,enemy2.getMark().get(0));
@@ -1502,14 +1469,8 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fireAlternative(target);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(owner,enemy.getMark().get(0));
         assertEquals(owner,enemy2.getMark().get(0));
@@ -1546,14 +1507,8 @@ class WeaponAlternativeTest {
         }
         try {
             weapon.fireAlternative(target);
-        } catch (NotThisKindOfWeapon notThisKindOfWeapon) {
+        } catch (NotThisKindOfWeapon | InvalidTargetException | NoAmmoException | NoOwnerException notThisKindOfWeapon) {
             notThisKindOfWeapon.printStackTrace();
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoAmmoException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(owner,enemy.getMark().get(0));
 

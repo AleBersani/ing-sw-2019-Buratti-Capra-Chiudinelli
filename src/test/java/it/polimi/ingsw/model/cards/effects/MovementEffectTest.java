@@ -14,27 +14,50 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * test class of movement effect
+ */
 class MovementEffectTest {
 
-    MovementEffect test, test2;
-    Player enemy;
-    Player owner;
-    TargetParameter target;
-    Board board;
-    ArrayList<Constraint> constraints;
-    ArrayList<Boolean> constrainPositivity;
+    /**
+     * movement effect to test
+     */
+    private MovementEffect test;
+    /**
+     * movement effect to test
+     */
+    private MovementEffect test2;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy;
+    /**
+     * parameters of weapon's targets
+     */
+    private TargetParameter target;
+    /**
+     * board of the game
+     */
+    private Board board;
 
+    /**
+     * builder method of the parameters needed for every tests
+     */
     @BeforeEach
-    public void setup() {
+    void setup() {
+        Player owner = new Player(true, "red", "Luciano");
         enemy = new Player(true, "green", "Lucio");
         board = new Board(null, "/Board/Board1.json");
-        constraints = new ArrayList<Constraint>();
-        constrainPositivity = new ArrayList<Boolean>();
+        ArrayList<Constraint> constraints = new ArrayList<>();
+        ArrayList<Boolean> constrainPositivity = new ArrayList<>();
         target = new TargetParameter(null, owner, enemy, null, null,null);
-        test = new MovementEffect(0,0,0,"Lablo",constraints,constrainPositivity,3,true,false,false,false);
-        test2 = new MovementEffect(0,0,0,"Lablo",constraints,constrainPositivity,2,false,false,false,false);
+        test = new MovementEffect(0,0,0,"Lablo", constraints, constrainPositivity,3,true,false,false,false);
+        test2 = new MovementEffect(0,0,0,"Lablo", constraints, constrainPositivity,2,false,false,false,false);
     }
 
+    /**
+     * this test verify if the enemy is moved in a direction
+     */
     @Test
     void applyLinear() {
         try {
@@ -50,14 +73,15 @@ class MovementEffectTest {
         }
         try {
             test.apply(target,null);
-        } catch (InvalidTargetException invalidTargetExcepion) {
+        } catch (InvalidTargetException | NoOwnerException invalidTargetExcepion) {
             invalidTargetExcepion.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(enemy,target.getMovement().getOnMe().get(0));
     }
 
+    /**
+     * this test verify if the enemy isn't moved in a direction
+     */
     @Test
     void applyNotLinearEffect(){
         try {
@@ -73,14 +97,15 @@ class MovementEffectTest {
         }
         try {
             test2.apply(target,null);
-        } catch (InvalidTargetException invalidTargetExcepion) {
+        } catch (InvalidTargetException | NoOwnerException invalidTargetExcepion) {
             invalidTargetExcepion.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(enemy,target.getMovement().getOnMe().get(0));
     }
 
+    /**
+     * this test verify if the enemy isn't moved in a direction where there is a wall
+     */
     @Test
     void applyLinearNotLinear(){
         try {

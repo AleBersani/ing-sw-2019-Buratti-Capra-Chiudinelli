@@ -127,6 +127,9 @@ public class GUI extends Application implements ViewInterface {
         this.backGraphicsGUI.buildKillShotTrack(stage);
         this.buttonsGUI.buildButtons(stage);
         this.afterPane = (StackPane)stage.getScene().getRoot();
+        if(this.persistenShow){
+            gameGUI.informationMessage(stage,messageHandler.getToShow().substring(3));
+        }
     }
 
     private void clearPane(){
@@ -233,6 +236,9 @@ public class GUI extends Application implements ViewInterface {
         Collections.addAll(killShotRepresentation, this.killShotTrackData.split(";"));
         this.backGraphicsGUI.buildKillShotTrack(stage);
         this.buttonsGUI.buildButtons(stage);
+        if(this.persistenShow){
+            gameGUI.informationMessage(stage,messageHandler.getToShow().substring(3));
+        }
     }
 
     private void reload(){
@@ -249,13 +255,6 @@ public class GUI extends Application implements ViewInterface {
 
     private void weaponDiscard(){
         chooseGUI.chooseWeapon(stage, this.discard);
-    }
-
-    private void insertCommand(){
-        reShow();
-        if(this.persistenShow){
-            gameGUI.informationMessage(stage,messageHandler.getToShow().substring(3));
-        }
     }
 
     private void suspance(){
@@ -380,7 +379,7 @@ public class GUI extends Application implements ViewInterface {
     @Override
     public void gameReShow() {
         this.gameGUI.optionalShoot = false;
-        Platform.runLater(this::insertCommand);
+        Platform.runLater(this::reShow);
     }
 
     @Override
