@@ -18,13 +18,39 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.view.gui.GameGUI.*;
 
+/**
+ * This class contains all the methods to choose weapons,ammos and cards that will beused in the game
+ */
 class ChooseGUI {
+    /**
+     * Reference to GUI
+     */
     private GUI gui;
+    /**
+     * Reference to client
+     */
     private Client client;
+    /**
+     * Reference to GameGUI
+     */
     private GameGUI gameGUI;
+    /**
+     * Reference to ShootingGUI
+     */
     private ShootingGUI shootingGUI;
+    /**
+     * Reference to ButtonsGUI
+     */
     private ButtonsGUI buttonsGUI;
 
+    /**
+     * This is the constructor of ChooseGUI class
+     * @param gui Reference to GUI
+     * @param client Reference to client
+     * @param gameGUI Reference to GameGUI
+     * @param shootingGUI Reference to ShootingGUI
+     * @param buttonsGUI Reference to ButtonsGUI
+     */
     ChooseGUI(GUI gui, Client client, GameGUI gameGUI, ShootingGUI shootingGUI, ButtonsGUI buttonsGUI) {
         this.gui = gui;
         this.client = client;
@@ -33,6 +59,11 @@ class ChooseGUI {
         this.buttonsGUI = buttonsGUI;
     }
 
+    /**
+     * This method allows the player to spawn to a spawn point choosing a power up to discard
+     * @param stage This parameter is the stage where we used to show
+     * @param msg This parameter is the message which contains the power ups that can be discarded to spawn
+     */
     void spawn(Stage stage, String msg) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
 
@@ -138,6 +169,11 @@ class ChooseGUI {
         pane.getChildren().add(pane2);
     }
 
+    /**
+     * This method interrupt the action and let the player to use a targeting scope to add 1 damage to who is shooted or a tagback grenade to add 1 mark to the shooter
+     * @param stage This parameter is the stage where we used to show
+     * @param msg This parameter is the message which contains all the available power ups that the player can use in that turn
+     */
     void interruptPowerUpUses(Stage stage, String msg){
         StackPane pane = (StackPane) stage.getScene().getRoot();
 
@@ -201,6 +237,11 @@ class ChooseGUI {
         pane.getChildren().add(pane2);
     }
 
+    /**
+     * This method allows the player to special pay the targeting scope choosing from power ups or ammo to pay that cost
+     * @param pane This parameter is the pane where we add the pane declared on this method
+     * @param msg This parameter is the message with the target and we add how to pay the cost
+     */
     void specialPay(StackPane pane, String msg){
         StackPane specialPane = new StackPane();
         GridPane specialGrid = new GridPane();
@@ -318,6 +359,11 @@ class ChooseGUI {
         pane.getChildren().add(specialPane);
     }
 
+    /**
+     * This method allows the player to pay the effect of the weapons with power ups
+     * @param pane This parameter is the pane where we add the pane declared on this method
+     * @param messageToSend This parameter is the message that need to be send to the server
+     */
     void powerUpPay(Pane pane, String messageToSend) {
         if ((gameGUI.typeOfFire != null)&&((gameGUI.typeOfFire.equals("upu"))||(gameGUI.typeOfFire.equals("interrupt"))||(gameGUI.typeOfFire.equals("Base"))||(gameGUI.typeOfFire.equals("tagBack")))) {
             client.send(messageToSend);
@@ -415,6 +461,11 @@ class ChooseGUI {
         }
     }
 
+    /**
+     * This method allows the player to reload the weapons that are not loaded
+     * @param stage This parameter is the stage where we used to show
+     * @param msg This parameter is the message that contains the weapons that can be reloaded
+     */
     void reload(Stage stage, String msg) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         StackPane pane2 = new StackPane();
@@ -558,6 +609,11 @@ class ChooseGUI {
         pane.getChildren().add(pane2);
     }
 
+    /**
+     * This method let the player to lay a weapon with another one when he already has 3 weapons and try to grab another one
+     * @param stage This parameter is the stage where we used to show
+     * @param msg This parameter is the message that will be displayed on the screen
+     */
     void chooseWeapon(Stage stage, String msg) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         StackPane pane2 = new StackPane();
