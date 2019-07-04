@@ -256,8 +256,8 @@ public class GUI extends Application implements ViewInterface {
         this.gameGUI.suspended(stage);
     }
 
-    private void interuptPower(){
-        this.gameGUI.interuptPowerUpUses(stage,infoSpawn);
+    private void interruptPower(){
+        this.gameGUI.interruptPowerUpUses(stage,infoSpawn);
     }
 
     private void showWinner(){
@@ -385,7 +385,7 @@ public class GUI extends Application implements ViewInterface {
     @Override
     public void interruptPowerUp(String msg) {
         this.infoSpawn = msg;
-        Platform.runLater(this::interuptPower);
+        Platform.runLater(this::interruptPower);
     }
 
     @Override
