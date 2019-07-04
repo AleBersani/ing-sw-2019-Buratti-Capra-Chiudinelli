@@ -20,13 +20,34 @@ import java.util.Random;
  * This class represents a board
  */
 public class Board implements Serializable {
+    /**
+     * list of rooms in the board
+     */
     private ArrayList<Room> rooms= new ArrayList<>();
+    /**
+     * list of AmmoTile
+     */
     private ArrayList<AmmoTile> ammoList= new ArrayList<>();
+    /**
+     * list of powerUp
+     */
     private ArrayList<PowerUp> powerUpList= new ArrayList<>();
+    /**
+     * list of weapon
+     */
     private ArrayList<Weapon> weaponsList= new ArrayList<>();
+    /**
+     * the match of this board
+     */
     private Match match;
+    /**
+     * name of the file needed to generate the board
+     */
     private String type;
 
+    /**
+     * a random number generator
+     */
     private Random random = new Random();
 
     /**
@@ -128,7 +149,6 @@ public class Board implements Serializable {
         }
         return null;
     }
-
 
     /**
      * This method return the first card of the deck of AmmoTile and remove that AmmoTile from the deck
@@ -278,10 +298,18 @@ public class Board implements Serializable {
         throw (new NotFoundException());
     }
 
+    /**
+     * getter method of the list of rooms
+     * @return the list of rooms
+     */
     public ArrayList<Room> getRooms() {
         return rooms;
     }
 
+    /**
+     * getter method of the list of weapons
+     * @return a copy of the list of weapon
+     */
     public ArrayList<Weapon> getWeaponsListCopy(){
         return (ArrayList<Weapon>)weaponsList.clone();
     }
@@ -332,10 +360,13 @@ public class Board implements Serializable {
         }
     }
 
+    /**
+     * getter method of the list of AmmoTile
+     * @return the list of AmmoTile
+     */
     public ArrayList<AmmoTile> getAmmoList() {
         return ammoList;
     }
-
 
     /**
      * This class is used for specifying the type of Effect need to be imported from the json file
@@ -369,6 +400,7 @@ public class Board implements Serializable {
             return null;
         }
     }
+
     /**
      * This class is used for specifying the type of Constraint need to be imported from the json file
      */

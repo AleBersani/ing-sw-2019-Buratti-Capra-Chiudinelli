@@ -2,6 +2,9 @@ package it.polimi.ingsw.model.map;
 
 import java.io.Serializable;
 
+/**
+ * class that represent an AmmoTile
+ */
 public class AmmoTile implements Serializable {
     /**
      * the amount of red ammo

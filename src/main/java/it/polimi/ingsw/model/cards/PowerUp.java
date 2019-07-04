@@ -30,6 +30,9 @@ public class PowerUp implements Serializable {
      */
     private boolean onResponse;
 
+    /**
+     * if this power up is a offensive power up
+     */
     private boolean offensive;
 
     /**
@@ -92,6 +95,10 @@ public class PowerUp implements Serializable {
         return onResponse;
     }
 
+    /**
+     * getter method of offensive
+     * @return offensive
+     */
     public boolean isOffensive() {
         return offensive;
     }
