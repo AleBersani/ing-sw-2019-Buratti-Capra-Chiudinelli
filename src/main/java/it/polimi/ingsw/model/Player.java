@@ -779,7 +779,7 @@ public class Player implements Serializable {
             descr=descr.concat(p.getName()).concat(":").concat(p.getColor()).concat("'");
         }
         descr=descr.concat(";");
-        descr= descr.concat("ActionsFrenzy:").concat(Integer.toString(onlyFrenzyAction()+1));
+        descr= descr.concat("ActionsFrenzy:").concat(Integer.toString(onlyFrenzyAction()==1 ? 1 : 2));
         return descr;
     }
 }
