@@ -74,13 +74,6 @@ public class WeaponAlternative extends Weapon {
     }
 
     /**
-     * method to verify if the owner can pay the alternative effects
-     * @param payment the cost in the different ammo amounts
-     * @param which which effect
-     * @return true if the player can pay
-     */
-
-    /**
      * getter method of the alternative effects
      * @return the list of the alternative effects
      */
