@@ -42,10 +42,17 @@ public class Controller {
     private int timerTurn;
     private Timer suspending;
 
-    public Controller(){
+    public Controller(String[] args){
         Gson gSon= new Gson();
-        BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/Configuration.json")));
-        Configuration configuration = gSon.fromJson(br, Configuration.class);
+        Configuration configuration;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(args[1]));
+            configuration = gSon.fromJson(br, Configuration.class);
+        }
+        catch (Exception e){
+            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/Configuration.json")));
+            configuration = gSon.fromJson(br, Configuration.class);
+        }
         this.board="/Board/Board" +Integer.toString(configuration.board)+ ".json";
         this.skulls=configuration.skulls;
         this.frenzyEn=configuration.frenzy;
@@ -1000,6 +1007,9 @@ public class Controller {
             } catch (NotFoundException e) {
                 sendString("error", clientHandler);
             }
+        }
+        else {
+            getNicknameList().remove(clientHandler.getName());
         }
         for (ClientInfo clientInfo : getNicknameList().values()) {
             sendString(">>>" + clientHandler.getName() + " disconnected", clientInfo.clientHandler);
