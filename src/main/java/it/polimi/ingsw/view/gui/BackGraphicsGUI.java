@@ -16,16 +16,34 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.view.gui.GameGUI.*;
 
+/**
+ * This class contains all the methods to draw the graphics of the game on the screen
+ */
 class BackGraphicsGUI {
 
+    /**
+     * Reference to GUI
+     */
     private GUI gui;
+    /**
+     * Reference to GameGUI
+     */
     private GameGUI gameGUI;
 
+    /**
+     * This is the constructor of BackGraphicsGUI class
+     * @param gui This parameter is the GUI
+     * @param gameGUI This parameter is the GameGUI
+     */
     BackGraphicsGUI(GUI gui, GameGUI gameGUI) {
         this.gui = gui;
         this.gameGUI = gameGUI;
     }
 
+    /**
+     * This method sets the back ground image of the stage
+     * @param stage This parameter is the stage where we used to show
+     */
     void backGround(Stage stage) {
         //backGround image
         StackPane pane = (StackPane) stage.getScene().getRoot();
@@ -36,6 +54,10 @@ class BackGraphicsGUI {
         pane.getChildren().add(screen);
     }
 
+    /**
+     * This method draw the entire map of the game (cells,walls,doors) and place ammo tile on ammo points and token of the players
+     * @param stage This parameter is the stage where we used to show
+     */
     void buildBoard(Stage stage) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
@@ -199,6 +221,10 @@ class BackGraphicsGUI {
         gameGUI.boardGrid = grid;
     }
 
+    /**
+     * This method draw the plance of the other players and later the skulls,damages and marks
+     * @param stage This parameter is the stage where we used to show
+     */
     void buildPlayers(Stage stage) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
@@ -235,6 +261,10 @@ class BackGraphicsGUI {
         }
     }
 
+    /**
+     * This method draw your player's plance and then draw the skulls,damages and marks on it
+     * @param stage This parameter is the stage where we used to show
+     */
     void buildYou(Stage stage) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
@@ -273,6 +303,10 @@ class BackGraphicsGUI {
         }
     }
 
+    /**
+     * This method draw the killshot track and the skulls and blood on it
+     * @param stage This parameter is the stage where we used to show
+     */
     void buildKillShotTrack(Stage stage) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         stage.getScene().setRoot(pane);
@@ -322,6 +356,10 @@ class BackGraphicsGUI {
         pane.getChildren().add(pane2);
     }
 
+    /**
+     * This is the method that draw the bloods on your player's plance
+     * @param pane This parameter is the stage where we used to show
+     */
     private void drawBloodOnYou(StackPane pane) {
         String[] blood = gui.getYouRepresentation().get(PLAYER_DAMAGE).split("'");
 
@@ -342,6 +380,10 @@ class BackGraphicsGUI {
         }
     }
 
+    /**
+     * This is the method that draw the skulls on your player's plance
+     * @param pane This parameter is the stage where we used to show
+     */
     private void drawSkullOnYou(StackPane pane) {
         String[] skull = gui.getYouRepresentation().get(PLAYER_SKULL).split(":");
 
@@ -360,6 +402,10 @@ class BackGraphicsGUI {
         }
     }
 
+    /**
+     * This is the method that draw the marks on your player's plance
+     * @param pane This parameter is the stage where we used to show
+     */
     private void drawMarkOnYou(StackPane pane){
         String[] mark = gui.getYouRepresentation().get(PLAYER_MARK).split("'");
 
@@ -373,6 +419,10 @@ class BackGraphicsGUI {
         }
     }
 
+    /**
+     * This is the method that draw the bloods on the other player's plance
+     * @param pane This parameter is the stage where we used to show
+     */
     private void drawBloodOnPlayer(StackPane pane){
         int j=0;
         for(ArrayList<String> player : gui.getPlayersRepresentation()) {
@@ -397,6 +447,10 @@ class BackGraphicsGUI {
         }
     }
 
+    /**
+     * This is the method that draw the skulls on the other player's plance
+     * @param pane This parameter is the stage where we used to show
+     */
     private void drawSkullOnPlayer(StackPane pane){
         int j=0;
         for(ArrayList<String> player : gui.getPlayersRepresentation()){
@@ -419,6 +473,10 @@ class BackGraphicsGUI {
         }
     }
 
+    /**
+     * This is the method that draw the marks on the other player's plance
+     * @param pane This parameter is the stage where we used to show
+     */
     private void drawMarkOnPlayer(StackPane pane){
         int j=0;
         for(ArrayList<String> player : gui.getPlayersRepresentation()) {
@@ -436,6 +494,17 @@ class BackGraphicsGUI {
         }
     }
 
+    /**
+     * This method draw a plance
+     * @param pane This parameter is the pane where we used to show
+     * @param grid This parameter is the grid where we add the plance
+     * @param playerPlance This parameter is the color or the player's plance
+     * @param turnFrenzy This parameter is the frenzy turn
+     * @param playerTurned This parameter is the turned plance
+     * @param colSpan This parameter is the span of the column's plance
+     * @param xpos This parameter is the starting x position on the grid of the plance
+     * @param ypos This parameter is the starting y position on the grid of the plance
+     */
     private void plance(StackPane pane, GridPane grid,String playerPlance, String turnFrenzy, String playerTurned, int colSpan, int xpos, int ypos){
         String declaration = "/images/game/plance/";
 

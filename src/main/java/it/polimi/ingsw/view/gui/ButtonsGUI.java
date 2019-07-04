@@ -18,27 +18,63 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.view.gui.GameGUI.*;
 
+/**
+ * This class contains all the methods to draw the buttons of the game on the screen
+ */
 class ButtonsGUI {
+    /**
+     * Reference to GUI
+     */
     private GUI gui;
+    /**
+     * Reference to client
+     */
     private Client client;
+    /**
+     * Reference to GameGUI
+     */
     private GameGUI gameGUI;
+    /**
+     * Reference to ShootingGUI
+     */
     private ShootingGUI shootingGUI;
+    /**
+     * Reference to ChooseGUI
+     */
     private ChooseGUI chooseGUI;
 
+    /**
+     * This is the constructor of ButtonsGUI class
+     * @param gui This parameter is the GUI
+     * @param client This parameter is the client
+     * @param gameGUI This parameter is the GameGUI
+     */
     ButtonsGUI(GUI gui, Client client, GameGUI gameGUI) {
         this.gui = gui;
         this.client = client;
         this.gameGUI = gameGUI;
     }
 
+    /**
+     * This method sets the ChooseGUI
+     * @param chooseGUI This parameter is the ChooseGUI
+     */
     void setChooseGUI(ChooseGUI chooseGUI) {
         this.chooseGUI = chooseGUI;
     }
 
+    /**
+     * This method sets the ShootingGUI
+     * @param shootingGUI This parameter is ShootingGUI
+     */
     void setShootingGUI(ShootingGUI shootingGUI) {
         this.shootingGUI = shootingGUI;
     }
 
+    /**
+     * This method draws the buttons (info,store,quit,use power up,actions,end turn,keep shooting and stop) to the stage
+     * @param stage This parameter is the stage where we used to show
+     */
     void buildButtons(Stage stage) {
         StackPane pane = (StackPane) stage.getScene().getRoot();
         GridPane gridButtons = new GridPane();
@@ -102,6 +138,12 @@ class ButtonsGUI {
         pane.getChildren().add(gridButtons);
     }
 
+    /**
+     * This method draws a rectangle and then place the actions button (shooting,run,grab)
+     * @param stage This parameter is the stage where we add the pane
+     * @param gridButtons This parameter is the grid where we add the buttons
+     * @param pane This parameter is the pane where we add the grid
+     */
     private void actionButton(Stage stage, GridPane gridButtons, StackPane pane){
         Button actions = new Button("Actions");
         gridButtons.add(actions, 4, 4);
@@ -149,9 +191,16 @@ class ButtonsGUI {
         });
     }
 
-    private void shootAction(GridPane grid4, StackPane pane, Rectangle rectangle, Button actions){
+    /**
+     * This method draws the buttons when the player wants to shoot
+     * @param grid This parameter is the grid where we add the rectangle and the buttons
+     * @param pane This parameter is the pane where we add the grid
+     * @param rectangle This parameter is the rectangle
+     * @param actions This parameter is the actions button
+     */
+    private void shootAction(GridPane grid, StackPane pane, Rectangle rectangle, Button actions){
         Button shoot = new Button("SHOOT");
-        grid4.add(shoot, 0, 0);
+        grid.add(shoot, 0, 0);
         shoot.setOnAction(e -> {
             GridPane gridWeapons = new GridPane();
             Button backShoot = new Button("BACK");
@@ -193,11 +242,20 @@ class ButtonsGUI {
             gridWeapons.setHgap(40);
             gridWeapons.setVgap(50);
             gridWeapons.setAlignment(Pos.CENTER);
-            pane.getChildren().remove(grid4);
+            pane.getChildren().remove(grid);
             pane.getChildren().add(gridWeapons);
         });
     }
 
+    /**
+     * This method draws the buttons when the player wants to grab
+     * @param stage This parameter is the stage where we add the pane
+     * @param gridButtons This parameter is the primary grid of buttons
+     * @param grid4 This parameter is the grid where we have the buttons of the actions
+     * @param pane This parameter is the pane where we add the grid
+     * @param rectangle This parameter is the rectangle
+     * @param actions This parameter is the actions button
+     */
     private void grabAction(Stage stage, GridPane gridButtons, GridPane grid4, StackPane pane, Rectangle rectangle, Button actions){
         Button stopClick = new Button();
         Button startClick = new Button();
@@ -301,6 +359,17 @@ class ButtonsGUI {
         });
     }
 
+    /**
+     * This method draws what is inside the buttons run when the player wants to move
+     * @param stage This parameter is the stage where we add the pane
+     * @param grid4 This parameter is the grid where we have the buttons of the actions
+     * @param pane This parameter is the pane where we add the grid
+     * @param rectangle This parameter is the rectangle
+     * @param actions This parameter is the actions button
+     * @param title This parameter is the title that is printed on the screen
+     * @param columnIndex This parameter is the index of the column where we add the run button
+     * @param shoot This parameter is the shooting declaration
+     */
     private void runAction(Stage stage, GridPane grid4, StackPane pane, Rectangle rectangle, Button actions, String title, int columnIndex, boolean shoot){
         Button stopClick = new Button();
         Button startClick = new Button();
@@ -353,7 +422,16 @@ class ButtonsGUI {
         });
     }
 
-
+    /**
+     * This method remove the old grids with the back button of the run action
+     * @param stage This parameter is the stage where we add the pane
+     * @param pane This parameter is the pane where we add the grid
+     * @param rectangle This parameter is the rectangle
+     * @param actions This parameter is the actions button
+     * @param grid5 This parameter is the grid where the previous buttons are
+     * @param backRun This parameter is the back run button
+     * @param clickEvent This parameter is the click event
+     */
     private void runGrabBackButton(Stage stage, StackPane pane, Rectangle rectangle, Button actions, GridPane grid5, Button backRun, EventHandler<MouseEvent> clickEvent) {
         backRun.setOnAction(ev -> {
             pane.getChildren().remove(grid5);
@@ -364,6 +442,12 @@ class ButtonsGUI {
         });
     }
 
+    /**
+     * This methods draws what is inside the button of keep shooting when the player shoot with a optional weapon
+     * @param gridButtons This parameter is the primary grid of buttons
+     * @param pane This parameter is the pane where we add the grid
+     * @param stage This parameter is the stage where we add the pane
+     */
     private void keepShooting(GridPane gridButtons, StackPane pane, Stage stage){
         Button keepOptionalButton = new Button("KEEP SHOOTING");
         if(!gui.getOpz().equals("")) {
@@ -446,6 +530,11 @@ class ButtonsGUI {
         });
     }
 
+    /**
+     * This method draws what is inside the use power up button
+     * @param gridButtons This parameter is the primary grid of buttons
+     * @param pane This parameter is the pane where we add the grid
+     */
     private void usePowerUp(GridPane gridButtons, StackPane pane){
         Button powerUps = new Button("Use PowerUps");
         gridButtons.add(powerUps, 5, 4);
@@ -495,6 +584,11 @@ class ButtonsGUI {
         });
     }
 
+    /**
+     * This method draws what is inside the button quit when the player wants to quit
+     * @param gridButtons This parameter is the primary grid of buttons
+     * @param pane This parameter is the pane where we add the grid
+     */
     private void quitButton(GridPane gridButtons, StackPane pane){
         Button quit = new Button("Quit");
         gridButtons.add(quit, 6, 4);
@@ -535,6 +629,13 @@ class ButtonsGUI {
         });
     }
 
+    /**
+     * This method draws what is inside the info button of the other players
+     * @param gridButtons This parameter is the primary grid of buttons
+     * @param pane This parameter is the pane where we add the grid
+     * @param enemyPlayer This parameter is the array list of the enemy players
+     * @param rowIndex This parameter is the row index where to put the buttons
+     */
     private void infoEnemy(GridPane gridButtons, StackPane pane, ArrayList<String> enemyPlayer, int rowIndex){
         Button infoButton = new Button("INFO");
         gridButtons.add(infoButton, 6, rowIndex);
@@ -595,6 +696,11 @@ class ButtonsGUI {
         });
     }
 
+    /**
+     * This method draws what is inside the info button of your player
+     * @param gridButtons This parameter is the primary grid of buttons
+     * @param pane This parameter is the pane where we add the grid
+     */
     private void infoMyself(GridPane gridButtons, StackPane pane){
         Button infoButton = new Button("INFO");
         gridButtons.add(infoButton, 3, 4);
@@ -662,6 +768,13 @@ class ButtonsGUI {
         });
     }
 
+    /**
+     * This method draw the buttons back info
+     * @param pane This parameter is the pane where we add the grid
+     * @param gridInfo This parameter is the grid when the button info is pressed
+     * @param rectangle This parameter is the rectangle
+     * @param j This parameter is the row index
+     */
     private void infoBackButton(StackPane pane, GridPane gridInfo, Rectangle rectangle, int j) {
         Button backButton = new Button("BACK");
         gridInfo.add(backButton, 0, 1, j + 2, 1);
@@ -673,6 +786,13 @@ class ButtonsGUI {
         });
     }
 
+    /**
+     * This method draws the ammo when the info button is pressed
+     * @param pane This parameter is the pane where we add the grid
+     * @param gridInfo This parameter is the grid when the button info is pressed
+     * @param j This parameter is the row index
+     * @param ammo This parameter is the string that contains the ammo
+     */
     private void ammoShow(StackPane pane, GridPane gridInfo, int j, String ammo) {
         String[] ammoQuantity = ammo.split(":");
         switch (ammoQuantity[0]) {
@@ -716,6 +836,13 @@ class ButtonsGUI {
         }
     }
 
+    /**
+     * This method draws the store informative buttons
+     * @param gridButtons This parameter is the primary grid of buttons
+     * @param pane This parameter is the pane where we add the grid
+     * @param stopClick This parameter is the button that stop the click event
+     * @param startClick This parameter is the button that active the click event
+     */
     void storeButtons(GridPane gridButtons, StackPane pane, Button stopClick, Button startClick) {
         for (ArrayList<ArrayList<String>> room : gui.getBoardRepresentation()) {
             for (ArrayList<String> cell : room) {
@@ -753,6 +880,12 @@ class ButtonsGUI {
         }
     }
 
+    /**
+     * This method draws the weapons when store button is pressed
+     * @param pane This parameter is the pane where we add the grid
+     * @param cell This parameter is the array list of every cell of the board that contains information
+     * @param grid4 This parameter is the grid that contains the 3 images of the weapons
+     */
     void storeWeapon(StackPane pane, ArrayList<String> cell, GridPane grid4) {
         String[] weapon = cell.get(CELL_INSIDE).split("'");
         for (int i = 0; i < NUMBER_OF_WEAPON; i++) {
@@ -766,6 +899,10 @@ class ButtonsGUI {
         }
     }
 
+    /**
+     * This method change the etiquette of the run to a shoot during a frenzy turn
+     * @param stage This parameter is the stage where we add the pane
+     */
     void shootFrenzy(Stage stage){
         StackPane pane = (StackPane) stage.getScene().getRoot();
         StackPane frenzyPane = new StackPane();
