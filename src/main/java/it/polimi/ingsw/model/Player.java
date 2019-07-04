@@ -500,7 +500,6 @@ public class Player implements Serializable {
         return 0;
     }
 
-    //TODO colntrollare se funziona bene
     /**
      * This method return and integer for upgrade the movement in the frenzy action
      * @return 1 if the player is the first player or if his final turn comes later then the first player, 0 otherwise

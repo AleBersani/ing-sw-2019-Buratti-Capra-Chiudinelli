@@ -191,7 +191,7 @@ class GameGUI {
         pane.getChildren().add(pane2);
     }
 
-    void interuptPowerUpUses(Stage stage, String msg){
+    void interruptPowerUpUses(Stage stage, String msg){
         StackPane pane = (StackPane) stage.getScene().getRoot();
 
         StackPane pane2 = new StackPane();
@@ -222,7 +222,7 @@ class GameGUI {
             int pU = i;
             powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
                 this.handPosition = String.valueOf(pU);
-                this.typeOfFire = "interupt";
+                this.typeOfFire = "interrupt";
                 this.shootingGUI.buildTarget(stage,"Player;"," ");
                 pane.getChildren().remove(pane2);
             });
@@ -515,7 +515,7 @@ class GameGUI {
     }
 
     void powerUpPay(Pane pane, String messageToSend) {
-        if ((typeOfFire != null)&&((typeOfFire.equals("upu"))||(typeOfFire.equals("interupt"))||(typeOfFire.equals("Base")))) {
+        if ((typeOfFire != null)&&((typeOfFire.equals("upu"))||(typeOfFire.equals("interrupt"))||(typeOfFire.equals("Base")))) {
             client.send(messageToSend);
             typeOfFire = "";
         }
