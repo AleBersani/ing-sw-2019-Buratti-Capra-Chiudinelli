@@ -92,8 +92,9 @@ public class Turn implements Serializable {
         int max;
         boolean found;
 
-        if(this.deads.size()>=2)        //DOUBLE, TRIPLE, QUADRA KILL
+        if(this.deads.size()>=2 && (!this.match.isEndgame()))        //DOUBLE, TRIPLE, QUADRA KILL
            this.deads.get(0).getDamage().get(10).setPoints(this.deads.get(0).getDamage().get(10).getPoints() + 1);
+
 
         for(i=0;i<this.deads.size();i++) {
             for (j = 0; j < this.deads.get(i).getDamage().size(); j++) {
@@ -109,13 +110,14 @@ public class Turn implements Serializable {
                 }
             }
 
-            getMatch().getKillShotTrack().add(this.deads.get(i).getDamage().get(10));
-            if(this.deads.get(i).getDamage().size()==12 && this.deads.get(i).getDamage().get(10)==this.deads.get(i).getDamage().get(11)) {
-                match.getDoubleOnKillShotTrack().add(true);
-                this.deads.get(i).getDamage().get(11).marked(1,this.deads.get(i));
-            }
-            else {
-                match.getDoubleOnKillShotTrack().add(false);
+            if(!this.match.isEndgame()) {
+                getMatch().getKillShotTrack().add(this.deads.get(i).getDamage().get(10));
+                if (this.deads.get(i).getDamage().size() == 12 && this.deads.get(i).getDamage().get(10) == this.deads.get(i).getDamage().get(11)) {
+                    match.getDoubleOnKillShotTrack().add(true);
+                    this.deads.get(i).getDamage().get(11).marked(1, this.deads.get(i));
+                } else {
+                    match.getDoubleOnKillShotTrack().add(false);
+                }
             }
 
             for(k=0;!damagePlayer.isEmpty();k++) {// SET POINT FOR ALL DAMAGER
@@ -135,17 +137,19 @@ public class Turn implements Serializable {
                 damageCounter.remove(index);
                 damagePlayer.remove(index);
             }
-            if(!this.deads.get(i).isTurnedPlank()) {
+            if(!this.deads.get(i).isTurnedPlank() && !this.deads.get(i).getDamage().isEmpty()) {
                 this.deads.get(i).getDamage().get(0).setPoints(this.deads.get(i).getDamage().get(0).getPoints() + 1); //FIRSTBLOOD
             }
             this.deads.get(i).setSkull(this.deads.get(i).getSkull() + 1);
 
-            getMatch().setSkulls(getMatch().getSkulls()-1);
-            if(getMatch().getSkulls()==0){
-                this.deads.get(i).getDamage().get(10).setLastKill(true);
-            }
-            if(getMatch().getSkulls()<0){
-                getMatch().setSkulls(0);
+            if(!this.match.isEndgame()){
+                getMatch().setSkulls(getMatch().getSkulls()-1);
+                if(getMatch().getSkulls()==0){
+                    this.deads.get(i).getDamage().get(10).setLastKill(true);
+                }
+                if(getMatch().getSkulls()<0){
+                    getMatch().setSkulls(0);
+                }
             }
         }
 
