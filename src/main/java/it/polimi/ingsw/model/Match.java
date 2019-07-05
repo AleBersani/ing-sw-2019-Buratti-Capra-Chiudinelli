@@ -215,6 +215,9 @@ public class Match implements Serializable {
 
         this.winner= winPlayer;
         this.endgame = true;
+
+        this.turn.getDeads().addAll(this.players);
+        this.getTurn().setPoint();
     }
 
     /**

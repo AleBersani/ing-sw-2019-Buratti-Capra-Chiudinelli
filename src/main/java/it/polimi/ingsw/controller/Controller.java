@@ -396,21 +396,24 @@ public class Controller {
                 }
                 case RESPONSE_DEFENSIVE_POWERUP:{
                     if(msg.startsWith("RPU-")){
+
                         ArrayList<PowerUp> usable = new ArrayList<>();
                         try {
-                            for (PowerUp powerUp : playerFromNickname(clientHandler.getName(), this.match).getPowerUps()) {
-                                if (powerUp.getOnResponse() && !powerUp.isOffensive()) {
-                                    usable.add(powerUp);
+                            if(!msg.substring(ETIQUETTE).split("'")[0].equals("no")) {
+                                for (PowerUp powerUp : playerFromNickname(clientHandler.getName(), this.match).getPowerUps()) {
+                                    if (powerUp.getOnResponse() && !powerUp.isOffensive()) {
+                                        usable.add(powerUp);
+                                    }
                                 }
+                                ArrayList<ArrayList<Player>> shooterWrapper = new ArrayList<>();
+                                ArrayList<Player> shooter = new ArrayList<>();
+                                shooter.add(this.match.getTurn().getCurrent());
+                                shooterWrapper.add(new ArrayList<>());
+                                shooterWrapper.add(new ArrayList<>());
+                                shooterWrapper.add(shooter);
+                                usable.get(Integer.parseInt(msg.substring(ETIQUETTE).split("'")[0])).useEffect(generateTarget(msg.split("'")[1].substring(0, msg.split("'")[1].length() - 1), clientHandler, this.match), shooterWrapper);
+                                playerFromNickname(clientHandler.getName(), this.match).discard(usable.get(Integer.parseInt(msg.substring(ETIQUETTE).split("'")[0])));
                             }
-                            ArrayList<ArrayList<Player>> shooterWrapper= new ArrayList<>();
-                            ArrayList<Player> shooter = new ArrayList<>();
-                            shooter.add(this.match.getTurn().getCurrent());
-                            shooterWrapper.add(new ArrayList<>());
-                            shooterWrapper.add(new ArrayList<>());
-                            shooterWrapper.add(shooter);
-                            usable.get(Integer.parseInt(msg.substring(ETIQUETTE).split("'")[0])).useEffect(generateTarget(msg.split("'")[1].substring(0, msg.split("'")[1].length() - 1),clientHandler, this.match),shooterWrapper);
-                            playerFromNickname(clientHandler.getName(), this.match).discard(usable.get(Integer.parseInt(msg.substring(ETIQUETTE).split("'")[0])));
                             clientHandler.setYourTurn(false);
                             clientInfoFromClientHandler(clientHandler).setState(ClientInfo.State.GAME);
                             for (ClientInfo clientInfo : getNicknameList().values()){
