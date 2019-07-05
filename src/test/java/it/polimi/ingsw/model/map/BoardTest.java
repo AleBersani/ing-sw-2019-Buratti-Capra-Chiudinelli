@@ -6,16 +6,31 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * tester class of board
+ */
 class BoardTest {
-    Board test;
-    AmmoTile ammoForReshuffleTest;
+    /**
+     * board to test
+     */
+    private Board test;
+    /**
+     * an ammo tile for the list of ammo
+     */
+    private AmmoTile ammoForReshuffleTest;
 
+    /**
+     * set the board and the ammoTile for the tests
+     */
     @BeforeEach
-    public void setUp(){
+    void setUp(){
         test= new Board(null, "/Board/Board1.json");
         ammoForReshuffleTest= new AmmoTile(0,2,1,0);
     }
 
+    /**
+     * test the find method
+     */
     @Test
     void find() {
         try {
@@ -26,6 +41,9 @@ class BoardTest {
 
     }
 
+    /**
+     * test the reshuffle of the AmmoTile list
+     */
     @Test
     void reShuffleAmmoNoRepetitions(){
         Square s;
@@ -33,7 +51,9 @@ class BoardTest {
         try {
             s=test.find(1,1);
             a =s instanceof AmmoPoint ? ((AmmoPoint) s) : null;
-            a.setAmmo(ammoForReshuffleTest);
+            if (a != null) {
+                a.setAmmo(ammoForReshuffleTest);
+            }
         } catch (NotFoundException e) {
             e.printStackTrace();
         }

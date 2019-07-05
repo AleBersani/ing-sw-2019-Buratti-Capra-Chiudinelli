@@ -7,25 +7,32 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * tester class of Room
+ */
 class RoomTest {
+    /**
+     * the room to test
+     */
+    private Room test;
 
-    Room test;
-    ArrayList<Integer> testX;
-    ArrayList<Integer> testY;
-    ArrayList<String> testColor;
-
-
+    /**
+     * builder method of the parameters needed for every tests
+     */
     @BeforeEach
-    public void setUp(){
-        testX= new ArrayList<>();
-        testY= new ArrayList<>();
-        testColor=new ArrayList<>();
+    void setUp(){
+        ArrayList<Integer> testX = new ArrayList<>();
+        ArrayList<Integer> testY = new ArrayList<>();
+        ArrayList<String> testColor = new ArrayList<>();
         testColor.add("Green");
         testX.add(1);
         testY.add(5);
-        test= new Room(1,testX,testY,0,0,testColor,null);
+        test= new Room(1, testX, testY,0,0, testColor,null);
     }
 
+    /**
+     * test the find method
+     */
     @Test
     void find() {
         try {

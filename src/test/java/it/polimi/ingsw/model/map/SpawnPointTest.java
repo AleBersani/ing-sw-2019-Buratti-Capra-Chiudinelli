@@ -4,18 +4,31 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * tester class of SpawnPoint
+ */
 class SpawnPointTest {
 
-    SpawnPoint test;
+    /**
+     * the tested SpawnPoint
+     */
+    private SpawnPoint test;
 
+    /**
+     * set the spawnPoint to test
+     */
     @BeforeEach
-    public void setUp(){
+    void setUp(){
         test= new SpawnPoint(1,1,null,null);
     }
 
+    /**
+     * test if the spawn point has no weapon on it
+     */
     @Test
     void require() {
-        assertEquals(true,test.require());
+        assertTrue(test.require());
     }
 }

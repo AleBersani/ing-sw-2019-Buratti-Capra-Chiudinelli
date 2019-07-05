@@ -14,27 +14,49 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * test class of effect vs room
+ */
 class EffectVsPlayerTest {
 
-    EffectVsPlayer test;
-    Player enemy;
-    Player owner;
-    TargetParameter target;
-    Board board;
-    ArrayList<Constraint> constraints;
-    ArrayList<Boolean> constrainPositivity;
+    /**
+     * effect to test
+     */
+    private EffectVsPlayer test;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy;
+    /**
+     * owner of the weapon to test
+     */
+    private Player owner;
+    /**
+     * parameters of the target
+     */
+    private TargetParameter target;
+    /**
+     * board of the game
+     */
+    private Board board;
 
+    /**
+     * builder method of the parameters needed for every tests
+     */
     @BeforeEach
     void  setup(){
         owner = new Player(true, "blue", "Franco");
         enemy = new Player(true, "green", "Lucio");
         board = new Board(null, "/Board/Board1.json");
-        constraints = new ArrayList<Constraint>();
-        constrainPositivity = new ArrayList<Boolean>();
+        ArrayList<Constraint> constraints = new ArrayList<>();
+        ArrayList<Boolean> constrainPositivity = new ArrayList<>();
         target = new TargetParameter(null, owner, null, null, null,null);
-        test = new EffectVsPlayer(0,0,0,"lumbro",constraints,constrainPositivity,1,0,false,false);
+        test = new EffectVsPlayer(0,0,0,"lumbro", constraints, constrainPositivity,1,0,false,false);
     }
 
+    /**
+     * test if this effect can be applied on an enemy
+     */
     @Test
     void apply() {
         try {
@@ -59,9 +81,7 @@ class EffectVsPlayerTest {
                     add(new ArrayList<>());
                 }
             });
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1,enemy.getDamageCounter());

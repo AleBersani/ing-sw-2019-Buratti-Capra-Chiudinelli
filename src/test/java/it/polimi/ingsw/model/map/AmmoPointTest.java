@@ -5,16 +5,27 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * test class of AmmoPoint
+ */
 class AmmoPointTest {
 
-    AmmoPoint test;
+    /**
+     * the AmmoPoint to test
+     */
+    private AmmoPoint test;
 
+    /**
+     * set the ammoPoint
+     */
     @BeforeEach
-    public void setUp(){
+    void setUp(){
         test= new AmmoPoint(1,1,null,null);
     }
 
-
+    /**
+     * test if the AmmoPoint hasn't AmmoTile on it
+     */
     @Test
     void require() {
         assertTrue(test.require());
