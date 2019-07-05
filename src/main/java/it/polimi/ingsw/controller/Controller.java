@@ -125,13 +125,13 @@ public class Controller {
 
     /**
      * This constructor initialize the controller using the data in the configuration file
-     * @param path This parameters contains the path of the configuration file
+     * @param args This parameters contains the path of the configuration file at position 1
      */
-    public Controller(String path){
+    public Controller(String [] args){
         Gson gSon= new Gson();
         Configuration configuration;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(path));
+            BufferedReader br = new BufferedReader(new FileReader(args[1]));
             configuration = gSon.fromJson(br, Configuration.class);
         }
         catch (Exception e){
@@ -236,7 +236,17 @@ public class Controller {
                             reload(clientHandler);
                         }
                         else if(msg.startsWith("RLD-")) {
-                            effectiveReload(msg, clientHandler, this.match);
+                            try {
+                                effectiveReload(msg, clientHandler, this.match);
+                            } catch (NoAmmoException e) {
+                                reload(clientHandler);
+                                sendString(">>>You don't have enough ammo", clientHandler);
+                                return;
+                            } catch (WrongPowerUpException e) {
+                                reload(clientHandler);
+                                sendString(">>>Wrong PowerUps", clientHandler);
+                                return;
+                            }
                             clientHandler.setYourTurn(false);
                             respawn();
                             this.match.getTurn().endTurn();
@@ -424,7 +434,17 @@ public class Controller {
                 case SHOOTING_FRENZY:{
                     if(msg.startsWith("RLD-")) {
                         try {
-                            effectiveReload(msg, clientHandler, clientInfoFromClientHandler(clientHandler).simulation);
+                            try {
+                                effectiveReload(msg, clientHandler, clientInfoFromClientHandler(clientHandler).simulation);
+                            }  catch (NoAmmoException e) {
+                                reload(clientHandler);
+                                sendString(">>>You don't have enough ammo", clientHandler);
+                                return;
+                            } catch (WrongPowerUpException e) {
+                                reload(clientHandler);
+                                sendString(">>>Wrong PowerUps", clientHandler);
+                                return;
+                            }
                             updateBackground(clientInfoFromClientHandler(clientHandler).simulation);
                             sendString("FNZ-", clientHandler);
                         } catch (NotFoundException e) {
@@ -446,7 +466,7 @@ public class Controller {
      * @param clientHandler This parameter is the clientHandler of the client that wants to reload weapons
      * @param match This parameter is the match where the weapon need to be reloaded
      */
-    private void effectiveReload(String msg, ClientHandler clientHandler, Match match) {
+    private void effectiveReload(String msg, ClientHandler clientHandler, Match match) throws WrongPowerUpException, NoAmmoException {
         if (!msg.substring(ETIQUETTE).equals("")) {
             try {
                 int totalCostBlue=0;
@@ -464,14 +484,6 @@ public class Controller {
                 sendString("error", clientHandler);
             } catch (LoadedException e) {
                 sendString(">>>This weapon is already load", clientHandler);
-            } catch (NoAmmoException e) {
-                reload(clientHandler);
-                sendString(">>>You don't have enough ammo", clientHandler);
-                return;
-            } catch (WrongPowerUpException e) {
-                reload(clientHandler);
-                sendString(">>>Wrong PowerUps", clientHandler);
-                return;
             }
             updateBackground(match);
         }
@@ -1302,9 +1314,11 @@ public class Controller {
         }
         else {
             getNicknameList().remove(clientHandler.getName());
+            for (ClientInfo clientInfo : getNicknameList().values()) {
+                sendString(">>>" + clientHandler.getName() + " disconnected", clientInfo.clientHandler);
+            }
         }
         for (ClientInfo clientInfo : getNicknameList().values()) {
-            sendString(">>>" + clientHandler.getName() + " disconnected", clientInfo.clientHandler);
             if (clientInfo.state.equals(ClientInfo.State.WAIT)) {
                 this.waitingRoom(clientInfo.clientHandler);
             }
