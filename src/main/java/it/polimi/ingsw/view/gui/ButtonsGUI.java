@@ -311,6 +311,7 @@ class ButtonsGUI {
                                                 String messageToSend = "GMC-GRB-".concat(Integer.toString(cellX)).concat(",").concat(Integer.toString(cellY).concat(",").concat(Integer.toString(w)));
                                                 gameGUI.typeOfFire = " ";
                                                 chooseGUI.powerUpPay(pane,messageToSend);
+                                                pane.getChildren().remove(rectangle);
                                                 pane.getChildren().remove(grid);
                                             });
                                         } else {

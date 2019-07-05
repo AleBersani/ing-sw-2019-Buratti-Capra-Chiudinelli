@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -275,26 +276,22 @@ class ChooseGUI {
         specialGrid.getColumnConstraints().add(col);
 
 
-        int z=0;
-        for(String powerups : allPowerUps){
-            String[] single = powerups.split(":");
-            if((single[0].equals("targeting scope"))&&(z == Integer.parseInt(gameGUI.handPosition))){
-                break;
-            }
-            z++;
-        }
+        String[] offensive = gui.infoSpawn.split(";");
 
         int j=0;
-        for(int i=0; i<allPowerUps.length;i++){
-            if(z != i){
-                String realPowerUp = gameGUI.powerUpSwitch(allPowerUps[i]);
+        boolean flag = false;
+        for (String allPowerUp : allPowerUps) {
+            if ((!offensive[Integer.parseInt(gameGUI.handPosition)].equals(allPowerUp))||(flag)) {
+                String realPowerUp = gameGUI.powerUpSwitch(allPowerUp);
                 ImageView powerUp = new ImageView(new Image("images/game/powerUps/".concat(realPowerUp).concat(".png"), pane.getWidth() / 10, pane.getHeight() / 5, false, false));
                 specialGrid.add(powerUp, j, 1);
-                final int ammo=j;
-                powerUp.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> client.send(msg.concat(">").concat(String.valueOf(ammo))));
+                final int ammo = j;
+                powerUp.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> client.send(msg.concat(">").concat(String.valueOf(ammo))));
                 j++;
             }
-
+            else{
+                flag = true;
+            }
         }
 
         for (String ammo : gui.getYouRepresentation().get(PLAYER_AMMO).split("'")) {

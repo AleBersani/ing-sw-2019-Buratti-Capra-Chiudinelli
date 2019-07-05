@@ -93,7 +93,7 @@ public class GUI extends Application implements ViewInterface {
     /**
      * message for show a correct Spawn
      */
-    private String infoSpawn;
+    String infoSpawn;
     /**
      * message for show the right requests during the target buildings method
      */
