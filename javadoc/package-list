@@ -1,8 +1,12 @@
 it.polimi.ingsw
-it.polimi.ingsw.communication
+it.polimi.ingsw.communication.client
+it.polimi.ingsw.communication.server
+it.polimi.ingsw.controller
 it.polimi.ingsw.exception
 it.polimi.ingsw.model
 it.polimi.ingsw.model.cards
 it.polimi.ingsw.model.cards.constraints
 it.polimi.ingsw.model.cards.effects
 it.polimi.ingsw.model.map
+it.polimi.ingsw.view
+it.polimi.ingsw.view.gui
