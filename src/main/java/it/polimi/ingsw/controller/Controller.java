@@ -458,6 +458,8 @@ public class Controller {
                         if(msg.substring(ETIQUETTE*2).equals("no")){
                             try {
                                 cleanSimulation(clientInfoFromClientHandler(clientHandler));
+                                updateBackground(this.match);
+                                sendString(">>>No loaded weapons", clientHandler);
                             } catch (NotFoundException e) {
                                 sendString("error", clientHandler);
                             }

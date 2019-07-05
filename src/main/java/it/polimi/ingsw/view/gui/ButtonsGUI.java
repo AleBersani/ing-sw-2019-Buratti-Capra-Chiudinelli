@@ -905,47 +905,51 @@ class ButtonsGUI {
      * @param stage This parameter is the stage where we add the pane
      */
     void shootFrenzy(Stage stage){
-        int k=0;
-        for(String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")){
-            String[] playerWeapon = weapon.split(":");
-            if (playerWeapon[1].equals("true")) {
-                k++;
-            }
-        }
-        
-        if((!gui.getYouRepresentation().get(YOU_WEAPON).equals(""))||(k>0)) {
-            StackPane pane = (StackPane) stage.getScene().getRoot();
-            StackPane frenzyPane = new StackPane();
-            GridPane gridWeapons = new GridPane();
-            Rectangle rectangle = new Rectangle();
-            gameGUI.rectangleStandard(rectangle, pane);
-
-            int j = 0;
-            for (String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")) {
-                if (!weapon.equals("")) {
-                    String[] playerWeapon = weapon.split(":");
-                    if (playerWeapon[1].equals("true")) {
-                        String weaponName = playerWeapon[0].toLowerCase().replace(" ", "");
-                        ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName).concat(".png"), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
-                        gridWeapons.add(weaponIV, j, 0);
-                        final int wpn = j;
-                        weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
-                            client.send("GMC-SHT-".concat(Integer.toString(wpn)));
-                            pane.getChildren().remove(frenzyPane);
-                            gameGUI.nameWeapon = weaponName;
-                            gameGUI.handPosition = Integer.toString(wpn);
-                        });
-                    }
+        if((!gui.getYouRepresentation().get(YOU_WEAPON).equals(""))) {
+            int k=0;
+            for(String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")){
+                String[] playerWeapon = weapon.split(":");
+                if (playerWeapon[1].equals("true")) {
+                    k++;
                 }
-                j++;
             }
+            if(k>0) {
+                StackPane pane = (StackPane) stage.getScene().getRoot();
+                StackPane frenzyPane = new StackPane();
+                GridPane gridWeapons = new GridPane();
+                Rectangle rectangle = new Rectangle();
+                gameGUI.rectangleStandard(rectangle, pane);
 
-            gridWeapons.setHgap(40);
-            gridWeapons.setVgap(50);
-            gridWeapons.setAlignment(Pos.CENTER);
-            frenzyPane.getChildren().add(rectangle);
-            frenzyPane.getChildren().add(gridWeapons);
-            pane.getChildren().add(frenzyPane);
+                int j = 0;
+                for (String weapon : gui.getYouRepresentation().get(YOU_WEAPON).split("'")) {
+                    if (!weapon.equals("")) {
+                        String[] playerWeapon = weapon.split(":");
+                        if (playerWeapon[1].equals("true")) {
+                            String weaponName = playerWeapon[0].toLowerCase().replace(" ", "");
+                            ImageView weaponIV = new ImageView(new Image("/images/game/weapons/".concat(weaponName).concat(".png"), pane.getWidth() / N_COLUMN, pane.getHeight() / NUMBER_OF_WEAPON, false, false));
+                            gridWeapons.add(weaponIV, j, 0);
+                            final int wpn = j;
+                            weaponIV.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, ev -> {
+                                client.send("GMC-SHT-".concat(Integer.toString(wpn)));
+                                pane.getChildren().remove(frenzyPane);
+                                gameGUI.nameWeapon = weaponName;
+                                gameGUI.handPosition = Integer.toString(wpn);
+                            });
+                        }
+                    }
+                    j++;
+                }
+
+                gridWeapons.setHgap(40);
+                gridWeapons.setVgap(50);
+                gridWeapons.setAlignment(Pos.CENTER);
+                frenzyPane.getChildren().add(rectangle);
+                frenzyPane.getChildren().add(gridWeapons);
+                pane.getChildren().add(frenzyPane);
+            }
+            else {
+                client.send("GMC-SHT-no");
+            }
         }
         else{
             client.send("GMC-SHT-no");
