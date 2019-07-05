@@ -820,7 +820,7 @@ public class Controller {
                     );
                 }
                 clientInfoFromClientHandler(clientHandler).simulation.getTurn().getCurrent().shoot(weapon,
-                        data[1].equals(" ") ? playerFromNickname(clientHandler.getName(), this.match).getPosition() : clientInfoFromClientHandler(clientHandler).simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]), Integer.parseInt(data[1].split(":")[1])),
+                        data[1].equals(" ") ? playerFromNickname(clientHandler.getName(), clientInfoFromClientHandler(clientHandler).simulation).getPosition() : clientInfoFromClientHandler(clientHandler).simulation.getBoard().find(Integer.parseInt(data[1].split(":")[0]), Integer.parseInt(data[1].split(":")[1])),
                         targetParameters);
                 if(!clientInfoFromClientHandler(clientHandler).simulation.getTurn().getCurrent().getWeapons().get(Integer.parseInt(data[0])).isOptional()) {
                     try {

@@ -388,7 +388,8 @@ class ShootingGUI {
      * @param msg This parameter is the message with the target and we add the cell where he moves before shooting
      */
     private void shootMovement(Stage stage, String msg) {
-        if (gui.getYouRepresentation().get(PLAYER_DAMAGE).split("'").length >= SHOOT_ADRENALINE) {
+        if (((gui.getYouRepresentation().get(PLAYER_DAMAGE).split("'").length >= SHOOT_ADRENALINE))&&(!gameGUI.stopMovement)) {
+            gameGUI.stopMovement = true;
             StackPane pane = (StackPane) stage.getScene().getRoot();
             StackPane movementPane = new StackPane();
             GridPane movementGrid = new GridPane();

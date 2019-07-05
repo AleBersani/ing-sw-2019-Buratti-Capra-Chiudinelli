@@ -40,6 +40,10 @@ class GameGUI {
      */
     boolean endTurn = false;
     /**
+     * This attribute is to control that there is only one adrenaline movement
+     */
+    boolean stopMovement = false;
+    /**
      * This attribute is the position in hand
      */
     String handPosition;

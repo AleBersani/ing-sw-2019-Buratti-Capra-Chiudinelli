@@ -207,7 +207,7 @@ public class Player implements Serializable {
      * @throws NoOwnerException This exception means the weapon is not loaded
      */
     public void shoot(Weapon weapon, Square destination, ArrayList<TargetParameter> target) throws NotLoadedException, InvalidDestinationException, InvalidTargetException, NotThisKindOfWeapon, NoAmmoException, NoOwnerException {
-        if(isOnAdrenalineShoot() && !this.turn.isFrenzy()) {
+        if(isOnAdrenalineShoot() && !this.turn.isFrenzy() && destination!=null) {
             if (this.position.calcDist(destination) <= 1) {
                 this.position.leaves(this);
                 this.position = destination;

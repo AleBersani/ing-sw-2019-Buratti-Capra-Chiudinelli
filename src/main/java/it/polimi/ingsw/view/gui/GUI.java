@@ -611,6 +611,7 @@ public class GUI extends Application implements ViewInterface {
      */
     @Override
     public void gameReShow() {
+        gameGUI.stopMovement = false;
         this.gameGUI.optionalShoot = false;
         Platform.runLater(this::reShow);
     }

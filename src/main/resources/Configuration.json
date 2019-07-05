@@ -13,6 +13,6 @@
     "grey",
     "purple"
   ],
-  "timerTurn": 10000,
+  "timerTurn": 120,
   "minimumPlayer": 3
 }
