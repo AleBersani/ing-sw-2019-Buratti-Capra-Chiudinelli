@@ -15,7 +15,7 @@ public class Main {
      */
     public static void main( String[] args ) throws IOException
     {
-        Controller controller= new Controller(args);
+        Controller controller= new Controller(args[1]);
         if (args.length == 0) {
             System.out.println("Provide port please");
             return;
