@@ -455,7 +455,16 @@ public class Controller {
                         }
                     }
                     else if(msg.startsWith("GMC-SHT-")){
-                        targetRequestWeapon(clientHandler, msg.substring(ETIQUETTE));
+                        if(msg.substring(ETIQUETTE*2).equals("no")){
+                            try {
+                                cleanSimulation(clientInfoFromClientHandler(clientHandler));
+                            } catch (NotFoundException e) {
+                                sendString("error", clientHandler);
+                            }
+                        }
+                        else {
+                            targetRequestWeapon(clientHandler, msg.substring(ETIQUETTE));
+                        }
                     }
                     break;
                 }
