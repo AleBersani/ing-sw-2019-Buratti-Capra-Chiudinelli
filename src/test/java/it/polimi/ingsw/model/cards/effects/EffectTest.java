@@ -14,22 +14,98 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * test if multiple constraint can be applied to a single effect
+ */
 class EffectTest {
+    /**
+     * a constraint to test
+     */
+    private See see;
+    /**
+     * a constraint to test
+     */
+    private See see2;
+    /**
+     * a constraint to test
+     */
+    private SameSquare sameSquare;
+    /**
+     * a constraint to test
+     */
+    private SameSquare sameSquare2;
+    /**
+     * a constraint to test
+     */
+    private SamePlayer samePlayer;
+    /**
+     * a constraint to test
+     */
+    private SameDirection sameDirection;
+    /**
+     * a constraint to test
+     */
+    private MinimumDistance minimumDistanceConcatenate;
+    /**
+     * a constraint to test
+     */
+    private MinimumDistance minimumDistanceConcatenate2;
+    /**
+     * a constraint to test
+     */
+    private MinimumDistance minimumDistance2;
+    /**
+     * a constraint to test
+     */
+    private MinimumDistance minimumDistance3;
+    /**
+     * a constraint to test
+     */
+    private AdjacentRoom adjacentRoom;
+    /**
+     * owner of the weapon to test
+     */
+    private Player owner;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy2;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy3;
+    /**
+     * parameters of the target
+     */
+    private TargetParameter target;
+    /**
+     * board of the game
+     */
+    private Board board;
+    /**
+     * previous targets of the weapon
+     */
+    private ArrayList<ArrayList<Player>> previousTarget;
+    /**
+     * effect to test
+     */
+    private Effect effect;
+    /**
+     * list of constraints to test
+     */
+    private ArrayList<Constraint> constraints;
+    /**
+     * list of the behavior of the constraints to test
+     */
+    private ArrayList<Boolean> constrainPositivity;
 
-    See see,see2;
-    SameSquare sameSquare,sameSquare2;
-    SamePlayer samePlayer;
-    SameDirection sameDirection;
-    MinimumDistance minimumDistanceConcatenate,minimumDistanceConcatenate2,minimumDistance2,minimumDistance3;
-    AdjacentRoom adjacentRoom;
-    Player owner,enemy,enemy2,enemy3;
-    Board board;
-    TargetParameter target;
-    ArrayList<ArrayList<Player>> previousTarget;
-    Effect effect;
-    ArrayList<Constraint> constraints;
-    ArrayList<Boolean> constrainPositivity;
-
+    /**
+     * builder method of the parameters needed for every tests
+     */
     @BeforeEach
     void setup(){
         see = new See(false,0);
@@ -49,14 +125,14 @@ class EffectTest {
         enemy2 = new Player(false, "red", "Fabio");
         enemy3 = new Player(false, "yellow", "Ciccio");
         target = new TargetParameter(null,owner,null,null,null,null);
-        previousTarget = new ArrayList<ArrayList<Player>>();
-        previousTarget.add(new ArrayList<Player>());
-        previousTarget.add(new ArrayList<Player>());
-        constraints = new ArrayList<Constraint>();
-        constrainPositivity = new ArrayList<Boolean>();
+        previousTarget = new ArrayList<>();
+        previousTarget.add(new ArrayList<>());
+        previousTarget.add(new ArrayList<>());
+        constraints = new ArrayList<>();
+        constrainPositivity = new ArrayList<>();
         effect = new Effect(0,0,0,"elio",constraints,constrainPositivity) {
             @Override
-            public void apply(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget) throws InvalidTargetException {
+            public void apply(TargetParameter target, ArrayList<ArrayList<Player>> previousTarget) {
 
             }
 
@@ -67,6 +143,9 @@ class EffectTest {
         };
     }
 
+    /**
+     * test if the owner can shoot at a near room
+     */
     @Test
     void adjacentRoomCheck(){
         try {
@@ -90,6 +169,9 @@ class EffectTest {
         }
     }
 
+    /**
+     * test if a minimum and maximum distance constraints ca be applied on the same effect
+     */
     @Test
     void doubleDistanceCheck() {
         try {
@@ -115,6 +197,9 @@ class EffectTest {
         }
     }
 
+    /**
+     * test if a minimum and maximum distance constraints ca be applied on the same effect, when the enemy is distant from the owner
+     */
     @Test
     void doubleDistanceTooLongDistanceCheck() {
         try {
@@ -140,6 +225,9 @@ class EffectTest {
         }
     }
 
+    /**
+     * test if a minimum and maximum  concatenate distance constraints ca be applied on the same effect
+     */
     @Test
     void doubleDistanceConcatenateCheck() {
         try {
@@ -172,6 +260,9 @@ class EffectTest {
         }
     }
 
+    /**
+     * test if a series of constraints can be applied on the same effect
+     */
     @Test
     void directionCheck() {
         try {

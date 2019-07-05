@@ -13,39 +13,67 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * test class of effect vs room
+ */
 class EffectVsRoomTest {
 
-    EffectVsRoom test;
-    Player enemy, enemy2, enemy3;
-    Player owner;
-    TargetParameter target;
-    Board board;
-    ArrayList<Constraint> constraints;
-    AdjacentRoom adjacentRoom;
-    ArrayList<Boolean> constrainPositivity;
+    /**
+     * effect to test
+     */
+    private EffectVsRoom test;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy2;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy3;
+    /**
+     * owner of the weapon to test
+     */
+    private Player owner;
+    /**
+     * parameters of the target
+     */
+    private TargetParameter target;
+    /**
+     * board of the game
+     */
+    private Board board;
 
+    /**
+     * builder method of the parameters needed for every tests
+     */
     @BeforeEach
-    public void setup(){
+    void setup(){
         owner = new Player(true, "blue", "Franco");
         enemy = new Player(true, "green", "Lucio");
         enemy2 = new Player(true, "red", "Fabio");
         enemy3 = new Player(true, "yellow", "Gino");
         board = new Board(null, "/Board/Board1.json");
-        adjacentRoom = new AdjacentRoom(0);
-        constraints = new ArrayList<Constraint>(Arrays.asList(adjacentRoom));
-        constrainPositivity = new ArrayList<Boolean>(Arrays.asList(true));
+        AdjacentRoom adjacentRoom = new AdjacentRoom(0);
+        ArrayList<Constraint> constraints = new ArrayList<>(Collections.singletonList(adjacentRoom));
+        ArrayList<Boolean> constrainPositivity = new ArrayList<>(Collections.singletonList(true));
         target = new TargetParameter(null, owner, null, null, null,null);
-        test = new EffectVsRoom(0,0,0,"Vulcanizzatore",constraints,constrainPositivity,1,0);
+        test = new EffectVsRoom(0,0,0,"Vulcanizzatore", constraints, constrainPositivity,1,0);
 
     }
 
-
+    /**
+     * test if this effect can be applied on a room adjacent to the player position
+     */
     @Test
     void apply() {
-
         board.getRooms().get(0).getSquares().get(0).arrives(enemy);
         enemy.setPosition(board.getRooms().get(0).getSquares().get(0));
         board.getRooms().get(0).getSquares().get(1).arrives(enemy2);
@@ -69,10 +97,8 @@ class EffectVsRoomTest {
                     add(new ArrayList<>());
                 }
             });
-        } catch (InvalidTargetException invalidTargetException) {
+        } catch (InvalidTargetException | NoOwnerException invalidTargetException) {
             invalidTargetException.printStackTrace();
-        } catch (NoOwnerException e) {
-            e.printStackTrace();
         }
         assertEquals(1, enemy.getDamageCounter());
         assertEquals(target.getOwner(),enemy.getDamage().get(0));
@@ -82,6 +108,9 @@ class EffectVsRoomTest {
         assertEquals(target.getOwner(),enemy3.getDamage().get(0));
     }
 
+    /**
+     * test if this effect can't be applied on a distant room from the player position
+     */
     @Test
     void applyNotNearRoom() {
 

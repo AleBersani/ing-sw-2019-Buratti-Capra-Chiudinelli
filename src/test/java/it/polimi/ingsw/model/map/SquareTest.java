@@ -8,18 +8,35 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
+/**
+ * test class of Square
+ */
 class SquareTest {
-    Square destination;
-    Square test;
-    Room room;
-    Player player;
-    Board board;
-    ArrayList<Player> testingMovement;
+    /**
+     * a square of the board
+     */
+    private Square destination;
+    /**
+     * the tested square
+     */
+    private Square test;
+    /**
+     * a player to be place on the tested square
+     */
+    private Player player;
+    /**
+     * a list of player to place on the tested square
+     */
+    private ArrayList<Player> testingMovement;
 
+    /**
+     * builder method of the parameters needed for every tests
+     */
     @BeforeEach
-    public void setup(){
-        board = new Board(null,"/Board/Board1.json");
+    void setup(){
+        Board board = new Board(null, "/Board/Board1.json");
         try {
             destination= board.find(1,1);
         } catch (NotFoundException e) {
@@ -36,18 +53,26 @@ class SquareTest {
         test.setOnMe(testingMovement);
     }
 
+    /**
+     * test the right behaviour of calcDist
+     */
     @Test
     void calcDist() {
         assertEquals(5,test.calcDist(destination));
-
     }
 
+    /**
+     * test if a player leave the tested square
+     */
     @Test
     void leaves() {
         test.leaves(player);
-        assertEquals(false,testingMovement.remove(player));
+        assertFalse(testingMovement.remove(player));
     }
 
+    /**
+     * test if a player arrives on the tested square
+     */
     @Test
     void arrives() {
         test.arrives(player);

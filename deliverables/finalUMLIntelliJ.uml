@@ -1,0 +1,1199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>it.polimi.ingsw</OriginalElement>
+  <nodes>
+    <node x="18283.0" y="2162.0">it.polimi.ingsw.communication.client.Client</node>
+    <node x="6689.5" y="12701.0">it.polimi.ingsw.model.cards.effects.EffectVsSquare</node>
+    <node x="9856.0" y="7119.0">it.polimi.ingsw.model.map.Board.WeaponPathGson</node>
+    <node x="16803.5" y="3496.0">it.polimi.ingsw.communication.client.MessageHandler</node>
+    <node x="7482.0" y="6257.0">it.polimi.ingsw.model.map.Room</node>
+    <node x="53.0" y="47.0">it.polimi.ingsw.model.Player</node>
+    <node x="13215.5" y="4206.0">it.polimi.ingsw.communication.server.Gestor</node>
+    <node x="844.5" y="11454.5">it.polimi.ingsw.model.cards.constraints.SameDirection</node>
+    <node x="16787.0" y="2627.5">it.polimi.ingsw.view.ViewInterface</node>
+    <node x="8121.5" y="7803.0">it.polimi.ingsw.model.map.Board.AmmoGson</node>
+    <node x="9089.5" y="12341.0">it.polimi.ingsw.model.cards.effects.EffectVsRoom</node>
+    <node x="16331.0" y="4053.0">it.polimi.ingsw.view.gui.LoginGUI</node>
+    <node x="8118.0" y="3154.0">it.polimi.ingsw.model.Turn</node>
+    <node x="8651.0" y="6576.0">it.polimi.ingsw.model.map.Board</node>
+    <node x="16505.0" y="5212.0">it.polimi.ingsw.view.gui.ButtonsGUI</node>
+    <node x="15738.0" y="8505.0">it.polimi.ingsw.view.gui.GUI</node>
+    <node x="4524.5" y="11552.0">it.polimi.ingsw.model.cards.constraints.Constraint</node>
+    <node x="7834.0" y="5679.0">it.polimi.ingsw.model.map.SpawnPoint</node>
+    <node x="2303.5" y="11294.5">it.polimi.ingsw.model.map.Board.ConstraintDeserializer</node>
+    <node x="11352.5" y="8517.0">it.polimi.ingsw.model.cards.Weapon</node>
+    <node x="16580.5" y="3210.5">it.polimi.ingsw.communication.client.MessageHandler.State</node>
+    <node x="7175.0" y="7148.0">it.polimi.ingsw.model.map.AmmoPoint</node>
+    <node x="12814.0" y="4206.0">it.polimi.ingsw.communication.server.MultiServer</node>
+    <node x="3404.5" y="11032.0">it.polimi.ingsw.model.cards.constraints.MinimumDistance</node>
+    <node x="12092.0" y="3813.5">it.polimi.ingsw.controller.ClientInfo.State</node>
+    <node x="7864.0" y="7486.0">it.polimi.ingsw.model.map.AmmoTile</node>
+    <node x="5649.5" y="12406.0">it.polimi.ingsw.model.cards.effects.MovementEffect</node>
+    <node x="6156.0" y="12494.5">it.polimi.ingsw.model.map.Board.EffectDeserializer</node>
+    <node x="11835.5" y="3774.5">it.polimi.ingsw.Main</node>
+    <node x="10032.5" y="8239.0">it.polimi.ingsw.model.cards.WeaponAlternative</node>
+    <node x="10272.5" y="9417.0">it.polimi.ingsw.model.cards.WeaponOptional</node>
+    <node x="3964.5" y="11294.5">it.polimi.ingsw.model.cards.constraints.AdjacentRoom</node>
+    <node x="4957.5" y="5514.0">it.polimi.ingsw.model.map.Square</node>
+    <node x="11397.5" y="4206.0">it.polimi.ingsw.controller.ClientInfo</node>
+    <node x="17457.0" y="7406.0">it.polimi.ingsw.view.gui.ShootingGUI</node>
+    <node x="2804.5" y="11374.5">it.polimi.ingsw.model.cards.constraints.SamePlayer</node>
+    <node x="5129.5" y="12217.0">it.polimi.ingsw.model.cards.effects.EffectVsPlayer</node>
+    <node x="14353.5" y="3675.5">it.polimi.ingsw.controller.Controller.Configuration</node>
+    <node x="14800.0" y="9893.0">it.polimi.ingsw.model.cards.PowerUp</node>
+    <node x="17886.5" y="4744.0">it.polimi.ingsw.view.gui.ChooseGUI</node>
+    <node x="12482.0" y="3997.0">it.polimi.ingsw.communication.server.ClientHandler</node>
+    <node x="609.5" y="11810.0">it.polimi.ingsw.model.cards.effects.AreaEffect</node>
+    <node x="16381.5" y="7911.0">it.polimi.ingsw.view.gui.BackGraphicsGUI</node>
+    <node x="6997.5" y="10325.0">it.polimi.ingsw.model.TargetParameter</node>
+    <node x="8888.5" y="4854.5">it.polimi.ingsw.model.Match.CircularArrayList</node>
+    <node x="17875.0" y="5896.0">it.polimi.ingsw.view.gui.GameGUI</node>
+    <node x="10792.5" y="9661.5">it.polimi.ingsw.model.cards.WeaponBase</node>
+    <node x="8067.5" y="3975.0">it.polimi.ingsw.model.Match</node>
+    <node x="11288.0" y="12976.0">it.polimi.ingsw.model.cards.effects.Effect</node>
+    <node x="1164.5" y="11203.0">it.polimi.ingsw.model.cards.constraints.SameSquare</node>
+    <node x="13759.5" y="1993.0">it.polimi.ingsw.controller.Controller</node>
+    <node x="1684.5" y="11123.0">it.polimi.ingsw.model.cards.constraints.See</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="it.polimi.ingsw.view.gui.ShootingGUI" target="it.polimi.ingsw.view.gui.GameGUI">
+      <point x="133.0" y="-0.0" />
+      <point x="17950.0" y="7520.0" />
+      <point x="-80.0" y="664.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.map.AmmoPoint">
+      <point x="-80.0" y="224.0" />
+      <point x="8720.0" y="7400.0" />
+      <point x="7360.0" y="7400.0" />
+      <point x="80.0" y="92.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.cards.Weapon">
+      <point x="149.0" y="-0.0" />
+      <point x="11400.0" y="6800.0" />
+      <point x="-120.0" y="-323.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.SameDirection" target="it.polimi.ingsw.model.Player">
+      <point x="-235.5" y="-0.0" />
+      <point x="284.0" y="11480.0" />
+      <point x="44.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Controller" target="it.polimi.ingsw.model.map.SpawnPoint">
+      <point x="-240.5" y="600.0" />
+      <point x="13520.0" y="3400.0" />
+      <point x="13520.0" y="5040.0" />
+      <point x="7960.0" y="5040.0" />
+      <point x="0.0" y="-81.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.EffectVsPlayer" target="it.polimi.ingsw.model.cards.effects.Effect">
+      <point x="190.5" y="40.0" />
+      <point x="5560.0" y="12360.0" />
+      <point x="5560.0" y="13144.0" />
+      <point x="-232.0" y="-56.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.EffectVsPlayer" target="it.polimi.ingsw.model.cards.constraints.Constraint">
+      <point x="0.0" y="-103.0" />
+      <point x="5320.0" y="11624.0" />
+      <point x="235.5" y="24.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Player" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="72.0" y="873.0" />
+      <point x="312.0" y="6160.0" />
+      <point x="4800.0" y="6160.0" />
+      <point x="4800.0" y="10520.0" />
+      <point x="-122.5" y="-40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.GUI" target="it.polimi.ingsw.communication.client.Client">
+      <point x="74.28571428571428" y="-895.0" />
+      <point x="16024.285714285714" y="4560.0" />
+      <point x="18390.0" y="4560.0" />
+      <point x="-40.0" y="158.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.ClientInfo" target="it.polimi.ingsw.model.Match">
+      <point x="-122.5" y="-0.0" />
+      <point x="172.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.Effect" target="it.polimi.ingsw.model.cards.constraints.Constraint">
+      <point x="-232.0" y="-24.0" />
+      <point x="4760.0" y="13176.0" />
+      <point x="0.0" y="48.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.AreaEffect" target="it.polimi.ingsw.model.map.Room">
+      <point x="-190.5" y="-40.0" />
+      <point x="560.0" y="11840.0" />
+      <point x="560.0" y="5320.0" />
+      <point x="7440.0" y="5320.0" />
+      <point x="7440.0" y="6320.0" />
+      <point x="-118.0" y="-40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.MovementEffect" target="it.polimi.ingsw.model.Player">
+      <point x="-190.5" y="-0.0" />
+      <point x="264.0" y="12520.0" />
+      <point x="24.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.GUI" target="it.polimi.ingsw.communication.client.MessageHandler.State">
+      <point x="22.857142857142833" y="-895.0" />
+      <point x="15972.857142857143" y="3280.0" />
+      <point x="-49.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.ShootingGUI" target="it.polimi.ingsw.view.gui.GUI">
+      <point x="-133.0" y="40.0" />
+      <point x="16081.42857142857" y="7560.0" />
+      <point x="131.42857142857144" y="-895.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.Constraint" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="235.5" y="-40.0" />
+      <point x="7080.0" y="11560.0" />
+      <point x="-40.0" y="235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.PowerUp" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="-100.0" y="147.0" />
+      <point x="14900.0" y="10280.0" />
+      <point x="7200.0" y="10280.0" />
+      <point x="80.0" y="-235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.EffectVsSquare" target="it.polimi.ingsw.model.Player">
+      <point x="-190.5" y="-0.0" />
+      <point x="260.0" y="12760.0" />
+      <point x="20.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.ConstraintDeserializer" target="it.polimi.ingsw.model.cards.constraints.SameSquare">
+      <point x="-80.0" y="-25.5" />
+      <point x="2440.0" y="11240.0" />
+      <point x="235.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.WeaponBase" target="it.polimi.ingsw.model.cards.Weapon">
+      <point x="167.5" y="-0.0" />
+      <point x="11200.0" y="9720.0" />
+      <point x="11200.0" y="8960.0" />
+      <point x="-167.5" y="120.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.AreaEffect" target="it.polimi.ingsw.model.cards.constraints.Constraint">
+      <point x="40.0" y="-70.0" />
+      <point x="840.0" y="11760.0" />
+      <point x="4720.0" y="11760.0" />
+      <point x="-40.0" y="48.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Player" target="it.polimi.ingsw.model.map.Square">
+      <point x="76.0" y="873.0" />
+      <point x="316.0" y="5760.0" />
+      <point x="-122.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.MinimumDistance" target="it.polimi.ingsw.model.cards.constraints.Constraint">
+      <point x="0.0" y="48.0" />
+      <point x="3640.0" y="11566.666666666666" />
+      <point x="-235.5" y="-33.333333333333485" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.TargetParameter" target="it.polimi.ingsw.model.Player">
+      <point x="-122.5" y="-0.0" />
+      <point x="308.0" y="10560.0" />
+      <point x="68.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.GUI" target="it.polimi.ingsw.view.ViewInterface">
+      <point x="11.428571428571416" y="-895.0" />
+      <point x="15961.42857142857" y="2840.0" />
+      <point x="-163.0" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.communication.client.MessageHandler" target="it.polimi.ingsw.communication.client.Client">
+      <point x="146.5" y="-0.0" />
+      <point x="18343.333333333332" y="3720.0" />
+      <point x="-86.66666666666652" y="158.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.LoginGUI" target="it.polimi.ingsw.communication.client.Client">
+      <point x="40.0" y="147.0" />
+      <point x="16550.0" y="4400.0" />
+      <point x="18376.666666666668" y="4400.0" />
+      <point x="-53.333333333333485" y="158.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Square" target="it.polimi.ingsw.model.map.Room">
+      <point x="40.0" y="246.0" />
+      <point x="5120.0" y="6600.0" />
+      <point x="7550.0" y="6600.0" />
+      <point x="-50.0" y="103.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Controller" target="it.polimi.ingsw.model.Player">
+      <point x="-240.5" y="-40.0" />
+      <point x="388.0" y="2760.0" />
+      <point x="148.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.AdjacentRoom" target="it.polimi.ingsw.model.Player">
+      <point x="-235.5" y="-20.0" />
+      <point x="3920.0" y="11300.0" />
+      <point x="3920.0" y="10960.0" />
+      <point x="2160.0" y="10960.0" />
+      <point x="2160.0" y="10800.0" />
+      <point x="304.0" y="10800.0" />
+      <point x="64.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.GUI" target="it.polimi.ingsw.view.gui.BackGraphicsGUI">
+      <point x="165.71428571428572" y="-895.0" />
+      <point x="16115.714285714286" y="7840.0" />
+      <point x="16590.0" y="7840.0" />
+      <point x="0.0" y="-169.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.ButtonsGUI" target="it.polimi.ingsw.view.gui.GUI">
+      <point x="-325.0" y="-0.0" />
+      <point x="16075.714285714286" y="5480.0" />
+      <point x="125.71428571428572" y="-895.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Controller" target="it.polimi.ingsw.communication.server.MultiServer">
+      <point x="-240.5" y="360.0" />
+      <point x="12920.0" y="3160.0" />
+      <point x="0.0" y="-114.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Player" target="it.polimi.ingsw.model.cards.PowerUp">
+      <point x="4.0" y="873.0" />
+      <point x="244.0" y="13560.0" />
+      <point x="14980.0" y="13560.0" />
+      <point x="-20.0" y="147.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Room" target="it.polimi.ingsw.model.map.Square">
+      <point x="-80.0" y="103.0" />
+      <point x="7520.0" y="6520.0" />
+      <point x="5136.0" y="6520.0" />
+      <point x="56.0" y="246.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.ConstraintDeserializer" target="it.polimi.ingsw.model.cards.constraints.SameDirection">
+      <point x="-216.5" y="-0.0" />
+      <point x="1720.0" y="11320.0" />
+      <point x="1720.0" y="11480.0" />
+      <point x="235.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.EffectVsRoom" target="it.polimi.ingsw.model.map.Square">
+      <point x="0.0" y="-59.0" />
+      <point x="9280.0" y="9960.0" />
+      <point x="7320.0" y="9960.0" />
+      <point x="7320.0" y="8040.0" />
+      <point x="5080.0" y="8040.0" />
+      <point x="0.0" y="246.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.EffectVsRoom" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="-40.0" y="-59.0" />
+      <point x="9240.0" y="10560.0" />
+      <point x="122.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.ConstraintDeserializer" target="it.polimi.ingsw.model.cards.constraints.AdjacentRoom">
+      <point x="216.5" y="-0.0" />
+      <point x="-235.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.communication.client.Client" target="it.polimi.ingsw.view.gui.GUI">
+      <point x="-46.666666666666515" y="158.0" />
+      <point x="18383.333333333332" y="4520.0" />
+      <point x="16018.57142857143" y="4520.0" />
+      <point x="68.57142857142856" y="-895.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Square" target="it.polimi.ingsw.model.cards.Weapon">
+      <point x="0.0" y="-246.0" />
+      <point x="5080.0" y="5280.0" />
+      <point x="11480.0" y="5280.0" />
+      <point x="-40.0" y="-323.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.EffectVsSquare" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="190.5" y="-0.0" />
+      <point x="7120.0" y="12760.0" />
+      <point x="0.0" y="235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.ButtonsGUI" target="it.polimi.ingsw.view.gui.GameGUI">
+      <point x="80.0" y="268.0" />
+      <point x="16910.0" y="6560.0" />
+      <point x="-155.0" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.SameSquare" target="it.polimi.ingsw.model.map.Square">
+      <point x="-235.5" y="-31.42857142857156" />
+      <point x="1120.0" y="11208.571428571428" />
+      <point x="1120.0" y="5820.0" />
+      <point x="-122.5" y="60.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Room" target="it.polimi.ingsw.model.Player">
+      <point x="0.0" y="-103.0" />
+      <point x="7600.0" y="5200.0" />
+      <point x="336.0" y="5200.0" />
+      <point x="96.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.AmmoPoint" target="it.polimi.ingsw.model.map.Room">
+      <point x="0.0" y="-92.0" />
+      <point x="7280.0" y="7000.0" />
+      <point x="7580.0" y="7000.0" />
+      <point x="-20.0" y="103.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.ChooseGUI" target="it.polimi.ingsw.communication.client.Client">
+      <point x="40.0" y="136.0" />
+      <point x="18070.0" y="5080.0" />
+      <point x="18403.333333333332" y="5080.0" />
+      <point x="-26.666666666666515" y="158.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Controller" target="it.polimi.ingsw.model.cards.PowerUp">
+      <point x="40.0" y="-807.0" />
+      <point x="14040.0" y="1920.0" />
+      <point x="15000.0" y="1920.0" />
+      <point x="0.0" y="-147.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.SameDirection" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="0.0" y="25.5" />
+      <point x="1080.0" y="11800.0" />
+      <point x="7086.666666666667" y="11800.0" />
+      <point x="-33.33333333333303" y="235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.AmmoPoint" target="it.polimi.ingsw.model.map.AmmoTile">
+      <point x="0.0" y="92.0" />
+      <point x="7280.0" y="7560.0" />
+      <point x="-96.0" y="-40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.map.Board.EffectDeserializer">
+      <point x="149.0" y="180.0" />
+      <point x="9000.0" y="6980.0" />
+      <point x="9000.0" y="12520.0" />
+      <point x="204.0" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.Constraint" target="it.polimi.ingsw.model.Player">
+      <point x="-80.0" y="48.0" />
+      <point x="4680.0" y="11720.0" />
+      <point x="280.0" y="11720.0" />
+      <point x="40.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.communication.client.Client" target="it.polimi.ingsw.view.ViewInterface">
+      <point x="-113.33333333333348" y="158.0" />
+      <point x="18316.666666666668" y="2560.0" />
+      <point x="16950.0" y="2560.0" />
+      <point x="0.0" y="-212.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.WeaponAlternative" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="-167.5" y="-0.0" />
+      <point x="7140.0" y="8320.0" />
+      <point x="20.0" y="-235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.MovementEffect" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="0.0" y="-114.0" />
+      <point x="5840.0" y="12120.0" />
+      <point x="7113.333333333333" y="12120.0" />
+      <point x="-6.66666666666697" y="235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.communication.server.MultiServer" target="it.polimi.ingsw.controller.Controller">
+      <point x="106.0" y="-60.0" />
+      <point x="13080.0" y="4260.0" />
+      <point x="13080.0" y="3200.0" />
+      <point x="-240.5" y="400.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.AreaEffect" target="it.polimi.ingsw.model.cards.effects.Effect">
+      <point x="190.5" y="40.0" />
+      <point x="1040.0" y="11920.0" />
+      <point x="1040.0" y="13184.0" />
+      <point x="-232.0" y="-16.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.communication.client.Client" target="it.polimi.ingsw.communication.client.MessageHandler">
+      <point x="-66.66666666666652" y="158.0" />
+      <point x="18363.333333333332" y="4080.0" />
+      <point x="16950.0" y="4080.0" />
+      <point x="0.0" y="224.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.SpawnPoint" target="it.polimi.ingsw.model.cards.Weapon">
+      <point x="40.0" y="-81.0" />
+      <point x="8000.0" y="5600.0" />
+      <point x="11466.666666666666" y="5600.0" />
+      <point x="-53.33333333333394" y="-323.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.ClientInfo.State" target="it.polimi.ingsw.controller.ClientInfo">
+      <point x="-108.0" y="-0.0" />
+      <point x="11760.0" y="3960.0" />
+      <point x="11760.0" y="4266.666666666666" />
+      <point x="122.5" y="-53.33333333333394" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.cards.constraints.Constraint">
+      <point x="-8.0" y="224.0" />
+      <point x="8792.0" y="8120.0" />
+      <point x="4760.0" y="8120.0" />
+      <point x="0.0" y="-48.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.EffectDeserializer" target="it.polimi.ingsw.model.cards.effects.MovementEffect">
+      <point x="-204.0" y="-0.0" />
+      <point x="190.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.cards.PowerUp">
+      <point x="149.0" y="120.0" />
+      <point x="9680.0" y="6920.0" />
+      <point x="9680.0" y="10040.0" />
+      <point x="-200.0" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.Weapon" target="it.polimi.ingsw.model.cards.effects.Effect">
+      <point x="0.0" y="323.0" />
+      <point x="0.0" y="-224.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.WeaponOptional" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="0.0" y="103.0" />
+      <point x="10440.0" y="9800.0" />
+      <point x="7150.0" y="9800.0" />
+      <point x="30.0" y="-235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.LoginGUI" target="it.polimi.ingsw.view.gui.GUI">
+      <point x="-179.0" y="-0.0" />
+      <point x="15990.0" y="4200.0" />
+      <point x="40.0" y="-895.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Controller" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="-240.5" y="760.0" />
+      <point x="13680.0" y="3560.0" />
+      <point x="13680.0" y="9920.0" />
+      <point x="7170.0" y="9920.0" />
+      <point x="50.0" y="-235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Match" target="it.polimi.ingsw.model.Match.CircularArrayList">
+      <point x="172.5" y="120.0" />
+      <point x="8960.0" y="4440.0" />
+      <point x="0.0" y="-25.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Controller" target="it.polimi.ingsw.model.Match">
+      <point x="-240.5" y="40.0" />
+      <point x="8560.0" y="2840.0" />
+      <point x="8560.0" y="4280.0" />
+      <point x="172.5" y="-40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.communication.server.ClientHandler" target="it.polimi.ingsw.controller.Controller">
+      <point x="118.0" y="-40.0" />
+      <point x="12760.0" y="4280.0" />
+      <point x="12760.0" y="3120.0" />
+      <point x="-240.5" y="320.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.map.Board.ConstraintDeserializer">
+      <point x="-16.0" y="224.0" />
+      <point x="8784.0" y="8080.0" />
+      <point x="4720.0" y="8080.0" />
+      <point x="4720.0" y="10880.0" />
+      <point x="2800.0" y="10880.0" />
+      <point x="2800.0" y="11300.0" />
+      <point x="216.5" y="-20.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.ConstraintDeserializer" target="it.polimi.ingsw.model.cards.constraints.MinimumDistance">
+      <point x="216.5" y="-10.0" />
+      <point x="2840.0" y="11310.0" />
+      <point x="2840.0" y="11100.0" />
+      <point x="-235.5" y="20.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Match" target="it.polimi.ingsw.model.Player">
+      <point x="-40.0" y="345.0" />
+      <point x="8200.0" y="4760.0" />
+      <point x="352.0" y="4760.0" />
+      <point x="112.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.See" target="it.polimi.ingsw.model.cards.constraints.Constraint">
+      <point x="0.0" y="37.0" />
+      <point x="1920.0" y="11586.666666666666" />
+      <point x="-235.5" y="-13.333333333333485" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Room" target="it.polimi.ingsw.model.cards.Weapon">
+      <point x="118.0" y="-0.0" />
+      <point x="11440.0" y="6360.0" />
+      <point x="-80.0" y="-323.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.AmmoPoint" target="it.polimi.ingsw.model.cards.Weapon">
+      <point x="105.0" y="-0.0" />
+      <point x="8120.0" y="7240.0" />
+      <point x="8120.0" y="6400.0" />
+      <point x="11426.666666666666" y="6400.0" />
+      <point x="-93.33333333333394" y="-323.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.LoginGUI" target="it.polimi.ingsw.communication.client.MessageHandler">
+      <point x="0.0" y="-147.0" />
+      <point x="16510.0" y="3760.0" />
+      <point x="-146.5" y="40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Controller.Configuration" target="it.polimi.ingsw.controller.Controller">
+      <point x="0.0" y="-124.5" />
+      <point x="14480.0" y="2800.0" />
+      <point x="240.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.See" target="it.polimi.ingsw.model.map.Square">
+      <point x="0.0" y="-37.0" />
+      <point x="1920.0" y="5840.0" />
+      <point x="-122.5" y="80.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.SameSquare" target="it.polimi.ingsw.model.Player">
+      <point x="-235.5" y="-0.0" />
+      <point x="292.0" y="11240.0" />
+      <point x="52.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.ConstraintDeserializer" target="it.polimi.ingsw.model.cards.constraints.SamePlayer">
+      <point x="216.5" y="20.0" />
+      <point x="3040.0" y="11340.0" />
+      <point x="0.0" y="-25.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.map.Square">
+      <point x="-32.0" y="224.0" />
+      <point x="8768.0" y="7960.0" />
+      <point x="5088.0" y="7960.0" />
+      <point x="8.0" y="246.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.BackGraphicsGUI" target="it.polimi.ingsw.view.gui.GameGUI">
+      <point x="208.5" y="-0.0" />
+      <point x="17976.666666666668" y="8080.0" />
+      <point x="-53.333333333333485" y="664.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.PowerUp" target="it.polimi.ingsw.model.Player">
+      <point x="0.0" y="147.0" />
+      <point x="15000.0" y="13600.0" />
+      <point x="240.0" y="13600.0" />
+      <point x="0.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.SpawnPoint" target="it.polimi.ingsw.model.map.Room">
+      <point x="-60.0" y="81.0" />
+      <point x="7900.0" y="6120.0" />
+      <point x="7620.0" y="6120.0" />
+      <point x="20.0" y="-103.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Player" target="it.polimi.ingsw.model.cards.Weapon">
+      <point x="104.0" y="873.0" />
+      <point x="344.0" y="5120.0" />
+      <point x="11493.333333333334" y="5120.0" />
+      <point x="-26.66666666666606" y="-323.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Controller" target="it.polimi.ingsw.model.cards.Weapon">
+      <point x="-240.5" y="640.0" />
+      <point x="13560.0" y="3440.0" />
+      <point x="13560.0" y="8800.0" />
+      <point x="167.5" y="-40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.communication.server.MultiServer" target="it.polimi.ingsw.communication.server.Gestor">
+      <point x="106.0" y="-0.0" />
+      <point x="-104.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Controller" target="it.polimi.ingsw.controller.Controller.Configuration">
+      <point x="40.0" y="807.0" />
+      <point x="14040.0" y="3800.0" />
+      <point x="-126.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.GameGUI" target="it.polimi.ingsw.view.gui.GUI">
+      <point x="-66.66666666666652" y="664.0" />
+      <point x="17963.333333333332" y="7800.0" />
+      <point x="16110.0" y="7800.0" />
+      <point x="160.0" y="-895.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.EffectVsPlayer" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="190.5" y="-40.0" />
+      <point x="5560.0" y="12280.0" />
+      <point x="5560.0" y="12080.0" />
+      <point x="7106.666666666667" y="12080.0" />
+      <point x="-13.33333333333303" y="235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.Main" target="it.polimi.ingsw.controller.Controller">
+      <point x="0.0" y="-25.5" />
+      <point x="11920.0" y="2920.0" />
+      <point x="-240.5" y="120.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.WeaponBase" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="-40.0" y="58.5" />
+      <point x="10920.0" y="9840.0" />
+      <point x="7160.0" y="9840.0" />
+      <point x="40.0" y="-235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.SameDirection" target="it.polimi.ingsw.model.map.Square">
+      <point x="0.0" y="-25.5" />
+      <point x="1080.0" y="5800.0" />
+      <point x="-122.5" y="40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.ConstraintDeserializer" target="it.polimi.ingsw.model.cards.constraints.See">
+      <point x="-40.0" y="-25.5" />
+      <point x="2480.0" y="11160.0" />
+      <point x="235.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.ConstraintDeserializer" target="it.polimi.ingsw.model.cards.constraints.Constraint">
+      <point x="0.0" y="25.5" />
+      <point x="2520.0" y="11580.0" />
+      <point x="-235.5" y="-20.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.See" target="it.polimi.ingsw.model.Player">
+      <point x="-235.5" y="-0.0" />
+      <point x="296.0" y="11160.0" />
+      <point x="56.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.ClientInfo" target="it.polimi.ingsw.controller.ClientInfo.State">
+      <point x="122.5" y="-40.0" />
+      <point x="12200.0" y="4280.0" />
+      <point x="0.0" y="146.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.EffectVsRoom" target="it.polimi.ingsw.model.Player">
+      <point x="190.5" y="-0.0" />
+      <point x="11840.0" y="12400.0" />
+      <point x="11840.0" y="13480.0" />
+      <point x="252.0" y="13480.0" />
+      <point x="12.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.SpawnPoint" target="it.polimi.ingsw.model.map.AmmoTile">
+      <point x="0.0" y="81.0" />
+      <point x="0.0" y="-114.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.MovementEffect" target="it.polimi.ingsw.model.cards.constraints.Constraint">
+      <point x="-190.5" y="-40.0" />
+      <point x="5600.0" y="12480.0" />
+      <point x="5600.0" y="11616.0" />
+      <point x="235.5" y="16.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.EffectVsSquare" target="it.polimi.ingsw.model.cards.constraints.Constraint">
+      <point x="0.0" y="-59.0" />
+      <point x="6880.0" y="11608.0" />
+      <point x="235.5" y="8.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.MinimumDistance" target="it.polimi.ingsw.model.map.Square">
+      <point x="0.0" y="-48.0" />
+      <point x="3640.0" y="5860.0" />
+      <point x="-122.5" y="100.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.TargetParameter" target="it.polimi.ingsw.model.map.Room">
+      <point x="0.0" y="-235.0" />
+      <point x="7120.0" y="6680.0" />
+      <point x="7570.0" y="6680.0" />
+      <point x="-30.0" y="103.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.GUI" target="it.polimi.ingsw.view.gui.LoginGUI">
+      <point x="51.428571428571445" y="-895.0" />
+      <point x="16001.42857142857" y="4440.0" />
+      <point x="16470.0" y="4440.0" />
+      <point x="-40.0" y="147.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.EffectVsSquare" target="it.polimi.ingsw.model.cards.effects.Effect">
+      <point x="-190.5" y="40.0" />
+      <point x="6640.0" y="12800.0" />
+      <point x="6640.0" y="13112.0" />
+      <point x="-232.0" y="-88.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.AmmoPoint" target="it.polimi.ingsw.model.map.Square">
+      <point x="-40.0" y="-92.0" />
+      <point x="7240.0" y="6720.0" />
+      <point x="5112.0" y="6720.0" />
+      <point x="32.0" y="246.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Player" target="it.polimi.ingsw.model.map.AmmoTile">
+      <point x="92.0" y="873.0" />
+      <point x="332.0" y="5240.0" />
+      <point x="5320.0" y="5240.0" />
+      <point x="5320.0" y="7600.0" />
+      <point x="-96.0" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.SameDirection" target="it.polimi.ingsw.model.cards.constraints.Constraint">
+      <point x="235.5" y="20.0" />
+      <point x="1360.0" y="11500.0" />
+      <point x="1360.0" y="11596.666666666666" />
+      <point x="-235.5" y="-3.3333333333332575" />
+    </edge>
+    <edge source="it.polimi.ingsw.communication.server.Gestor" target="it.polimi.ingsw.controller.Controller">
+      <point x="104.5" y="-0.0" />
+      <point x="13480.0" y="4320.0" />
+      <point x="13480.0" y="3360.0" />
+      <point x="-240.5" y="560.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.AreaEffect" target="it.polimi.ingsw.model.Player">
+      <point x="-190.5" y="-0.0" />
+      <point x="276.0" y="11880.0" />
+      <point x="36.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.ClientInfo" target="it.polimi.ingsw.communication.server.ClientHandler">
+      <point x="40.0" y="114.0" />
+      <point x="11560.0" y="4720.0" />
+      <point x="12600.0" y="4720.0" />
+      <point x="0.0" y="323.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.GUI" target="it.polimi.ingsw.view.gui.ChooseGUI">
+      <point x="85.71428571428572" y="-895.0" />
+      <point x="16035.714285714286" y="4640.0" />
+      <point x="17990.0" y="4640.0" />
+      <point x="-40.0" y="-136.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.Effect" target="it.polimi.ingsw.model.Player">
+      <point x="-232.0" y="-0.0" />
+      <point x="256.0" y="13200.0" />
+      <point x="16.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Match" target="it.polimi.ingsw.model.map.Board">
+      <point x="172.5" y="320.0" />
+      <point x="8480.0" y="4640.0" />
+      <point x="8480.0" y="6720.0" />
+      <point x="-149.0" y="-80.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Turn" target="it.polimi.ingsw.model.Match">
+      <point x="-122.0" y="-0.0" />
+      <point x="7880.0" y="3400.0" />
+      <point x="7880.0" y="4280.0" />
+      <point x="-172.5" y="-40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.EffectVsRoom" target="it.polimi.ingsw.model.cards.effects.Effect">
+      <point x="0.0" y="59.0" />
+      <point x="9280.0" y="13080.0" />
+      <point x="-232.0" y="-120.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Square" target="it.polimi.ingsw.model.Player">
+      <point x="-20.0" y="-246.0" />
+      <point x="5060.0" y="5360.0" />
+      <point x="328.0" y="5360.0" />
+      <point x="88.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.ChooseGUI" target="it.polimi.ingsw.view.gui.ButtonsGUI">
+      <point x="-143.5" y="66.66666666666697" />
+      <point x="17310.0" y="4946.666666666667" />
+      <point x="17310.0" y="5440.0" />
+      <point x="325.0" y="-40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Room" target="it.polimi.ingsw.model.map.Board">
+      <point x="26.66666666666697" y="103.0" />
+      <point x="7626.666666666667" y="7160.0" />
+      <point x="8704.0" y="7160.0" />
+      <point x="-96.0" y="224.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.GUI" target="it.polimi.ingsw.view.gui.ButtonsGUI">
+      <point x="108.57142857142856" y="-895.0" />
+      <point x="16058.57142857143" y="5080.0" />
+      <point x="16830.0" y="5080.0" />
+      <point x="0.0" y="-268.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.WeaponOptional" target="it.polimi.ingsw.model.cards.Weapon">
+      <point x="0.0" y="-103.0" />
+      <point x="10440.0" y="8840.0" />
+      <point x="-167.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.AreaEffect" target="it.polimi.ingsw.model.map.Square">
+      <point x="0.0" y="-70.0" />
+      <point x="800.0" y="5780.0" />
+      <point x="-122.5" y="20.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.EffectVsRoom" target="it.polimi.ingsw.model.cards.constraints.Constraint">
+      <point x="-190.5" y="-0.0" />
+      <point x="6920.0" y="12400.0" />
+      <point x="6920.0" y="11600.0" />
+      <point x="235.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.EffectDeserializer" target="it.polimi.ingsw.model.cards.effects.EffectVsRoom">
+      <point x="80.0" y="25.5" />
+      <point x="6440.0" y="12600.0" />
+      <point x="9240.0" y="12600.0" />
+      <point x="-40.0" y="59.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.Weapon" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="-133.33333333333394" y="-323.0" />
+      <point x="11386.666666666666" y="8160.0" />
+      <point x="7130.0" y="8160.0" />
+      <point x="10.0" y="-235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.ButtonsGUI" target="it.polimi.ingsw.view.gui.ShootingGUI">
+      <point x="-325.0" y="80.0" />
+      <point x="16390.0" y="5560.0" />
+      <point x="16390.0" y="7493.333333333334" />
+      <point x="-133.0" y="-26.666666666666515" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.SameSquare" target="it.polimi.ingsw.model.cards.constraints.Constraint">
+      <point x="235.5" y="31.42857142857156" />
+      <point x="1680.0" y="11271.428571428572" />
+      <point x="1680.0" y="11590.0" />
+      <point x="-235.5" y="-10.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.Effect" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="-232.0" y="-112.0" />
+      <point x="8760.0" y="13088.0" />
+      <point x="8760.0" y="10600.0" />
+      <point x="122.5" y="40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.Match">
+      <point x="-149.0" y="-120.0" />
+      <point x="8560.0" y="6680.0" />
+      <point x="8560.0" y="4600.0" />
+      <point x="172.5" y="280.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.WeaponBase" target="it.polimi.ingsw.model.cards.effects.Effect">
+      <point x="0.0" y="58.5" />
+      <point x="10960.0" y="13008.0" />
+      <point x="-232.0" y="-192.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.SamePlayer" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="235.5" y="-0.0" />
+      <point x="7073.333333333333" y="11400.0" />
+      <point x="-46.66666666666697" y="235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.MinimumDistance" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="235.5" y="-0.0" />
+      <point x="7060.0" y="11080.0" />
+      <point x="-60.0" y="235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.cards.WeaponAlternative">
+      <point x="149.0" y="20.0" />
+      <point x="10200.0" y="6820.0" />
+      <point x="0.0" y="-81.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.map.Board.AmmoGson">
+      <point x="-40.0" y="224.0" />
+      <point x="8760.0" y="7920.0" />
+      <point x="8240.0" y="7920.0" />
+      <point x="0.0" y="37.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Match" target="it.polimi.ingsw.model.Turn">
+      <point x="0.0" y="-345.0" />
+      <point x="0.0" y="246.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Controller" target="it.polimi.ingsw.model.cards.effects.Effect">
+      <point x="0.0" y="-807.0" />
+      <point x="14000.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="13640.0" />
+      <point x="11520.0" y="13640.0" />
+      <point x="0.0" y="224.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.Player">
+      <point x="-149.0" y="-40.0" />
+      <point x="8200.0" y="6760.0" />
+      <point x="8200.0" y="5160.0" />
+      <point x="340.0" y="5160.0" />
+      <point x="100.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Player" target="it.polimi.ingsw.model.Turn">
+      <point x="132.0" y="873.0" />
+      <point x="372.0" y="3040.0" />
+      <point x="8200.0" y="3040.0" />
+      <point x="-40.0" y="-246.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.AmmoGson" target="it.polimi.ingsw.model.map.Board">
+      <point x="118.5" y="-0.0" />
+      <point x="8752.0" y="7840.0" />
+      <point x="-48.0" y="224.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Turn" target="it.polimi.ingsw.model.Player">
+      <point x="0.0" y="-246.0" />
+      <point x="8240.0" y="2960.0" />
+      <point x="380.0" y="2960.0" />
+      <point x="140.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.communication.client.MessageHandler.State" target="it.polimi.ingsw.communication.client.MessageHandler">
+      <point x="49.5" y="-0.0" />
+      <point x="16890.0" y="3280.0" />
+      <point x="-60.0" y="-224.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.SpawnPoint" target="it.polimi.ingsw.model.map.Square">
+      <point x="-126.0" y="-0.0" />
+      <point x="122.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.AdjacentRoom" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="235.5" y="-0.0" />
+      <point x="7066.666666666667" y="11320.0" />
+      <point x="-53.33333333333303" y="235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.ShootingGUI" target="it.polimi.ingsw.view.gui.ChooseGUI">
+      <point x="-133.0" y="-66.66666666666652" />
+      <point x="17350.0" y="7453.333333333334" />
+      <point x="17350.0" y="4960.0" />
+      <point x="-143.5" y="80.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.cards.WeaponOptional">
+      <point x="149.0" y="80.0" />
+      <point x="9760.0" y="6880.0" />
+      <point x="9760.0" y="9520.0" />
+      <point x="-167.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.AmmoGson" target="it.polimi.ingsw.model.map.AmmoTile">
+      <point x="0.0" y="-37.0" />
+      <point x="8240.0" y="7640.0" />
+      <point x="96.0" y="40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.SamePlayer" target="it.polimi.ingsw.model.Player">
+      <point x="-235.5" y="-0.0" />
+      <point x="288.0" y="11400.0" />
+      <point x="48.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.BackGraphicsGUI" target="it.polimi.ingsw.view.gui.GUI">
+      <point x="0.0" y="169.0" />
+      <point x="16590.0" y="8360.0" />
+      <point x="16138.57142857143" y="8360.0" />
+      <point x="188.57142857142856" y="-895.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.cards.effects.Effect">
+      <point x="149.0" y="160.0" />
+      <point x="9560.0" y="6960.0" />
+      <point x="9560.0" y="13064.0" />
+      <point x="-232.0" y="-136.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.ShootingGUI" target="it.polimi.ingsw.view.gui.ButtonsGUI">
+      <point x="-133.0" y="-13.333333333333485" />
+      <point x="16350.0" y="7506.666666666666" />
+      <point x="16350.0" y="5520.0" />
+      <point x="-325.0" y="40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.ChooseGUI" target="it.polimi.ingsw.view.gui.GameGUI">
+      <point x="-143.5" y="120.0" />
+      <point x="17830.0" y="5000.0" />
+      <point x="17830.0" y="6520.0" />
+      <point x="-155.0" y="-40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Controller" target="it.polimi.ingsw.controller.ClientInfo">
+      <point x="-240.5" y="60.0" />
+      <point x="11520.0" y="2860.0" />
+      <point x="0.0" y="-114.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Controller" target="it.polimi.ingsw.communication.server.ClientHandler">
+      <point x="-240.5" y="280.0" />
+      <point x="12600.0" y="3080.0" />
+      <point x="0.0" y="-323.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.communication.server.MultiServer" target="it.polimi.ingsw.communication.server.ClientHandler">
+      <point x="-106.0" y="-0.0" />
+      <point x="118.0" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.ChooseGUI" target="it.polimi.ingsw.view.gui.ShootingGUI">
+      <point x="-143.5" y="93.33333333333303" />
+      <point x="17390.0" y="4973.333333333333" />
+      <point x="17390.0" y="7440.0" />
+      <point x="-133.0" y="-80.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.EffectDeserializer" target="it.polimi.ingsw.model.cards.effects.AreaEffect">
+      <point x="0.0" y="-25.5" />
+      <point x="6360.0" y="12160.0" />
+      <point x="1080.0" y="12160.0" />
+      <point x="1080.0" y="11900.0" />
+      <point x="190.5" y="20.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.EffectDeserializer" target="it.polimi.ingsw.model.cards.effects.EffectVsPlayer">
+      <point x="-40.0" y="-25.5" />
+      <point x="6320.0" y="12320.0" />
+      <point x="190.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.WeaponPathGson" target="it.polimi.ingsw.model.map.Board">
+      <point x="-144.0" y="-0.0" />
+      <point x="9800.0" y="7200.0" />
+      <point x="9800.0" y="6860.0" />
+      <point x="149.0" y="60.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.AreaEffect" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="190.5" y="-0.0" />
+      <point x="7093.333333333333" y="11880.0" />
+      <point x="-26.66666666666697" y="235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.map.Board.WeaponPathGson">
+      <point x="149.0" y="40.0" />
+      <point x="10000.0" y="6840.0" />
+      <point x="0.0" y="-81.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Controller" target="it.polimi.ingsw.model.cards.WeaponAlternative">
+      <point x="-240.5" y="680.0" />
+      <point x="13600.0" y="3480.0" />
+      <point x="13600.0" y="9360.0" />
+      <point x="10240.0" y="9360.0" />
+      <point x="40.0" y="81.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.ButtonsGUI" target="it.polimi.ingsw.communication.client.Client">
+      <point x="120.0" y="268.0" />
+      <point x="16950.0" y="5800.0" />
+      <point x="18416.666666666668" y="5800.0" />
+      <point x="-13.333333333333485" y="158.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Match.CircularArrayList" target="it.polimi.ingsw.model.Match">
+      <point x="71.5" y="-0.0" />
+      <point x="9120.0" y="4880.0" />
+      <point x="9120.0" y="4360.0" />
+      <point x="172.5" y="40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.Weapon" target="it.polimi.ingsw.model.Player">
+      <point x="167.5" y="-0.0" />
+      <point x="14680.0" y="8840.0" />
+      <point x="14680.0" y="1880.0" />
+      <point x="396.0" y="1880.0" />
+      <point x="156.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.GUI" target="it.polimi.ingsw.communication.client.MessageHandler">
+      <point x="34.28571428571428" y="-895.0" />
+      <point x="15984.285714285714" y="3720.0" />
+      <point x="-146.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.WeaponAlternative" target="it.polimi.ingsw.model.cards.Weapon">
+      <point x="80.0" y="81.0" />
+      <point x="10280.0" y="8800.0" />
+      <point x="-167.5" y="-40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.cards.WeaponBase">
+      <point x="149.0" y="100.0" />
+      <point x="9720.0" y="6900.0" />
+      <point x="9720.0" y="9720.0" />
+      <point x="-167.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Controller" target="it.polimi.ingsw.controller.ClientInfo.State">
+      <point x="-240.5" y="160.0" />
+      <point x="12200.0" y="2960.0" />
+      <point x="0.0" y="-146.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Square" target="it.polimi.ingsw.model.map.AmmoTile">
+      <point x="16.0" y="246.0" />
+      <point x="5096.0" y="7760.0" />
+      <point x="7920.0" y="7760.0" />
+      <point x="-40.0" y="114.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Room" target="it.polimi.ingsw.model.map.SpawnPoint">
+      <point x="60.0" y="-103.0" />
+      <point x="7660.0" y="6200.0" />
+      <point x="7940.0" y="6200.0" />
+      <point x="-20.0" y="81.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.EffectDeserializer" target="it.polimi.ingsw.model.cards.effects.Effect">
+      <point x="0.0" y="25.5" />
+      <point x="6360.0" y="13120.0" />
+      <point x="-232.0" y="-80.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.GUI" target="it.polimi.ingsw.view.gui.GameGUI">
+      <point x="194.28571428571428" y="-895.0" />
+      <point x="16144.285714285714" y="8400.0" />
+      <point x="18003.333333333332" y="8400.0" />
+      <point x="-26.666666666666515" y="664.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Controller" target="it.polimi.ingsw.model.cards.WeaponOptional">
+      <point x="-240.5" y="720.0" />
+      <point x="13640.0" y="3520.0" />
+      <point x="13640.0" y="9520.0" />
+      <point x="167.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.map.AmmoTile">
+      <point x="-56.0" y="224.0" />
+      <point x="8744.0" y="7600.0" />
+      <point x="96.0" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.EffectDeserializer" target="it.polimi.ingsw.model.cards.effects.EffectVsSquare">
+      <point x="40.0" y="25.5" />
+      <point x="6400.0" y="12640.0" />
+      <point x="6840.0" y="12640.0" />
+      <point x="-40.0" y="-59.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.communication.client.MessageHandler" target="it.polimi.ingsw.communication.client.MessageHandler.State">
+      <point x="-40.0" y="-224.0" />
+      <point x="16910.0" y="3160.0" />
+      <point x="16630.0" y="3160.0" />
+      <point x="0.0" y="-69.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.AdjacentRoom" target="it.polimi.ingsw.model.cards.constraints.Constraint">
+      <point x="0.0" y="25.5" />
+      <point x="4200.0" y="11563.333333333334" />
+      <point x="-235.5" y="-36.666666666666515" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.ButtonsGUI" target="it.polimi.ingsw.view.gui.ChooseGUI">
+      <point x="325.0" y="-120.0" />
+      <point x="17230.0" y="5360.0" />
+      <point x="17230.0" y="4920.0" />
+      <point x="-143.5" y="40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.TargetParameter" target="it.polimi.ingsw.model.map.Square">
+      <point x="-122.5" y="-120.0" />
+      <point x="4880.0" y="10440.0" />
+      <point x="4880.0" y="5960.0" />
+      <point x="-122.5" y="200.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.ClientInfo" target="it.polimi.ingsw.model.cards.Weapon">
+      <point x="0.0" y="114.0" />
+      <point x="0.0" y="-323.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.See" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="235.5" y="-31.42857142857156" />
+      <point x="2200.0" y="11128.571428571428" />
+      <point x="2200.0" y="10920.0" />
+      <point x="7046.666666666667" y="10920.0" />
+      <point x="-73.33333333333303" y="235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.GameGUI" target="it.polimi.ingsw.communication.client.Client">
+      <point x="155.0" y="-0.0" />
+      <point x="18430.0" y="6560.0" />
+      <point x="0.0" y="158.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.MinimumDistance" target="it.polimi.ingsw.model.Player">
+      <point x="-235.5" y="-0.0" />
+      <point x="300.0" y="11080.0" />
+      <point x="60.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.map.SpawnPoint">
+      <point x="-149.0" y="-20.0" />
+      <point x="8160.0" y="6780.0" />
+      <point x="8160.0" y="5800.0" />
+      <point x="126.0" y="40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.WeaponOptional" target="it.polimi.ingsw.model.cards.effects.Effect">
+      <point x="167.5" y="80.0" />
+      <point x="10680.0" y="9600.0" />
+      <point x="10680.0" y="13032.0" />
+      <point x="-232.0" y="-168.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.MovementEffect" target="it.polimi.ingsw.model.cards.effects.Effect">
+      <point x="0.0" y="114.0" />
+      <point x="5840.0" y="13136.0" />
+      <point x="-232.0" y="-64.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.EffectDeserializer" target="it.polimi.ingsw.model.map.Board">
+      <point x="40.0" y="-25.5" />
+      <point x="6400.0" y="12440.0" />
+      <point x="8800.0" y="12440.0" />
+      <point x="0.0" y="224.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.SamePlayer" target="it.polimi.ingsw.model.cards.constraints.Constraint">
+      <point x="235.5" y="20.0" />
+      <point x="3320.0" y="11420.0" />
+      <point x="3320.0" y="11573.333333333334" />
+      <point x="-235.5" y="-26.666666666666515" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.ChooseGUI" target="it.polimi.ingsw.view.gui.GUI">
+      <point x="-143.5" y="-0.0" />
+      <point x="16047.142857142857" y="4880.0" />
+      <point x="97.14285714285717" y="-895.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.effects.EffectVsPlayer" target="it.polimi.ingsw.model.Player">
+      <point x="-190.5" y="-0.0" />
+      <point x="268.0" y="12320.0" />
+      <point x="28.0" y="873.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.AdjacentRoom" target="it.polimi.ingsw.model.map.Square">
+      <point x="0.0" y="-25.5" />
+      <point x="4200.0" y="5880.0" />
+      <point x="-122.5" y="120.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.PowerUp" target="it.polimi.ingsw.model.cards.effects.Effect">
+      <point x="-60.0" y="147.0" />
+      <point x="14940.0" y="13200.0" />
+      <point x="232.0" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Room" target="it.polimi.ingsw.model.map.AmmoPoint">
+      <point x="0.0" y="103.0" />
+      <point x="7600.0" y="7200.0" />
+      <point x="105.0" y="-40.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.constraints.SameSquare" target="it.polimi.ingsw.model.TargetParameter">
+      <point x="0.0" y="-37.0" />
+      <point x="1400.0" y="10840.0" />
+      <point x="7040.0" y="10840.0" />
+      <point x="-80.0" y="235.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.GUI" target="it.polimi.ingsw.view.gui.ShootingGUI">
+      <point x="148.57142857142856" y="-895.0" />
+      <point x="16098.57142857143" y="7720.0" />
+      <point x="17550.0" y="7720.0" />
+      <point x="-40.0" y="114.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.communication.client.MessageHandler" target="it.polimi.ingsw.view.ViewInterface">
+      <point x="0.0" y="-224.0" />
+      <point x="0.0" y="212.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.WeaponAlternative" target="it.polimi.ingsw.model.cards.effects.Effect">
+      <point x="-167.5" y="40.0" />
+      <point x="9800.0" y="8360.0" />
+      <point x="9800.0" y="9880.0" />
+      <point x="9640.0" y="9880.0" />
+      <point x="9640.0" y="13048.0" />
+      <point x="-232.0" y="-152.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board.ConstraintDeserializer" target="it.polimi.ingsw.model.map.Board">
+      <point x="0.0" y="-25.5" />
+      <point x="2520.0" y="8000.0" />
+      <point x="8776.0" y="8000.0" />
+      <point x="-24.0" y="224.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.map.Board" target="it.polimi.ingsw.model.map.Room">
+      <point x="-149.0" y="-0.0" />
+      <point x="7680.0" y="6800.0" />
+      <point x="80.0" y="103.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.1" x="3474.0" y="4022.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

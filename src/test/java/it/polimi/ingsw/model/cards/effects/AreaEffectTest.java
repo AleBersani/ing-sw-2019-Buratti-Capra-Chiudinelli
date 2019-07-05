@@ -14,16 +14,47 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * test class of effect vs room
+ */
 class AreaEffectTest {
 
-    AreaEffect testDistance2;
-    Player enemy,enemy2,enemy3,enemy4;
-    Player owner;
-    TargetParameter target;
-    Board board;
-    ArrayList<Constraint> constraints;
-    ArrayList<Boolean> constrainPositivity;
+    /**
+     * effect to test
+     */
+    private AreaEffect testDistance2;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy2;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy3;
+    /**
+     * enemy of the owner
+     */
+    private Player enemy4;
+    /**
+     * owner of the weapon to test
+     */
+    private Player owner;
+    /**
+     * parameters of the target
+     */
+    private TargetParameter target;
+    /**
+     * board of the game
+     */
+    private Board board;
 
+    /**
+     * builder method of the parameters needed for every tests
+     */
     @BeforeEach
     void  setup(){
         owner = new Player(true, "blue", "Franco");
@@ -32,12 +63,15 @@ class AreaEffectTest {
         enemy3 = new Player(true, "yellow", "Gino");
         enemy4 = new Player(true, "gray", "Lino");
         board = new Board(null, "/Board/Board1.json");
-        constraints = new ArrayList<Constraint>();
-        constrainPositivity = new ArrayList<Boolean>();
+        ArrayList<Constraint> constraints = new ArrayList<>();
+        ArrayList<Boolean> constrainPositivity = new ArrayList<>();
         target = new TargetParameter(null, owner, null, null, null, null);
-        testDistance2 = new AreaEffect(0,0,0,"lumbro",constraints,constrainPositivity,1,0,2);
+        testDistance2 = new AreaEffect(0,0,0,"lumbro", constraints, constrainPositivity,1,0,2);
     }
 
+    /**
+     * test if this effect affects anyone within two cells of the owner
+     */
     @Test
     void applyDistance2() {
         try {
@@ -78,9 +112,7 @@ class AreaEffectTest {
                     add(new ArrayList<>());
                 }
             });
-        } catch (InvalidTargetException e) {
-            e.printStackTrace();
-        } catch (NoOwnerException e) {
+        } catch (InvalidTargetException | NoOwnerException e) {
             e.printStackTrace();
         }
         assertEquals(1, enemy.getDamageCounter());
