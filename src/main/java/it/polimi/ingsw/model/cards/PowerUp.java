@@ -48,6 +48,7 @@ public class PowerUp implements Serializable {
     /**
      * method to apply the effect of the power up if there is all target needed
      * @param target target parameters from the client
+     * @param previousTarget previous target of the effect
      * @throws InvalidTargetException when the parameters of the target are wrong for this type of power up
      * @throws NoOwnerException when in the target parameters is missing the owner
      */

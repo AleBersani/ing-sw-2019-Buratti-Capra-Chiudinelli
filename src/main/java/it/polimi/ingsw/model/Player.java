@@ -278,6 +278,7 @@ public class Player implements Serializable {
      * @param target This parameter is the target of the power up effect
      * @throws InvalidTargetException This exception means that there is no valid target chosen
      * @throws OnResponseException This exception is thrown when you try to use a power up that is usable only on response of another action
+     * @throws NoOwnerException This exception means that the power up used not have an owner
      */
     public void usePowerUp(PowerUp powerUp, TargetParameter target) throws InvalidTargetException, NoOwnerException, OnResponseException {
         if (this.powerUps.contains(powerUp) && !powerUp.getOnResponse()) {
