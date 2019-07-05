@@ -86,6 +86,7 @@ public class Match implements Serializable {
      * @param skulls This parameter is the number of skulls that the game'll have
      * @param frenzyEn This parameter is the frenzy enable, true if the players want the frenzy turn, false otherwise
      * @param mode This parameter is the mode that the players are playing
+     * @param type This parameter is the path of the board
      */
     public Match(ArrayList<Player> players, int numPlayers, int skulls, boolean frenzyEn, String mode, String type) {
         this.players = new CircularArrayList<>(players);

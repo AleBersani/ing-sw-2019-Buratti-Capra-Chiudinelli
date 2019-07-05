@@ -37,7 +37,7 @@
     {
       "type": "EffectVsPlayer",
       "costBlue": 0,
-      "costRed": 0,
+      "costRed": 1,
       "costYellow": 0,
       "name": "in pulverize Mode",
       "constraints": [
@@ -60,7 +60,7 @@
     {
       "type": "MovementEffect",
       "costBlue": 0,
-      "costRed": 0,
+      "costRed": 1,
       "costYellow": 0,
       "name": "in pulverize Mode",
       "constraints": [

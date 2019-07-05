@@ -502,7 +502,7 @@ class PlayerTest {
     }
 
     /**
-     * Test the newton power up with a not linear movement -> Invalid target throws
+     * Test the newton power up with a not linear movement, thrown Invalid target throws
      */
     @Test
     void testUsePowerUp3() {
