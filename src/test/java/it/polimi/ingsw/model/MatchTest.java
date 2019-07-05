@@ -96,6 +96,7 @@ class MatchTest {
         test.setPoints(10);
         loser.setPoints(12);
         matchTest.setTurn(turn);
+        turn.setMatch(matchTest);
         matchTest.setKillShotTrack(killShotTrack);
         matchTest.setDoubleOnKillShotTrack(doubleOnKillshotTrack);
         matchTest.endGame();
@@ -117,6 +118,7 @@ class MatchTest {
         test.setPoints(10);
         loser.setPoints(12);
         matchTest.setTurn(turn);
+        turn.setMatch(matchTest);
         matchTest.setKillShotTrack(killShotTrack);
         matchTest.setDoubleOnKillShotTrack(doubleOnKillshotTrack);
         matchTest.endGame();
@@ -136,6 +138,7 @@ class MatchTest {
         test.setPoints(10);
         loser.setPoints(13);
         matchTest.setTurn(turn);
+        turn.setMatch(matchTest);
         matchTest.setKillShotTrack(killShotTrack);
         matchTest.setDoubleOnKillShotTrack(doubleOnKillshotTrack);
         matchTest.endGame();
@@ -157,6 +160,7 @@ class MatchTest {
         test.setPoints(10);
         loser.setPoints(12);
         matchTest.setTurn(turn);
+        turn.setMatch(matchTest);
         matchTest.setKillShotTrack(killShotTrack);
         matchTest.setDoubleOnKillShotTrack(doubleOnKillshotTrack);
         matchTest.endGame();
