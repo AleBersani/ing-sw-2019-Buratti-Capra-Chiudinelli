@@ -16,7 +16,7 @@
 | Multiple games | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | Persistence | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | Domination or Towers modes | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
-| Terminator | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
+| Terminator | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 
 <!--
 [![RED](https://placehold.it/15/f03c15/f03c15)](#)
@@ -26,13 +26,24 @@
 
 # How to use the jar
 
-To run the Server you need to provide the number of the port from command line
-ex 5000
+Below are reported the procedures step by step to launch the jar.
+Remember to launch the Server before the Client.
 
-If you don't want to load the default configuration json you need to print also ".\config.json".
-ex 5000 .\config.json
+Server:
+1) Go on artifacts folder and open the Server_jar directory. Now you can open the command shell in this directory.
+2) When it's open print "java -jar ./Server.jar".
+3) Provide the number of the port. ex.5000
+4) Add the configuration file of the game by printing "./config.json".
 
-To run the Client you need to provide the IP address of the server followed by the port, separated by ' : '.
-ex 192.168.0.3:5000
+ex. C:...\artifacts\Server_jar>java -jar ./Server_jar 5000 ./config.json
 
-We also upload two files .bat which they are used for quickly run the Server with the configuration and the Client with a simple click.
+We also provide a .bat file located in the Server_jar folder that launch automatically the Server on port 5000.
+
+Client:
+1) Go on artifacts folder and open the Client_jar directory. Now you can oper the command shell in this directory.
+2) When it's open print "java -jar ./Client.jar".
+3) Provide the IP address of the server followed by the port, separate them with ":". ex 192.168.0.3:5000 or 127.0.0.1:5000
+
+ex. C:...\artifacts\Client_jar>java -jar ./Client.jar 192.168.0.3:5000
+
+We also provide a .bat file located in the Client_jar folder that launch automatically the Client with the IP local address 127.0.0.1 and the port number 5000.
