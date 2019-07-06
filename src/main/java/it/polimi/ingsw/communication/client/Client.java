@@ -80,6 +80,7 @@ public class Client extends Thread implements Closeable {
             do {
                 received = in.readLine();
                 if(received != null) {
+                    System.out.println(received);
                     messageHandler.understandMessage(received);
                 }
                 else{
@@ -104,6 +105,7 @@ public class Client extends Thread implements Closeable {
      * @param message message to send
      */
     public synchronized void send(String message) {
+        System.out.println("+++++"+message);
         out.println(message);
     }
 
@@ -127,10 +129,22 @@ public class Client extends Thread implements Closeable {
      * Initializer method of the socket connection
      * @throws IOException if the server is not already open
      */
-    public void init() throws IOException {
-        connection = new Socket(host, port);
-        in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        out = new PrintWriter(connection.getOutputStream(), true);
+    public void init() {
+        boolean serverOn;
+         do {
+             serverOn = true;
+             try {
+                 connection = new Socket(host, port);
+                 in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                 out = new PrintWriter(connection.getOutputStream(), true);
+             } catch (IOException e) {
+                 serverOn= false;
+                 try {
+                     sleep(10000);
+                 }
+                 catch (InterruptedException ignored) { }
+             }
+         }while (!serverOn);
     }
 
     /**
