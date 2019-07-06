@@ -24,7 +24,7 @@
 [![GREEN](https://placehold.it/15/44bb44/44bb44)](#)
 -->
 
-# How to use the jar
+# How to use the jar (Java 8)
 
 Below are reported the procedures step by step to launch the jar.
 Remember to launch the Server before the Client.
