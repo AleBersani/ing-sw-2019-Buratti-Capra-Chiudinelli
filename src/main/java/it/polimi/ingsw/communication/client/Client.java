@@ -80,7 +80,6 @@ public class Client extends Thread implements Closeable {
             do {
                 received = in.readLine();
                 if(received != null) {
-                    System.out.println(received);
                     messageHandler.understandMessage(received);
                 }
                 else{
@@ -105,7 +104,6 @@ public class Client extends Thread implements Closeable {
      * @param message message to send
      */
     public synchronized void send(String message) {
-        System.out.println("+++++"+message);
         out.println(message);
     }
 
@@ -140,7 +138,7 @@ public class Client extends Thread implements Closeable {
              } catch (IOException e) {
                  serverOn= false;
                  try {
-                     sleep(10000);
+                     sleep(1000);
                  }
                  catch (InterruptedException ignored) { }
              }
